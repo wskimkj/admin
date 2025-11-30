@@ -5,6 +5,7 @@
 <title>유니크 어드민 대시보드</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -13,15 +14,7 @@
     color: #333;
     overflow-x: hidden;
   }
-  .frame {
-    flex: 1;
-    width: 100%;
-    border: none;
-    display: none; /* 기본 숨김 */
-  }
-  .frame.active {
-    display: block; /* active iframe만 표시 */
-  }
+
   /* 사이드바 */
   .sidebar {
     position: fixed;
@@ -74,6 +67,13 @@
     font-weight: 600;
   }
 
+  /* 구글시트 하위 메뉴 */
+  .google-sub a {
+    background: rgba(255,255,255,0.12);
+    margin-left: 10px;
+    font-size: 14px;
+  }
+
   /* 헤더 */
   .header {
     position: fixed;
@@ -90,101 +90,158 @@
     color: #4a00e0;
     transition: left 0.3s, width 0.3s;
     border-bottom-left-radius: 20px;
+    z-index: 500;
   }
 
-  .sidebar:hover ~ .header { left: 220px; width: calc(100% - 220px); }
+  .sidebar:hover ~ .header {
+    left: 220px;
+    width: calc(100% - 220px);
+  }
 
   /* 컨텐츠 영역 */
   .content {
     margin-left: 70px;
     padding: 80px 20px 20px 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-    gap: 20px;
     transition: margin-left 0.3s;
+    height: calc(100vh - 80px);
   }
 
-  .sidebar:hover ~ .content { margin-left: 220px; }
+  .sidebar:hover ~ .content {
+    margin-left: 220px;
+  }
 
   .card {
-    background: linear-gradient(145deg, #fff, #f8f9fc);
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    width: 100%;
+    height: 100%;
   }
 
   iframe {
     width: 100%;
-    height: 60vh;
+    height: 100%;
     border: none;
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  }
-
-  /* 반응형 */
-  @media (max-width: 768px) {
-    .sidebar { width: 60px; }
-    .sidebar:hover { width: 160px; }
-    .header { left: 60px; width: calc(100% - 60px); }
-    .sidebar:hover ~ .header { left: 160px; width: calc(100% - 160px); }
-    .content { margin-left: 60px; }
-    .sidebar:hover ~ .content { margin-left: 160px; }
   }
 </style>
 </head>
 <body>
 
+<!-- 사이드바 -->
 <div class="sidebar">
-  <a href="https://wskimkj.github.io/search/" class="active" data-title="상품 조회">
+  <a href="https://wskimkj.github.io/search/" class="active" data-title="상품 조회" data-id="search">
     <i class='bx bx-search'></i><span>상품 조회</span>
   </a>
-  <a href="https://wskimkj.github.io/return-inf/" data-title="발주서">
+
+  <a href="https://wskimkj.github.io/return-inf/" data-title="발주서" data-id="order">
     <i class='bx bx-file'></i><span>발주서</span>
   </a>
+
   <a href="https://wskimkj.github.io/refund24/" data-title="환불 계산기">
     <i class='bx bx-calculator'></i><span>환불 계산기</span>
   </a>
+
   <a href="https://wskimkj.github.io/account/" data-title="계정">
     <i class='bx bx-user'></i><span>계정</span>
   </a>
+
+  <!-- 🟣 구글 시트 메인 -->
+  <a href="#" class="google-main" data-title="구글 시트" data-id="google">
+    <i class='bx bx-spreadsheet'></i><span>구글 시트</span>
+  </a>
+
+  <!-- 🟣 구글 시트 하위 메뉴 -->
+  <div class="google-sub" style="display:none; width:100%; padding-left:20px;">
+    <a href="https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=366983013#gid=366983013"
+       data-title="개인시트" class="google-child">
+      <i class='bx bx-chevron-right'></i><span>개인시트</span>
+    </a>
+
+    <a href="https://docs.google.com/spreadsheets/d/1_Bxfag-90U6u-6JbhxNqeoD9vRns-CpPeXPIJYO1Z5o/edit?gid=1265906605#gid=1265906605"
+       data-title="반품" class="google-child">
+      <i class='bx bx-chevron-right'></i><span>반품</span>
+    </a>
+
+    <a href="https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0"
+       data-title="Team.반품" class="google-child">
+      <i class='bx bx-chevron-right'></i><span>Team.반품</span>
+    </a>
+
+    <a href="https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0"
+       data-title="Team.물류" class="google-child">
+      <i class='bx bx-chevron-right'></i><span>Team.물류</span>
+    </a>
+
+    <a href="https://docs.google.com/spreadsheets/d/1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY/edit?gid=925106579#gid=925106579"
+       data-title="Team.업무" class="google-child">
+      <i class='bx bx-chevron-right'></i><span>Team.업무</span>
+    </a>
+
+    <a href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787"
+       data-title="Team.주간" class="google-child">
+      <i class='bx bx-chevron-right'></i><span>Team.주간간</span>
+    </a>
+  </div>
 </div>
 
+<!-- 헤더 -->
 <div class="header" id="headerTitle">
   상품 조회
 </div>
 
-<div class="content" style="display: flex; flex-direction: column; flex: 1; padding: 0;">
-  <iframe src="https://wskimkj.github.io/search/" id="iframe-1" class="frame active"></iframe>
-  <iframe src="https://wskimkj.github.io/return-inf/" id="iframe-2" class="frame"></iframe>
-  <iframe src="https://wskimkj.github.io/refund24/" id="iframe-3" class="frame"></iframe>
-  <iframe src="https://wskimkj.github.io/account/" id="iframe-4" class="frame"></iframe>
+<!-- 메인 컨텐츠 -->
+<div class="content">
+  <div class="card">
+    <iframe src="https://wskimkj.github.io/search/" id="mainFrame"></iframe>
+  </div>
 </div>
 
 <script>
-  c  const links = document.querySelectorAll('.sidebar a');
+  const links = document.querySelectorAll('.sidebar a');
   const headerTitle = document.getElementById('headerTitle');
-  const iframes = document.querySelectorAll('.frame');
+  const iframe = document.getElementById('mainFrame');
 
-  links.forEach((link, index) => {
+  const googleMain = document.querySelector(".google-main");
+  const googleSub = document.querySelector(".google-sub");
+
+  // 상품 조회 URL 저장
+  iframe.onload = () => {
+    if (iframe.src.includes("search")) {
+      localStorage.setItem("lastSearchURL", iframe.src);
+    }
+  };
+
+  links.forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
 
-      // active 클래스 처리
+      // 🟣 구글 시트 메인 버튼 → 하위 메뉴 토글
+      if (link.classList.contains("google-main")) {
+        googleSub.style.display = googleSub.style.display === "none" ? "block" : "none";
+        return;
+      }
+
+      // active 처리
       links.forEach(l => l.classList.remove('active'));
       link.classList.add('active');
 
       // 헤더 변경
       headerTitle.textContent = link.dataset.title;
 
-      // iframe 표시
-      iframes.forEach(f => f.classList.remove('active'));
-      iframes[index].classList.add('active');
+      // 상품 조회: 이전 URL 유지
+      if (link.dataset.id === "search") {
+        const last = localStorage.getItem("lastSearchURL");
+        iframe.src = last ? last : link.href;
+        return;
+      }
+
+      // 구글 시트 하위메뉴
+      if (link.classList.contains("google-child")) {
+        iframe.src = link.href;
+        return;
+      }
+
+      // 일반 페이지 이동
+      iframe.src = link.href;
     });
   });
 </script>
