@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>업무 보조 메인</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 30px 20px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  .card h2 {
+    margin: 10px 0;
+    font-size: 1.3em;
+  }
+  .card p {
+    font-size: 0.95em;
+    color: #666;
+  }
+  .disabled {
+    background: #e0e0e0;
+    cursor: not-allowed;
+    color: #999;
+  }
+</style>
+</head>
+<body>
+<h1>업무 보조 도우미</h1>
+
+<div class="grid-container">
+  <a href="https://wskimkj.github.io/search/" class="card">
+    <h2>상품 조회</h2>
+    <p>검색 및 상품 확인</p>
+  </a>
+  
+  <a href="https://wskimkj.github.io/return-inf/" class="card">
+    <h2>발주서</h2>
+    <p>발주서 관리 페이지</p>
+  </a>
+  
+  <div class="card disabled">
+    <h2>멘트</h2>
+    <p>로컬 파일은 웹에서 직접 연결 불가</p>
+  </div>
+  
+  <a href="https://wskimkj.github.io/refund24/" class="card">
+    <h2>환불 계산기</h2>
+    <p>환불금 계산 바로가기</p>
+  </a>
+  
+  <a href="https://wskimkj.github.io/account/" class="card">
+    <h2>계정</h2>
+    <p>계정 관리 페이지</p>
+  </a>
+</div>
+
+</body>
+</html>
