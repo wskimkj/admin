@@ -39,6 +39,7 @@
     margin-bottom: 10px;
     border-radius: 8px;
     transition: all 0.3s ease;
+    cursor: pointer;
   }
   .sidebar a i {
     margin-right: 12px;
@@ -76,6 +77,16 @@
     padding: 80px 20px 20px 20px;
     min-height: 100vh;
     background-color: #ecf0f1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 20px;
   }
 
   iframe {
@@ -109,27 +120,52 @@
 <body>
 
 <div class="sidebar">
-  <a href="https://wskimkj.github.io/search/" target="mainFrame" class="active">
+  <a href="https://wskimkj.github.io/search/" target="mainFrame" class="active" data-title="상품 조회">
     <i class='bx bx-search'></i><span>상품 조회</span>
   </a>
-  <a href="https://wskimkj.github.io/return-inf/" target="mainFrame">
+  <a href="https://wskimkj.github.io/return-inf/" target="mainFrame" data-title="발주서">
     <i class='bx bx-file'></i><span>발주서</span>
   </a>
-  <a href="https://wskimkj.github.io/refund24/" target="mainFrame">
+  <a href="https://wskimkj.github.io/refund24/" target="mainFrame" data-title="환불 계산기">
     <i class='bx bx-calculator'></i><span>환불 계산기</span>
   </a>
-  <a href="https://wskimkj.github.io/account/" target="mainFrame">
+  <a href="https://wskimkj.github.io/account/" target="mainFrame" data-title="계정">
     <i class='bx bx-user'></i><span>계정</span>
   </a>
 </div>
 
-<div class="header">
-  대시보드
+<div class="header" id="headerTitle">
+  상품 조회
 </div>
 
 <div class="content">
-  <iframe name="mainFrame" src="https://wskimkj.github.io/search/"></iframe>
+  <div class="card">
+    <iframe name="mainFrame" src="https://wskimkj.github.io/search/"></iframe>
+  </div>
 </div>
+
+<script>
+  const sidebarLinks = document.querySelectorAll('.sidebar a');
+  const headerTitle = document.getElementById('headerTitle');
+  const iframe = document.querySelector('iframe');
+
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      // active 클래스 변경
+      sidebarLinks.forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+
+      // 헤더 제목 변경
+      headerTitle.textContent = this.getAttribute('data-title');
+
+      // iframe src 변경
+      iframe.src = this.href;
+
+      // a 기본 동작 막기 (target 무시)
+      return false;
+    });
+  });
+</script>
 
 </body>
 </html>
