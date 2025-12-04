@@ -4,7 +4,6 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <meta charset="UTF-8">
   <title>어드민</title>
-  <!-- 파비콘 -->
   <link rel="icon" type="image/png" href="apple-touch-icon (1).ico">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -40,7 +39,7 @@
       display: flex;
     }
 
-    /* 왼쪽 전체 사이드바 영역 */
+    /* 왼쪽 사이드 영역 */
     .sidebar {
       width: 280px;
       height: 100%;
@@ -57,7 +56,7 @@
       min-height: 0;
     }
 
-    /* 아이콘 메인 바 (빨간 네모 느낌) */
+    /* 아이콘 메인 바 */
     .sidebar-primary {
       width: 64px;
       display: flex;
@@ -94,11 +93,11 @@
         0 0 0 1px rgba(249, 250, 251, 0.9);
     }
 
-    /* 하위 사이드바 (노란 네모 느낌) */
+    /* 오른쪽 하위 사이드바 (구글 시트 전용) */
     .sidebar-secondary {
       flex: 1;
       margin-left: 12px;
-      background: rgba(255,255,255,0.14);
+      background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.05));
       border-radius: 22px;
       padding: 12px 10px;
       backdrop-filter: blur(6px);
@@ -108,20 +107,30 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+
+      opacity: 0;
+      transform: translateX(-16px);
+      pointer-events: none;
+      transition: all 0.25s ease;
+    }
+
+    .sidebar-secondary.visible {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
     }
 
     .submenu-title {
       font-size: 13px;
       font-weight: 600;
-      margin-bottom: 6px;
-      opacity: 0.9;
+      margin-bottom: 8px;
+      opacity: 0.95;
     }
 
     .submenu-list {
-      margin-top: 4px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       overflow-y: auto;
     }
 
@@ -129,10 +138,10 @@
       display: flex;
       align-items: center;
       width: 100%;
-      padding: 8px 10px;   /* 기존 대비 약 20% 감소 */
-      border-radius: 16px;
+      padding: 8px 10px;   /* 20% 정도 줄인 사이즈 */
+      border-radius: 18px;
       border: none;
-      background: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.16);
       color: #f9fafb;
       font-size: 13px;
       text-align: left;
@@ -148,7 +157,7 @@
     }
 
     .submenu-item:hover {
-      background: rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.26);
     }
 
     .submenu-item.active {
@@ -160,25 +169,16 @@
       color: #7c3aed;
     }
 
-    .submenu {
-      display: none;
-      flex-direction: column;
-      flex: 1;
-      min-height: 0;
-    }
-    .submenu.active {
-      display: flex;
-    }
-
     /* 사이드바 하단 이벤트 위젯 */
     .sidebar-bottom {
       margin-top: 10px;
-      padding: 8px 6px 4px;
+      padding: 8px 8px 6px;
       border-radius: 20px;
       background: rgba(15,23,42,0.18);
       box-shadow:
         0 8px 18px rgba(15,23,42,0.45),
         inset 0 0 0 1px rgba(255,255,255,0.12);
+      position: relative;
     }
 
     .event-widget-header {
@@ -215,7 +215,7 @@
     .event-weekdays,
     .event-days {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(5, 1fr); /* 월~금 5열 */
       gap: 2px;
       text-align: center;
     }
@@ -242,7 +242,7 @@
     }
 
     .event-day.has-event {
-      background: rgba(248, 250, 252, 0.8);
+      background: rgba(248, 250, 252, 0.9);
       border: 1px solid rgba(254, 249, 195, 0.9);
       position: relative;
     }
@@ -259,7 +259,38 @@
       background: #fb7185;
     }
 
-    /* 메인 컨텐트 */
+    /* 말풍선 툴팁 */
+    .calendar-tooltip {
+      position: absolute;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 18px rgba(15,23,42,0.45);
+      font-size: 11px;
+      color: #111827;
+      transform: translate(-50%, -120%);
+      display: none;
+      white-space: nowrap;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .calendar-tooltip strong {
+      font-weight: 600;
+    }
+
+    .calendar-tooltip .mall {
+      color: #4f46e5;
+      font-weight: 600;
+    }
+
+    .calendar-tooltip .range {
+      font-size: 10px;
+      color: #6b7280;
+    }
+
+    /* 메인 컨텐츠 */
     .content {
       flex: 1;
       height: 100%;
@@ -303,6 +334,9 @@
       .content {
         height: 70vh;
       }
+      .sidebar-secondary {
+        display: none !important; /* 모바일에서는 하위 사이드 숨김 */
+      }
     }
   </style>
 </head>
@@ -310,10 +344,10 @@
 
 <div class="app-shell">
 
-  <!-- 사이드바 -->
+  <!-- 왼쪽 사이드바 -->
   <div class="sidebar">
     <div class="sidebar-main">
-      <!-- 메인 아이콘 바 -->
+      <!-- 아이콘 바 -->
       <div class="sidebar-primary">
         <button class="nav-icon active"
                 data-section="search"
@@ -367,111 +401,45 @@
         <button class="nav-icon"
                 data-section="google"
                 data-href=""
-                title="구글 시트">
+                title="구글 시트"
+                id="googleIcon">
           <i class='bx bx-spreadsheet'></i>
         </button>
       </div>
 
-      <!-- 하위 사이드바 -->
-      <div class="sidebar-secondary">
-        <!-- 기본: 텍스트만 -->
-        <div class="submenu active" data-section="search">
-          <div class="submenu-title">상품 조회</div>
-          <div class="submenu-list">
-            <div style="font-size:11px; opacity:0.85;">
-              좌측 아이콘을 눌러 메뉴를 이동하세요.
-            </div>
-          </div>
-        </div>
-
-        <div class="submenu" data-section="order">
-          <div class="submenu-title">발주서</div>
-          <div class="submenu-list">
-            <div style="font-size:11px; opacity:0.85;">
-              발주서 페이지로 바로 이동합니다.
-            </div>
-          </div>
-        </div>
-
-        <div class="submenu" data-section="tracking">
-          <div class="submenu-title">배송 조회</div>
-          <div class="submenu-list">
-            <div style="font-size:11px; opacity:0.85;">
-              배송 정보 조회 화면입니다.
-            </div>
-          </div>
-        </div>
-
-        <div class="submenu" data-section="template">
-          <div class="submenu-title">템플릿</div>
-          <div class="submenu-list">
-            <div style="font-size:11px; opacity:0.85;">
-              자주 쓰는 멘트 템플릿 정리.
-            </div>
-          </div>
-        </div>
-
-        <div class="submenu" data-section="refund">
-          <div class="submenu-title">환불 계산기</div>
-          <div class="submenu-list">
-            <div style="font-size:11px; opacity:0.85;">
-              환불 금액 자동 계산 도구.
-            </div>
-          </div>
-        </div>
-
-        <div class="submenu" data-section="account">
-          <div class="submenu-title">계정</div>
-          <div class="submenu-list">
-            <div style="font-size:11px; opacity:0.85;">
-              계정 관련 도구 모음.
-            </div>
-          </div>
-        </div>
-
-        <div class="submenu" data-section="memo">
-          <div class="submenu-title">메모</div>
-          <div class="submenu-list">
-            <div style="font-size:11px; opacity:0.85;">
-              개인 메모/노트 관리.
-            </div>
-          </div>
-        </div>
-
-        <!-- 구글 시트 전용 하위 메뉴 -->
-        <div class="submenu" data-section="google">
-          <div class="submenu-title">구글 시트</div>
-          <div class="submenu-list">
-            <button class="submenu-item google-child"
-                    data-href="https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=366983013#gid=366983013">
-              <i class='bx bx-chevron-right'></i>개인시트
-            </button>
-            <button class="submenu-item google-child"
-                    data-href="https://docs.google.com/spreadsheets/d/1_Bxfag-90U6u-6JbhxNqeoD9vRns-CpPeXPIJYO1Z5o/edit?gid=1265906605#gid=1265906605">
-              <i class='bx bx-chevron-right'></i>반품
-            </button>
-            <button class="submenu-item google-child"
-                    data-href="https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0">
-              <i class='bx bx-chevron-right'></i>Team.반품
-            </button>
-            <button class="submenu-item google-child"
-                    data-href="https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0">
-              <i class='bx bx-chevron-right'></i>Team.물류
-            </button>
-            <button class="submenu-item google-child"
-                    data-href="https://docs.google.com/spreadsheets/d/1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY/edit?gid=925106579#gid=925106579">
-              <i class='bx bx-chevron-right'></i>Team.업무
-            </button>
-            <button class="submenu-item google-child"
-                    data-href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787">
-              <i class='bx bx-chevron-right'></i>Team.주간
-            </button>
-          </div>
+      <!-- 구글 시트 하위 사이드바 (hover시만 노출) -->
+      <div class="sidebar-secondary" id="subSidebar">
+        <div class="submenu-title">구글 시트</div>
+        <div class="submenu-list">
+          <button class="submenu-item google-child"
+                  data-href="https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=366983013#gid=366983013">
+            <i class='bx bx-chevron-right'></i>개인시트
+          </button>
+          <button class="submenu-item google-child"
+                  data-href="https://docs.google.com/spreadsheets/d/1_Bxfag-90U6u-6JbhxNqeoD9vRns-CpPeXPIJYO1Z5o/edit?gid=1265906605#gid=1265906605">
+            <i class='bx bx-chevron-right'></i>반품
+          </button>
+          <button class="submenu-item google-child"
+                  data-href="https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0">
+            <i class='bx bx-chevron-right'></i>Team.반품
+          </button>
+          <button class="submenu-item google-child"
+                  data-href="https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0">
+            <i class='bx bx-chevron-right'></i>Team.물류
+          </button>
+          <button class="submenu-item google-child"
+                  data-href="https://docs.google.com/spreadsheets/d/1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY/edit?gid=925106579#gid=925106579">
+            <i class='bx bx-chevron-right'></i>Team.업무
+          </button>
+          <button class="submenu-item google-child"
+                  data-href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787">
+            <i class='bx bx-chevron-right'></i>Team.주간
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- 이벤트 위젯 -->
+    <!-- 이벤트 캘린더 위젯 -->
     <div class="sidebar-bottom">
       <div class="event-widget-header">
         <span class="event-month" id="eventMonthLabel">December 2025</span>
@@ -480,9 +448,12 @@
         </button>
       </div>
       <div class="event-weekdays">
-        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
       </div>
       <div class="event-days" id="eventDays"></div>
+
+      <!-- 말풍선 툴팁 -->
+      <div class="calendar-tooltip" id="calendarTooltip"></div>
     </div>
   </div>
 
@@ -497,7 +468,8 @@
 <script>
   const mainFrame = document.getElementById('mainFrame');
   const navIcons = document.querySelectorAll('.nav-icon');
-  const submenus = document.querySelectorAll('.submenu');
+  const googleIcon = document.getElementById('googleIcon');
+  const subSidebar = document.getElementById('subSidebar');
   const googleChildren = document.querySelectorAll('.google-child');
 
   const EVENT_SHEET_URL =
@@ -516,28 +488,27 @@
       const section = btn.dataset.section;
       const href = btn.dataset.href;
 
-      // active 처리
       navIcons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // 서브메뉴 표시
-      submenus.forEach(menu => {
-        menu.classList.toggle('active', menu.dataset.section === section);
-      });
+      if (section === 'google') {
+        showSubSidebar();
+        return;
+      }
 
-      // 구글 시트는 하위 메뉴만, 다른 건 바로 페이지 이동
-      if (section === 'google') return;
+      // 다른 메뉴 클릭 시 하위 사이드 숨김
+      hideSubSidebarImmediate();
 
       if (section === 'search') {
         const last = localStorage.getItem("lastSearchURL");
         mainFrame.src = last ? last : href;
-      } else {
+      } else if (href) {
         mainFrame.src = href;
       }
     });
   });
 
-  // 구글 시트 하위 메뉴 클릭
+  // 구글 시트 하위메뉴 클릭 → 메인 iframe 이동
   googleChildren.forEach(btn => {
     btn.addEventListener('click', () => {
       googleChildren.forEach(b => b.classList.remove('active'));
@@ -547,17 +518,41 @@
     });
   });
 
-  // 이벤트 시트 열기 버튼
+  // 구글 아이콘 hover 시 하위 사이드바 노출
+  let subHideTimeout = null;
+
+  function showSubSidebar() {
+    if (subHideTimeout) clearTimeout(subHideTimeout);
+    subSidebar.classList.add('visible');
+  }
+
+  function hideSubSidebar() {
+    subHideTimeout = setTimeout(() => {
+      subSidebar.classList.remove('visible');
+    }, 180);
+  }
+
+  function hideSubSidebarImmediate() {
+    if (subHideTimeout) clearTimeout(subHideTimeout);
+    subSidebar.classList.remove('visible');
+  }
+
+  googleIcon.addEventListener('mouseenter', showSubSidebar);
+  googleIcon.addEventListener('mouseleave', hideSubSidebar);
+  subSidebar.addEventListener('mouseenter', showSubSidebar);
+  subSidebar.addEventListener('mouseleave', hideSubSidebar);
+
+  // 이벤트 시트 열기
   document.getElementById('openEventSheet').addEventListener('click', () => {
     window.open(EVENT_SHEET_URL, '_blank');
   });
 
-  // ======= 이벤트/달력 위젯 =======
-  // 실제로는 C,D,E,F열에서 가져오면 되고, 여기선 예시 데이터
+  // ======= 이벤트 / 달력 위젯 =======
+  // 실제로는 C,D,E,F열에서 가져오면 되고, 여기는 예시 데이터
   const events = [
     { mall: "스마트스토어", title: "연말 특가", start: "2025-12-15", end: "2025-12-31" },
-    { mall: "11번가", title: "주말 쿠폰", start: "2025-12-07", end: "2025-12-08" },
-    { mall: "쿠팡", title: "새해 프로모션", start: "2026-01-01", end: "2026-01-10" }
+    { mall: "11번가",       title: "주말 쿠폰", start: "2025-12-04", end: "2025-12-05" },
+    { mall: "쿠팡",         title: "새해 프로모션", start: "2026-01-01", end: "2026-01-10" }
   ];
 
   function parseDate(str) {
@@ -571,59 +566,113 @@
     const year = today.getFullYear();
     const month = today.getMonth(); // 0~11
 
-    // 월 제목
     const monthNames = ["January","February","March","April","May","June",
       "July","August","September","October","November","December"];
     document.getElementById('eventMonthLabel').textContent =
       `${monthNames[month]} ${year}`;
 
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
+    const firstOfMonth = new Date(year, month, 1);
+    const lastOfMonth  = new Date(year, month + 1, 0);
 
-    // 월의 이벤트 날짜 set
-    const eventDaysSet = new Set();
+    // 이번 달에 속하는 이벤트들을 날짜별로 모으기
+    const eventsByDate = {};
+
     events.forEach(ev => {
       const s = parseDate(ev.start);
       const e = parseDate(ev.end);
       if (!s || !e) return;
 
-      const start = new Date(Math.max(s.getTime(), new Date(year, month, 1).getTime()));
-      const end = new Date(Math.min(e.getTime(), new Date(year, month + 1, 0).getTime()));
-
-      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        if (d.getMonth() === month && d.getFullYear() === year) {
-          eventDaysSet.add(d.getDate());
+      const d = new Date(s);
+      while (d <= e) {
+        if (d.getFullYear() === year && d.getMonth() === month) {
+          const wd = d.getDay();
+          if (wd >= 1 && wd <= 5) { // Mon~Fri
+            const key = d.toISOString().slice(0,10);
+            if (!eventsByDate[key]) eventsByDate[key] = [];
+            eventsByDate[key].push(ev);
+          }
         }
+        d.setDate(d.getDate() + 1);
       }
     });
 
     const daysContainer = document.getElementById('eventDays');
     daysContainer.innerHTML = "";
 
-    // 첫 주: 월요일 기준 offset 계산
-    const firstWeekday = (firstDay.getDay() + 6) % 7; // 0=Mon
-    for (let i = 0; i < firstWeekday; i++) {
-      const div = document.createElement('div');
-      div.className = "event-day other-month";
-      div.textContent = "";
-      daysContainer.appendChild(div);
-    }
+    // 달력 시작: 이 달의 1일이 포함된 주의 월요일
+    let start = new Date(firstOfMonth);
+    const startDow = (start.getDay() + 6) % 7; // 0=Mon
+    start.setDate(start.getDate() - startDow);
 
-    const todayDate = today.getDate();
-    const isThisMonth = today.getMonth() === month && today.getFullYear() === year;
+    // 달력 끝: 이 달의 마지막 날이 포함된 주의 금요일
+    let end = new Date(lastOfMonth);
+    const endDow = (end.getDay() + 6) % 7; // 0=Mon
+    end.setDate(end.getDate() + (4 - endDow)); // Friday
 
-    for (let day = 1; day <= lastDay.getDate(); day++) {
-      const div = document.createElement('div');
-      div.className = "event-day";
-      div.textContent = day;
+    const todayStr = today.toDateString();
 
-      if (isThisMonth && day === todayDate) {
-        div.classList.add('today');
+    let d = new Date(start);
+
+    const tooltip = document.getElementById('calendarTooltip');
+    const sidebarBottom = document.querySelector('.sidebar-bottom');
+
+    while (d <= end) {
+      const wd = d.getDay();
+      if (wd >= 1 && wd <= 5) { // Mon~Fri만 셀 생성
+        const cell = document.createElement('div');
+        cell.className = "event-day";
+        if (d.getMonth() !== month) cell.classList.add('other-month');
+
+        const dateNum = d.getDate();
+        cell.textContent = dateNum;
+
+        const key = d.toISOString().slice(0,10);
+        if (eventsByDate[key]) {
+          cell.classList.add('has-event');
+          cell.dataset.dateKey = key;
+        }
+
+        if (d.toDateString() === todayStr) {
+          cell.classList.add('today');
+        }
+
+        // hover → 말풍선
+        cell.addEventListener('mouseenter', () => {
+          const dateKey = cell.dataset.dateKey;
+          if (!dateKey || !eventsByDate[dateKey]) {
+            tooltip.style.display = 'none';
+            return;
+          }
+
+          const items = eventsByDate[dateKey];
+          let html = "";
+          items.forEach((ev, idx) => {
+            const startText = ev.start.slice(5).replace(/-/g, '.');
+            const endText   = ev.end.slice(5).replace(/-/g, '.');
+            html += `<div style="margin-bottom:${idx === items.length - 1 ? 0 : 4}px;">
+                       <span class="mall">${ev.mall}</span> - <strong>${ev.title}</strong><br>
+                       <span class="range">${startText} ~ ${endText}</span>
+                     </div>`;
+          });
+          tooltip.innerHTML = html;
+
+          const rect = cell.getBoundingClientRect();
+          const parentRect = sidebarBottom.getBoundingClientRect();
+          const left = rect.left + rect.width / 2 - parentRect.left;
+          const top  = rect.top - parentRect.top;
+
+          tooltip.style.left = left + "px";
+          tooltip.style.top  = top + "px";
+          tooltip.style.display = "block";
+        });
+
+        cell.addEventListener('mouseleave', () => {
+          tooltip.style.display = 'none';
+        });
+
+        daysContainer.appendChild(cell);
       }
-      if (eventDaysSet.has(day)) {
-        div.classList.add('has-event');
-      }
-      daysContainer.appendChild(div);
+      d.setDate(d.getDate() + 1);
     }
   }
 
