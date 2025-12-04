@@ -23,7 +23,6 @@
       overflow: hidden;
     }
 
-    /* 전체 앱 */
     .app-shell {
       position: relative;
       width: 100%;
@@ -90,9 +89,7 @@
       font-size: 20px;
     }
 
-    .nav-item span {
-      opacity: 0.95;
-    }
+    .nav-item span { opacity: 0.95; }
 
     .nav-item.active .nav-icon-wrap {
       background: #ffffff;
@@ -115,28 +112,28 @@
       color: rgba(249,250,251,0.85);
     }
 
-    /* 하위 사이드바 (구글 시트) - 글라스 & 작게 */
+    /* ✅ NEW: 하위 사이드바 (글라스 + 반 높이) */
     .sub-sidebar {
       position: absolute;
-      top: 90px;
-      left: 88px;              /* 메인바 바로 옆 */
-      width: 200px;
-      border-radius: 20px;
-      padding: 10px 10px;
-      background: linear-gradient(180deg,
-                  rgba(148,163,184,0.38),
-                  rgba(148,163,184,0.16));
+      top: 30px;              /* 위에서 조금 내려오게 */
+      left: 96px;             /* 메인바 바로 오른쪽 */
+      height: 55%;            /* 전체의 반 정도 */
+      width: 260px;
+      border-radius: 26px;
+      padding: 16px 14px 12px;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.95), rgba(255,255,255,0.82))
+                  ,linear-gradient(180deg, rgba(124,58,237,0.85), rgba(236,72,153,0.82), rgba(248,187,208,0.78));
+      background-blend-mode: overlay;
       box-shadow:
-        0 18px 30px rgba(15,23,42,0.40),
-        0 0 0 1px rgba(255,255,255,0.55);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+        0 20px 40px rgba(148,163,184,0.80),
+        0 0 0 1px rgba(255,255,255,0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       display: flex;
       flex-direction: column;
-      gap: 6px;
 
       opacity: 0;
-      transform: translateX(-12px);
+      transform: translateX(-14px);
       pointer-events: none;
       transition: all 0.22s ease;
       z-index: 18;
@@ -150,59 +147,57 @@
 
     .sub-title {
       font-size: 13px;
-      font-weight: 600;
-      color: #f9fafb;
-      margin-bottom: 2px;
+      font-weight: 700;
+      color: #fefce8;
+      margin-bottom: 6px;
     }
 
     .sub-list {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      max-height: 210px;
+      gap: 6px;
       overflow-y: auto;
+      padding-right: 2px;
     }
 
     .sub-item {
       border: none;
       width: 100%;
-      padding: 7px 9px;
+      padding: 9px 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.20);
       color: #f9fafb;
-      font-size: 12px;
+      font-size: 13px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.18s ease;
     }
 
-    .sub-item i {
-      font-size: 16px;
-    }
+    .sub-item i { font-size: 16px; }
 
     .sub-item:hover {
-      background: rgba(255,255,255,0.26);
-      box-shadow: 0 6px 14px rgba(15,23,42,0.45);
+      background: rgba(255,255,255,0.32);
+      box-shadow: 0 8px 18px rgba(15,23,42,0.45);
       transform: translateY(-1px);
     }
 
     .sub-item.active {
       background: #ffffff;
       color: #7c3aed;
-      box-shadow: 0 7px 16px rgba(129, 140, 248, 0.8);
+      box-shadow:
+        0 10px 24px rgba(129,140,248,0.85),
+        0 0 0 1px rgba(248,250,252,0.9);
     }
 
-    .sub-item.active i {
-      color: #7c3aed;
-    }
+    .sub-item.active i { color: #7c3aed; }
 
     /* 메인 컨텐츠 */
     .content {
       position: absolute;
       top: 0;
-      left: 82px;              /* 메인 사이드바 폭만큼만 */
+      left: 82px;
       right: 0;
       bottom: 0;
       padding: 10px 14px 14px;
@@ -230,7 +225,7 @@
         0 0 0 1px rgba(226, 232, 240, 0.6);
     }
 
-    /* 달력 위젯: 토글형 팝업 */
+    /* 달력 팝업 */
     .calendar-widget {
       position: absolute;
       left: 96px;
@@ -295,11 +290,8 @@
       gap: 3px;
     }
 
-    .calendar-sheet-btn i {
-      font-size: 12px;
-    }
+    .calendar-sheet-btn i { font-size: 12px; }
 
-    /* 오늘 이벤트 알림 종 아이콘 (메인: 달력 헤더 안) */
     .today-event-icon {
       position: relative;
       width: 22px;
@@ -311,7 +303,6 @@
       justify-content: center;
       box-shadow: 0 4px 10px rgba(0,0,0,0.45);
       margin-right: 6px;
-
       opacity: 0;
       transform: translateY(4px) scale(0.9);
       transition: all 0.2s ease;
@@ -341,7 +332,7 @@
     .calendar-weekdays,
     .calendar-days {
       display: grid;
-      grid-template-columns: repeat(5, 1fr); /* 월~금 */
+      grid-template-columns: repeat(5, 1fr);
       gap: 2px;
       text-align: center;
     }
@@ -358,9 +349,7 @@
       color: #e5e7eb;
     }
 
-    .calendar-day.other-month {
-      opacity: 0.4;
-    }
+    .calendar-day.other-month { opacity: 0.4; }
 
     .calendar-day.today {
       background: rgba(251, 191, 36, 0.9);
@@ -392,7 +381,6 @@
       box-shadow: 0 0 0 1px rgba(255,255,255,0.9);
     }
 
-    /* 달력 말풍선 툴팁 */
     .calendar-tooltip {
       position: absolute;
       padding: 8px 10px;
@@ -413,7 +401,6 @@
       color: #4f46e5;
       font-weight: 600;
     }
-
     .calendar-tooltip .range {
       font-size: 10px;
       color: #6b7280;
@@ -508,12 +495,10 @@
       </button>
     </div>
 
-    <div class="nav-footer">
-      ADMIN
-    </div>
+    <div class="nav-footer">ADMIN</div>
   </nav>
 
-  <!-- 구글 시트 하위 사이드바 -->
+  <!-- 하위 사이드바 -->
   <aside class="sub-sidebar" id="subSidebar">
     <div class="sub-title">구글 시트</div>
     <div class="sub-list">
@@ -551,14 +536,13 @@
     </div>
   </div>
 
-  <!-- 달력 위젯 (토글 팝업) -->
+  <!-- 달력 팝업 -->
   <div class="calendar-widget" id="calendarWidget">
     <div class="calendar-header">
       <div class="calendar-left">
         <div class="calendar-title" id="calendarMonthLabel">December 2025</div>
         <div class="calendar-subtitle">이벤트 캘린더 (Mon–Fri)</div>
       </div>
-
       <div style="display:flex; align-items:center;">
         <div class="today-event-icon" id="todayEventIcon">
           <i class='bx bx-bell'></i>
@@ -569,12 +553,10 @@
         </button>
       </div>
     </div>
-
     <div class="calendar-weekdays">
       <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
     </div>
     <div class="calendar-days" id="calendarDays"></div>
-
     <div class="calendar-tooltip" id="calendarTooltip"></div>
   </div>
 </div>
@@ -585,39 +567,29 @@
   const subSidebar = document.getElementById("subSidebar");
   const googleBtn = document.getElementById("googleBtn");
   const googleChildren = document.querySelectorAll(".google-child");
-
   const calendarWidget = document.getElementById("calendarWidget");
   const eventBtn = document.getElementById("eventBtn");
 
   const EVENT_SHEET_URL =
     "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
 
-  // 상품 조회 URL 기억
   mainFrame.onload = () => {
     if (mainFrame.src.includes("search")) {
       localStorage.setItem("lastSearchURL", mainFrame.src);
     }
   };
 
-  // 메인 메뉴 클릭 처리
   navItems.forEach(btn => {
     btn.addEventListener("click", (e) => {
       const id = btn.dataset.id;
       const href = btn.dataset.href;
 
-      // 이벤트 / 구글 메뉴는 active 처리만, iframe 이동 X
-      if (id === "event") {
-        toggleCalendar();
-      }
-
-      if (id === "google") {
-        toggleSubSidebar();
-      }
+      if (id === "event") toggleCalendar();
+      if (id === "google") toggleSubSidebar();
 
       if (id !== "event" && id !== "google") {
         navItems.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-
         hideSubSidebar();
         hideCalendar();
 
@@ -628,70 +600,43 @@
           mainFrame.src = href;
         }
       }
-
       e.stopPropagation();
     });
   });
 
-  // 구글 시트 하위 메뉴 클릭 → iframe 이동
   googleChildren.forEach(btn => {
     btn.addEventListener("click", (e) => {
       googleChildren.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      const href = btn.dataset.href;
-      mainFrame.src = href;
+      mainFrame.src = btn.dataset.href;
       e.stopPropagation();
     });
   });
 
-  // 하위 사이드바 토글
   function toggleSubSidebar() {
-    const visible = subSidebar.classList.contains("visible");
-    if (visible) {
-      subSidebar.classList.remove("visible");
-    } else {
-      subSidebar.classList.add("visible");
-      hideCalendar();
-    }
+    subSidebar.classList.toggle("visible");
+    hideCalendar();
   }
+  function hideSubSidebar() { subSidebar.classList.remove("visible"); }
 
-  function hideSubSidebar() {
-    subSidebar.classList.remove("visible");
-  }
-
-  // 달력 토글
   function toggleCalendar() {
-    const visible = calendarWidget.classList.contains("visible");
-    if (visible) {
-      calendarWidget.classList.remove("visible");
-    } else {
-      calendarWidget.classList.add("visible");
-      hideSubSidebar();
-    }
+    calendarWidget.classList.toggle("visible");
+    hideSubSidebar();
   }
+  function hideCalendar() { calendarWidget.classList.remove("visible"); }
 
-  function hideCalendar() {
-    calendarWidget.classList.remove("visible");
-  }
-
-  // 바깥 클릭 시 팝업들 닫기
   document.addEventListener("click", (e) => {
-    const target = e.target;
-    if (!subSidebar.contains(target) && !googleBtn.contains(target)) {
-      hideSubSidebar();
-    }
-    if (!calendarWidget.contains(target) && !eventBtn.contains(target)) {
-      hideCalendar();
-    }
+    const t = e.target;
+    if (!subSidebar.contains(t) && !googleBtn.contains(t)) hideSubSidebar();
+    if (!calendarWidget.contains(t) && !eventBtn.contains(t)) hideCalendar();
   });
 
-  // 이벤트 시트 열기
   document.getElementById("openEventSheet").addEventListener("click", (e) => {
     window.open(EVENT_SHEET_URL, "_blank");
     e.stopPropagation();
   });
 
-  // ======= 이벤트/달력 데이터 (예시) =======
+  /* ====== 달력 데이터 (예시) ====== */
   const events = [
     { mall: "스마트스토어", title: "연말 특가",     start: "2025-12-15", end: "2025-12-31" },
     { mall: "11번가",       title: "주말 쿠폰",     start: "2025-12-04", end: "2025-12-05" },
@@ -700,8 +645,7 @@
 
   function parseDate(str) {
     const d = new Date(str);
-    if (isNaN(d)) return null;
-    return d;
+    return isNaN(d) ? null : d;
   }
 
   function buildCalendar() {
@@ -709,10 +653,8 @@
     const year = today.getFullYear();
     const month = today.getMonth();
 
-    const monthNames = [
-      "January","February","March","April","May","June",
-      "July","August","September","October","November","December"
-    ];
+    const monthNames = ["January","February","March","April","May","June",
+      "July","August","September","October","November","December"];
     document.getElementById("calendarMonthLabel").textContent =
       `${monthNames[month]} ${year}`;
 
@@ -720,20 +662,17 @@
     const lastOfMonth  = new Date(year, month + 1, 0);
 
     const eventsByDate = {};
-
     events.forEach(ev => {
       const s = parseDate(ev.start);
       const e = parseDate(ev.end);
       if (!s || !e) return;
-
       const d = new Date(s);
       while (d <= e) {
         if (d.getFullYear() === year && d.getMonth() === month) {
-          const weekday = d.getDay();  // 0=Sun..6=Sat
-          if (weekday >= 1 && weekday <= 5) { // 월~금만
+          const wd = d.getDay();
+          if (wd >= 1 && wd <= 5) {
             const key = d.toISOString().slice(0,10);
-            if (!eventsByDate[key]) eventsByDate[key] = [];
-            eventsByDate[key].push(ev);
+            (eventsByDate[key] ||= []).push(ev);
           }
         }
         d.setDate(d.getDate() + 1);
@@ -746,22 +685,16 @@
     const todayStr = today.toDateString();
     const todayKey = today.toISOString().slice(0,10);
     const todayIcon = document.getElementById("todayEventIcon");
+    if (eventsByDate[todayKey]?.length) todayIcon.classList.add("visible");
+    else todayIcon.classList.remove("visible");
 
-    if (eventsByDate[todayKey] && eventsByDate[todayKey].length > 0) {
-      todayIcon.classList.add("visible");
-    } else {
-      todayIcon.classList.remove("visible");
-    }
-
-    // 달력 시작: 이 달 1일이 포함된 주의 월요일
     let start = new Date(firstOfMonth);
-    const startDow = (start.getDay() + 6) % 7; // 0=Mon
+    const startDow = (start.getDay() + 6) % 7;
     start.setDate(start.getDate() - startDow);
 
-    // 달력 끝: 이 달 마지막 날이 포함된 주의 금요일
     let end = new Date(lastOfMonth);
     const endDow = (end.getDay() + 6) % 7;
-    end.setDate(end.getDate() + (4 - endDow)); // Friday
+    end.setDate(end.getDate() + (4 - endDow));
 
     const tooltip = document.getElementById("calendarTooltip");
     const widget = document.getElementById("calendarWidget");
@@ -773,19 +706,14 @@
         const cell = document.createElement("div");
         cell.className = "calendar-day";
         if (d.getMonth() !== month) cell.classList.add("other-month");
-
-        const dayNum = d.getDate();
-        cell.textContent = dayNum;
+        cell.textContent = d.getDate();
 
         const key = d.toISOString().slice(0,10);
         if (eventsByDate[key]) {
           cell.classList.add("has-event");
           cell.dataset.dateKey = key;
         }
-
-        if (d.toDateString() === todayStr) {
-          cell.classList.add("today");
-        }
+        if (d.toDateString() === todayStr) cell.classList.add("today");
 
         cell.addEventListener("mouseenter", () => {
           const dateKey = cell.dataset.dateKey;
@@ -793,24 +721,20 @@
             tooltip.style.display = "none";
             return;
           }
-
           const items = eventsByDate[dateKey];
-          let html = "";
-          items.forEach((ev, idx) => {
+          tooltip.innerHTML = items.map((ev, i) => {
             const sText = ev.start.slice(5).replace(/-/g, ".");
             const eText = ev.end.slice(5).replace(/-/g, ".");
-            html += `<div style="margin-bottom:${idx === items.length-1 ? 0 : 4}px;">
-                       <span class="mall">${ev.mall}</span> - <strong>${ev.title}</strong><br/>
-                       <span class="range">${sText} ~ ${eText}</span>
-                     </div>`;
-          });
-          tooltip.innerHTML = html;
+            return `<div style="margin-bottom:${i === items.length-1 ? 0 : 4}px;">
+                      <span class="mall">${ev.mall}</span> - <strong>${ev.title}</strong><br/>
+                      <span class="range">${sText} ~ ${eText}</span>
+                    </div>`;
+          }).join("");
 
           const rect = cell.getBoundingClientRect();
           const parentRect = widget.getBoundingClientRect();
           const left = rect.left + rect.width / 2 - parentRect.left;
           const top  = rect.top - parentRect.top;
-
           tooltip.style.left = left + "px";
           tooltip.style.top  = top + "px";
           tooltip.style.display = "block";
