@@ -18,10 +18,10 @@
       padding: 24px;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       background:
-        radial-gradient(circle at top left, #ffe4f1 0, rgba(255,255,255,0) 55%),
-        radial-gradient(circle at bottom right, #ffd8b5 0, rgba(255,255,255,0) 55%),
-        #fdf2ff;
-      color: #333;
+  radial-gradient(circle at top left, rgba(236,72,153,.35), transparent 55%),
+  radial-gradient(circle at bottom right, rgba(96,165,250,.28), transparent 55%),
+  radial-gradient(circle at top right, rgba(124,58,237,.22), transparent 55%),
+  #fdf2ff;
       overflow: hidden;
     }
 
@@ -29,11 +29,9 @@
       position: relative;
       width: 100%;
       height: calc(100vh - 48px);
-      border-radius: 28px;
+      border-radius: 18px;
       background: rgba(255,255,255,0.98);
-      box-shadow:
-        0 24px 60px rgba(148, 163, 184, 0.42),
-        0 0 0 1px rgba(255,255,255,0.7);
+      box-shadow: 0 24px 60px rgba(15,23,42,.22);
       overflow: hidden;
     }
 
@@ -221,16 +219,18 @@
       padding: 10px;
     }
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 20px;
-      background: #ffffff;
-      box-shadow:
-        0 12px 28px rgba(148, 163, 184, 0.25),
-        0 0 0 1px rgba(226, 232, 240, 0.6);
-    }
+    iframe{
+  width:100%;
+  height:100%;
+  border:none;
+  border-radius:16px;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.55);
+  box-shadow: 0 10px 26px rgba(15,23,42,.12);
+}
+
 
     /* 달력 팝업 (이전 버전 그대로) */
     .calendar-widget {
