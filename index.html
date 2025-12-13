@@ -500,6 +500,30 @@ body[data-skin="cloud"]{
       }
       .settings-panel{ left: 96px; }
     }
+    .seg{
+  display:flex;
+  gap: 8px;
+}
+.seg button{
+  flex:1;
+  border:none;
+  padding: 9px 10px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(148,163,184,0.35);
+  font-size: 12px;
+  font-weight: 800;
+  color:#0f172a;
+  cursor:pointer;
+}
+.seg button.active{
+  outline: 2px solid rgba(124,58,237,.35);
+}
+.range{
+  width: 100%;
+  accent-color: rgba(124,58,237,.9);
+}
+
   </style>
 </head>
 
@@ -1065,24 +1089,11 @@ body[data-skin="cloud"]{
   buildCalendar();
   
 
-  // ✅ 패널 내부 클릭은 닫히지 않게
-  settingsPanel.addEventListener("click", (e) => {
-    e.stopPropagation();
-  });
+  
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") settingsPanel.classList.remove("visible");
+});
 
-  // ✅ 바깥 클릭하면 닫기
-  document.addEventListener("click", () => {
-    closeSettings();
-  });
-
-  // ✅ ESC로 닫기
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeSettings();
-  });
-
-  // (옵션) 시작 시 강제로 닫힌 상태 보장
-  closeSettings();
-})();
 
   
 </script>
