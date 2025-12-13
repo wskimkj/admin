@@ -206,6 +206,48 @@ document.addEventListener("click",()=>{
 
 const saved = localStorage.getItem("skin");
 if(saved) body.setAttribute("data-skin", saved);
+
+  /* ===== FORCE settings toggle (capture) ===== */
+(() => {
+  const panel = document.getElementById("settingsPanel");
+
+  // CSS가 클릭 막는 경우 대비
+  const btn = document.getElementById("settingsBtn");
+  if (btn) {
+    btn.style.pointerEvents = "auto";
+    btn.style.position = "relative";
+    btn.style.zIndex = "99999";
+  }
+  if (panel) {
+    panel.style.zIndex = "99999";
+  }
+
+  // 어떤 stopPropagation() 이 있어도 무조건 잡기 (capture = true)
+  document.addEventListener("click", (e) => {
+    const hit = e.target.closest("#settingsBtn");
+    if (!hit) return;
+
+    // 버튼 눌렀으면 토글
+    e.preventDefault();
+    e.stopPropagation();
+    if (panel) panel.classList.toggle("visible");
+  }, true);
+
+  // 패널 내부 클릭은 유지
+  document.addEventListener("click", (e) => {
+    if (!panel) return;
+    if (e.target.closest("#settingsPanel")) return;
+    if (e.target.closest("#settingsBtn")) return;
+    panel.classList.remove("visible");
+  }, true);
+
+  // ESC로 닫기
+  document.addEventListener("keydown", (e) => {
+    if (!panel) return;
+    if (e.key === "Escape") panel.classList.remove("visible");
+  });
+})();
+
 </script>
 </body>
 </html>
