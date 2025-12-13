@@ -978,6 +978,55 @@
   }
 
   buildCalendar();
+  // ====== SAFE SETTINGS PATCH ======
+(function () {
+  const settingsBtn = document.getElementById("settingsBtn");
+  const settingsPanel = document.getElementById("settingsPanel");
+
+  if (!settingsBtn || !settingsPanel) {
+    console.warn("[settings] missing settingsBtn or settingsPanel");
+    return;
+  }
+
+  function openSettings() {
+    settingsPanel.classList.add("visible");
+  }
+  function closeSettings() {
+    settingsPanel.classList.remove("visible");
+  }
+  function toggleSettings() {
+    settingsPanel.classList.toggle("visible");
+  }
+
+  // ✅ 설정 버튼 클릭 → 무조건 토글
+  settingsBtn.addEventListener("click", (e) => {
+    toggleSettings();
+    // 다른 패널 닫기 (함수 있으면 실행, 없어도 에러 안 나게)
+    try { if (typeof hideSubSidebar === "function") hideSubSidebar(); } catch {}
+    try { if (typeof hideCalendar === "function") hideCalendar(); } catch {}
+    e.stopPropagation();
+  });
+
+  // ✅ 패널 내부 클릭은 닫히지 않게
+  settingsPanel.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  // ✅ 바깥 클릭하면 닫기
+  document.addEventListener("click", () => {
+    closeSettings();
+  });
+
+  // ✅ ESC로 닫기
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSettings();
+  });
+
+  // (옵션) 시작 시 강제로 닫힌 상태 보장
+  closeSettings();
+})();
+
+  
 </script>
 </body>
 </html>
