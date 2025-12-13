@@ -23,11 +23,11 @@
   --cp:20px;
 
   /* Type scale */
-  --t-title:14px;
+  --t-title:18px;
   --t-section:12px;
-  --t-body:10px;
-  --t-sub:9px;
-  --t-caption:8px;
+  --t-body:14px;
+  --t-sub:10px;
+  --t-caption:10px;
 
   /* Shadows (subtle, premium) */
   --shadow: 0 1px 0 rgba(17,24,39,.04), 0 8px 24px rgba(17,24,39,.06);
