@@ -75,6 +75,43 @@
       --nav-active-color: #6d28d9;
     }
 
+    body[data-skin="rose"]{
+  --main-sidebar-bg: linear-gradient(180deg, #b79cff 0%, #ff8fb8 52%, #ffd6e7 100%);
+  --sub-sidebar-bg:
+    radial-gradient(circle at top left, rgba(255, 182, 213, 0.55), rgba(170, 190, 255, 0.55)),
+    linear-gradient(180deg, rgba(15,23,42,0.16), rgba(15,23,42,0.26));
+  --sub-title-color: #fff7fd;
+  --nav-active-color: #6d28d9;
+}
+
+body[data-skin="lavender"]{
+  --main-sidebar-bg: linear-gradient(180deg, #c7b6ff 0%, #f4b8ff 52%, #f7e6ff 100%);
+  --sub-sidebar-bg:
+    radial-gradient(circle at top left, rgba(244, 184, 255, 0.50), rgba(199, 182, 255, 0.55)),
+    linear-gradient(180deg, rgba(15,23,42,0.14), rgba(15,23,42,0.24));
+  --sub-title-color: #fff6ff;
+  --nav-active-color: #7c3aed;
+}
+
+body[data-skin="mint"]{
+  --main-sidebar-bg: linear-gradient(180deg, #8ee7d0 0%, #a8c7ff 48%, #e8fbff 100%);
+  --sub-sidebar-bg:
+    radial-gradient(circle at top left, rgba(142, 231, 208, 0.45), rgba(168, 199, 255, 0.48)),
+    linear-gradient(180deg, rgba(15,23,42,0.14), rgba(15,23,42,0.24));
+  --sub-title-color: #f0feff;
+  --nav-active-color: #2563eb;
+}
+
+body[data-skin="cloud"]{
+  --main-sidebar-bg: linear-gradient(180deg, #e7d9ff 0%, #ffd1e1 50%, #ffffff 100%);
+  --sub-sidebar-bg:
+    radial-gradient(circle at top left, rgba(231, 217, 255, 0.46), rgba(255, 209, 225, 0.44)),
+    linear-gradient(180deg, rgba(15,23,42,0.12), rgba(15,23,42,0.22));
+  --sub-title-color: #ffffff;
+  --nav-active-color: #6d28d9;
+}
+
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -528,56 +565,87 @@
   </nav>
 
   <!-- ✅ 환경설정 패널 -->
-  <div class="settings-panel" id="settingsPanel">
-    <div class="settings-head">
-      <div class="settings-title">환경설정</div>
-      <button class="settings-reset" id="settingsReset">초기화</button>
-    </div>
+  <!-- ✅ 환경설정 패널 -->
+<div class="settings-panel" id="settingsPanel">
+  <div class="settings-head">
+    <div class="settings-title">환경설정</div>
+    <button class="settings-reset" id="settingsReset">초기화</button>
+  </div>
 
-    <!-- 스킨 -->
-    <div class="settings-section" style="border-top:none; padding-top:0; margin-top:0;">
-      <div class="settings-label">스킨</div>
-     <div class="skin-grid">
-  <button class="skin-chip" data-skin="rose">
-    <span class="skin-preview rose"></span>
-    <div class="skin-label">
-      <strong>Rose Milk</strong>
-      <small>로즈 · 밀키 파스텔</small>
-    </div>
-  </button>
+  <!-- 스킨 -->
+  <div class="settings-section" style="border-top:none; padding-top:0; margin-top:0;">
+    <div class="settings-label">스킨</div>
 
-  <button class="skin-chip" data-skin="lavender">
-    <span class="skin-preview lavender"></span>
-    <div class="skin-label">
-      <strong>Lavender Cream</strong>
-      <small>연보라 · 크림</small>
-    </div>
-  </button>
+    <div class="skin-grid">
+      <button class="skin-chip" data-skin="rose">
+        <span class="skin-preview rose"></span>
+        <div class="skin-label">
+          <strong>Rose Milk</strong>
+          <small>로즈 · 밀키 파스텔</small>
+        </div>
+      </button>
 
-  <button class="skin-chip" data-skin="peach">
-    <span class="skin-preview peach"></span>
-    <div class="skin-label">
-      <strong>Peach Champagne</strong>
-      <small>피치 · 샴페인</small>
-    </div>
-  </button>
+      <button class="skin-chip" data-skin="lavender">
+        <span class="skin-preview lavender"></span>
+        <div class="skin-label">
+          <strong>Lavender Cream</strong>
+          <small>연보라 · 크림</small>
+        </div>
+      </button>
 
-  <button class="skin-chip" data-skin="mint">
-    <span class="skin-preview mint"></span>
-    <div class="skin-label">
-      <strong>Mint Pearl</strong>
-      <small>민트 · 펄</small>
-    </div>
-  </button>
+      <button class="skin-chip" data-skin="peach">
+        <span class="skin-preview peach"></span>
+        <div class="skin-label">
+          <strong>Peach Champagne</strong>
+          <small>피치 · 샴페인</small>
+        </div>
+      </button>
 
-  <button class="skin-chip" data-skin="cloud">
-    <span class="skin-preview cloud"></span>
-    <div class="skin-label">
-      <strong>Cloud Blush</strong>
-      <small>미니멀 · 고급</small>
+      <button class="skin-chip" data-skin="mint">
+        <span class="skin-preview mint"></span>
+        <div class="skin-label">
+          <strong>Mint Pearl</strong>
+          <small>민트 · 펄</small>
+        </div>
+      </button>
+
+      <button class="skin-chip" data-skin="cloud">
+        <span class="skin-preview cloud"></span>
+        <div class="skin-label">
+          <strong>Cloud Blush</strong>
+          <small>미니멀 · 고급</small>
+        </div>
+      </button>
     </div>
-  </button>
+  </div>
+
+  <!-- 글라스 강도 -->
+  <div class="settings-section">
+    <div class="settings-label">
+      글라스 강도 <span class="value" id="glassVal">0.18</span>
+    </div>
+    <input class="range" id="glassRange" type="range" min="0.10" max="0.30" step="0.01" value="0.18" />
+  </div>
+
+  <!-- 그림자 강도 -->
+  <div class="settings-section">
+    <div class="settings-label">
+      그림자 강도 <span class="value" id="shadowVal">0.22</span>
+    </div>
+    <input class="range" id="shadowRange" type="range" min="0.12" max="0.30" step="0.01" value="0.22" />
+  </div>
+
+  <!-- 폰트 크기 -->
+  <div class="settings-section">
+    <div class="settings-label">글자 크기</div>
+    <div class="seg" id="fontSeg">
+      <button data-scale="0.92">작게</button>
+      <button data-scale="1.00" class="active">보통</button>
+      <button data-scale="1.08">큼</button>
+    </div>
+  </div>
 </div>
+
 
 
   <!-- 하위 사이드바 -->
@@ -995,34 +1063,7 @@
   }
 
   buildCalendar();
-  // ====== SAFE SETTINGS PATCH ======
-(function () {
-  const settingsBtn = document.getElementById("settingsBtn");
-  const settingsPanel = document.getElementById("settingsPanel");
-
-  if (!settingsBtn || !settingsPanel) {
-    console.warn("[settings] missing settingsBtn or settingsPanel");
-    return;
-  }
-
-  function openSettings() {
-    settingsPanel.classList.add("visible");
-  }
-  function closeSettings() {
-    settingsPanel.classList.remove("visible");
-  }
-  function toggleSettings() {
-    settingsPanel.classList.toggle("visible");
-  }
-
-  // ✅ 설정 버튼 클릭 → 무조건 토글
-  settingsBtn.addEventListener("click", (e) => {
-    toggleSettings();
-    // 다른 패널 닫기 (함수 있으면 실행, 없어도 에러 안 나게)
-    try { if (typeof hideSubSidebar === "function") hideSubSidebar(); } catch {}
-    try { if (typeof hideCalendar === "function") hideCalendar(); } catch {}
-    e.stopPropagation();
-  });
+  
 
   // ✅ 패널 내부 클릭은 닫히지 않게
   settingsPanel.addEventListener("click", (e) => {
