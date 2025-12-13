@@ -349,71 +349,80 @@
       color: rgba(100,116,139,1);
     }
 
-    .skin-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-    .skin-chip{
-      border: none;
-      padding: 10px 10px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.9);
-      border: 1px solid rgba(148,163,184,0.35);
-      font-size: 12px;
-      font-weight: 800;
-      color:#0f172a;
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease;
-      text-align:left;
-    }
-    .skin-chip small{
-      display:block;
-      margin-top:4px;
-      font-size:10px;
-      font-weight:700;
-      color: rgba(100,116,139,.9);
-    }
-    .skin-chip:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 10px 18px rgba(15,23,42,.10);
-    }
-    .skin-chip.active{
-      outline: 2px solid rgba(124,58,237,.35);
-      box-shadow: 0 12px 22px rgba(124,58,237,.12);
-    }
+   /* ===== Skin preview chips ===== */
 
-    .range{
-      width: 100%;
-      accent-color: rgba(124,58,237,.9);
-    }
+.skin-grid{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-    .seg{
-      display:flex;
-      gap: 8px;
-    }
-    .seg button{
-      flex:1;
-      border:none;
-      padding: 9px 10px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.9);
-      border: 1px solid rgba(148,163,184,0.35);
-      font-size: 12px;
-      font-weight: 800;
-      color:#0f172a;
-      cursor:pointer;
-      transition: transform .15s ease, box-shadow .15s ease;
-      text-align:center;
-    }
-    .seg button:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 10px 18px rgba(15,23,42,.10);
-    }
-    .seg button.active{
-      outline: 2px solid rgba(124,58,237,.35);
-      box-shadow: 0 12px 22px rgba(124,58,237,.12);
-    }
+.skin-chip{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(148,163,184,.35);
+  background: rgba(255,255,255,.85);
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.skin-chip:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(15,23,42,.12);
+}
+
+.skin-chip.active{
+  outline: 2px solid rgba(124,58,237,.35);
+  box-shadow: 0 12px 24px rgba(124,58,237,.18);
+}
+
+/* 왼쪽 색 미리보기 */
+.skin-preview{
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.65),
+    0 6px 14px rgba(15,23,42,.18);
+}
+
+/* 텍스트 */
+.skin-label{
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.skin-label strong{
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.skin-label small{
+  font-size: 10px;
+  color: #6b7280;
+}
+
+/* ===== 각각의 색 미리보기 ===== */
+.skin-preview.rose{
+  background: linear-gradient(135deg, #b79cff, #ff8fb8, #ffd6e7);
+}
+.skin-preview.lavender{
+  background: linear-gradient(135deg, #c7b6ff, #f4b8ff, #f7e6ff);
+}
+.skin-preview.peach{
+  background: linear-gradient(135deg, #ffb4a2, #ff93b7, #ffe7d6);
+}
+.skin-preview.mint{
+  background: linear-gradient(135deg, #8ee7d0, #a8c7ff, #e8fbff);
+}
+.skin-preview.cloud{
+  background: linear-gradient(135deg, #e7d9ff, #ffd1e1, #ffffff);
+}
+
 
     /* 달력 팝업 (원본 유지) */
     .calendar-widget {
@@ -528,40 +537,48 @@
     <!-- 스킨 -->
     <div class="settings-section" style="border-top:none; padding-top:0; margin-top:0;">
       <div class="settings-label">스킨</div>
-      <div class="skin-grid">
-        <button class="skin-chip" data-skin="pink">Pink Pastel <small>기본 / 로맨틱</small></button>
-        <button class="skin-chip" data-skin="sky">Sky Mint <small>시원 / 산뜻</small></button>
-        <button class="skin-chip" data-skin="peach">Peach Cream <small>따뜻 / 부드러움</small></button>
-        <button class="skin-chip" data-skin="lilac">Soft Lilac <small>연보라 / 고급</small></button>
-      </div>
+     <div class="skin-grid">
+  <button class="skin-chip" data-skin="rose">
+    <span class="skin-preview rose"></span>
+    <div class="skin-label">
+      <strong>Rose Milk</strong>
+      <small>로즈 · 밀키 파스텔</small>
     </div>
+  </button>
 
-    <!-- 글라스 강도 -->
-    <div class="settings-section">
-      <div class="settings-label">
-        글라스 강도 <span class="value" id="glassVal"></span>
-      </div>
-      <input class="range" id="glassRange" type="range" min="0.10" max="0.30" step="0.01" />
+  <button class="skin-chip" data-skin="lavender">
+    <span class="skin-preview lavender"></span>
+    <div class="skin-label">
+      <strong>Lavender Cream</strong>
+      <small>연보라 · 크림</small>
     </div>
+  </button>
 
-    <!-- 그림자 강도 -->
-    <div class="settings-section">
-      <div class="settings-label">
-        그림자 강도 <span class="value" id="shadowVal"></span>
-      </div>
-      <input class="range" id="shadowRange" type="range" min="0.12" max="0.30" step="0.01" />
+  <button class="skin-chip" data-skin="peach">
+    <span class="skin-preview peach"></span>
+    <div class="skin-label">
+      <strong>Peach Champagne</strong>
+      <small>피치 · 샴페인</small>
     </div>
+  </button>
 
-    <!-- 폰트 크기 -->
-    <div class="settings-section">
-      <div class="settings-label">글자 크기</div>
-      <div class="seg" id="fontSeg">
-        <button data-scale="0.92">작게</button>
-        <button data-scale="1.00" class="active">보통</button>
-        <button data-scale="1.08">큼</button>
-      </div>
+  <button class="skin-chip" data-skin="mint">
+    <span class="skin-preview mint"></span>
+    <div class="skin-label">
+      <strong>Mint Pearl</strong>
+      <small>민트 · 펄</small>
     </div>
-  </div>
+  </button>
+
+  <button class="skin-chip" data-skin="cloud">
+    <span class="skin-preview cloud"></span>
+    <div class="skin-label">
+      <strong>Cloud Blush</strong>
+      <small>미니멀 · 고급</small>
+    </div>
+  </button>
+</div>
+
 
   <!-- 하위 사이드바 -->
   <aside class="sub-sidebar" id="subSidebar">
