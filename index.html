@@ -2,589 +2,543 @@
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="./css/common.css">
+
   <meta charset="UTF-8" />
   <title>어드민</title>
   <link rel="icon" type="image/png" href="favicon.ico" />
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    :root{
-      --bg0:#0b1020;
-      --card: rgba(255,255,255,.86);
-      --stroke: rgba(255,255,255,.18);
-      --shadow: 0 30px 90px rgba(0,0,0,.35);
-      --shadow2: 0 14px 40px rgba(15,23,42,.20);
 
-      --accent1:#7c3aed;
-      --accent2:#ec4899;
-      --accent3:#60a5fa;
-
-      --text:#0b1220;
-      --muted:#64748b;
-
-      --r1:18px;
-      --r2:22px;
-      --r3:28px;
-    }
-
-    body{
-      min-height:100vh;
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 0px;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      color: var(--text);
       background:
-        radial-gradient(1200px 800px at 10% 10%, rgba(236,72,153,.25), transparent 60%),
-        radial-gradient(900px 600px at 90% 20%, rgba(124,58,237,.23), transparent 55%),
-        radial-gradient(900px 700px at 80% 90%, rgba(96,165,250,.18), transparent 60%),
-        linear-gradient(180deg, #fbf5ff, #f7fbff 55%, #ffffff);
-      overflow:hidden;
-      padding: 0;
+  radial-gradient(circle at top left, rgba(236,72,153,.35), transparent 55%),
+  radial-gradient(circle at bottom right, rgba(96,165,250,.28), transparent 55%),
+  radial-gradient(circle at top right, rgba(124,58,237,.22), transparent 55%),
+  #fdf2ff;
+      overflow: hidden;
     }
 
-    /* 전체 쉘: 프리미엄 프레임 + 내부 하이라이트 */
-    .app-shell{
-      position:relative;
-      width:100%;
-      height:calc(100vh - 48px);
-      border-radius: var(--r3);
-      overflow:hidden;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,255,255,.76));
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,.55);
-    }
-    .app-shell::before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(600px 220px at 20% 0%, rgba(255,255,255,.70), transparent 60%),
-        radial-gradient(500px 260px at 80% 20%, rgba(255,255,255,.45), transparent 60%);
-      pointer-events:none;
-      opacity:.85;
+    .app-shell {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 48px);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.98);
+      box-shadow: 0 24px 60px rgba(15,23,42,.22);
+      overflow: hidden;
     }
 
-  /* =========================
-   PASTEL LUXE MAIN SIDEBAR
-   ========================= */
+    /* 메인 사이드바 */
+    .main-sidebar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 82px;
+      height: 100%;
+      background: linear-gradient(180deg, #7c3aed 0%, #ec4899 45%, #fbcfe8 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 0 16px;
+      z-index: 20;
+    }
 
-.main-sidebar{
-  position:absolute;
-  top: 0;
-  left: 0;
-  width: 82px;
-  height: 100%;
-  padding: 16px 0 14px;
+    .nav-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
 
-  /* ✅ 밝고 고급스러운 파스텔 그라데이션 */
-  background:
-    radial-gradient(circle at 20% 10%, rgba(236,72,153,.22), transparent 55%),
-    radial-gradient(circle at 80% 30%, rgba(124,58,237,.18), transparent 55%),
-    radial-gradient(circle at 40% 90%, rgba(96,165,250,.16), transparent 55%),
-    linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.62));
+    .nav-item {
+      width: 60px;
+      border: none;
+      background: transparent;
+      color: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 500;
+    }
 
-  border-right: 1px solid rgba(255,255,255,.65);
-  box-shadow: 0 22px 60px rgba(15,23,42,.12);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+    .nav-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(15,23,42,0.25);
+      transition: all 0.2s ease;
+    }
 
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  z-index:20;
-}
+    .nav-item i {
+      font-size: 20px;
+    }
 
-.nav-list{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap: 10px;
-  margin-top: 6px;
-}
+    .nav-item span {
+      opacity: 0.95;
+    }
 
-.nav-item{
-  width: 64px;
-  border:none;
-  background: transparent;
-  color: rgba(15,23,42,.75);   /* ✅ 어두운 글씨로 고급스럽게 */
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap: 4px;
-  cursor:pointer;
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: -.2px;
-}
+    .nav-item.active .nav-icon-wrap {
+      background: #ffffff;
+      color: #7c3aed;
+      box-shadow:
+        0 10px 22px rgba(248, 113, 113, 0.25),
+        0 0 0 1px rgba(249, 250, 251, 0.9);
+    }
 
-.nav-icon-wrap{
-  width: 44px;
-  height: 44px;
-  border-radius: 18px;
+    .nav-item:hover .nav-icon-wrap {
+      transform: translateY(-1px);
+      box-shadow:
+        0 10px 22px rgba(15,23,42,0.35),
+        0 0 0 1px rgba(255,255,255,0.3);
+    }
 
-  /* ✅ 글라스 버튼 */
-  background: rgba(255,255,255,.65);
-  border: 1px solid rgba(255,255,255,.70);
-  box-shadow:
-    0 10px 22px rgba(15,23,42,.10),
-    inset 0 1px 0 rgba(255,255,255,.85);
+    .nav-footer {
+      padding-bottom: 4px;
+      font-size: 10px;
+      color: rgba(249,250,251,0.85);
+    }
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-}
-
-.nav-item i{ font-size: 20px; }
-.nav-item span{ opacity: .92; }
-
-.nav-item:hover .nav-icon-wrap{
-  transform: translateY(-1px);
-  box-shadow:
-    0 14px 28px rgba(15,23,42,.14),
-    inset 0 1px 0 rgba(255,255,255,.9);
-  background: rgba(255,255,255,.78);
-}
-
-/* ✅ 활성화: “파스텔 하이라이트 + 고급 그림자” */
-.nav-item.active{
-  color: rgba(15,23,42,.92);
-}
-.nav-item.active .nav-icon-wrap{
-  background:
-    radial-gradient(circle at 30% 25%, rgba(255,255,255,.65), transparent 55%),
-    linear-gradient(135deg, rgba(236,72,153,.28), rgba(124,58,237,.22), rgba(96,165,250,.18));
-  border: 1px solid rgba(255,255,255,.85);
-  box-shadow:
-    0 18px 36px rgba(236,72,153,.18),
-    0 14px 28px rgba(124,58,237,.12),
-    inset 0 1px 0 rgba(255,255,255,.90);
-}
-
-/* ✅ 푸터도 가볍게 */
-.nav-footer{
-  padding-bottom: 4px;
-  font-size: 10px;
-  color: rgba(15,23,42,.45);
-  font-weight: 700;
-  letter-spacing: .6px;
-}
-
-
-
-    /* ========= SUB SIDEBAR (플로팅 패널) ========= */
-    .sub-sidebar{
-      position:absolute;
-      top: 68px;
-      bottom: 110px;
-      left: 110px;
-      width: 250px;
-      border-radius: var(--r3);
-      padding: 14px 14px 12px;
+    /* ✅ 하위 사이드바: 글라스 + 높이 60% 정도, 가운데 위치 */
+    .sub-sidebar {
+      position: absolute;
+      /* 전체 높이에서 20% 위, 20% 아래 여백 → 대략 60% */
+      top: 15%;
+      bottom: 25%;
+      left: 96px;             /* 메인바 바로 오른쪽 */
+      width: 220px;
+      border-radius: 24px;
+      padding: 12px 12px 10px;
       background:
-        radial-gradient(900px 420px at 0% 0%, rgba(236,72,153,.18), transparent 55%),
-        radial-gradient(700px 360px at 100% 0%, rgba(124,58,237,.18), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.55));
-      border: 1px solid rgba(255,255,255,.55);
-      box-shadow: var(--shadow2);
+        radial-gradient(circle at top left, rgba(244, 114, 182, 0.65), rgba(129, 140, 248, 0.7)),
+        linear-gradient(180deg, rgba(15,23,42,0.25), rgba(15,23,42,0.35));
+      box-shadow:
+        0 20px 40px rgba(15,23,42,0.55),
+        0 0 0 1px rgba(255,255,255,0.65);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      z-index: 18;
+      display: flex;
+      flex-direction: column;
 
-      opacity:0;
+      opacity: 0;
       transform: translateX(-16px);
-      pointer-events:none;
-      transition: all .24s cubic-bezier(.2,.8,.2,1);
+      pointer-events: none;
+      transition: all 0.22s ease;
+      z-index: 18;
     }
-    .sub-sidebar.visible{
-      opacity:1;
+
+    .sub-sidebar.visible {
+      opacity: 1;
       transform: translateX(0);
-      pointer-events:auto;
+      pointer-events: auto;
     }
 
-    .sub-title{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:10px;
-      font-size:13px;
-      font-weight:800;
-      color:#0f172a;
-      letter-spacing:-.3px;
-    }
-    .sub-title small{
-      font-size:10px;
-      font-weight:700;
-      color: rgba(100,116,139,.9);
+    .sub-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fefce8;
+      margin-bottom: 6px;
     }
 
-    .sub-list{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      overflow-y:auto;
-      padding-right: 2px;
+    .sub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow-y: auto;
     }
-    .sub-list::-webkit-scrollbar{ width: 8px; }
-    .sub-list::-webkit-scrollbar-thumb{
-      background: rgba(148,163,184,.55);
+
+    .sub-item {
+      border: none;
+      width: 100%;
+      padding: 8px 11px;
       border-radius: 999px;
-      border: 2px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,0.18);
+      color: #f9fafb;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.18s ease;
+      text-align: left;
     }
 
-    .sub-item{
-      border:none;
-      width:100%;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.62);
-      color:#0f172a;
-      font-size:12px;
-      font-weight:700;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      text-align:left;
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-      box-shadow: 0 10px 20px rgba(15,23,42,.10);
-      border: 1px solid rgba(255,255,255,.55);
+    .sub-item i {
+      font-size: 16px;
     }
-    .sub-item i{ font-size: 18px; color: rgba(124,58,237,.95); }
 
-    .sub-item:hover{
+    .sub-item:hover {
+      background: rgba(255,255,255,0.28);
+      box-shadow: 0 7px 16px rgba(15,23,42,0.55);
       transform: translateY(-1px);
-      background: rgba(255,255,255,.75);
-      box-shadow: 0 16px 28px rgba(15,23,42,.14);
-    }
-    .sub-item.active{
-      background:
-        radial-gradient(120px 80px at 20% 20%, rgba(255,255,255,.45), transparent 60%),
-        linear-gradient(135deg, rgba(124,58,237,.95), rgba(236,72,153,.88));
-      color:#fff;
-      border-color: rgba(255,255,255,.35);
-      box-shadow: 0 20px 34px rgba(236,72,153,.18);
-    }
-    .sub-item.active i{ color:#fff; }
-
-    /* ========= CONTENT ========= */
-    .content{
-      position:absolute;
-      top:12px;
-      left: 108px;
-      right: 12px;
-      bottom: 12px;
-      padding: 0;
-      z-index: 10;
     }
 
-    .card{
-      width:100%;
-      height:100%;
-      border-radius: var(--r3);
-      background:
-        radial-gradient(900px 420px at 0% 0%, rgba(124,58,237,.12), transparent 55%),
-        radial-gradient(800px 420px at 100% 10%, rgba(236,72,153,.10), transparent 58%),
-        linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.72));
-      border: 1px solid rgba(255,255,255,.65);
-      box-shadow: 0 24px 60px rgba(15,23,42,.14);
-      padding: 12px;
-      position:relative;
-      overflow:hidden;
+    .sub-item.active {
+      background: #ffffff;
+      color: #7c3aed;
+      box-shadow: 0 8px 18px rgba(129, 140, 248, 0.9);
     }
-    .card::before{
-      content:"";
-      position:absolute; inset: -2px;
-      background:
-        radial-gradient(380px 160px at 30% 0%, rgba(255,255,255,.70), transparent 60%);
-      pointer-events:none;
-      opacity: .75;
+
+    .sub-item.active i {
+      color: #7c3aed;
+    }
+
+    /* 메인 컨텐츠 */
+    .content {
+      position: absolute;
+      top: 0;
+      left: 82px;
+      right: 0;
+      bottom: 0;
+      padding: 10px 14px 14px;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, #fef3ff 0%, #ffffff 50%, #f1f5f9 100%);
+      box-shadow:
+        0 18px 40px rgba(148, 163, 184, 0.28),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+      padding: 10px;
     }
 
     iframe{
-      width:100%;
-      height:100%;
-      border:none;
+  width:100%;
+  height:100%;
+  border:none;
+  border-radius:16px;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.55);
+  box-shadow: 0 10px 26px rgba(15,23,42,.12);
+}
+
+
+    /* 달력 팝업 (이전 버전 그대로) */
+    .calendar-widget {
+      position: absolute;
+      left: 96px;
+      bottom: 20px;
+      width: 260px;
       border-radius: 22px;
-      background: rgba(255,255,255,.86);
-      border: 1px solid rgba(255,255,255,.65);
-      box-shadow: 0 14px 36px rgba(15,23,42,.10);
-      position:relative;
-      z-index:1;
+      background: linear-gradient(180deg, rgba(15,23,42,0.92), rgba(15,23,42,0.96));
+      color: #e5e7eb;
+      padding: 10px 12px 10px;
+      box-shadow:
+        0 18px 40px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(148,163,184,0.8);
+      z-index: 15;
+
+      opacity: 0;
+      transform: translateY(12px) scale(0.96);
+      pointer-events: none;
+      transition: all 0.22s ease;
     }
 
-    /* ========= CALENDAR (플로팅 팝업) ========= */
-    .calendar-widget{
-      position:absolute;
-      left: 110px;
-      bottom: 18px;
-      width: 300px;
-      border-radius: var(--r3);
-      padding: 12px 14px 12px;
-
-      background:
-        radial-gradient(520px 220px at 10% 10%, rgba(236,72,153,.22), transparent 60%),
-        radial-gradient(520px 240px at 90% 20%, rgba(124,58,237,.22), transparent 60%),
-        linear-gradient(180deg, rgba(17,24,39,.88), rgba(15,23,42,.92));
-      color: rgba(226,232,240,.95);
-      box-shadow: 0 30px 70px rgba(0,0,0,.35);
-      border: 1px solid rgba(255,255,255,.14);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      z-index: 19;
-
-      opacity:0;
-      transform: translateY(12px) scale(.97);
-      pointer-events:none;
-      transition: all .24s cubic-bezier(.2,.8,.2,1);
-    }
-    .calendar-widget.visible{
-      opacity:1;
+    .calendar-widget.visible {
+      opacity: 1;
       transform: translateY(0) scale(1);
-      pointer-events:auto;
+      pointer-events: auto;
     }
 
-    .calendar-header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
-      margin-bottom: 10px;
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
     }
-    .calendar-title{
+
+    .calendar-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .calendar-subtitle {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .calendar-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .calendar-sheet-btn {
+      border: none;
+      outline: none;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #f9fafb;
+      color: #4f46e5;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .calendar-sheet-btn i {
+      font-size: 12px;
+    }
+
+    .today-event-icon {
+      position: relative;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(250, 204, 21, 0.97);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+      margin-right: 6px;
+
+      opacity: 0;
+      transform: translateY(4px) scale(0.9);
+      transition: all 0.2s ease;
+    }
+
+    .today-event-icon.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .today-event-icon i {
       font-size: 14px;
-      font-weight: 800;
-      letter-spacing: -.3px;
-    }
-    .calendar-subtitle{
-      font-size: 10px;
-      color: rgba(148,163,184,.95);
-      margin-top: 2px;
-    }
-    .calendar-left{ display:flex; flex-direction:column; gap:2px; }
-
-    .calendar-actions{
-      display:flex;
-      align-items:center;
-      gap: 8px;
+      color: #92400e;
     }
 
-    .calendar-sheet-btn{
-      border:none;
-      outline:none;
-      padding: 6px 10px;
+    .today-event-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      width: 10px;
+      height: 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,.92);
-      color: rgba(79,70,229,1);
-      font-size: 10px;
-      font-weight: 900;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      gap: 6px;
-      box-shadow: 0 10px 18px rgba(0,0,0,.25);
-      transition: transform .18s ease;
-    }
-    .calendar-sheet-btn:hover{ transform: translateY(-1px); }
-
-    .today-event-icon{
-      width: 26px; height: 26px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, rgba(250,204,21,.98), rgba(251,146,60,.98));
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 12px 18px rgba(0,0,0,.35);
-      position:relative;
-
-      opacity:0;
-      transform: translateY(4px) scale(.92);
-      transition: all .2s ease;
-    }
-    .today-event-icon.visible{
-      opacity:1;
-      transform: translateY(0) scale(1);
-    }
-    .today-event-icon i{ font-size: 16px; color: rgba(120,53,15,1); }
-    .today-event-badge{
-      position:absolute;
-      top:-3px; right:-3px;
-      width:10px; height:10px;
-      border-radius:999px;
-      background:#ef4444;
-      border: 2px solid rgba(255,255,255,.95);
+      background: #ef4444;
+      border: 1px solid #ffffff;
     }
 
-    .calendar-weekdays, .calendar-days{
-      display:grid;
+    .calendar-weekdays,
+    .calendar-days {
+      display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      text-align:center;
+      gap: 2px;
+      text-align: center;
     }
-    .calendar-weekdays span{
+
+    .calendar-weekdays span {
       font-size: 9px;
-      color: rgba(226,232,240,.75);
-      letter-spacing: .3px;
+      color: #d1d5db;
     }
 
-    .calendar-day{
-      font-size: 11px;
-      padding: 7px 0;
-      border-radius: 12px;
-      color: rgba(226,232,240,.92);
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.08);
-      transition: transform .16s ease, background .16s ease;
-      position:relative;
-      user-select:none;
-    }
-    .calendar-day:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.10);
-    }
-    .calendar-day.other-month{ opacity:.35; }
-
-    .calendar-day.today{
-      background:
-        radial-gradient(80px 40px at 30% 30%, rgba(255,255,255,.35), transparent 60%),
-        linear-gradient(135deg, rgba(250,204,21,.95), rgba(251,146,60,.92));
-      color: rgba(17,24,39,1);
-      font-weight: 900;
-      border-color: rgba(255,255,255,.35);
-    }
-
-    .calendar-day.has-event{
-      border-color: rgba(251,113,133,.55);
-    }
-    .calendar-day.has-event::after{
-      content:"";
-      position:absolute;
-      bottom: 6px;
-      left:50%;
-      transform: translateX(-50%);
-      width: 6px;
-      height: 6px;
-      border-radius:999px;
-      background: rgba(251,113,133,1);
-      box-shadow: 0 0 0 3px rgba(251,113,133,.15);
-    }
-
-    .calendar-tooltip{
-      position:absolute;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.92);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 18px 40px rgba(0,0,0,.25);
-      font-size: 11px;
-      color: #0b1220;
-      transform: translate(-50%, -120%);
-      display:none;
-      white-space: nowrap;
-      z-index: 30;
-      pointer-events:none;
-      border: 1px solid rgba(255,255,255,.6);
-    }
-    .calendar-tooltip .mall{
-      color: rgba(79,70,229,1);
-      font-weight: 900;
-    }
-    .calendar-tooltip .range{
+    .calendar-day {
       font-size: 10px;
-      color: rgba(100,116,139,1);
+      padding: 3px 0;
+      border-radius: 6px;
+      color: #e5e7eb;
+    }
+
+    .calendar-day.other-month {
+      opacity: 0.4;
+    }
+
+    .calendar-day.today {
+      background: rgba(251, 191, 36, 0.9);
+      color: #111827;
       font-weight: 700;
     }
 
-    /* responsive */
-    @media (max-width: 900px){
-      body{ padding: 10px; overflow:auto; }
-      .app-shell{ height:auto; min-height: calc(100vh - 20px); }
-      .main-sidebar{ position:fixed; height: calc(100vh - 20px); }
-      .content{
-        position:relative;
-        left: 108px;
-        width: calc(100% - 108px);
-        height:auto;
+    .calendar-day.has-event {
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(248, 250, 252, 0.5);
+      position: relative;
+    }
+
+    .calendar-day.has-event::after {
+      content: "";
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: #fb7185;
+    }
+
+    .calendar-day.today.has-event {
+      background: linear-gradient(135deg, #fef9c3, #f9a8d4);
+      color: #7c2d12;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.9);
+    }
+
+    .calendar-tooltip {
+      position: absolute;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 18px rgba(15,23,42,0.7);
+      font-size: 11px;
+      color: #111827;
+      transform: translate(-50%, -120%);
+      display: none;
+      white-space: nowrap;
+      z-index: 16;
+      pointer-events: none;
+    }
+
+    .calendar-tooltip .mall {
+      color: #4f46e5;
+      font-weight: 600;
+    }
+
+    .calendar-tooltip .range {
+      font-size: 10px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 900px) {
+      body { padding: 10px; overflow: auto; }
+      .app-shell {
+        height: auto;
+        min-height: calc(100vh - 20px);
+      }
+      .main-sidebar {
+        position: fixed;
+        height: calc(100vh - 20px);
+      }
+      .content {
+        position: relative;
+        left: 82px;
+        width: calc(100% - 82px);
+        height: auto;
         min-height: 70vh;
       }
-      .sub-sidebar{ left: 110px; }
     }
   </style>
 </head>
-
 <body>
 <div class="app-shell">
-
   <!-- 메인 사이드바 -->
   <nav class="main-sidebar">
-    <div class="brand-dot">A</div>
-
-    <div class="nav-list" id="navList">
-      <div class="nav-indicator" id="navIndicator"></div>
-
-      <button class="nav-item active" data-id="search" data-href="https://wskimkj.github.io/search/">
-        <i class='bx bx-search'></i><span>상품</span>
+    <div class="nav-list">
+      <button class="nav-item active"
+              data-id="search"
+              data-href="https://wskimkj.github.io/search/">
+        <div class="nav-icon-wrap"><i class='bx bx-search'></i></div>
+        <span>상품</span>
       </button>
 
-      <button class="nav-item" data-id="order" data-href="https://wskimkj.github.io/return-inf/">
-        <i class='bx bx-cart'></i><span>발주</span>
+      <button class="nav-item"
+              data-id="order"
+              data-href="https://wskimkj.github.io/return-inf/">
+        <div class="nav-icon-wrap"><i class='bx bx-cart'></i></div>
+        <span>발주</span>
       </button>
 
-      <button class="nav-item" data-id="tracking" data-href="https://wskimkj.github.io/tracking/">
-        <i class='bx bx-package'></i><span>배송</span>
+      <button class="nav-item"
+              data-id="tracking"
+              data-href="https://wskimkj.github.io/tracking/">
+        <div class="nav-icon-wrap"><i class='bx bx-package'></i></div>
+        <span>배송</span>
       </button>
 
-      <button class="nav-item" data-id="template" data-href="https://wskimkj.github.io/trim2/">
-        <i class='bx bx-message'></i><span>템플릿</span>
+      <button class="nav-item"
+              data-id="template"
+              data-href="https://wskimkj.github.io/trim2/">
+        <div class="nav-icon-wrap"><i class='bx bx-message'></i></div>
+        <span>템플릿</span>
       </button>
 
-      <button class="nav-item" data-id="refund" data-href="https://wskimkj.github.io/refund24/">
-        <i class='bx bx-calculator'></i><span>환불</span>
+      <button class="nav-item"
+              data-id="refund"
+              data-href="https://wskimkj.github.io/refund24/">
+        <div class="nav-icon-wrap"><i class='bx bx-calculator'></i></div>
+        <span>환불</span>
       </button>
 
-      <button class="nav-item" data-id="account" data-href="https://wskimkj.github.io/account/">
-        <i class='bx bx-lock'></i><span>계정</span>
+      <button class="nav-item"
+              data-id="account"
+              data-href="https://wskimkj.github.io/account/">
+        <div class="nav-icon-wrap"><i class='bx bx-lock'></i></div>
+        <span>계정</span>
       </button>
 
-      <button class="nav-item" data-id="memo" data-href="https://wskimkj.github.io/memo/">
-        <i class='bx bx-pen'></i><span>메모</span>
+      <button class="nav-item"
+              data-id="memo"
+              data-href="https://wskimkj.github.io/memo/">
+        <div class="nav-icon-wrap"><i class='bx bx-pen'></i></div>
+        <span>메모</span>
       </button>
 
-      <button class="nav-item" id="eventBtn" data-id="event">
-        <i class='bx bx-calendar-event'></i><span>이벤트</span>
+      <button class="nav-item"
+              id="eventBtn"
+              data-id="event">
+        <div class="nav-icon-wrap"><i class='bx bx-calendar-event'></i></div>
+        <span>이벤트</span>
       </button>
 
-      <button class="nav-item" id="googleBtn" data-id="google">
-        <i class='bx bx-spreadsheet'></i><span>시트</span>
+      <button class="nav-item"
+              id="googleBtn"
+              data-id="google">
+        <div class="nav-icon-wrap"><i class='bx bx-spreadsheet'></i></div>
+        <span>시트</span>
       </button>
     </div>
 
-    <div class="nav-footer">ADMIN</div>
+    <div class="nav-footer">
+      ADMIN
+    </div>
   </nav>
 
   <!-- 하위 사이드바 -->
   <aside class="sub-sidebar" id="subSidebar">
-    <div class="sub-title">
-      구글 시트
-      <small>Quick Links</small>
-    </div>
+    <div class="sub-title">구글 시트</div>
     <div class="sub-list">
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=366983013#gid=366983013">
+      <button class="sub-item google-child"
+              data-href="https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=366983013#gid=366983013">
         <i class='bx bx-chevron-right'></i><span>개인시트</span>
       </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1_Bxfag-90U6u-6JbhxNqeoD9vRns-CpPeXPIJYO1Z5o/edit?gid=1265906605#gid=1265906605">
+      <button class="sub-item google-child"
+              data-href="https://docs.google.com/spreadsheets/d/1_Bxfag-90U6u-6JbhxNqeoD9vRns-CpPeXPIJYO1Z5o/edit?gid=1265906605#gid=1265906605">
         <i class='bx bx-chevron-right'></i><span>반품</span>
       </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0">
+      <button class="sub-item google-child"
+              data-href="https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0">
         <i class='bx bx-chevron-right'></i><span>Team.반품</span>
       </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0">
+      <button class="sub-item google-child"
+              data-href="https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0">
         <i class='bx bx-chevron-right'></i><span>Team.물류</span>
       </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY/edit?gid=925106579#gid=925106579">
+      <button class="sub-item google-child"
+              data-href="https://docs.google.com/spreadsheets/d/1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY/edit?gid=925106579#gid=925106579">
         <i class='bx bx-chevron-right'></i><span>Team.업무</span>
       </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787">
+      <button class="sub-item google-child"
+              data-href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787">
         <i class='bx bx-chevron-right'></i><span>Team.주간</span>
       </button>
     </div>
@@ -597,7 +551,7 @@
     </div>
   </div>
 
-  <!-- 달력 위젯 -->
+  <!-- 달력 위젯 (토글 팝업) -->
   <div class="calendar-widget" id="calendarWidget">
     <div class="calendar-header">
       <div class="calendar-left">
@@ -605,7 +559,7 @@
         <div class="calendar-subtitle">이벤트 캘린더 (Mon–Fri)</div>
       </div>
 
-      <div class="calendar-actions">
+      <div style="display:flex; align-items:center;">
         <div class="today-event-icon" id="todayEventIcon">
           <i class='bx bx-bell'></i>
           <div class="today-event-badge"></div>
@@ -623,7 +577,6 @@
 
     <div class="calendar-tooltip" id="calendarTooltip"></div>
   </div>
-
 </div>
 
 <script>
@@ -632,25 +585,12 @@
   const subSidebar = document.getElementById("subSidebar");
   const googleBtn = document.getElementById("googleBtn");
   const googleChildren = document.querySelectorAll(".google-child");
+
   const calendarWidget = document.getElementById("calendarWidget");
   const eventBtn = document.getElementById("eventBtn");
 
-  const navIndicator = document.getElementById("navIndicator");
-
   const EVENT_SHEET_URL =
     "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
-
-  // ✅ active 인디케이터 위치 계산
-  function moveIndicatorToActive() {
-    const active = document.querySelector(".nav-item.active");
-    if (!active) return;
-    const parentRect = active.parentElement.getBoundingClientRect();
-    const rect = active.getBoundingClientRect();
-    const y = rect.top - parentRect.top;
-    navIndicator.style.transform = `translateY(${y}px)`;
-  }
-
-  window.addEventListener("resize", moveIndicatorToActive);
 
   mainFrame.onload = () => {
     if (mainFrame.src.includes("search")) {
@@ -665,30 +605,25 @@
 
       if (id === "event") {
         toggleCalendar();
-        // event는 active 이동 안 함(원하면 여기서 active 처리도 가능)
-        e.stopPropagation();
-        return;
       }
 
       if (id === "google") {
         toggleSubSidebar();
-        e.stopPropagation();
-        return;
       }
 
-      // 일반 메뉴
-      navItems.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      moveIndicatorToActive();
+      if (id !== "event" && id !== "google") {
+        navItems.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
 
-      hideSubSidebar();
-      hideCalendar();
+        hideSubSidebar();
+        hideCalendar();
 
-      if (id === "search") {
-        const last = localStorage.getItem("lastSearchURL");
-        mainFrame.src = last ? last : href;
-      } else if (href) {
-        mainFrame.src = href;
+        if (id === "search") {
+          const last = localStorage.getItem("lastSearchURL");
+          mainFrame.src = last ? last : href;
+        } else if (href) {
+          mainFrame.src = href;
+        }
       }
 
       e.stopPropagation();
@@ -699,7 +634,8 @@
     btn.addEventListener("click", (e) => {
       googleChildren.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      mainFrame.src = btn.dataset.href;
+      const href = btn.dataset.href;
+      mainFrame.src = href;
       e.stopPropagation();
     });
   });
@@ -713,7 +649,9 @@
     }
   }
 
-  function hideSubSidebar() { subSidebar.classList.remove("visible"); }
+  function hideSubSidebar() {
+    subSidebar.classList.remove("visible");
+  }
 
   function toggleCalendar() {
     const visible = calendarWidget.classList.contains("visible");
@@ -724,7 +662,9 @@
     }
   }
 
-  function hideCalendar() { calendarWidget.classList.remove("visible"); }
+  function hideCalendar() {
+    calendarWidget.classList.remove("visible");
+  }
 
   document.addEventListener("click", (e) => {
     const t = e.target;
@@ -738,6 +678,7 @@
   });
 
   /* ===== 달력/이벤트 ===== */
+
   const events = [
     { mall: "스마트스토어", title: "연말 특가",     start: "2025-12-15", end: "2025-12-31" },
     { mall: "11번가",       title: "주말 쿠폰",     start: "2025-12-04", end: "2025-12-05" },
@@ -746,7 +687,8 @@
 
   function parseDate(str) {
     const d = new Date(str);
-    return isNaN(d) ? null : d;
+    if (isNaN(d)) return null;
+    return d;
   }
 
   function buildCalendar() {
@@ -754,8 +696,12 @@
     const year = today.getFullYear();
     const month = today.getMonth();
 
-    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    document.getElementById("calendarMonthLabel").textContent = `${monthNames[month]} ${year}`;
+    const monthNames = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
+    document.getElementById("calendarMonthLabel").textContent =
+      `${monthNames[month]} ${year}`;
 
     const firstOfMonth = new Date(year, month, 1);
     const lastOfMonth  = new Date(year, month + 1, 0);
@@ -773,7 +719,8 @@
           const weekday = d.getDay();
           if (weekday >= 1 && weekday <= 5) {
             const key = d.toISOString().slice(0,10);
-            (eventsByDate[key] ||= []).push(ev);
+            if (!eventsByDate[key]) eventsByDate[key] = [];
+            eventsByDate[key].push(ev);
           }
         }
         d.setDate(d.getDate() + 1);
@@ -787,8 +734,11 @@
     const todayKey = today.toISOString().slice(0,10);
     const todayIcon = document.getElementById("todayEventIcon");
 
-    if (eventsByDate[todayKey]?.length) todayIcon.classList.add("visible");
-    else todayIcon.classList.remove("visible");
+    if (eventsByDate[todayKey] && eventsByDate[todayKey].length > 0) {
+      todayIcon.classList.add("visible");
+    } else {
+      todayIcon.classList.remove("visible");
+    }
 
     let start = new Date(firstOfMonth);
     const startDow = (start.getDay() + 6) % 7;
@@ -809,38 +759,51 @@
         cell.className = "calendar-day";
         if (d.getMonth() !== month) cell.classList.add("other-month");
 
-        cell.textContent = d.getDate();
+        const num = d.getDate();
+        cell.textContent = num;
 
         const key = d.toISOString().slice(0,10);
         if (eventsByDate[key]) {
           cell.classList.add("has-event");
           cell.dataset.dateKey = key;
         }
-        if (d.toDateString() === todayStr) cell.classList.add("today");
+
+        if (d.toDateString() === todayStr) {
+          cell.classList.add("today");
+        }
 
         cell.addEventListener("mouseenter", () => {
           const dateKey = cell.dataset.dateKey;
-          if (!dateKey || !eventsByDate[dateKey]) { tooltip.style.display="none"; return; }
+          if (!dateKey || !eventsByDate[dateKey]) {
+            tooltip.style.display = "none";
+            return;
+          }
 
           const items = eventsByDate[dateKey];
-          tooltip.innerHTML = items.map((ev) => {
+          let html = "";
+          items.forEach((ev, idx) => {
             const sText = ev.start.slice(5).replace(/-/g, ".");
             const eText = ev.end.slice(5).replace(/-/g, ".");
-            return `
-              <div style="margin-bottom:6px;">
-                <span class="mall">${ev.mall}</span> - <strong>${ev.title}</strong><br/>
-                <span class="range">${sText} ~ ${eText}</span>
-              </div>
-            `;
-          }).join("");
+            html += `<div style="margin-bottom:${idx === items.length-1 ? 0 : 4}px;">
+                       <span class="mall">${ev.mall}</span> - <strong>${ev.title}</strong><br/>
+                       <span class="range">${sText} ~ ${eText}</span>
+                     </div>`;
+          });
+          tooltip.innerHTML = html;
 
           const rect = cell.getBoundingClientRect();
           const parentRect = widget.getBoundingClientRect();
-          tooltip.style.left = (rect.left + rect.width/2 - parentRect.left) + "px";
-          tooltip.style.top  = (rect.top - parentRect.top) + "px";
+          const left = rect.left + rect.width / 2 - parentRect.left;
+          const top  = rect.top - parentRect.top;
+
+          tooltip.style.left = left + "px";
+          tooltip.style.top  = top + "px";
           tooltip.style.display = "block";
         });
-        cell.addEventListener("mouseleave", () => tooltip.style.display="none");
+
+        cell.addEventListener("mouseleave", () => {
+          tooltip.style.display = "none";
+        });
 
         daysContainer.appendChild(cell);
       }
@@ -849,7 +812,6 @@
   }
 
   buildCalendar();
-  moveIndicatorToActive(); // 초기 인디케이터 맞추기
 </script>
 </body>
 </html>
