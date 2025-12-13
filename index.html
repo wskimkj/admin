@@ -1,1101 +1,211 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <link rel="stylesheet" href="./css/common.css">
+<meta charset="UTF-8" />
+<title>어드민</title>
 
-  <meta charset="UTF-8" />
-  <title>어드민</title>
-  <link rel="icon" type="image/png" href="favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+<link rel="icon" type="image/png" href="favicon.ico" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-    :root{
-      /* ===== 공통(테마/설정에서 바뀌는 값들) ===== */
-      --shell-bg: rgba(255,255,255,0.98);
-      --shell-shadow: 0 24px 60px rgba(15,23,42,.22);
-      --card-shadow:
-        0 18px 40px rgba(148, 163, 184, 0.28),
-        inset 0 1px 0 rgba(255,255,255,0.9);
+/* ================= ROOT ================= */
+:root{
+  --ui-scale:1;
+  --glass-alpha:.18;
 
-      --card-bg: radial-gradient(circle at top left, #fef3ff 0%, #ffffff 50%, #f1f5f9 100%);
+  --shell-bg:rgba(255,255,255,.98);
+  --shell-shadow:0 24px 60px rgba(15,23,42,.22);
+  --card-bg:radial-gradient(circle at top left,#fef3ff,#fff 55%,#f1f5f9);
+  --card-shadow:0 18px 40px rgba(148,163,184,.28),inset 0 1px 0 #fff;
 
-      /* 글라스 강도 (0.10~0.30 정도가 예쁨) */
-      --glass-alpha: 0.18;
+  --main-sidebar-bg:linear-gradient(180deg,#b79cff,#ff8fb8,#ffd6e7);
+  --nav-text:#fff;
+  --nav-chip-bg:rgba(255,255,255,var(--glass-alpha));
+  --nav-active-chip-bg:#fff;
+  --nav-active-color:#6d28d9;
 
-      /* 폰트 스케일 */
-      --ui-scale: 1;
-
-      /* ===== 사이드바(기본값 = Pink Pastel) ===== */
-      --main-sidebar-bg: linear-gradient(180deg, #7c3aed 0%, #ec4899 45%, #fbcfe8 100%);
-      --nav-text: #f9fafb;
-      --nav-chip-bg: rgba(255,255,255,var(--glass-alpha));
-      --nav-active-chip-bg: #ffffff;
-      --nav-active-color: #7c3aed;
-
-      /* ===== 서브 사이드바(기본값) ===== */
-      --sub-sidebar-bg:
-        radial-gradient(circle at top left, rgba(244, 114, 182, 0.65), rgba(129, 140, 248, 0.7)),
-        linear-gradient(180deg, rgba(15,23,42,0.25), rgba(15,23,42,0.35));
-      --sub-title-color: #fefce8;
-    }
-
-    /* ===== 스킨 1: Pink Pastel ===== */
-    body[data-skin="pink"]{ }
-
-    /* ===== 스킨 2: Sky Mint ===== */
-    body[data-skin="sky"]{
-      --main-sidebar-bg: linear-gradient(180deg, #60a5fa 0%, #a78bfa 45%, #bae6fd 100%);
-      --sub-sidebar-bg:
-        radial-gradient(circle at top left, rgba(56,189,248,0.55), rgba(167,139,250,0.55)),
-        linear-gradient(180deg, rgba(15,23,42,0.22), rgba(15,23,42,0.32));
-      --sub-title-color: #ecfeff;
-      --nav-active-color: #4f46e5;
-    }
-
-    /* ===== 스킨 3: Peach Cream ===== */
-    body[data-skin="peach"]{
-      --main-sidebar-bg: linear-gradient(180deg, #fb7185 0%, #f59e0b 45%, #fed7aa 100%);
-      --sub-sidebar-bg:
-        radial-gradient(circle at top left, rgba(251,113,133,0.55), rgba(245,158,11,0.40)),
-        linear-gradient(180deg, rgba(15,23,42,0.22), rgba(15,23,42,0.32));
-      --sub-title-color: #fff7ed;
-      --nav-active-color: #b45309;
-    }
-
-    /* ===== 스킨 4: Soft Lilac ===== */
-    body[data-skin="lilac"]{
-      --main-sidebar-bg: linear-gradient(180deg, #a78bfa 0%, #f0abfc 45%, #e9d5ff 100%);
-      --sub-sidebar-bg:
-        radial-gradient(circle at top left, rgba(240,171,252,0.50), rgba(167,139,250,0.55)),
-        linear-gradient(180deg, rgba(15,23,42,0.20), rgba(15,23,42,0.30));
-      --sub-title-color: #fff1ff;
-      --nav-active-color: #6d28d9;
-    }
-
-    body[data-skin="rose"]{
-  --main-sidebar-bg: linear-gradient(180deg, #b79cff 0%, #ff8fb8 52%, #ffd6e7 100%);
   --sub-sidebar-bg:
-    radial-gradient(circle at top left, rgba(255, 182, 213, 0.55), rgba(170, 190, 255, 0.55)),
-    linear-gradient(180deg, rgba(15,23,42,0.16), rgba(15,23,42,0.26));
-  --sub-title-color: #fff7fd;
-  --nav-active-color: #6d28d9;
+    radial-gradient(circle at top left,rgba(255,182,213,.55),rgba(170,190,255,.55)),
+    linear-gradient(180deg,rgba(15,23,42,.16),rgba(15,23,42,.26));
+  --sub-title-color:#fff;
 }
 
+/* ================= SKINS ================= */
+body[data-skin="rose"]{}
 body[data-skin="lavender"]{
-  --main-sidebar-bg: linear-gradient(180deg, #c7b6ff 0%, #f4b8ff 52%, #f7e6ff 100%);
-  --sub-sidebar-bg:
-    radial-gradient(circle at top left, rgba(244, 184, 255, 0.50), rgba(199, 182, 255, 0.55)),
-    linear-gradient(180deg, rgba(15,23,42,0.14), rgba(15,23,42,0.24));
-  --sub-title-color: #fff6ff;
-  --nav-active-color: #7c3aed;
+  --main-sidebar-bg:linear-gradient(180deg,#c7b6ff,#f4b8ff,#f7e6ff);
 }
-
 body[data-skin="mint"]{
-  --main-sidebar-bg: linear-gradient(180deg, #8ee7d0 0%, #a8c7ff 48%, #e8fbff 100%);
-  --sub-sidebar-bg:
-    radial-gradient(circle at top left, rgba(142, 231, 208, 0.45), rgba(168, 199, 255, 0.48)),
-    linear-gradient(180deg, rgba(15,23,42,0.14), rgba(15,23,42,0.24));
-  --sub-title-color: #f0feff;
-  --nav-active-color: #2563eb;
+  --main-sidebar-bg:linear-gradient(180deg,#8ee7d0,#a8c7ff,#e8fbff);
 }
-
 body[data-skin="cloud"]{
-  --main-sidebar-bg: linear-gradient(180deg, #e7d9ff 0%, #ffd1e1 50%, #ffffff 100%);
-  --sub-sidebar-bg:
-    radial-gradient(circle at top left, rgba(231, 217, 255, 0.46), rgba(255, 209, 225, 0.44)),
-    linear-gradient(180deg, rgba(15,23,42,0.12), rgba(15,23,42,0.22));
-  --sub-title-color: #ffffff;
-  --nav-active-color: #6d28d9;
+  --main-sidebar-bg:linear-gradient(180deg,#e7d9ff,#ffd1e1,#fff);
 }
 
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 0px;
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(236,72,153,.35), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(96,165,250,.28), transparent 55%),
-        radial-gradient(circle at top right, rgba(124,58,237,.22), transparent 55%),
-        #fdf2ff;
-      overflow: hidden;
-      font-size: calc(14px * var(--ui-scale));
-    }
-
-    .app-shell {
-      position: relative;
-      width: 100%;
-      height: calc(100vh - 48px);
-      border-radius: 18px;
-      background: var(--shell-bg);
-      box-shadow: var(--shell-shadow);
-      overflow: hidden;
-    }
-
-    /* 메인 사이드바 */
-    .main-sidebar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 82px;
-      height: 100%;
-      background: var(--main-sidebar-bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 16px 0 16px;
-      z-index: 20;
-    }
-
-    .nav-list {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .nav-item {
-      width: 60px;
-      border: none;
-      background: transparent;
-      color: var(--nav-text);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: 500;
-    }
-
-    .nav-icon-wrap {
-      width: 40px;
-      height: 40px;
-      border-radius: 18px;
-      background: var(--nav-chip-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 14px rgba(15,23,42,0.25);
-      transition: all 0.2s ease;
-    }
-
-    .nav-item i { font-size: 20px; }
-    .nav-item span { opacity: 0.95; }
-
-    .nav-item.active .nav-icon-wrap {
-      background: var(--nav-active-chip-bg);
-      color: var(--nav-active-color);
-      box-shadow:
-        0 10px 22px rgba(248, 113, 113, 0.25),
-        0 0 0 1px rgba(249, 250, 251, 0.9);
-    }
-
-    .nav-item:hover .nav-icon-wrap {
-      transform: translateY(-1px);
-      box-shadow:
-        0 10px 22px rgba(15,23,42,0.35),
-        0 0 0 1px rgba(255,255,255,0.3);
-    }
-
-    .nav-footer {
-      padding-bottom: 4px;
-      font-size: 10px;
-      color: rgba(249,250,251,0.85);
-    }
-
-    /* ✅ 하위 사이드바 */
-    .sub-sidebar {
-      position: absolute;
-      top: 15%;
-      bottom: 25%;
-      left: 96px;
-      width: 220px;
-      border-radius: 24px;
-      padding: 12px 12px 10px;
-      background: var(--sub-sidebar-bg);
-      box-shadow:
-        0 20px 40px rgba(15,23,42,0.55),
-        0 0 0 1px rgba(255,255,255,0.65);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      display: flex;
-      flex-direction: column;
-
-      opacity: 0;
-      transform: translateX(-16px);
-      pointer-events: none;
-      transition: all 0.22s ease;
-      z-index: 18;
-    }
-
-    .sub-sidebar.visible {
-      opacity: 1;
-      transform: translateX(0);
-      pointer-events: auto;
-    }
-
-    .sub-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--sub-title-color);
-      margin-bottom: 6px;
-    }
-
-    .sub-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      overflow-y: auto;
-    }
-
-    .sub-item {
-      border: none;
-      width: 100%;
-      padding: 8px 11px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.18);
-      color: #f9fafb;
-      font-size: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.18s ease;
-      text-align: left;
-    }
-
-    .sub-item i { font-size: 16px; }
-
-    .sub-item:hover {
-      background: rgba(255,255,255,0.28);
-      box-shadow: 0 7px 16px rgba(15,23,42,0.55);
-      transform: translateY(-1px);
-    }
-
-    .sub-item.active {
-      background: #ffffff;
-      color: #7c3aed;
-      box-shadow: 0 8px 18px rgba(129, 140, 248, 0.9);
-    }
-
-    .sub-item.active i { color: #7c3aed; }
-
-    /* 메인 컨텐츠 */
-    .content {
-      position: absolute;
-      top: 0;
-      left: 82px;
-      right: 0;
-      bottom: 0;
-      padding: 10px 14px 14px;
-    }
-
-    .card {
-      width: 100%;
-      height: 100%;
-      border-radius: 24px;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-      padding: 10px;
-    }
-
-    iframe{
-      width:100%;
-      height:100%;
-      border:none;
-      border-radius:16px;
-      background: rgba(255,255,255,0.72);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.55);
-      box-shadow: 0 10px 26px rgba(15,23,42,.12);
-    }
-
-    /* ===== 환경설정 패널 UI ===== */
-    .settings-panel{
-      position: absolute;
-      left: 96px;
-      top: 16px;
-      width: 300px;
-      border-radius: 18px;
-      padding: 12px;
-      background: rgba(255,255,255,0.90);
-      border: 1px solid rgba(255,255,255,0.65);
-      box-shadow: 0 18px 40px rgba(15,23,42,.18);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      z-index: 30;
-
-      opacity: 0;
-      transform: translateY(-6px);
-      pointer-events: none;
-      transition: all .18s ease;
-    }
-    .settings-panel.visible{
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .settings-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 10px;
-    }
-    .settings-title{
-      font-size: 13px;
-      font-weight: 800;
-      color:#111827;
-    }
-    .settings-reset{
-      border:none;
-      background: rgba(15,23,42,0.06);
-      color:#0f172a;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 6px 10px;
-      border-radius: 999px;
-      cursor:pointer;
-    }
-
-    .settings-section{
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(148,163,184,0.25);
-    }
-    .settings-label{
-      font-size: 11px;
-      font-weight: 800;
-      color:#0f172a;
-      margin-bottom: 8px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .settings-label span.value{
-      font-size: 11px;
-      font-weight: 800;
-      color: rgba(100,116,139,1);
-    }
-
-   /* ===== Skin preview chips ===== */
-
-.skin-grid{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* ================= LAYOUT ================= */
+body{
+  min-height:100vh;
+  font-family:Poppins,system-ui,sans-serif;
+  background:
+    radial-gradient(circle at top left,rgba(236,72,153,.35),transparent 55%),
+    radial-gradient(circle at bottom right,rgba(96,165,250,.28),transparent 55%),
+    #fdf2ff;
+  font-size:calc(14px * var(--ui-scale));
+  overflow:hidden;
 }
 
+.app-shell{
+  position:relative;
+  height:100vh;
+  background:var(--shell-bg);
+  box-shadow:var(--shell-shadow);
+  border-radius:18px;
+  overflow:hidden;
+}
+
+/* ================= SIDEBAR ================= */
+.main-sidebar{
+  position:absolute;left:0;top:0;
+  width:82px;height:100%;
+  background:var(--main-sidebar-bg);
+  display:flex;flex-direction:column;
+  align-items:center;padding:16px 0;
+  z-index:20;
+}
+.nav-list{flex:1;display:flex;flex-direction:column;gap:10px}
+.nav-item{
+  background:none;border:none;
+  color:var(--nav-text);
+  width:60px;cursor:pointer;
+  display:flex;flex-direction:column;
+  align-items:center;gap:4px;
+  font-size:11px;
+}
+.nav-icon-wrap{
+  width:40px;height:40px;border-radius:18px;
+  background:var(--nav-chip-bg);
+  display:flex;align-items:center;justify-content:center;
+  transition:.2s;
+}
+.nav-item.active .nav-icon-wrap{
+  background:var(--nav-active-chip-bg);
+  color:var(--nav-active-color);
+}
+.nav-item i{font-size:20px}
+
+/* ================= CONTENT ================= */
+.content{
+  position:absolute;left:82px;top:0;right:0;bottom:0;
+  padding:14px;
+}
+.card{
+  width:100%;height:100%;
+  background:var(--card-bg);
+  box-shadow:var(--card-shadow);
+  border-radius:24px;padding:10px;
+}
+iframe{
+  width:100%;height:100%;
+  border:none;border-radius:16px;
+  background:#fff;
+}
+
+/* ================= SETTINGS ================= */
+.settings-panel{
+  position:absolute;left:96px;top:16px;
+  width:300px;
+  background:rgba(255,255,255,.9);
+  border-radius:18px;
+  padding:12px;
+  box-shadow:0 18px 40px rgba(15,23,42,.18);
+  opacity:0;pointer-events:none;
+  transform:translateY(-6px);
+  transition:.2s;
+  z-index:50;
+}
+.settings-panel.visible{
+  opacity:1;pointer-events:auto;transform:none;
+}
+.settings-title{font-weight:800;margin-bottom:8px}
+
+/* skin chips */
+.skin-grid{display:flex;flex-direction:column;gap:8px}
 .skin-chip{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(148,163,184,.35);
-  background: rgba(255,255,255,.85);
-  cursor: pointer;
-  transition: transform .15s ease, box-shadow .15s ease;
+  display:flex;gap:10px;align-items:center;
+  padding:10px;border-radius:14px;
+  border:1px solid rgba(148,163,184,.35);
+  background:#fff;cursor:pointer;
 }
-
-.skin-chip:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 10px 18px rgba(15,23,42,.12);
-}
-
-.skin-chip.active{
-  outline: 2px solid rgba(124,58,237,.35);
-  box-shadow: 0 12px 24px rgba(124,58,237,.18);
-}
-
-/* 왼쪽 색 미리보기 */
 .skin-preview{
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  flex-shrink: 0;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.65),
-    0 6px 14px rgba(15,23,42,.18);
+  width:36px;height:36px;border-radius:10px;
 }
+.rose{background:linear-gradient(135deg,#b79cff,#ff8fb8,#ffd6e7)}
+.lavender{background:linear-gradient(135deg,#c7b6ff,#f4b8ff,#f7e6ff)}
+.mint{background:linear-gradient(135deg,#8ee7d0,#a8c7ff,#e8fbff)}
+.cloud{background:linear-gradient(135deg,#e7d9ff,#ffd1e1,#fff)}
 
-/* 텍스트 */
-.skin-label{
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-.skin-label strong{
-  font-size: 12px;
-  font-weight: 700;
-  color: #0f172a;
-}
-.skin-label small{
-  font-size: 10px;
-  color: #6b7280;
-}
-
-/* ===== 각각의 색 미리보기 ===== */
-.skin-preview.rose{
-  background: linear-gradient(135deg, #b79cff, #ff8fb8, #ffd6e7);
-}
-.skin-preview.lavender{
-  background: linear-gradient(135deg, #c7b6ff, #f4b8ff, #f7e6ff);
-}
-.skin-preview.peach{
-  background: linear-gradient(135deg, #ffb4a2, #ff93b7, #ffe7d6);
-}
-.skin-preview.mint{
-  background: linear-gradient(135deg, #8ee7d0, #a8c7ff, #e8fbff);
-}
-.skin-preview.cloud{
-  background: linear-gradient(135deg, #e7d9ff, #ffd1e1, #ffffff);
-}
-
-
-    /* 달력 팝업 (원본 유지) */
-    .calendar-widget {
-      position: absolute;
-      left: 96px;
-      bottom: 20px;
-      width: 260px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, rgba(15,23,42,0.92), rgba(15,23,42,0.96));
-      color: #e5e7eb;
-      padding: 10px 12px 10px;
-      box-shadow:
-        0 18px 40px rgba(15,23,42,0.9),
-        0 0 0 1px rgba(148,163,184,0.8);
-      z-index: 15;
-
-      opacity: 0;
-      transform: translateY(12px) scale(0.96);
-      pointer-events: none;
-      transition: all 0.22s ease;
-    }
-    .calendar-widget.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-
-    @media (max-width: 900px) {
-      body { padding: 10px; overflow: auto; }
-      .app-shell { height: auto; min-height: calc(100vh - 20px); }
-      .main-sidebar { position: fixed; height: calc(100vh - 20px); }
-      .content {
-        position: relative;
-        left: 82px;
-        width: calc(100% - 82px);
-        height: auto;
-        min-height: 70vh;
-      }
-      .settings-panel{ left: 96px; }
-    }
-    .seg{
-  display:flex;
-  gap: 8px;
-}
-.seg button{
-  flex:1;
-  border:none;
-  padding: 9px 10px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.9);
-  border: 1px solid rgba(148,163,184,0.35);
-  font-size: 12px;
-  font-weight: 800;
-  color:#0f172a;
-  cursor:pointer;
-}
-.seg button.active{
-  outline: 2px solid rgba(124,58,237,.35);
-}
-.range{
-  width: 100%;
-  accent-color: rgba(124,58,237,.9);
-}
-
-  </style>
+</style>
 </head>
 
-<body data-skin="pink">
+<body data-skin="rose">
 <div class="app-shell">
 
-  <!-- 메인 사이드바 -->
-  <nav class="main-sidebar">
-    <div class="nav-list">
-      <button class="nav-item active" data-id="search" data-href="https://wskimkj.github.io/search/">
-        <div class="nav-icon-wrap"><i class='bx bx-search'></i></div>
-        <span>상품</span>
-      </button>
+<nav class="main-sidebar">
+  <div class="nav-list">
+    <button class="nav-item active" data-href="https://wskimkj.github.io/search/">
+      <div class="nav-icon-wrap"><i class="bx bx-search"></i></div><span>상품</span>
+    </button>
+    <button class="nav-item" id="settingsBtn">
+      <div class="nav-icon-wrap"><i class="bx bx-cog"></i></div><span>설정</span>
+    </button>
+  </div>
+</nav>
 
-      <button class="nav-item" data-id="order" data-href="https://wskimkj.github.io/return-inf/">
-        <div class="nav-icon-wrap"><i class='bx bx-cart'></i></div>
-        <span>발주</span>
-      </button>
-
-      <button class="nav-item" data-id="tracking" data-href="https://wskimkj.github.io/tracking/">
-        <div class="nav-icon-wrap"><i class='bx bx-package'></i></div>
-        <span>배송</span>
-      </button>
-
-      <button class="nav-item" data-id="template" data-href="https://wskimkj.github.io/trim2/">
-        <div class="nav-icon-wrap"><i class='bx bx-message'></i></div>
-        <span>템플릿</span>
-      </button>
-
-      <button class="nav-item" data-id="refund" data-href="https://wskimkj.github.io/refund24/">
-        <div class="nav-icon-wrap"><i class='bx bx-calculator'></i></div>
-        <span>환불</span>
-      </button>
-
-      <button class="nav-item" data-id="account" data-href="https://wskimkj.github.io/account/">
-        <div class="nav-icon-wrap"><i class='bx bx-lock'></i></div>
-        <span>계정</span>
-      </button>
-
-      <button class="nav-item" data-id="memo" data-href="https://wskimkj.github.io/memo/">
-        <div class="nav-icon-wrap"><i class='bx bx-pen'></i></div>
-        <span>메모</span>
-      </button>
-
-      <button class="nav-item" id="eventBtn" data-id="event">
-        <div class="nav-icon-wrap"><i class='bx bx-calendar-event'></i></div>
-        <span>이벤트</span>
-      </button>
-
-      <button class="nav-item" id="googleBtn" data-id="google">
-        <div class="nav-icon-wrap"><i class='bx bx-spreadsheet'></i></div>
-        <span>시트</span>
-      </button>
-
-      <!-- ✅ 환경설정(⚙️) -->
-      <button class="nav-item" id="settingsBtn" data-id="settings">
-        <div class="nav-icon-wrap"><i class='bx bx-cog'></i></div>
-        <span>설정</span>
-      </button>
-    </div>
-
-    <div class="nav-footer">ADMIN</div>
-  </nav>
-
-  <!-- ✅ 환경설정 패널 -->
-  <!-- ✅ 환경설정 패널 -->
 <div class="settings-panel" id="settingsPanel">
-  <div class="settings-head">
-    <div class="settings-title">환경설정</div>
-    <button class="settings-reset" id="settingsReset">초기화</button>
-  </div>
-
-  <!-- 스킨 -->
-  <div class="settings-section" style="border-top:none; padding-top:0; margin-top:0;">
-    <div class="settings-label">스킨</div>
-
-    <div class="skin-grid">
-      <button class="skin-chip" data-skin="rose">
-        <span class="skin-preview rose"></span>
-        <div class="skin-label">
-          <strong>Rose Milk</strong>
-          <small>로즈 · 밀키 파스텔</small>
-        </div>
-      </button>
-
-      <button class="skin-chip" data-skin="lavender">
-        <span class="skin-preview lavender"></span>
-        <div class="skin-label">
-          <strong>Lavender Cream</strong>
-          <small>연보라 · 크림</small>
-        </div>
-      </button>
-
-      <button class="skin-chip" data-skin="peach">
-        <span class="skin-preview peach"></span>
-        <div class="skin-label">
-          <strong>Peach Champagne</strong>
-          <small>피치 · 샴페인</small>
-        </div>
-      </button>
-
-      <button class="skin-chip" data-skin="mint">
-        <span class="skin-preview mint"></span>
-        <div class="skin-label">
-          <strong>Mint Pearl</strong>
-          <small>민트 · 펄</small>
-        </div>
-      </button>
-
-      <button class="skin-chip" data-skin="cloud">
-        <span class="skin-preview cloud"></span>
-        <div class="skin-label">
-          <strong>Cloud Blush</strong>
-          <small>미니멀 · 고급</small>
-        </div>
-      </button>
-    </div>
-  </div>
-
-  <!-- 글라스 강도 -->
-  <div class="settings-section">
-    <div class="settings-label">
-      글라스 강도 <span class="value" id="glassVal">0.18</span>
-    </div>
-    <input class="range" id="glassRange" type="range" min="0.10" max="0.30" step="0.01" value="0.18" />
-  </div>
-
-  <!-- 그림자 강도 -->
-  <div class="settings-section">
-    <div class="settings-label">
-      그림자 강도 <span class="value" id="shadowVal">0.22</span>
-    </div>
-    <input class="range" id="shadowRange" type="range" min="0.12" max="0.30" step="0.01" value="0.22" />
-  </div>
-
-  <!-- 폰트 크기 -->
-  <div class="settings-section">
-    <div class="settings-label">글자 크기</div>
-    <div class="seg" id="fontSeg">
-      <button data-scale="0.92">작게</button>
-      <button data-scale="1.00" class="active">보통</button>
-      <button data-scale="1.08">큼</button>
-    </div>
+  <div class="settings-title">환경설정</div>
+  <div class="skin-grid">
+    <button class="skin-chip" data-skin="rose"><span class="skin-preview rose"></span>Rose Milk</button>
+    <button class="skin-chip" data-skin="lavender"><span class="skin-preview lavender"></span>Lavender</button>
+    <button class="skin-chip" data-skin="mint"><span class="skin-preview mint"></span>Mint</button>
+    <button class="skin-chip" data-skin="cloud"><span class="skin-preview cloud"></span>Cloud</button>
   </div>
 </div>
 
-
-
-  <!-- 하위 사이드바 -->
-  <aside class="sub-sidebar" id="subSidebar">
-    <div class="sub-title">구글 시트</div>
-    <div class="sub-list">
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=366983013#gid=366983013">
-        <i class='bx bx-chevron-right'></i><span>개인시트</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1_Bxfag-90U6u-6JbhxNqeoD9vRns-CpPeXPIJYO1Z5o/edit?gid=1265906605#gid=1265906605">
-        <i class='bx bx-chevron-right'></i><span>반품</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0">
-        <i class='bx bx-chevron-right'></i><span>Team.반품</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0">
-        <i class='bx bx-chevron-right'></i><span>Team.물류</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY/edit?gid=925106579#gid=925106579">
-        <i class='bx bx-chevron-right'></i><span>Team.업무</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787">
-        <i class='bx bx-chevron-right'></i><span>Team.주간</span>
-      </button>
-    </div>
-  </aside>
-
-  <!-- 메인 컨텐츠 -->
-  <div class="content">
-    <div class="card">
-      <iframe src="https://wskimkj.github.io/search/" id="mainFrame"></iframe>
-    </div>
+<div class="content">
+  <div class="card">
+    <iframe id="mainFrame" src="https://wskimkj.github.io/search/"></iframe>
   </div>
+</div>
 
-  <!-- 달력 위젯 (원본) -->
-  <div class="calendar-widget" id="calendarWidget">
-    <div class="calendar-header">
-      <div class="calendar-left">
-        <div class="calendar-title" id="calendarMonthLabel">December 2025</div>
-        <div class="calendar-subtitle">이벤트 캘린더 (Mon–Fri)</div>
-      </div>
-
-      <div style="display:flex; align-items:center;">
-        <div class="today-event-icon" id="todayEventIcon">
-          <i class='bx bx-bell'></i>
-          <div class="today-event-badge"></div>
-        </div>
-        <button class="calendar-sheet-btn" id="openEventSheet">
-          <i class="bx bx-link-external"></i>시트
-        </button>
-      </div>
-    </div>
-
-    <div class="calendar-weekdays">
-      <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
-    </div>
-    <div class="calendar-days" id="calendarDays"></div>
-
-    <div class="calendar-tooltip" id="calendarTooltip"></div>
-  </div>
 </div>
 
 <script>
-  const mainFrame = document.getElementById("mainFrame");
-  const navItems = document.querySelectorAll(".nav-item");
-  const subSidebar = document.getElementById("subSidebar");
-  const googleBtn = document.getElementById("googleBtn");
-  const googleChildren = document.querySelectorAll(".google-child");
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsPanel = document.getElementById("settingsPanel");
+const skinBtns = document.querySelectorAll(".skin-chip");
+const body = document.body;
 
-  const calendarWidget = document.getElementById("calendarWidget");
-  const eventBtn = document.getElementById("eventBtn");
+settingsBtn.onclick = (e)=>{
+  e.stopPropagation();
+  settingsPanel.classList.toggle("visible");
+};
 
-  const settingsBtn = document.getElementById("settingsBtn");
-  const settingsPanel = document.getElementById("settingsPanel");
-  const settingsReset = document.getElementById("settingsReset");
-
-  const skinChips = document.querySelectorAll(".skin-chip");
-  const glassRange = document.getElementById("glassRange");
-  const shadowRange = document.getElementById("shadowRange");
-  const glassVal = document.getElementById("glassVal");
-  const shadowVal = document.getElementById("shadowVal");
-  const fontSeg = document.getElementById("fontSeg");
-
-  const EVENT_SHEET_URL =
-    "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
-
-  // ===== Settings storage =====
-  const KEY = "adminSettings";
-  const DEFAULTS = {
-    skin: "pink",
-    glass: 0.18,
-    shadow: 0.22,
-    scale: 1.0,
+skinBtns.forEach(b=>{
+  b.onclick = ()=>{
+    body.setAttribute("data-skin", b.dataset.skin);
+    localStorage.setItem("skin", b.dataset.skin);
   };
-
-  function loadSettings(){
-    try{
-      const raw = localStorage.getItem(KEY);
-      if(!raw) return { ...DEFAULTS };
-      const parsed = JSON.parse(raw);
-      return { ...DEFAULTS, ...parsed };
-    }catch{
-      return { ...DEFAULTS };
-    }
-  }
-
-  function saveSettings(next){
-    localStorage.setItem(KEY, JSON.stringify(next));
-  }
-
-  function applySkin(skin){
-    document.body.setAttribute("data-skin", skin);
-    skinChips.forEach(b => b.classList.toggle("active", b.dataset.skin === skin));
-  }
-
-  function applyGlass(alpha){
-    document.documentElement.style.setProperty("--glass-alpha", String(alpha));
-    glassVal.textContent = alpha.toFixed(2);
-  }
-
-  function applyShadow(intensity){
-    // intensity: 0.12 ~ 0.30 (대략)
-    document.documentElement.style.setProperty("--shell-shadow", `0 24px 60px rgba(15,23,42,${(intensity).toFixed(2)})`);
-    document.documentElement.style.setProperty("--card-shadow",
-      `0 18px 40px rgba(148,163,184,${Math.min(0.35, intensity + 0.06).toFixed(2)}), inset 0 1px 0 rgba(255,255,255,0.9)`
-    );
-    shadowVal.textContent = intensity.toFixed(2);
-  }
-
-  function applyScale(scale){
-    document.documentElement.style.setProperty("--ui-scale", String(scale));
-    [...fontSeg.querySelectorAll("button")].forEach(b=>{
-      b.classList.toggle("active", Number(b.dataset.scale) === Number(scale));
-    });
-  }
-
-  function applyAll(s){
-    applySkin(s.skin);
-    applyGlass(Number(s.glass));
-    applyShadow(Number(s.shadow));
-    applyScale(Number(s.scale));
-
-    glassRange.value = String(s.glass);
-    shadowRange.value = String(s.shadow);
-  }
-
-  let settings = loadSettings();
-  applyAll(settings);
-
-  // ===== Settings panel toggle =====
-  function toggleSettings(){
-    const v = settingsPanel.classList.contains("visible");
-    if(v) settingsPanel.classList.remove("visible");
-    else{
-      settingsPanel.classList.add("visible");
-      hideSubSidebar();
-      hideCalendar();
-    }
-  }
-
-  settingsBtn.addEventListener("click", (e)=>{
-    toggleSettings();
-    e.stopPropagation();
-  });
-
-  settingsReset.addEventListener("click", (e)=>{
-    settings = { ...DEFAULTS };
-    saveSettings(settings);
-    applyAll(settings);
-    e.stopPropagation();
-  });
-
-  // skin
-  skinChips.forEach(btn=>{
-    btn.addEventListener("click",(e)=>{
-      settings.skin = btn.dataset.skin;
-      saveSettings(settings);
-      applySkin(settings.skin);
-      e.stopPropagation();
-    });
-  });
-
-  // glass
-  glassRange.addEventListener("input", ()=>{
-    settings.glass = Number(glassRange.value);
-    saveSettings(settings);
-    applyGlass(settings.glass);
-  });
-
-  // shadow
-  shadowRange.addEventListener("input", ()=>{
-    settings.shadow = Number(shadowRange.value);
-    saveSettings(settings);
-    applyShadow(settings.shadow);
-  });
-
-  // font scale
-  fontSeg.addEventListener("click", (e)=>{
-    const btn = e.target.closest("button");
-    if(!btn) return;
-    settings.scale = Number(btn.dataset.scale);
-    saveSettings(settings);
-    applyScale(settings.scale);
-  });
-
-  // ===== Iframe last search =====
-  mainFrame.onload = () => {
-    if (mainFrame.src.includes("search")) {
-      localStorage.setItem("lastSearchURL", mainFrame.src);
-    }
-  };
-
-  // ===== Main Nav =====
-  navItems.forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const id = btn.dataset.id;
-      const href = btn.dataset.href;
-
-      if (id === "event") { toggleCalendar(); e.stopPropagation(); return; }
-      if (id === "google") { toggleSubSidebar(); e.stopPropagation(); return; }
-      if (id === "settings") { toggleSettings(); e.stopPropagation(); return; }
-
-      navItems.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      hideSubSidebar();
-      hideCalendar();
-      settingsPanel.classList.remove("visible");
-
-      if (id === "search") {
-        const last = localStorage.getItem("lastSearchURL");
-        mainFrame.src = last ? last : href;
-      } else if (href) {
-        mainFrame.src = href;
-      }
-
-      e.stopPropagation();
-    });
-  });
-
-  // ===== Google children =====
-  googleChildren.forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      googleChildren.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      mainFrame.src = btn.dataset.href;
-      e.stopPropagation();
-    });
-  });
-
-  function toggleSubSidebar() {
-    const visible = subSidebar.classList.contains("visible");
-    if (visible) subSidebar.classList.remove("visible");
-    else {
-      subSidebar.classList.add("visible");
-      hideCalendar();
-      settingsPanel.classList.remove("visible");
-    }
-  }
-  function hideSubSidebar() { subSidebar.classList.remove("visible"); }
-
-  function toggleCalendar() {
-    const visible = calendarWidget.classList.contains("visible");
-    if (visible) calendarWidget.classList.remove("visible");
-    else {
-      calendarWidget.classList.add("visible");
-      hideSubSidebar();
-      settingsPanel.classList.remove("visible");
-    }
-  }
-  function hideCalendar() { calendarWidget.classList.remove("visible"); }
-
-  document.addEventListener("click", (e) => {
-    const t = e.target;
-    if (!subSidebar.contains(t) && !googleBtn.contains(t)) hideSubSidebar();
-    if (!calendarWidget.contains(t) && !eventBtn.contains(t)) hideCalendar();
-    if (!settingsPanel.contains(t) && !settingsBtn.contains(t)) settingsPanel.classList.remove("visible");
-  });
-
-  document.getElementById("openEventSheet").addEventListener("click", (e) => {
-    window.open(EVENT_SHEET_URL, "_blank");
-    e.stopPropagation();
-  });
-
-  /* ===== 달력/이벤트 (원본 유지) ===== */
-  const events = [
-    { mall: "스마트스토어", title: "연말 특가",     start: "2025-12-15", end: "2025-12-31" },
-    { mall: "11번가",       title: "주말 쿠폰",     start: "2025-12-04", end: "2025-12-05" },
-    { mall: "쿠팡",         title: "새해 프로모션", start: "2026-01-01", end: "2026-01-10" }
-  ];
-
-  function parseDate(str) {
-    const d = new Date(str);
-    if (isNaN(d)) return null;
-    return d;
-  }
-
-  function buildCalendar() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-
-    const monthNames = [
-      "January","February","March","April","May","June",
-      "July","August","September","October","November","December"
-    ];
-    document.getElementById("calendarMonthLabel").textContent =
-      `${monthNames[month]} ${year}`;
-
-    const firstOfMonth = new Date(year, month, 1);
-    const lastOfMonth  = new Date(year, month + 1, 0);
-
-    const eventsByDate = {};
-
-    events.forEach(ev => {
-      const s = parseDate(ev.start);
-      const e = parseDate(ev.end);
-      if (!s || !e) return;
-
-      const d = new Date(s);
-      while (d <= e) {
-        if (d.getFullYear() === year && d.getMonth() === month) {
-          const weekday = d.getDay();
-          if (weekday >= 1 && weekday <= 5) {
-            const key = d.toISOString().slice(0,10);
-            if (!eventsByDate[key]) eventsByDate[key] = [];
-            eventsByDate[key].push(ev);
-          }
-        }
-        d.setDate(d.getDate() + 1);
-      }
-    });
-
-    const daysContainer = document.getElementById("calendarDays");
-    daysContainer.innerHTML = "";
-
-    const todayStr = today.toDateString();
-    const todayKey = today.toISOString().slice(0,10);
-    const todayIcon = document.getElementById("todayEventIcon");
-
-    if (eventsByDate[todayKey] && eventsByDate[todayKey].length > 0) {
-      todayIcon.classList.add("visible");
-    } else {
-      todayIcon.classList.remove("visible");
-    }
-
-    let start = new Date(firstOfMonth);
-    const startDow = (start.getDay() + 6) % 7;
-    start.setDate(start.getDate() - startDow);
-
-    let end = new Date(lastOfMonth);
-    const endDow = (end.getDay() + 6) % 7;
-    end.setDate(end.getDate() + (4 - endDow));
-
-    const tooltip = document.getElementById("calendarTooltip");
-    const widget = document.getElementById("calendarWidget");
-
-    let d = new Date(start);
-    while (d <= end) {
-      const wd = d.getDay();
-      if (wd >= 1 && wd <= 5) {
-        const cell = document.createElement("div");
-        cell.className = "calendar-day";
-        if (d.getMonth() !== month) cell.classList.add("other-month");
-
-        cell.textContent = d.getDate();
-
-        const key = d.toISOString().slice(0,10);
-        if (eventsByDate[key]) {
-          cell.classList.add("has-event");
-          cell.dataset.dateKey = key;
-        }
-
-        if (d.toDateString() === todayStr) {
-          cell.classList.add("today");
-        }
-
-        cell.addEventListener("mouseenter", () => {
-          const dateKey = cell.dataset.dateKey;
-          if (!dateKey || !eventsByDate[dateKey]) {
-            tooltip.style.display = "none";
-            return;
-          }
-
-          const items = eventsByDate[dateKey];
-          let html = "";
-          items.forEach((ev, idx) => {
-            const sText = ev.start.slice(5).replace(/-/g, ".");
-            const eText = ev.end.slice(5).replace(/-/g, ".");
-            html += `<div style="margin-bottom:${idx === items.length-1 ? 0 : 4}px;">
-                       <span class="mall">${ev.mall}</span> - <strong>${ev.title}</strong><br/>
-                       <span class="range">${sText} ~ ${eText}</span>
-                     </div>`;
-          });
-          tooltip.innerHTML = html;
-
-          const rect = cell.getBoundingClientRect();
-          const parentRect = widget.getBoundingClientRect();
-          const left = rect.left + rect.width / 2 - parentRect.left;
-          const top  = rect.top - parentRect.top;
-
-          tooltip.style.left = left + "px";
-          tooltip.style.top  = top + "px";
-          tooltip.style.display = "block";
-        });
-
-        cell.addEventListener("mouseleave", () => {
-          tooltip.style.display = "none";
-        });
-
-        daysContainer.appendChild(cell);
-      }
-      d.setDate(d.getDate() + 1);
-    }
-  }
-
-  buildCalendar();
-  
-
-  
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") settingsPanel.classList.remove("visible");
 });
 
+document.addEventListener("click",()=>{
+  settingsPanel.classList.remove("visible");
+});
 
-  
+const saved = localStorage.getItem("skin");
+if(saved) body.setAttribute("data-skin", saved);
 </script>
 </body>
 </html>
