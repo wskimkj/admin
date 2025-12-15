@@ -477,18 +477,19 @@
     }
 
     /* ✅ 이벤트 내용: 카드 안에서만 스크롤 + 폰트 10 */
-    .mini-event .content{
-      margin-top: 6px;
-      font-size: 10px;
-      font-weight: 800;
-      color: rgba(15,23,42,0.92);
-      line-height: 1.45;
+    .mini-event .event-text{
+  margin-top: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(15,23,42,0.92);
+  line-height: 1.45;
 
-      max-height: 110px;          /* 카드 안에서만 */
-      overflow: auto;             /* 카드 안 스크롤 */
-      padding-right: 6px;         /* 스크롤바 여백 */
-      word-break: break-word;
-    }
+  max-height: 110px;
+  overflow: auto;
+  padding-right: 6px;
+  word-break: break-word;
+}
+
 
     .mini-event .meta{
       margin-top: 8px;
@@ -971,7 +972,8 @@
               <div class="mall">${escapeHtml(ev.mall)}</div>
 
               <!-- ✅ 카드 내부에서만 스크롤 + 줄바꿈은 <br> -->
-              <div class="content">${textToHtmlWithBreaks(pretty)}</div>
+              <div class="event-text">${textToHtmlWithBreaks(pretty)}</div>
+
 
               <div class="meta">${escapeHtml(ev.start)} ~ ${escapeHtml(ev.end)}</div>
 
