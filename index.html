@@ -3,7 +3,7 @@
 <head>
   <link rel="stylesheet" href="./css/common.css">
   <meta charset="UTF-8" />
-  <title> 김 경 진 </title>
+  <title>어드민</title>
   <link rel="icon" type="image/png" href="favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
@@ -30,7 +30,7 @@
         linear-gradient(180deg, rgba(15,23,42,0.16), rgba(15,23,42,0.26));
       --sub-title-color: #fff7fd;
 
-      /* ✅ 글라스 캘린더 */
+      /* glass calendar */
       --glass-bg: rgba(255,255,255,0.62);
       --glass-border: rgba(255,255,255,0.70);
       --glass-shadow: 0 18px 50px rgba(15,23,42,0.16);
@@ -63,7 +63,7 @@
       overflow: hidden;
     }
 
-    /* ===== 메인 사이드바 ===== */
+    /* ===== main sidebar ===== */
     .main-sidebar{
       position:absolute; top:0; left:0;
       width:82px; height:100%;
@@ -118,7 +118,7 @@
       box-shadow: 0 12px 24px rgba(15,23,42,.18);
     }
 
-    /* ===== 하단 ADMIN -> 이벤트 토글 버튼 ===== */
+    /* ===== ADMIN button -> calendar toggle ===== */
     .nav-footer-btn{
       margin-top: auto;
       margin-bottom: 6px;
@@ -143,7 +143,7 @@
       box-shadow: 0 14px 28px rgba(15,23,42,0.22);
     }
 
-    /* ===== 서브 사이드바 (구글 시트) ===== */
+    /* ===== sub sidebar (google sheets) ===== */
     .sub-sidebar{
       position:absolute;
       top: 15%;
@@ -157,7 +157,6 @@
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       display:flex; flex-direction:column;
-
       opacity:0;
       transform: translateX(-16px);
       pointer-events:none;
@@ -207,7 +206,7 @@
       box-shadow: 0 12px 20px rgba(124,58,237,.18);
     }
 
-    /* ===== 메인 컨텐츠 ===== */
+    /* ===== main content ===== */
     .content{
       position:absolute;
       top:0; left:82px; right:0; bottom:0;
@@ -234,7 +233,7 @@
       box-shadow: 0 10px 26px rgba(15,23,42,.12);
     }
 
-    /* ===== ✅ 달력 위젯: 밝은 글라스 ===== */
+    /* ===== calendar widget (glass) ===== */
     .calendar-widget{
       position:absolute;
       left: 96px;
@@ -278,7 +277,7 @@
       justify-content:flex-end;
     }
 
-    /* ===== 보기 토글(주/월) ===== */
+    /* view toggle */
     .cal-view-seg{
       display:flex;
       gap:6px;
@@ -319,7 +318,7 @@
       box-shadow: 0 10px 18px rgba(15,23,42,0.10);
     }
 
-    /* ===== 오늘 알림 아이콘 ===== */
+    /* today bell */
     .today-event-icon{
       position:relative;
       width:28px;height:28px;border-radius:999px;
@@ -349,7 +348,7 @@
     .calendar-weekdays, .calendar-days{
       display:grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
+      gap: 4px;
       text-align:center;
     }
     .calendar-weekdays{
@@ -363,9 +362,9 @@
 
     .calendar-day{
       position: relative;
-      font-size: 12px;
-      padding: 10px 0;
-      border-radius: 14px;
+      font-size: 11px;
+      padding: 7px 0;
+      border-radius: 12px;
       color: rgba(15,23,42,0.82);
       user-select:none;
       cursor: pointer;
@@ -385,26 +384,24 @@
       color: var(--accent);
       font-weight: 900;
     }
-
-    /* 이벤트 있음 표시: dot + count */
     .calendar-day.has-event::after{
       content:"";
       position:absolute;
-      bottom:6px; left:50%;
+      bottom:5px; left:50%;
       transform: translateX(-50%);
-      width:6px;height:6px;border-radius:999px;
+      width:5px;height:5px;border-radius:999px;
       background: rgba(236,72,153,0.95);
       box-shadow: 0 6px 14px rgba(236,72,153,0.25);
     }
     .day-badge{
       position:absolute;
-      top:6px; right:6px;
-      min-width:18px;height:18px;
-      padding: 0 6px;
+      top:5px; right:5px;
+      min-width:16px;height:16px;
+      padding: 0 5px;
       border-radius: 999px;
       background: rgba(124,58,237,0.92);
       color:#fff;
-      font-size:10px;
+      font-size:9px;
       font-weight:900;
       display:none;
       align-items:center;
@@ -413,7 +410,7 @@
     }
     .calendar-day.has-event .day-badge{ display:inline-flex; }
 
-    /* ===== ✅ 날짜 클릭 미리보기 팝업(전체화면 X) ===== */
+    /* ===== date popup (preview) ===== */
     .date-popup{
       position:absolute;
       left: 0;
@@ -473,16 +470,17 @@
       display:flex;
       flex-direction:column;
       gap:8px;
-      max-height: 240px;
+      max-height: 260px;
       overflow:auto;
       padding-right: 4px;
     }
+
     .mini-event{
-      border-radius: 14px;
-      background: rgba(255,255,255,0.92);
+      border-radius: 16px;
+      padding: 10px;
+      background: rgba(255,255,255,0.78);
       border: 1px solid rgba(15,23,42,0.08);
       box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      padding: 10px;
       line-height: 1.25;
     }
     .mini-event .mall{
@@ -490,31 +488,30 @@
       font-weight: 1000;
       color: var(--accent);
     }
-    .mini-event .title{
-      margin-top: 4px;
+    .mini-event .content{
+      margin-top: 6px;
       font-size: 12px;
       font-weight: 1000;
       color: rgba(15,23,42,0.92);
+      white-space: pre-wrap; /* ✅ 줄바꿈 표시 */
+      line-height: 1.32;
     }
     .mini-event .meta{
-      margin-top: 6px;
+      margin-top: 8px;
       font-size: 10px;
-      color: var(--muted);
+      color: rgba(15,23,42,0.55);
       font-weight: 900;
     }
-
-
     .mini-event .target{
-  margin-top: 8px;
-  font-size: 11px;
-  font-weight: 900;
-  color: rgba(15,23,42,0.85);
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(124,58,237,0.10);
-  display: inline-flex;
-}
-
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 900;
+      color: rgba(15,23,42,0.85);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(124,58,237,0.10);
+      display: inline-flex;
+    }
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
@@ -534,7 +531,7 @@
 <body>
 <div class="app-shell">
 
-  <!-- 메인 사이드바 -->
+  <!-- main sidebar -->
   <nav class="main-sidebar">
     <div class="nav-list">
       <button class="nav-item active" data-id="search" data-href="https://wskimkj.github.io/search/">
@@ -578,14 +575,13 @@
       </button>
     </div>
 
-    <!-- ADMIN 버튼으로 이벤트 위젯 토글 -->
     <button class="nav-footer-btn" id="adminEventBtn" type="button" title="이벤트 보기">
       <i class='bx bx-calendar-event'></i>
       <span>ADMIN</span>
     </button>
   </nav>
 
-  <!-- 구글 시트 하위 사이드바 -->
+  <!-- sub sidebar -->
   <aside class="sub-sidebar" id="subSidebar">
     <div class="sub-title">구글 시트</div>
     <div class="sub-list">
@@ -610,14 +606,14 @@
     </div>
   </aside>
 
-  <!-- 메인 컨텐츠 -->
+  <!-- main content -->
   <div class="content">
     <div class="card">
       <iframe src="https://wskimkj.github.io/search/" id="mainFrame"></iframe>
     </div>
   </div>
 
-  <!-- ✅ 달력 위젯 -->
+  <!-- calendar widget -->
   <div class="calendar-widget" id="calendarWidget">
     <div class="calendar-header">
       <div class="calendar-left">
@@ -642,10 +638,10 @@
       </div>
     </div>
 
-    <!-- ✅ 날짜 클릭 팝업 (전체화면 X) -->
+    <!-- date popup -->
     <div class="date-popup" id="datePopup">
       <div class="date-popup-head">
-        <strong id="popupDateLabel">12/15</strong>
+        <strong id="popupDateLabel">12/15(월)</strong>
         <button class="date-popup-close" id="popupClose" type="button" aria-label="닫기">
           <i class='bx bx-x' style="font-size:18px;"></i>
         </button>
@@ -657,50 +653,37 @@
       <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
     </div>
     <div class="calendar-days" id="calendarDays"></div>
-    <div class="calendar-tooltip" id="calendarTooltip"></div>
   </div>
 </div>
 
 <script>
   /* ======================
-     Helpers: 날짜 키/파싱
+     Helpers
      ====================== */
   function pad2(n){ return String(n).padStart(2, "0"); }
   function dateKeyLocal(d){
     return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
   }
 
-  // ✅ 시트 날짜: 12/15(월) 같은 형식 지원 (연도 없으면 올해로)
+  // 시트 날짜: 12/15(월) 지원
   function normalizeToKey(value){
     if(!value) return null;
-
     let s = String(value).trim();
-
-    // (월) (화) 같은 요일 제거
-    s = s.replace(/\([^)]+\)/g, "");
-
-    // 공백 제거
+    s = s.replace(/\([^)]+\)/g, "");   // (월) 제거
     s = s.replace(/\s+/g, "");
 
-    // 2025/12/15 같은 풀 날짜
     const ymd = s.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})$/);
     if(ymd){
       return `${ymd[1]}-${String(ymd[2]).padStart(2,"0")}-${String(ymd[3]).padStart(2,"0")}`;
     }
-
-    // 12/15 또는 12-15 또는 12.15
     const md = s.match(/^(\d{1,2})[\/\-.](\d{1,2})$/);
     if(md){
       const year = new Date().getFullYear();
-      const m = Number(md[1]);
-      const d = Number(md[2]);
-      return `${year}-${pad2(m)}-${pad2(d)}`;
+      return `${year}-${pad2(Number(md[1]))}-${pad2(Number(md[2]))}`;
     }
 
-    // 혹시 Date 파싱 가능한 문자열이면
     const d = new Date(s);
     if(!isNaN(d)) return dateKeyLocal(d);
-
     return null;
   }
 
@@ -708,11 +691,38 @@
     return dayKey >= startKey && dayKey <= endKey;
   }
 
+  // ✅ 팝업 날짜: 월/일(요일)
+  const KOR_DOW = ["일","월","화","수","목","금","토"];
+  function formatMDKorean(dateKey){
+    const [y,m,d] = dateKey.split("-").map(Number);
+    const dt = new Date(y, m-1, d);
+    return `${pad2(m)}/${pad2(d)}(${KOR_DOW[dt.getDay()]})`;
+  }
+
+  // ✅ 내용에서 ■ 있으면 다음 줄로 정렬
+  function formatBulletLines(text){
+    const s = String(text ?? "");
+    return s
+      .replace(/\s*■\s*/g, "\n■ ")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
+
   /* ======================
      DOM
      ====================== */
   const mainFrame = document.getElementById("mainFrame");
   const navItems = document.querySelectorAll(".nav-item");
+
   const subSidebar = document.getElementById("subSidebar");
   const googleBtn = document.getElementById("googleBtn");
   const googleChildren = document.querySelectorAll(".google-child");
@@ -733,7 +743,7 @@
     "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
 
   /* ======================
-     새로고침 복원
+     iframe refresh restore
      ====================== */
   const LAST_FRAME_KEY = "lastFrameURL";
   function restoreLastFrame(){
@@ -752,7 +762,7 @@
   });
 
   /* ======================
-     UI 토글
+     UI toggles
      ====================== */
   function hideSubSidebar(){ subSidebar.classList.remove("visible"); }
   function hideCalendar(){ calendarWidget.classList.remove("visible"); }
@@ -814,12 +824,7 @@
   document.addEventListener("click",(e)=>{
     const t = e.target;
     if(!subSidebar.contains(t) && !googleBtn.contains(t)) hideSubSidebar();
-
-    // 캘린더 바깥 클릭 시 캘린더 닫기
     if(!calendarWidget.contains(t) && !adminEventBtn.contains(t)) hideCalendar();
-
-    // 팝업 바깥 클릭 시 팝업 닫기 (캘린더 내부 클릭은 제외)
-    if(popup.classList.contains("open") && !popup.contains(t) && calendarWidget.contains(t)) closePopup();
   });
 
   document.addEventListener("keydown",(e)=>{
@@ -837,7 +842,7 @@
   });
 
   /* ======================
-     보기 옵션 (디폴트: 주)
+     calendar view mode
      ====================== */
   const CAL_VIEW_KEY = "calendarViewMode";
   let calendarViewMode = localStorage.getItem(CAL_VIEW_KEY) || "week";
@@ -861,7 +866,7 @@
   });
 
   /* ======================
-     이벤트: 구글시트(C~G)
+     Load events from sheet (C~G)
      ====================== */
   let events = [];
 
@@ -898,33 +903,25 @@
     try{
       const res = await fetch(SHEET_CSV_URL, { cache:"no-store" });
       if(!res.ok) throw new Error(`sheet fetch failed (${res.status})`);
-
       const csv = await res.text();
       const rows = parseCSV(csv);
 
       const parsed = [];
       for(const r of rows){
-        // C~G => index 2~6
         const mall   = (r[2] || "").trim(); // C
         const startV = (r[3] || "").trim(); // D
         const endV   = (r[4] || "").trim(); // E
-        const title  = (r[5] || "").trim(); // F
-        const target = (r[6] || "").trim(); // G
-        if(!mall && !startV && !endV && !title && !target) continue;
+        const content= (r[5] || "").trim(); // F (행사내용)
+        const target = (r[6] || "").trim(); // G (ITEM)
 
+        if(!mall && !startV && !endV && !content && !target) continue;
 
         const startKey = normalizeToKey(startV);
         const endKey   = normalizeToKey(endV);
         if(!mall || !startKey || !endKey) continue;
         if(startKey > endKey) continue;
 
-        parsed.push({
-          mall,
-          title: title || "(내용없음)",
-          start: startKey,
-          end: endKey,
-          target
-        });
+        parsed.push({ mall, start: startKey, end: endKey, content, target });
       }
 
       events = parsed;
@@ -953,38 +950,32 @@
   }
 
   /* ======================
-     ✅ 날짜 클릭 팝업
+     Popup open
      ====================== */
   function openPopupForDate(dateKey){
     const items = events.filter(ev => inRangeKey(dateKey, ev.start, ev.end));
 
-    popupLabel.textContent = dateKey.slice(5).replace("-", "/");
+    popupLabel.textContent = formatMDKorean(dateKey); // ✅ 월/일(요일)
 
     popupList.innerHTML = items.length
-      ? items.map(ev=>`
-        <div class="mini-event">
-          <div class="mall">${escapeHtml(ev.mall)}</div>
-          <div class="title">${escapeHtml(ev.title)}</div>
-          <div class="meta">${escapeHtml(ev.start)} ~ ${escapeHtml(ev.end)}</div>
-${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
-        </div>
-      `).join("")
+      ? items.map(ev=>{
+          const pretty = formatBulletLines(ev.content || "(내용없음)"); // ✅ ■ 줄정렬
+          return `
+            <div class="mini-event">
+              <div class="mall">${escapeHtml(ev.mall)}</div>
+              <div class="content">${escapeHtml(pretty)}</div>
+              <div class="meta">${escapeHtml(ev.start)} ~ ${escapeHtml(ev.end)}</div>
+              ${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
+            </div>
+          `;
+        }).join("")
       : `<div style="font-size:11px;color:rgba(15,23,42,0.62);font-weight:800;padding:6px 2px;">이날 이벤트 없음</div>`;
 
     popup.classList.add("open");
   }
 
-  function escapeHtml(str){
-    return String(str ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
-
   /* ======================
-     캘린더 렌더링
+     Calendar render
      ====================== */
   function buildCalendar(){
     if(calendarViewMode === "month") buildCalendarMonth();
@@ -998,7 +989,6 @@ ${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
     const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     document.getElementById("calendarMonthLabel").textContent = `${monthNames[today.getMonth()]} ${today.getFullYear()}`;
 
-    // 이번주 월요일
     const dow = (today.getDay()+6)%7; // Mon=0
     const mon = new Date(today);
     mon.setDate(today.getDate() - dow);
@@ -1022,7 +1012,6 @@ ${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
       cell.textContent = d.getDate();
 
       if(key === todayKey) cell.classList.add("today");
-
       if(count > 0){
         cell.classList.add("has-event");
         const badge = document.createElement("div");
@@ -1055,7 +1044,6 @@ ${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
     const daysContainer = document.getElementById("calendarDays");
     daysContainer.innerHTML = "";
 
-    // 시작(월요일) ~ 끝(금요일)
     let start = new Date(firstOfMonth);
     const startDow = (start.getDay()+6)%7;
     start.setDate(start.getDate()-startDow);
@@ -1077,7 +1065,6 @@ ${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
         cell.textContent = d.getDate();
 
         if(key === todayKey) cell.classList.add("today");
-
         if(count > 0){
           cell.classList.add("has-event");
           const badge = document.createElement("div");
@@ -1086,7 +1073,6 @@ ${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
           cell.appendChild(badge);
         }
 
-        // 다른 달은 클릭 비활성
         if(d.getMonth() === month){
           cell.addEventListener("click", (e)=>{ openPopupForDate(key); e.stopPropagation(); });
         }else{
@@ -1100,7 +1086,7 @@ ${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
   }
 
   /* ======================
-     초기 실행
+     init
      ====================== */
   applyViewSeg();
   buildCalendar();
