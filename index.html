@@ -1143,20 +1143,20 @@
   /* ======================
      init + outside click close popup
      ====================== */
- document.addEventListener("click", (e)=>{
+document.addEventListener("click", (e)=>{
   const t = e.target;
 
-  // 팝업 or 캘린더가 열려 있을 때
-  if(calendarWidget.classList.contains("visible")){
-    const clickedInsideCalendar =
-      calendarWidget.contains(t) || adminEventBtn.contains(t);
+  // 캘린더 위젯/팝업 안을 클릭한 경우는 무시
+  const clickedInsideCalendar = calendarWidget.contains(t);
+  const clickedAdminBtn = adminEventBtn.contains(t);
 
-    if(!clickedInsideCalendar){
-      closePopup();
-      hideCalendar();   // ✅ 위젯도 같이 닫기
-    }
+  // 캘린더 위젯이 떠있고, 위젯 밖(그리고 admin 버튼도 아닌 곳)을 클릭하면 닫기
+  if(calendarWidget.classList.contains("visible") && !clickedInsideCalendar && !clickedAdminBtn){
+    closePopup();   // ✅ 미리보기 닫기
+    hideCalendar(); // ✅ 위젯 닫기
   }
 });
+
 
 
   loadEventsFromSheet();
