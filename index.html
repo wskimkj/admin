@@ -109,10 +109,29 @@
       box-shadow: 0 12px 24px rgba(15,23,42,.18);
     }
 
-    .nav-footer{
-      padding-bottom: 6px;
-      font-size: 10px;
-      color: rgba(255,255,255,0.85);
+    /* ===== 하단 ADMIN -> 이벤트 토글 버튼 ===== */
+    .nav-footer-btn{
+      margin-top: auto;
+      margin-bottom: 6px;
+      border: none;
+      background: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.92);
+      border-radius: 999px;
+      padding: 8px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(15,23,42,0.22);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .nav-footer-btn i{ font-size: 16px; }
+    .nav-footer-btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.26);
+      box-shadow: 0 14px 28px rgba(15,23,42,0.22);
     }
 
     /* ===== 서브 사이드바 (구글 시트) ===== */
@@ -229,6 +248,7 @@
       transform: translateY(0) scale(1);
       pointer-events:auto;
     }
+
     .calendar-header{
       display:flex; align-items:center; justify-content:space-between;
       margin-bottom: 6px;
@@ -236,6 +256,37 @@
     .calendar-title{ font-size: 13px; font-weight: 700; }
     .calendar-subtitle{ font-size: 10px; color: #9ca3af; }
     .calendar-left{ display:flex; flex-direction:column; gap:2px; }
+
+    .calendar-right{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    /* ===== 달력 보기 토글(주/월) ===== */
+    .cal-view-seg{
+      display:flex;
+      gap:6px;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+    .cal-view-seg button{
+      border:none;
+      cursor:pointer;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: transparent;
+      color: rgba(226,232,240,0.9);
+    }
+    .cal-view-seg button.active{
+      background: rgba(255,255,255,0.92);
+      color: #111827;
+    }
+
     .calendar-sheet-btn{
       border:none;
       padding: 3px 8px;
@@ -248,14 +299,15 @@
       display:inline-flex;
       align-items:center;
       gap: 4px;
+      white-space:nowrap;
     }
+
     .today-event-icon{
       position:relative;
       width:22px;height:22px;border-radius:999px;
       background: rgba(250,204,21,0.97);
       display:inline-flex;align-items:center;justify-content:center;
       box-shadow: 0 4px 10px rgba(0,0,0,0.45);
-      margin-right: 6px;
       opacity:0;
       transform: translateY(4px) scale(0.9);
       transition: all .2s ease;
@@ -267,6 +319,7 @@
       width:10px;height:10px;border-radius:999px;
       background:#ef4444;
       border:1px solid #fff;
+      display:none;
     }
 
     .calendar-weekdays, .calendar-days{
@@ -276,11 +329,13 @@
       text-align:center;
     }
     .calendar-weekdays span{ font-size: 9px; color:#d1d5db; }
+
     .calendar-day{
       font-size: 10px;
       padding: 3px 0;
       border-radius: 6px;
       color:#e5e7eb;
+      user-select:none;
     }
     .calendar-day.other-month{ opacity:.4; }
     .calendar-day.today{
@@ -301,6 +356,7 @@
       width:4px;height:4px;border-radius:999px;
       background:#fb7185;
     }
+
     .calendar-tooltip{
       position:absolute;
       padding: 8px 10px;
@@ -315,6 +371,7 @@
       white-space:nowrap;
       z-index: 60;
       pointer-events:none;
+      max-width: 240px;
     }
     .calendar-tooltip .mall{ color:#4f46e5; font-weight:800; }
     .calendar-tooltip .range{ font-size:10px; color:#6b7280; }
@@ -446,18 +503,17 @@
         <span>메모</span>
       </button>
 
-      <button class="nav-item" id="eventBtn" data-id="event">
-        <div class="nav-icon-wrap"><i class='bx bx-calendar-event'></i></div>
-        <span>이벤트</span>
-      </button>
-
       <button class="nav-item" id="googleBtn" data-id="google">
         <div class="nav-icon-wrap"><i class='bx bx-spreadsheet'></i></div>
         <span>시트</span>
       </button>
     </div>
 
-    <div class="nav-footer">ADMIN</div>
+    <!-- ✅ ADMIN 버튼으로 이벤트 위젯 보기 -->
+    <button class="nav-footer-btn" id="adminEventBtn" type="button" title="이벤트 보기">
+      <i class='bx bx-calendar-event'></i>
+      <span>ADMIN</span>
+    </button>
   </nav>
 
   <!-- 구글 시트 하위 사이드바 -->
@@ -499,18 +555,24 @@
         <div class="calendar-title" id="calendarMonthLabel">December 2025</div>
         <div class="calendar-subtitle">이벤트 캘린더 (Mon–Fri)</div>
       </div>
-      <div style="display:flex; align-items:center;">
+
+      <div class="calendar-right">
+        <div class="cal-view-seg" id="calViewSeg">
+          <button type="button" data-view="week" class="active">주</button>
+          <button type="button" data-view="month">월</button>
+        </div>
+
         <div class="today-event-icon" id="todayEventIcon">
           <i class='bx bx-bell'></i>
           <div class="today-event-badge"></div>
         </div>
+
         <button class="calendar-sheet-btn" id="openEventSheet">
           <i class="bx bx-link-external"></i>시트
         </button>
       </div>
     </div>
 
-    <!-- 오늘 진행중 이벤트 -->
     <div class="event-preview" id="eventPreview">
       <div class="event-preview-title">
         <span>오늘 진행중 이벤트</span>
@@ -528,6 +590,9 @@
 </div>
 
 <script>
+  /* ======================
+     DOM
+     ====================== */
   const mainFrame = document.getElementById("mainFrame");
   const navItems = document.querySelectorAll(".nav-item");
   const subSidebar = document.getElementById("subSidebar");
@@ -535,10 +600,22 @@
   const googleChildren = document.querySelectorAll(".google-child");
 
   const calendarWidget = document.getElementById("calendarWidget");
-  const eventBtn = document.getElementById("eventBtn");
+  const adminEventBtn = document.getElementById("adminEventBtn");
+
+  const calViewSeg = document.getElementById("calViewSeg");
 
   const EVENT_SHEET_URL =
     "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
+
+  /* ======================
+     로컬 날짜 키 (UTC 이슈 해결 핵심)
+     ====================== */
+  function dateKeyLocal(d){
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,"0");
+    const da = String(d.getDate()).padStart(2,"0");
+    return `${y}-${m}-${da}`;
+  }
 
   /* ======================
      새로고침 복원 (핵심)
@@ -549,19 +626,13 @@
     const last = localStorage.getItem(LAST_FRAME_KEY);
     mainFrame.src = last ? last : "https://wskimkj.github.io/search/";
   }
-
   function rememberFrame(url){
     localStorage.setItem(LAST_FRAME_KEY, url);
   }
-
-  // 페이지 처음 로드 시: 마지막 iframe 복원
   restoreLastFrame();
 
-  // iframe 로드될 때마다 현재 src 저장
   mainFrame.addEventListener("load", () => {
     rememberFrame(mainFrame.src);
-
-    // same-origin이면 내부 실제 URL도 저장 (깃헙 페이지들은 보통 같은 origin이라 가능할 때가 많음)
     try{
       const real = mainFrame.contentWindow.location.href;
       if(real) rememberFrame(real);
@@ -582,22 +653,33 @@
   function toggleCalendar(){
     const v = calendarWidget.classList.contains("visible");
     if(v) calendarWidget.classList.remove("visible");
-    else{ calendarWidget.classList.add("visible"); hideSubSidebar(); }
+    else{
+      calendarWidget.classList.add("visible");
+      hideSubSidebar();
+      // 열 때 항상 최신 렌더(시트가 로딩 늦게 끝나도 반영되게)
+      buildCalendar();
+    }
   }
 
-  // ===== Main Nav =====
+  // ADMIN 버튼 => 이벤트 위젯 보기
+  adminEventBtn.addEventListener("click",(e)=>{
+    toggleCalendar();
+    e.stopPropagation();
+  });
+
+  // 네비 클릭
   navItems.forEach(btn=>{
     btn.addEventListener("click",(e)=>{
       const id = btn.dataset.id;
       const href = btn.dataset.href;
 
-      if(id === "event"){ toggleCalendar(); e.stopPropagation(); return; }
       if(id === "google"){ toggleSubSidebar(); e.stopPropagation(); return; }
 
       navItems.forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
 
-      hideSubSidebar(); hideCalendar();
+      hideSubSidebar();
+      hideCalendar();
 
       if(href){
         mainFrame.src = href;
@@ -621,11 +703,11 @@
     });
   });
 
-  // outside click close
+  // 바깥 클릭 닫기
   document.addEventListener("click",(e)=>{
     const t = e.target;
     if(!subSidebar.contains(t) && !googleBtn.contains(t)) hideSubSidebar();
-    if(!calendarWidget.contains(t) && !eventBtn.contains(t)) hideCalendar();
+    if(!calendarWidget.contains(t) && !adminEventBtn.contains(t)) hideCalendar();
   });
 
   // open sheet
@@ -635,12 +717,31 @@
   });
 
   /* ======================
+     캘린더 보기 옵션 (디폴트: 주)
+     ====================== */
+  const CAL_VIEW_KEY = "calendarViewMode";
+  let calendarViewMode = localStorage.getItem(CAL_VIEW_KEY) || "week"; // ✅ 디폴트 주
+
+  function applyViewSeg(){
+    [...calViewSeg.querySelectorAll("button")].forEach(b=>{
+      b.classList.toggle("active", b.dataset.view === calendarViewMode);
+    });
+  }
+  applyViewSeg();
+
+  calViewSeg.addEventListener("click",(e)=>{
+    const btn = e.target.closest("button");
+    if(!btn) return;
+    calendarViewMode = btn.dataset.view; // week | month
+    localStorage.setItem(CAL_VIEW_KEY, calendarViewMode);
+    applyViewSeg();
+    buildCalendar();
+    e.stopPropagation();
+  });
+
+  /* ======================
      이벤트: 구글시트(C~G) 로드
-     C: 쇼핑몰
-     D: 시작
-     E: 종료
-     F: 요약(내용)
-     G: 대상상품
+     C: 쇼핑몰 / D: 시작 / E: 종료 / F: 요약 / G: 대상상품
      ====================== */
   let events = [];
   let eventLoadState = { ok: false, message: "로딩중…" };
@@ -654,16 +755,16 @@
     if(el) el.textContent = text;
   }
 
-  // ✅ 날짜 파서 강화: 2025-12-15 / 2025.12.15 / 2025/12/15 / 2025. 12. 15 등 지원
+  // 날짜 파서 강화
   function parseDate(str){
     if(!str) return null;
     const s = String(str).trim();
 
-    // ISO/일반
+    // 1) 기본 Date 파싱
     let d = new Date(s);
     if(!isNaN(d)) return d;
 
-    // 2025.12.15 또는 2025/12/15 또는 2025-12-15
+    // 2) 2025.12.15 / 2025/12/15 / 2025-12-15
     const m1 = s.match(/^(\d{4})[.\-\/]\s*(\d{1,2})[.\-\/]\s*(\d{1,2})$/);
     if(m1){
       const y = Number(m1[1]);
@@ -673,7 +774,7 @@
       return isNaN(dd) ? null : dd;
     }
 
-    // 12/15/2025 같은 케이스(혹시나)
+    // 3) 12/15/2025 같은 케이스
     const m2 = s.match(/^(\d{1,2})[.\-\/]\s*(\d{1,2})[.\-\/]\s*(\d{4})$/);
     if(m2){
       const mo = Number(m2[1]) - 1;
@@ -690,8 +791,7 @@
     const rows = [];
     let row = [], cur = "", inQ = false;
 
-    // BOM 제거
-    if(text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    if(text && text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
 
     for(let i=0;i<text.length;i++){
       const ch = text[i];
@@ -732,49 +832,49 @@
         const title  = (r[5] || "").trim();  // F
         const target = (r[6] || "").trim();  // G
 
-        // 헤더/빈행 스킵
         if(!mall && !start && !end && !title && !target) continue;
 
         const sd = parseDate(start);
         const ed = parseDate(end);
         if(!mall || !sd || !ed) continue;
-
-        // 날짜 역전 방지(혹시 잘못 입력)
         if(sd > ed) continue;
+
+        // ✅ 저장용으로 로컬 YYYY-MM-DD로 정규화
+        const sKey = dateKeyLocal(sd);
+        const eKey = dateKeyLocal(ed);
 
         parsed.push({
           mall,
           title: title || "(내용없음)",
-          start: `${sd.getFullYear()}-${String(sd.getMonth()+1).padStart(2,"0")}-${String(sd.getDate()).padStart(2,"0")}`,
-          end:   `${ed.getFullYear()}-${String(ed.getMonth()+1).padStart(2,"0")}-${String(ed.getDate()).padStart(2,"0")}`,
+          start: sKey,
+          end: eKey,
           target
         });
       }
 
       events = parsed;
-      eventLoadState = {
-        ok: true,
-        message: parsed.length ? `로드완료 (${parsed.length})` : "로드완료 (0)"
-      };
+      eventLoadState = { ok: true, message: `로드완료 (${parsed.length})` };
       setEventStatus(eventLoadState.message);
+
+      // 로드 완료되면 캘린더 갱신
+      buildCalendar();
     }catch(err){
       events = [];
-      eventLoadState = {
-        ok: false,
-        message: "시트 로드 실패"
-      };
+      eventLoadState = { ok: false, message: "시트 로드 실패" };
       setEventStatus("시트 로드 실패");
+      buildCalendar();
     }
   }
 
-  function isBetweenInclusive(today, startStr, endStr){
-    const s = parseDate(startStr);
-    const e = parseDate(endStr);
-    if(!s || !e) return false;
+  function isBetweenInclusive(dayDate, startStr, endStr){
+    // startStr/endStr 는 YYYY-MM-DD
+    const sd = parseDate(startStr);
+    const ed = parseDate(endStr);
+    if(!sd || !ed) return false;
 
-    const t  = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const ss = new Date(s.getFullYear(), s.getMonth(), s.getDate());
-    const ee = new Date(e.getFullYear(), e.getMonth(), e.getDate());
+    const t  = new Date(dayDate.getFullYear(), dayDate.getMonth(), dayDate.getDate());
+    const ss = new Date(sd.getFullYear(), sd.getMonth(), sd.getDate());
+    const ee = new Date(ed.getFullYear(), ed.getMonth(), ed.getDate());
     return (t >= ss && t <= ee);
   }
 
@@ -782,7 +882,6 @@
     const listEl = document.getElementById("eventPreviewList");
     if(!listEl) return;
 
-    // 로드 실패/0건 안내
     if(!eventLoadState.ok){
       listEl.innerHTML = `
         <div class="event-hint">
@@ -791,6 +890,12 @@
           • 날짜가 2025-12-15 / 2025.12.15 / 2025/12/15 형식인지 확인
         </div>
       `;
+      // 로드 실패일 때도 아이콘은 숨김
+      const todayIcon = document.getElementById("todayEventIcon");
+      const badge = todayIcon?.querySelector(".today-event-badge");
+      if(todayIcon){ todayIcon.classList.remove("visible"); }
+      if(badge){ badge.style.display="none"; badge.textContent=""; }
+      return;
     }
 
     const active = events.filter(ev => isBetweenInclusive(today, ev.start, ev.end));
@@ -818,7 +923,6 @@
       }
     }
 
-    // 오늘 이벤트 리스트 표시
     listEl.innerHTML = active.length
       ? active.map(ev=>{
           const sText = ev.start.slice(5).replace(/-/g,".");
@@ -835,28 +939,106 @@
       : `<div style="font-size:10px;color:#cbd5e1;opacity:.9;">오늘 진행중 이벤트 없음</div>`;
   }
 
+  /* ======================
+     캘린더 렌더링 (주/월)
+     ====================== */
   function buildCalendar(){
+    if(calendarViewMode === "month") buildCalendarMonth();
+    else buildCalendarWeek(); // default
+  }
+
+  function buildCalendarWeek(){
+    const today = new Date();
+    const daysContainer = document.getElementById("calendarDays");
+    daysContainer.innerHTML = "";
+
+    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    document.getElementById("calendarMonthLabel").textContent =
+      `${monthNames[today.getMonth()]} ${today.getFullYear()}`;
+
+    // 이번주 월요일
+    const dow = (today.getDay()+6)%7; // Mon=0
+    const mon = new Date(today);
+    mon.setDate(today.getDate() - dow);
+
+    const days = [];
+    for(let i=0;i<5;i++){
+      const d = new Date(mon);
+      d.setDate(mon.getDate()+i);
+      days.push(d);
+    }
+
+    const tooltip = document.getElementById("calendarTooltip");
+    const widget = document.getElementById("calendarWidget");
+
+    days.forEach(d=>{
+      const cell = document.createElement("div");
+      cell.className = "calendar-day";
+      cell.textContent = d.getDate();
+
+      const key = dateKeyLocal(d);
+      const items = events.filter(ev => isBetweenInclusive(d, ev.start, ev.end));
+      if(items.length){
+        cell.classList.add("has-event");
+        cell.dataset.dateKey = key;
+      }
+      if(d.toDateString() === today.toDateString()){
+        cell.classList.add("today");
+      }
+
+      cell.addEventListener("mouseenter", ()=>{
+        if(!items.length){ tooltip.style.display="none"; return; }
+        tooltip.innerHTML = items.map((ev,idx)=>{
+          const sText = ev.start.slice(5).replace(/-/g,".");
+          const eText = ev.end.slice(5).replace(/-/g,".");
+          const targetLine = ev.target ? `<div class="range" style="margin-top:3px;">대상: ${ev.target}</div>` : ``;
+          return `<div style="margin-bottom:${idx===items.length-1?0:6}px;">
+            <span class="mall">${ev.mall}</span> - <strong>${ev.title}</strong><br/>
+            <span class="range">${sText} ~ ${eText}</span>
+            ${targetLine}
+          </div>`;
+        }).join("");
+
+        const rect = cell.getBoundingClientRect();
+        const parentRect = widget.getBoundingClientRect();
+        tooltip.style.left = (rect.left + rect.width/2 - parentRect.left) + "px";
+        tooltip.style.top  = (rect.top - parentRect.top) + "px";
+        tooltip.style.display = "block";
+      });
+      cell.addEventListener("mouseleave", ()=>{ tooltip.style.display="none"; });
+
+      daysContainer.appendChild(cell);
+    });
+
+    renderTodayPreview(today);
+  }
+
+  function buildCalendarMonth(){
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth();
+
     const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     document.getElementById("calendarMonthLabel").textContent = `${monthNames[month]} ${year}`;
 
     const firstOfMonth = new Date(year, month, 1);
     const lastOfMonth  = new Date(year, month + 1, 0);
 
+    // 날짜별 이벤트(월~금)
     const eventsByDate = {};
     events.forEach(ev=>{
       const s = parseDate(ev.start);
       const e = parseDate(ev.end);
       if(!s || !e) return;
 
-      const d = new Date(s);
-      while(d <= e){
+      const d = new Date(s.getFullYear(), s.getMonth(), s.getDate());
+      const endD = new Date(e.getFullYear(), e.getMonth(), e.getDate());
+
+      while(d <= endD){
         if(d.getFullYear() === year && d.getMonth() === month){
           const wd = d.getDay();
           if(wd >= 1 && wd <= 5){
-            const key = d.toISOString().slice(0,10);
+            const key = dateKeyLocal(d);
             (eventsByDate[key] ||= []).push(ev);
           }
         }
@@ -867,13 +1049,14 @@
     const daysContainer = document.getElementById("calendarDays");
     daysContainer.innerHTML = "";
 
+    // 달력 시작(월요일) ~ 끝(금요일)
     let start = new Date(firstOfMonth);
     const startDow = (start.getDay()+6)%7; // Mon=0
     start.setDate(start.getDate()-startDow);
 
     let end = new Date(lastOfMonth);
     const endDow = (end.getDay()+6)%7;
-    end.setDate(end.getDate() + (4 - endDow)); // Fri까지
+    end.setDate(end.getDate() + (4 - endDow)); // Fri
 
     const tooltip = document.getElementById("calendarTooltip");
     const widget = document.getElementById("calendarWidget");
@@ -887,8 +1070,8 @@
         if(d.getMonth() !== month) cell.classList.add("other-month");
         cell.textContent = d.getDate();
 
-        const key = d.toISOString().slice(0,10);
-        if(eventsByDate[key]){
+        const key = dateKeyLocal(d);
+        if(eventsByDate[key]?.length){
           cell.classList.add("has-event");
           cell.dataset.dateKey = key;
         }
@@ -896,9 +1079,9 @@
 
         cell.addEventListener("mouseenter", ()=>{
           const dateKey = cell.dataset.dateKey;
-          if(!dateKey || !eventsByDate[dateKey]){ tooltip.style.display="none"; return; }
+          const items = eventsByDate[dateKey] || [];
+          if(!items.length){ tooltip.style.display="none"; return; }
 
-          const items = eventsByDate[dateKey];
           tooltip.innerHTML = items.map((ev,idx)=>{
             const sText = ev.start.slice(5).replace(/-/g,".");
             const eText = ev.end.slice(5).replace(/-/g,".");
@@ -927,11 +1110,15 @@
     renderTodayPreview(today);
   }
 
-  // 초기 로드: 시트 -> 달력
-  (async ()=>{
-    await loadEventsFromSheet();
-    buildCalendar();
-  })();
+  /* ======================
+     초기 실행
+     ====================== */
+  // 캘린더 모드 버튼 반영
+  applyViewSeg();
+  buildCalendar();
+
+  // 시트 로드
+  loadEventsFromSheet();
 </script>
 </body>
 </html>
