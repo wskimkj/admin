@@ -371,31 +371,27 @@
       color: var(--accent);
       font-weight: 900;
     }
-    .calendar-day.has-event::after{
-      content:"";
-      position:absolute;
-      bottom:5px; left:50%;
-      transform: translateX(-50%);
-      width:5px;height:5px;border-radius:999px;
-      background: rgba(236,72,153,0.95);
-      box-shadow: 0 6px 14px rgba(236,72,153,0.25);
-    }
+   
     .day-badge{
-      position:absolute;
-      top:5px; right:5px;
-      min-width:16px;height:16px;
-      padding: 0 5px;
-      border-radius: 999px;
-      background: rgba(124,58,237,0.92);
-      color:#fff;
-      font-size:9px;
-      font-weight:900;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 10px 18px rgba(124,58,237,0.16);
-    }
-    .calendar-day.has-event .day-badge{ display:inline-flex; }
+  position:absolute;
+  top:-6px; right:-6px;           /* 🔥 종 알림 뱃지처럼 바깥으로 */
+  min-width:18px; height:18px;
+  padding: 0 6px;
+  border-radius: 999px;
+
+  background: rgba(124,58,237,0.92);   /* 기존 보라 유지 */
+  color:#fff;
+  border: 2px solid rgba(255,255,255,0.95);
+  font-size:9px;
+  font-weight:900;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  box-shadow: 0 10px 18px rgba(124,58,237,0.20);
+}
+.calendar-day.has-event .day-badge{ display:inline-flex; }
 
     /* ===== date popup (preview) ===== */
     .date-popup{
