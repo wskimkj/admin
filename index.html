@@ -490,11 +490,11 @@
     }
     .mini-event .content{
       margin-top: 6px;
-      font-size: 12px;
+      font-size: 10px;
       font-weight: 1000;
       color: rgba(15,23,42,0.92);
-      white-space: pre-wrap; /* ✅ 줄바꿈 표시 */
-      line-height: 1.32;
+      white-space: normal; /* ✅ 줄바꿈 표시 */
+      line-height: 1.45;
     }
     .mini-event .meta{
       margin-top: 8px;
@@ -716,6 +716,12 @@
       .replace(/"/g,"&quot;")
       .replace(/'/g,"&#039;");
   }
+function textToHtmlWithBreaks(text){
+  // 1) 안전하게 escape
+  const safe = escapeHtml(String(text ?? ""));
+  // 2) 줄바꿈을 <br>로 변환
+  return safe.replace(/\r\n|\r|\n/g, "<br>");
+}
 
   /* ======================
      DOM
@@ -964,6 +970,7 @@
             <div class="mini-event">
               <div class="mall">${escapeHtml(ev.mall)}</div>
               <div class="content">${escapeHtml(pretty)}</div>
+
               <div class="meta">${escapeHtml(ev.start)} ~ ${escapeHtml(ev.end)}</div>
               ${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
             </div>
