@@ -573,6 +573,8 @@
     </div>
 
     <div class="event-preview" id="eventPreview">
+      <div class="event-status" id="eventDebug" style="margin-top:4px; opacity:.85;"></div>
+
       <div class="event-preview-title">
         <span>오늘 진행중 이벤트</span>
         <span class="event-status" id="eventStatus">로딩중…</span>
@@ -845,6 +847,10 @@
 
     const today = new Date();
     const todayKey = dateKeyLocal(today);
+    setEventDebug(
+  `todayKey=${todayKey} | sample=${events.slice(0,3).map(e=>`${e.start}~${e.end}`).join(", ")}`
+);
+
 
     if(!eventLoadState.ok){
       listEl.innerHTML = `
@@ -1068,6 +1074,11 @@
 
     renderTodayPreview();
   }
+  
+function setEventDebug(text){
+  const el = document.getElementById("eventDebug");
+  if(el) el.textContent = text;
+}
 
   /* ======================
      초기 실행
