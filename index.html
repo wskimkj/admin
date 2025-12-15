@@ -266,7 +266,6 @@
       gap: 10px;
     }
     .calendar-title{ font-size: 14px; font-weight: 900; letter-spacing: -0.2px; }
-    .calendar-subtitle{ font-size: 10px; color: var(--muted); margin-top: 2px; }
     .calendar-left{ display:flex; flex-direction:column; }
 
     .calendar-right{
@@ -401,10 +400,9 @@
     /* ===== date popup (preview) ===== */
     .date-popup{
       position:absolute;
-      left: 0;
-      right: 0;
+      left: 50%;
+      transform: translateX(-50%);
       bottom: calc(100% + 10px);
-      margin:auto;
       width: 300px;
       border-radius: 18px;
       background: rgba(255,255,255,0.88);
@@ -478,18 +476,16 @@
 
     /* ✅ 이벤트 내용: 카드 안에서만 스크롤 + 폰트 10 */
     .mini-event .event-text{
-  margin-top: 6px;
-  font-size: 10px;
-  font-weight: 800;
-  color: rgba(15,23,42,0.92);
-  line-height: 1.45;
-
-  max-height: 110px;
-  overflow: auto;
-  padding-right: 6px;
-  word-break: break-word;
-}
-
+      margin-top: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      color: rgba(15,23,42,0.92);
+      line-height: 1.45;
+      max-height: 110px;
+      overflow: auto;
+      padding-right: 6px;
+      word-break: break-word;
+    }
 
     .mini-event .meta{
       margin-top: 8px;
@@ -498,16 +494,49 @@
       font-weight: 900;
     }
 
-    .mini-event .target{
+    /* ===== ITEM(접기/펼치기) ===== */
+    .item-box{
       margin-top: 8px;
-      font-size: 11px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.85);
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(124,58,237,0.10);
-      display: inline-flex;
+      padding: 6px 8px;
+      border-radius: 12px;
+      background: rgba(124,58,237,0.08);
+      border: 1px solid rgba(124,58,237,0.18);
     }
+    .item-head{
+      width: 100%;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 8px;
+      padding: 0;
+    }
+    .item-label{
+      font-size: 8px;     /* 이벤트 내용(10px)보다 -2 */
+      font-weight: 900;
+      color: #7c3aed;
+    }
+    .item-caret{
+      font-size: 14px;
+      color: rgba(124,58,237,0.85);
+      transition: transform .15s ease;
+    }
+    .item-head[aria-expanded="true"] .item-caret{
+      transform: rotate(180deg);
+    }
+    .item-text{
+      margin-top: 6px;
+      font-size: 8px;
+      line-height: 1.4;
+      color: rgba(15,23,42,0.88);
+      max-height: 44px;   /* ITEM만 내부 스크롤 */
+      overflow: auto;
+      word-break: break-word;
+      padding-right: 6px;
+    }
+    .item-text.is-collapsed{ display:none; }
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
@@ -534,37 +563,30 @@
         <div class="nav-icon-wrap"><i class='bx bx-search'></i></div>
         <span>상품</span>
       </button>
-
       <button class="nav-item" data-id="order" data-href="https://wskimkj.github.io/return-inf/">
         <div class="nav-icon-wrap"><i class='bx bx-cart'></i></div>
         <span>발주</span>
       </button>
-
       <button class="nav-item" data-id="tracking" data-href="https://wskimkj.github.io/tracking/">
         <div class="nav-icon-wrap"><i class='bx bx-package'></i></div>
         <span>배송</span>
       </button>
-
       <button class="nav-item" data-id="template" data-href="https://wskimkj.github.io/trim2/">
         <div class="nav-icon-wrap"><i class='bx bx-message'></i></div>
         <span>템플릿</span>
       </button>
-
       <button class="nav-item" data-id="refund" data-href="https://wskimkj.github.io/refund24/">
         <div class="nav-icon-wrap"><i class='bx bx-calculator'></i></div>
         <span>환불</span>
       </button>
-
       <button class="nav-item" data-id="account" data-href="https://wskimkj.github.io/account/">
         <div class="nav-icon-wrap"><i class='bx bx-lock'></i></div>
         <span>계정</span>
       </button>
-
       <button class="nav-item" data-id="memo" data-href="https://wskimkj.github.io/memo/">
         <div class="nav-icon-wrap"><i class='bx bx-pen'></i></div>
         <span>메모</span>
       </button>
-
       <button class="nav-item" id="googleBtn" data-id="google">
         <div class="nav-icon-wrap"><i class='bx bx-spreadsheet'></i></div>
         <span>시트</span>
@@ -573,7 +595,7 @@
 
     <button class="nav-footer-btn" id="adminEventBtn" type="button" title="이벤트 보기">
       <i class='bx bx-calendar-event'></i>
-      <span>ADMIN</span>
+      <span>event</span>
     </button>
   </nav>
 
@@ -657,7 +679,7 @@
     return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
   }
 
-  // 시트 날짜: 12/15(월) / 12/15 지원
+  // 시트 날짜: 12/15(월) / 12/15 / 2025-12-15 지원
   function normalizeToKey(value){
     if(!value) return null;
     let s = String(value).trim();
@@ -692,7 +714,7 @@
     return `${pad2(m)}/${pad2(d)}(${KOR_DOW[dt.getDay()]})`;
   }
 
-  // ✅ 내용에서 ■ 있으면 다음 줄로 정렬 + 줄바꿈 정리
+  // ✅ 내용에서 ■ 있으면 다음 줄 정렬 + 줄바꿈 정리
   function formatBulletLines(text){
     const s = String(text ?? "");
     return s
@@ -710,7 +732,6 @@
       .replace(/'/g,"&#039;");
   }
 
-  // ✅ 줄바꿈을 <br>로 변환해서 HTML로 렌더 (겹침/깨짐 방지)
   function textToHtmlWithBreaks(text){
     const safe = escapeHtml(String(text ?? ""));
     return safe.replace(/\r\n|\r|\n/g, "<br>");
@@ -718,7 +739,7 @@
 
   function cleanTarget(raw){
     let t = String(raw ?? "").trim();
-    t = t.replace(/^"+|"+$/g, "").trim();   // 양 끝 따옴표 제거
+    t = t.replace(/^"+|"+$/g, "").trim();
     if(t === '""') t = "";
     return t;
   }
@@ -827,12 +848,6 @@
     });
   });
 
-  document.addEventListener("click",(e)=>{
-    const t = e.target;
-    if(!subSidebar.contains(t) && !googleBtn.contains(t)) hideSubSidebar();
-    if(!calendarWidget.contains(t) && !adminEventBtn.contains(t)) hideCalendar();
-  });
-
   document.addEventListener("keydown",(e)=>{
     if(e.key === "Escape") closePopup();
   });
@@ -846,6 +861,25 @@
   todayIcon.addEventListener("click",(e)=>{
     window.open(EVENT_SHEET_URL, "_blank");
     e.stopPropagation();
+  });
+
+  /* ✅ ITEM 접기/펼치기 (이벤트 위임) */
+  document.addEventListener("click", (e)=>{
+    const btn = e.target.closest("[data-itemtoggle]");
+    if(!btn) return;
+
+    e.stopPropagation();
+
+    const box = btn.closest("[data-itembox]");
+    const content = box?.querySelector("[data-itemcontent]");
+    if(!content) return;
+
+    const expanded = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!expanded));
+    content.classList.toggle("is-collapsed", expanded === false ? false : true);
+    // 위 줄이 헷갈리면 아래 2줄로 대체해도 됨:
+    // if(expanded) content.classList.add("is-collapsed");
+    // else content.classList.remove("is-collapsed");
   });
 
   /* ======================
@@ -918,8 +952,8 @@
         const mall    = (r[2] || "").trim(); // C
         const startV  = (r[3] || "").trim(); // D
         const endV    = (r[4] || "").trim(); // E
-        const content = (r[5] || "").trim(); // F (행사내용)
-        const target  = cleanTarget(r[6] || ""); // G (ITEM)
+        const content = (r[5] || "").trim(); // F
+        const target  = cleanTarget(r[6] || ""); // G
 
         if(!mall && !startV && !endV && !content && !target) continue;
 
@@ -961,24 +995,32 @@
      ====================== */
   function openPopupForDate(dateKey){
     const items = events.filter(ev => inRangeKey(dateKey, ev.start, ev.end));
-
     popupLabel.textContent = formatMDKorean(dateKey);
 
     popupList.innerHTML = items.length
       ? items.map(ev=>{
           const pretty = formatBulletLines(ev.content || "(내용없음)");
+          const hasItem = !!(ev.target && ev.target.trim());
+
           return `
             <div class="mini-event">
               <div class="mall">${escapeHtml(ev.mall)}</div>
 
-              <!-- ✅ 카드 내부에서만 스크롤 + 줄바꿈은 <br> -->
               <div class="event-text">${textToHtmlWithBreaks(pretty)}</div>
 
+              ${hasItem ? `
+                <div class="item-box" data-itembox>
+                  <button type="button" class="item-head" data-itemtoggle aria-expanded="false">
+                    <span class="item-label">ITEM</span>
+                    <i class='bx bx-chevron-down item-caret'></i>
+                  </button>
+                  <div class="item-text is-collapsed" data-itemcontent>
+                    ${escapeHtml(ev.target)}
+                  </div>
+                </div>
+              ` : ``}
 
               <div class="meta">${escapeHtml(ev.start)} ~ ${escapeHtml(ev.end)}</div>
-
-              <!-- ✅ G열 있을 때만 ITEM 줄 노출 -->
-              ${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
             </div>
           `;
         }).join("")
@@ -1099,9 +1141,8 @@
   }
 
   /* ======================
-     init
+     init + outside click close popup
      ====================== */
-  // outside click close popup only
   document.addEventListener("click", (e)=>{
     const t = e.target;
     if(popup.classList.contains("open")){
