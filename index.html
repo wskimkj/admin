@@ -844,9 +844,13 @@
     });
   });
 
-  document.addEventListener("keydown",(e)=>{
-    if(e.key === "Escape") closePopup();
-  });
+ document.addEventListener("keydown",(e)=>{
+  if(e.key === "Escape"){
+    closePopup();
+    hideCalendar();   // ✅ 위젯도 닫기
+  }
+});
+
 
   popupClose.addEventListener("click",(e)=>{
     closePopup();
@@ -1139,12 +1143,21 @@
   /* ======================
      init + outside click close popup
      ====================== */
-  document.addEventListener("click", (e)=>{
-    const t = e.target;
-    if(popup.classList.contains("open")){
-      if(!popup.contains(t) && !calendarWidget.contains(t)) closePopup();
+ document.addEventListener("click", (e)=>{
+  const t = e.target;
+
+  // 팝업 or 캘린더가 열려 있을 때
+  if(calendarWidget.classList.contains("visible")){
+    const clickedInsideCalendar =
+      calendarWidget.contains(t) || adminEventBtn.contains(t);
+
+    if(!clickedInsideCalendar){
+      closePopup();
+      hideCalendar();   // ✅ 위젯도 같이 닫기
     }
-  });
+  }
+});
+
 
   loadEventsFromSheet();
   buildCalendar();
