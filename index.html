@@ -1139,6 +1139,10 @@
       d.setDate(d.getDate()+1);
     }
   }
+  
+calendarWidget.addEventListener("click", (e)=>{
+  e.stopPropagation();
+});
 
   /* ======================
      init + outside click close popup
