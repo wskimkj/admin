@@ -509,7 +509,6 @@
       </button>
     </div>
 
-    <!-- ✅ ADMIN 버튼으로 이벤트 위젯 보기 -->
     <button class="nav-footer-btn" id="adminEventBtn" type="button" title="이벤트 보기">
       <i class='bx bx-calendar-event'></i>
       <span>ADMIN</span>
@@ -558,7 +557,7 @@
 
       <div class="calendar-right">
         <div class="cal-view-seg" id="calViewSeg">
-          <button type="button" data-view="week" class="active">주</button>
+          <button type="button" data-view="week">주</button>
           <button type="button" data-view="month">월</button>
         </div>
 
@@ -591,6 +590,43 @@
 
 <script>
   /* ======================
+     Helpers: 날짜 키/파싱
+     ====================== */
+  function pad2(n){ return String(n).padStart(2, "0"); }
+  function dateKeyLocal(d){
+    return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+  }
+  function keyToDate(key){
+    // key: YYYY-MM-DD
+    const [y,m,d] = key.split("-").map(Number);
+    return new Date(y, (m||1)-1, d||1);
+  }
+  function normalizeToKey(value){
+    // 시트 값(날짜)을 무조건 YYYY-MM-DD로
+    if(!value) return null;
+    const s = String(value).trim();
+
+    // 2025-12-15 / 2025.12.15 / 2025/12/15
+    const m1 = s.match(/^(\d{4})[.\-\/]\s*(\d{1,2})[.\-\/]\s*(\d{1,2})/);
+    if(m1){
+      const y = Number(m1[1]), mo = Number(m1[2]), da = Number(m1[3]);
+      if(!y || !mo || !da) return null;
+      return `${y}-${pad2(mo)}-${pad2(da)}`;
+    }
+
+    // 혹시 Date 파싱 가능한 문자열이면 -> 로컬 키로 변환
+    const d = new Date(s);
+    if(!isNaN(d)) return dateKeyLocal(d);
+
+    return null;
+  }
+
+  function inRangeKey(dayKey, startKey, endKey){
+    // ✅ 핵심: 문자열 비교(YYYY-MM-DD)로 범위 체크
+    return dayKey >= startKey && dayKey <= endKey;
+  }
+
+  /* ======================
      DOM
      ====================== */
   const mainFrame = document.getElementById("mainFrame");
@@ -601,34 +637,20 @@
 
   const calendarWidget = document.getElementById("calendarWidget");
   const adminEventBtn = document.getElementById("adminEventBtn");
-
   const calViewSeg = document.getElementById("calViewSeg");
 
   const EVENT_SHEET_URL =
     "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
 
   /* ======================
-     로컬 날짜 키 (UTC 이슈 해결 핵심)
-     ====================== */
-  function dateKeyLocal(d){
-    const y = d.getFullYear();
-    const m = String(d.getMonth()+1).padStart(2,"0");
-    const da = String(d.getDate()).padStart(2,"0");
-    return `${y}-${m}-${da}`;
-  }
-
-  /* ======================
-     새로고침 복원 (핵심)
+     새로고침 복원
      ====================== */
   const LAST_FRAME_KEY = "lastFrameURL";
-
   function restoreLastFrame(){
     const last = localStorage.getItem(LAST_FRAME_KEY);
     mainFrame.src = last ? last : "https://wskimkj.github.io/search/";
   }
-  function rememberFrame(url){
-    localStorage.setItem(LAST_FRAME_KEY, url);
-  }
+  function rememberFrame(url){ localStorage.setItem(LAST_FRAME_KEY, url); }
   restoreLastFrame();
 
   mainFrame.addEventListener("load", () => {
@@ -656,18 +678,15 @@
     else{
       calendarWidget.classList.add("visible");
       hideSubSidebar();
-      // 열 때 항상 최신 렌더(시트가 로딩 늦게 끝나도 반영되게)
       buildCalendar();
     }
   }
 
-  // ADMIN 버튼 => 이벤트 위젯 보기
   adminEventBtn.addEventListener("click",(e)=>{
     toggleCalendar();
     e.stopPropagation();
   });
 
-  // 네비 클릭
   navItems.forEach(btn=>{
     btn.addEventListener("click",(e)=>{
       const id = btn.dataset.id;
@@ -689,28 +708,23 @@
     });
   });
 
-  // google child
   googleChildren.forEach(btn=>{
     btn.addEventListener("click",(e)=>{
       googleChildren.forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
-
       const url = btn.dataset.href;
       mainFrame.src = url;
       rememberFrame(url);
-
       e.stopPropagation();
     });
   });
 
-  // 바깥 클릭 닫기
   document.addEventListener("click",(e)=>{
     const t = e.target;
     if(!subSidebar.contains(t) && !googleBtn.contains(t)) hideSubSidebar();
     if(!calendarWidget.contains(t) && !adminEventBtn.contains(t)) hideCalendar();
   });
 
-  // open sheet
   document.getElementById("openEventSheet").addEventListener("click",(e)=>{
     window.open(EVENT_SHEET_URL, "_blank");
     e.stopPropagation();
@@ -720,7 +734,7 @@
      캘린더 보기 옵션 (디폴트: 주)
      ====================== */
   const CAL_VIEW_KEY = "calendarViewMode";
-  let calendarViewMode = localStorage.getItem(CAL_VIEW_KEY) || "week"; // ✅ 디폴트 주
+  let calendarViewMode = localStorage.getItem(CAL_VIEW_KEY) || "week";
 
   function applyViewSeg(){
     [...calViewSeg.querySelectorAll("button")].forEach(b=>{
@@ -732,7 +746,7 @@
   calViewSeg.addEventListener("click",(e)=>{
     const btn = e.target.closest("button");
     if(!btn) return;
-    calendarViewMode = btn.dataset.view; // week | month
+    calendarViewMode = btn.dataset.view;
     localStorage.setItem(CAL_VIEW_KEY, calendarViewMode);
     applyViewSeg();
     buildCalendar();
@@ -740,11 +754,10 @@
   });
 
   /* ======================
-     이벤트: 구글시트(C~G) 로드
-     C: 쇼핑몰 / D: 시작 / E: 종료 / F: 요약 / G: 대상상품
+     이벤트: 구글시트(C~G)
      ====================== */
   let events = [];
-  let eventLoadState = { ok: false, message: "로딩중…" };
+  let eventLoadState = { ok:false, message:"로딩중…" };
 
   const SHEET_ID = "1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI";
   const SHEET_GID = "1830278768";
@@ -753,38 +766,6 @@
   function setEventStatus(text){
     const el = document.getElementById("eventStatus");
     if(el) el.textContent = text;
-  }
-
-  // 날짜 파서 강화
-  function parseDate(str){
-    if(!str) return null;
-    const s = String(str).trim();
-
-    // 1) 기본 Date 파싱
-    let d = new Date(s);
-    if(!isNaN(d)) return d;
-
-    // 2) 2025.12.15 / 2025/12/15 / 2025-12-15
-    const m1 = s.match(/^(\d{4})[.\-\/]\s*(\d{1,2})[.\-\/]\s*(\d{1,2})$/);
-    if(m1){
-      const y = Number(m1[1]);
-      const mo = Number(m1[2]) - 1;
-      const da = Number(m1[3]);
-      const dd = new Date(y, mo, da);
-      return isNaN(dd) ? null : dd;
-    }
-
-    // 3) 12/15/2025 같은 케이스
-    const m2 = s.match(/^(\d{1,2})[.\-\/]\s*(\d{1,2})[.\-\/]\s*(\d{4})$/);
-    if(m2){
-      const mo = Number(m2[1]) - 1;
-      const da = Number(m2[2]);
-      const y  = Number(m2[3]);
-      const dd = new Date(y, mo, da);
-      return isNaN(dd) ? null : dd;
-    }
-
-    return null;
   }
 
   function parseCSV(text){
@@ -807,7 +788,6 @@
         cur=""; row=[];
         continue;
       }
-
       cur += ch;
     }
     if(cur.length || row.length){ row.push(cur); rows.push(row); }
@@ -817,7 +797,7 @@
   async function loadEventsFromSheet(){
     try{
       setEventStatus("시트 불러오는중…");
-      const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
+      const res = await fetch(SHEET_CSV_URL, { cache:"no-store" });
       if(!res.ok) throw new Error(`sheet fetch failed (${res.status})`);
 
       const csv = await res.text();
@@ -825,72 +805,55 @@
 
       const parsed = [];
       for(const r of rows){
-        // C~G => index 2~6
-        const mall   = (r[2] || "").trim();  // C
-        const start  = (r[3] || "").trim();  // D
-        const end    = (r[4] || "").trim();  // E
-        const title  = (r[5] || "").trim();  // F
-        const target = (r[6] || "").trim();  // G
+        const mall   = (r[2] || "").trim(); // C
+        const startV = (r[3] || "").trim(); // D
+        const endV   = (r[4] || "").trim(); // E
+        const title  = (r[5] || "").trim(); // F
+        const target = (r[6] || "").trim(); // G
 
-        if(!mall && !start && !end && !title && !target) continue;
+        if(!mall && !startV && !endV && !title && !target) continue;
 
-        const sd = parseDate(start);
-        const ed = parseDate(end);
-        if(!mall || !sd || !ed) continue;
-        if(sd > ed) continue;
-
-        // ✅ 저장용으로 로컬 YYYY-MM-DD로 정규화
-        const sKey = dateKeyLocal(sd);
-        const eKey = dateKeyLocal(ed);
+        const startKey = normalizeToKey(startV);
+        const endKey   = normalizeToKey(endV);
+        if(!mall || !startKey || !endKey) continue;
+        if(startKey > endKey) continue;
 
         parsed.push({
           mall,
           title: title || "(내용없음)",
-          start: sKey,
-          end: eKey,
+          start: startKey,
+          end: endKey,
           target
         });
       }
 
       events = parsed;
-      eventLoadState = { ok: true, message: `로드완료 (${parsed.length})` };
+      eventLoadState = { ok:true, message:`로드완료 (${parsed.length})` };
       setEventStatus(eventLoadState.message);
-
-      // 로드 완료되면 캘린더 갱신
       buildCalendar();
     }catch(err){
       events = [];
-      eventLoadState = { ok: false, message: "시트 로드 실패" };
+      eventLoadState = { ok:false, message:"시트 로드 실패" };
       setEventStatus("시트 로드 실패");
       buildCalendar();
     }
   }
 
-  function isBetweenInclusive(dayDate, startStr, endStr){
-    // startStr/endStr 는 YYYY-MM-DD
-    const sd = parseDate(startStr);
-    const ed = parseDate(endStr);
-    if(!sd || !ed) return false;
-
-    const t  = new Date(dayDate.getFullYear(), dayDate.getMonth(), dayDate.getDate());
-    const ss = new Date(sd.getFullYear(), sd.getMonth(), sd.getDate());
-    const ee = new Date(ed.getFullYear(), ed.getMonth(), ed.getDate());
-    return (t >= ss && t <= ee);
-  }
-
-  function renderTodayPreview(today){
+  function renderTodayPreview(){
     const listEl = document.getElementById("eventPreviewList");
     if(!listEl) return;
+
+    const today = new Date();
+    const todayKey = dateKeyLocal(today);
 
     if(!eventLoadState.ok){
       listEl.innerHTML = `
         <div class="event-hint">
           이벤트가 있는데도 비어 보이면 <b>시트 공개/권한</b> 또는 <b>날짜 형식</b> 문제일 확률이 큽니다.<br/>
           • 시트가 “링크 있는 사용자 보기 가능”인지 확인<br/>
-          • 날짜가 2025-12-15 / 2025.12.15 / 2025/12/15 형식인지 확인
+          • D/E가 2025-12-15 / 2025.12.15 / 2025/12/15 형식인지 확인
         </div>
       `;
-      // 로드 실패일 때도 아이콘은 숨김
       const todayIcon = document.getElementById("todayEventIcon");
       const badge = todayIcon?.querySelector(".today-event-badge");
       if(todayIcon){ todayIcon.classList.remove("visible"); }
@@ -898,9 +861,8 @@
       return;
     }
 
-    const active = events.filter(ev => isBetweenInclusive(today, ev.start, ev.end));
+    const active = events.filter(ev => inRangeKey(todayKey, ev.start, ev.end));
 
-    // 아이콘 뱃지: 개수 표시
     const todayIcon = document.getElementById("todayEventIcon");
     const badge = todayIcon?.querySelector(".today-event-badge");
     if(todayIcon && badge){
@@ -940,21 +902,19 @@
   }
 
   /* ======================
-     캘린더 렌더링 (주/월)
+     캘린더 렌더링
      ====================== */
   function buildCalendar(){
     if(calendarViewMode === "month") buildCalendarMonth();
-    else buildCalendarWeek(); // default
+    else buildCalendarWeek();
   }
 
   function buildCalendarWeek(){
     const today = new Date();
-    const daysContainer = document.getElementById("calendarDays");
-    daysContainer.innerHTML = "";
+    const todayKey = dateKeyLocal(today);
 
     const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    document.getElementById("calendarMonthLabel").textContent =
-      `${monthNames[today.getMonth()]} ${today.getFullYear()}`;
+    document.getElementById("calendarMonthLabel").textContent = `${monthNames[today.getMonth()]} ${today.getFullYear()}`;
 
     // 이번주 월요일
     const dow = (today.getDay()+6)%7; // Mon=0
@@ -968,23 +928,25 @@
       days.push(d);
     }
 
+    const daysContainer = document.getElementById("calendarDays");
+    daysContainer.innerHTML = "";
+
     const tooltip = document.getElementById("calendarTooltip");
     const widget = document.getElementById("calendarWidget");
 
     days.forEach(d=>{
+      const key = dateKeyLocal(d);
+      const items = events.filter(ev => inRangeKey(key, ev.start, ev.end));
+
       const cell = document.createElement("div");
       cell.className = "calendar-day";
       cell.textContent = d.getDate();
 
-      const key = dateKeyLocal(d);
-      const items = events.filter(ev => isBetweenInclusive(d, ev.start, ev.end));
       if(items.length){
         cell.classList.add("has-event");
         cell.dataset.dateKey = key;
       }
-      if(d.toDateString() === today.toDateString()){
-        cell.classList.add("today");
-      }
+      if(key === todayKey) cell.classList.add("today");
 
       cell.addEventListener("mouseenter", ()=>{
         if(!items.length){ tooltip.style.display="none"; return; }
@@ -1010,13 +972,14 @@
       daysContainer.appendChild(cell);
     });
 
-    renderTodayPreview(today);
+    renderTodayPreview();
   }
 
   function buildCalendarMonth(){
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth();
+    const todayKey = dateKeyLocal(today);
 
     const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     document.getElementById("calendarMonthLabel").textContent = `${monthNames[month]} ${year}`;
@@ -1027,10 +990,8 @@
     // 날짜별 이벤트(월~금)
     const eventsByDate = {};
     events.forEach(ev=>{
-      const s = parseDate(ev.start);
-      const e = parseDate(ev.end);
-      if(!s || !e) return;
-
+      const s = keyToDate(ev.start);
+      const e = keyToDate(ev.end);
       const d = new Date(s.getFullYear(), s.getMonth(), s.getDate());
       const endD = new Date(e.getFullYear(), e.getMonth(), e.getDate());
 
@@ -1049,14 +1010,14 @@
     const daysContainer = document.getElementById("calendarDays");
     daysContainer.innerHTML = "";
 
-    // 달력 시작(월요일) ~ 끝(금요일)
+    // 시작(월요일) ~ 끝(금요일)
     let start = new Date(firstOfMonth);
-    const startDow = (start.getDay()+6)%7; // Mon=0
+    const startDow = (start.getDay()+6)%7;
     start.setDate(start.getDate()-startDow);
 
     let end = new Date(lastOfMonth);
     const endDow = (end.getDay()+6)%7;
-    end.setDate(end.getDate() + (4 - endDow)); // Fri
+    end.setDate(end.getDate() + (4 - endDow));
 
     const tooltip = document.getElementById("calendarTooltip");
     const widget = document.getElementById("calendarWidget");
@@ -1065,23 +1026,22 @@
     while(d <= end){
       const wd = d.getDay();
       if(wd >= 1 && wd <= 5){
+        const key = dateKeyLocal(d);
+        const items = eventsByDate[key] || [];
+
         const cell = document.createElement("div");
         cell.className = "calendar-day";
         if(d.getMonth() !== month) cell.classList.add("other-month");
         cell.textContent = d.getDate();
 
-        const key = dateKeyLocal(d);
-        if(eventsByDate[key]?.length){
+        if(items.length){
           cell.classList.add("has-event");
           cell.dataset.dateKey = key;
         }
-        if(d.toDateString() === today.toDateString()) cell.classList.add("today");
+        if(key === todayKey) cell.classList.add("today");
 
         cell.addEventListener("mouseenter", ()=>{
-          const dateKey = cell.dataset.dateKey;
-          const items = eventsByDate[dateKey] || [];
           if(!items.length){ tooltip.style.display="none"; return; }
-
           tooltip.innerHTML = items.map((ev,idx)=>{
             const sText = ev.start.slice(5).replace(/-/g,".");
             const eText = ev.end.slice(5).replace(/-/g,".");
@@ -1099,7 +1059,6 @@
           tooltip.style.top  = (rect.top - parentRect.top) + "px";
           tooltip.style.display = "block";
         });
-
         cell.addEventListener("mouseleave", ()=>{ tooltip.style.display="none"; });
 
         daysContainer.appendChild(cell);
@@ -1107,17 +1066,14 @@
       d.setDate(d.getDate()+1);
     }
 
-    renderTodayPreview(today);
+    renderTodayPreview();
   }
 
   /* ======================
      초기 실행
      ====================== */
-  // 캘린더 모드 버튼 반영
   applyViewSeg();
   buildCalendar();
-
-  // 시트 로드
   loadEventsFromSheet();
 </script>
 </body>
