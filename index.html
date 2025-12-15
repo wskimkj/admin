@@ -12,7 +12,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root{
-      /* ===== 공통 ===== */
       --shell-bg: rgba(255,255,255,0.98);
       --shell-shadow: 0 24px 60px rgba(15,23,42,.22);
       --card-shadow:
@@ -20,14 +19,12 @@
         inset 0 1px 0 rgba(255,255,255,0.9);
       --card-bg: radial-gradient(circle at top left, #fef3ff 0%, #ffffff 50%, #f1f5f9 100%);
 
-      /* ===== 사이드바 ===== */
       --main-sidebar-bg: linear-gradient(180deg, #b79cff 0%, #ff8fb8 52%, #ffd6e7 100%);
       --nav-text: #f9fafb;
       --nav-chip-bg: rgba(255,255,255,0.18);
       --nav-active-chip-bg: #ffffff;
       --nav-active-color: #6d28d9;
 
-      /* ===== 서브 사이드바 ===== */
       --sub-sidebar-bg:
         radial-gradient(circle at top left, rgba(255, 182, 213, 0.55), rgba(170, 190, 255, 0.55)),
         linear-gradient(180deg, rgba(15,23,42,0.16), rgba(15,23,42,0.26));
@@ -265,7 +262,6 @@
     }
     .today-event-icon.visible{ opacity:1; transform:none; }
     .today-event-icon i{ font-size:14px; color:#92400e; }
-    /* 기본은 점(이후 JS에서 숫자뱃지로 스타일 덮어씀) */
     .today-event-badge{
       position:absolute; top:-3px; right:-3px;
       width:10px;height:10px;border-radius:999px;
@@ -336,12 +332,22 @@
       font-weight: 900;
       color: #f9fafb;
       margin-bottom: 8px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+    .event-status{
+      font-size: 10px;
+      color: rgba(226,232,240,0.9);
+      font-weight: 800;
+      opacity: .95;
     }
     .event-preview-list{
       display:flex;
       flex-direction:column;
       gap: 6px;
-      max-height: 120px;
+      max-height: 140px;
       overflow:auto;
       padding-right: 4px;
     }
@@ -373,6 +379,15 @@
       font-size: 10px;
       margin-top: 3px;
       opacity: .95;
+    }
+    .event-hint{
+      font-size: 10px;
+      color: rgba(203,213,225,0.95);
+      line-height: 1.35;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
     }
 
     @media (max-width: 900px) {
@@ -495,9 +510,12 @@
       </div>
     </div>
 
-    <!-- ✅ 오늘 진행중 이벤트 리스트 -->
+    <!-- 오늘 진행중 이벤트 -->
     <div class="event-preview" id="eventPreview">
-      <div class="event-preview-title">오늘 진행중 이벤트</div>
+      <div class="event-preview-title">
+        <span>오늘 진행중 이벤트</span>
+        <span class="event-status" id="eventStatus">로딩중…</span>
+      </div>
       <div class="event-preview-list" id="eventPreviewList"></div>
     </div>
 
@@ -522,6 +540,37 @@
   const EVENT_SHEET_URL =
     "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
 
+  /* ======================
+     새로고침 복원 (핵심)
+     ====================== */
+  const LAST_FRAME_KEY = "lastFrameURL";
+
+  function restoreLastFrame(){
+    const last = localStorage.getItem(LAST_FRAME_KEY);
+    mainFrame.src = last ? last : "https://wskimkj.github.io/search/";
+  }
+
+  function rememberFrame(url){
+    localStorage.setItem(LAST_FRAME_KEY, url);
+  }
+
+  // 페이지 처음 로드 시: 마지막 iframe 복원
+  restoreLastFrame();
+
+  // iframe 로드될 때마다 현재 src 저장
+  mainFrame.addEventListener("load", () => {
+    rememberFrame(mainFrame.src);
+
+    // same-origin이면 내부 실제 URL도 저장 (깃헙 페이지들은 보통 같은 origin이라 가능할 때가 많음)
+    try{
+      const real = mainFrame.contentWindow.location.href;
+      if(real) rememberFrame(real);
+    }catch{}
+  });
+
+  /* ======================
+     UI 토글
+     ====================== */
   function hideSubSidebar(){ subSidebar.classList.remove("visible"); }
   function hideCalendar(){ calendarWidget.classList.remove("visible"); }
 
@@ -535,11 +584,6 @@
     if(v) calendarWidget.classList.remove("visible");
     else{ calendarWidget.classList.add("visible"); hideSubSidebar(); }
   }
-
-  // ===== Iframe last search =====
-  mainFrame.onload = () => {
-    if (mainFrame.src.includes("search")) localStorage.setItem("lastSearchURL", mainFrame.src);
-  };
 
   // ===== Main Nav =====
   navItems.forEach(btn=>{
@@ -555,11 +599,9 @@
 
       hideSubSidebar(); hideCalendar();
 
-      if(id === "search"){
-        const last = localStorage.getItem("lastSearchURL");
-        mainFrame.src = last ? last : href;
-      }else if(href){
+      if(href){
         mainFrame.src = href;
+        rememberFrame(href);
       }
       e.stopPropagation();
     });
@@ -570,7 +612,11 @@
     btn.addEventListener("click",(e)=>{
       googleChildren.forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
-      mainFrame.src = btn.dataset.href;
+
+      const url = btn.dataset.href;
+      mainFrame.src = url;
+      rememberFrame(url);
+
       e.stopPropagation();
     });
   });
@@ -588,21 +634,64 @@
     e.stopPropagation();
   });
 
-  /* ===== 이벤트: 구글시트(C~G) 로드 ===== */
-  let events = []; // { mall, title(F), start(D), end(E), target(G) }
+  /* ======================
+     이벤트: 구글시트(C~G) 로드
+     C: 쇼핑몰
+     D: 시작
+     E: 종료
+     F: 요약(내용)
+     G: 대상상품
+     ====================== */
+  let events = [];
+  let eventLoadState = { ok: false, message: "로딩중…" };
 
   const SHEET_ID = "1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI";
   const SHEET_GID = "1830278768";
   const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${SHEET_GID}`;
 
+  function setEventStatus(text){
+    const el = document.getElementById("eventStatus");
+    if(el) el.textContent = text;
+  }
+
+  // ✅ 날짜 파서 강화: 2025-12-15 / 2025.12.15 / 2025/12/15 / 2025. 12. 15 등 지원
   function parseDate(str){
-    const d = new Date(str);
-    return isNaN(d) ? null : d;
+    if(!str) return null;
+    const s = String(str).trim();
+
+    // ISO/일반
+    let d = new Date(s);
+    if(!isNaN(d)) return d;
+
+    // 2025.12.15 또는 2025/12/15 또는 2025-12-15
+    const m1 = s.match(/^(\d{4})[.\-\/]\s*(\d{1,2})[.\-\/]\s*(\d{1,2})$/);
+    if(m1){
+      const y = Number(m1[1]);
+      const mo = Number(m1[2]) - 1;
+      const da = Number(m1[3]);
+      const dd = new Date(y, mo, da);
+      return isNaN(dd) ? null : dd;
+    }
+
+    // 12/15/2025 같은 케이스(혹시나)
+    const m2 = s.match(/^(\d{1,2})[.\-\/]\s*(\d{1,2})[.\-\/]\s*(\d{4})$/);
+    if(m2){
+      const mo = Number(m2[1]) - 1;
+      const da = Number(m2[2]);
+      const y  = Number(m2[3]);
+      const dd = new Date(y, mo, da);
+      return isNaN(dd) ? null : dd;
+    }
+
+    return null;
   }
 
   function parseCSV(text){
     const rows = [];
     let row = [], cur = "", inQ = false;
+
+    // BOM 제거
+    if(text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
 
     for(let i=0;i<text.length;i++){
       const ch = text[i];
@@ -627,8 +716,9 @@
 
   async function loadEventsFromSheet(){
     try{
+      setEventStatus("시트 불러오는중…");
       const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
-      if(!res.ok) throw new Error("sheet fetch failed");
+      if(!res.ok) throw new Error(`sheet fetch failed (${res.status})`);
 
       const csv = await res.text();
       const rows = parseCSV(csv);
@@ -642,22 +732,38 @@
         const title  = (r[5] || "").trim();  // F
         const target = (r[6] || "").trim();  // G
 
-        if(!mall || !start || !end) continue;
-        if(!parseDate(start) || !parseDate(end)) continue;
+        // 헤더/빈행 스킵
+        if(!mall && !start && !end && !title && !target) continue;
+
+        const sd = parseDate(start);
+        const ed = parseDate(end);
+        if(!mall || !sd || !ed) continue;
+
+        // 날짜 역전 방지(혹시 잘못 입력)
+        if(sd > ed) continue;
 
         parsed.push({
           mall,
           title: title || "(내용없음)",
-          start,
-          end,
+          start: `${sd.getFullYear()}-${String(sd.getMonth()+1).padStart(2,"0")}-${String(sd.getDate()).padStart(2,"0")}`,
+          end:   `${ed.getFullYear()}-${String(ed.getMonth()+1).padStart(2,"0")}-${String(ed.getDate()).padStart(2,"0")}`,
           target
         });
       }
 
       events = parsed;
+      eventLoadState = {
+        ok: true,
+        message: parsed.length ? `로드완료 (${parsed.length})` : "로드완료 (0)"
+      };
+      setEventStatus(eventLoadState.message);
     }catch(err){
-      // 시트가 비공개/접근불가면 빈 배열 유지
       events = [];
+      eventLoadState = {
+        ok: false,
+        message: "시트 로드 실패"
+      };
+      setEventStatus("시트 로드 실패");
     }
   }
 
@@ -674,33 +780,27 @@
 
   function renderTodayPreview(today){
     const listEl = document.getElementById("eventPreviewList");
-    const wrapEl = document.getElementById("eventPreview");
-    if(!listEl || !wrapEl) return;
+    if(!listEl) return;
+
+    // 로드 실패/0건 안내
+    if(!eventLoadState.ok){
+      listEl.innerHTML = `
+        <div class="event-hint">
+          이벤트가 있는데도 비어 보이면 <b>시트 공개/권한</b> 또는 <b>날짜 형식</b> 문제일 확률이 큽니다.<br/>
+          • 시트가 “링크 있는 사용자 보기 가능”인지 확인<br/>
+          • 날짜가 2025-12-15 / 2025.12.15 / 2025/12/15 형식인지 확인
+        </div>
+      `;
+    }
 
     const active = events.filter(ev => isBetweenInclusive(today, ev.start, ev.end));
 
-    listEl.innerHTML = active.length
-      ? active.map(ev=>{
-          const sText = ev.start.slice(5).replace(/-/g,".");
-          const eText = ev.end.slice(5).replace(/-/g,".");
-          return `
-            <div class="event-row">
-              <div class="mall">${ev.mall}</div>
-              <div class="title">${ev.title}</div>
-              <div class="range">${sText} ~ ${eText}</div>
-              ${ev.target ? `<div class="target">대상: ${ev.target}</div>` : ``}
-            </div>
-          `;
-        }).join("")
-      : `<div style="font-size:10px;color:#cbd5e1;opacity:.9;">오늘 진행중 이벤트 없음</div>`;
-
-    // 아이콘 뱃지에 “개수” 표시
+    // 아이콘 뱃지: 개수 표시
     const todayIcon = document.getElementById("todayEventIcon");
     const badge = todayIcon?.querySelector(".today-event-badge");
     if(todayIcon && badge){
       if(active.length){
         todayIcon.classList.add("visible");
-
         badge.style.display = "inline-flex";
         badge.style.width = "auto";
         badge.style.height = "16px";
@@ -717,9 +817,24 @@
         badge.textContent = "";
       }
     }
+
+    // 오늘 이벤트 리스트 표시
+    listEl.innerHTML = active.length
+      ? active.map(ev=>{
+          const sText = ev.start.slice(5).replace(/-/g,".");
+          const eText = ev.end.slice(5).replace(/-/g,".");
+          return `
+            <div class="event-row">
+              <div class="mall">${ev.mall}</div>
+              <div class="title">${ev.title}</div>
+              <div class="range">${sText} ~ ${eText}</div>
+              ${ev.target ? `<div class="target">대상: ${ev.target}</div>` : ``}
+            </div>
+          `;
+        }).join("")
+      : `<div style="font-size:10px;color:#cbd5e1;opacity:.9;">오늘 진행중 이벤트 없음</div>`;
   }
 
-  /* ===== 달력 빌드 ===== */
   function buildCalendar(){
     const today = new Date();
     const year = today.getFullYear();
@@ -730,7 +845,6 @@
     const firstOfMonth = new Date(year, month, 1);
     const lastOfMonth  = new Date(year, month + 1, 0);
 
-    // 날짜별 이벤트(월/화/수/목/금만)
     const eventsByDate = {};
     events.forEach(ev=>{
       const s = parseDate(ev.start);
@@ -789,7 +903,6 @@
             const sText = ev.start.slice(5).replace(/-/g,".");
             const eText = ev.end.slice(5).replace(/-/g,".");
             const targetLine = ev.target ? `<div class="range" style="margin-top:3px;">대상: ${ev.target}</div>` : ``;
-
             return `<div style="margin-bottom:${idx===items.length-1?0:6}px;">
               <span class="mall">${ev.mall}</span> - <strong>${ev.title}</strong><br/>
               <span class="range">${sText} ~ ${eText}</span>
@@ -811,7 +924,6 @@
       d.setDate(d.getDate()+1);
     }
 
-    // ✅ 오늘 진행중 이벤트(여러개) 전체 노출 + 뱃지 숫자
     renderTodayPreview(today);
   }
 
