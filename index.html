@@ -3,7 +3,7 @@
 <head>
   <link rel="stylesheet" href="./css/common.css">
   <meta charset="UTF-8" />
-  <title>어드민</title>
+  <title> 김 경 진 </title>
   <link rel="icon" type="image/png" href="favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
@@ -502,13 +502,19 @@
       color: var(--muted);
       font-weight: 900;
     }
+
+
     .mini-event .target{
-      margin-top: 6px;
-      font-size: 10px;
-      color: rgba(15,23,42,0.75);
-      font-weight: 800;
-      line-height: 1.35;
-    }
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 900;
+  color: rgba(15,23,42,0.85);
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(124,58,237,0.10);
+  display: inline-flex;
+}
+
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
@@ -906,6 +912,7 @@
         const target = (r[6] || "").trim(); // G
         if(!mall && !startV && !endV && !title && !target) continue;
 
+
         const startKey = normalizeToKey(startV);
         const endKey   = normalizeToKey(endV);
         if(!mall || !startKey || !endKey) continue;
@@ -959,7 +966,7 @@
           <div class="mall">${escapeHtml(ev.mall)}</div>
           <div class="title">${escapeHtml(ev.title)}</div>
           <div class="meta">${escapeHtml(ev.start)} ~ ${escapeHtml(ev.end)}</div>
-          ${ev.target ? `<div class="target">대상상품: ${escapeHtml(ev.target)}</div>` : ``}
+${ev.target ? `<div class="target">ITEM : ${escapeHtml(ev.target)}</div>` : ``}
         </div>
       `).join("")
       : `<div style="font-size:11px;color:rgba(15,23,42,0.62);font-weight:800;padding:6px 2px;">이날 이벤트 없음</div>`;
