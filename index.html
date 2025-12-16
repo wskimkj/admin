@@ -1401,6 +1401,10 @@ calendarWidget.addEventListener("click", (e)=>{
   e.stopPropagation();
 });
 
+  calendarWidget.addEventListener("mouseleave", () => {
+  closePopup();   // 날짜 미리보기 닫기
+  hideCalendar(); // 캘린더 위젯 닫기
+});
   /* ======================
      init + outside click close popup
      ====================== */
