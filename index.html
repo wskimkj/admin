@@ -609,6 +609,9 @@
   border: 1px solid rgba(15,23,42,0.08);
   font-weight: 900;
   color: rgba(15,23,42,0.86);
+  user-select: none;
+  cursor: copy;
+  
 }
 .phone-copy{
   border:none;
@@ -917,18 +920,43 @@ const phoneHint = document.getElementById("phoneHint");
 function formatKoreanPhone(input){
   let num = String(input ?? "").replace(/\D/g, "");
 
-  // 82로 시작하면 0 붙이고 국가번호 제거
+  // 국가번호 82 처리
   if(num.startsWith("82")) num = "0" + num.slice(2);
 
-  // 10자리 + 10으로 시작(= 1072...)이면 0을 붙여 010...으로 보정
+  // ✅ 안전번호 prefix
+  const SAFE_PREFIX = ["0502","0504","0505","0506","0507"];
+
+  // === 안전번호 처리 ===
+  for(const p of SAFE_PREFIX){
+    if(num.startsWith(p)){
+      if(num.length === 11){
+        return {
+          type: "safe",
+          value: num.replace(/(\d{4})(\d{3})(\d{4})/, "$1-$2-$3")
+        };
+      }
+      if(num.length === 12){
+        return {
+          type: "safe",
+          value: num.replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3")
+        };
+      }
+    }
+  }
+
+  // === 일반 휴대폰 ===
   if(num.length === 10 && num.startsWith("10")) num = "0" + num;
 
-  // 최종: 010XXXXXXXX (11자리)
   if(num.length === 11 && num.startsWith("010")){
-    return num.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+    return {
+      type: "mobile",
+      value: num.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+    };
   }
-  return "";
+
+  return { type: "unknown", value: "" };
 }
+
 function hidePhone(){ phoneWidget.classList.remove("visible"); }
 
 function togglePhone(){
@@ -955,26 +983,39 @@ phoneClose.addEventListener("click",(e)=>{
 });
 
 phoneWidget.addEventListener("click",(e)=> e.stopPropagation());
+  
+ // ✅ 전화번호 위젯: 마우스가 밖으로 나가면 닫기
+phoneWidget.addEventListener("mouseleave", () => {
+  hidePhone();
+});
+ 
 
   phoneInput.addEventListener("input", ()=>{
-  const v = formatKoreanPhone(phoneInput.value);
-  if(v){
-    phoneOutput.textContent = v;
-    phoneHint.textContent = "변환 완료!";
+  const result = formatKoreanPhone(phoneInput.value);
+
+  if(result.value){
+    phoneOutput.textContent = result.value;
+
+    if(result.type === "safe"){
+      phoneHint.textContent = "안전번호 (가상번호)";
+    }else{
+      phoneHint.textContent = "휴대폰 번호";
+    }
   }else{
     phoneOutput.textContent = "010-0000-0000";
-    phoneHint.textContent = "입력하면 자동으로 010-XXXX-XXXX로 변환돼요.";
+    phoneHint.textContent = "번호를 입력하세요";
   }
 });
+
 
 phoneCopy.addEventListener("click", async ()=>{
   const v = phoneOutput.textContent;
   if(!v || v === "010-0000-0000") return;
   try{
     await navigator.clipboard.writeText(v);
-    phoneHint.textContent = "복사됨 ✅";
+    phoneHint.textContent = "복사✅";
   }catch{
-    phoneHint.textContent = "복사 실패(브라우저 권한 확인)";
+    phoneHint.textContent = "실패";
   }
 });
 
@@ -1132,6 +1173,29 @@ phoneCopy.addEventListener("click", async ()=>{
     if(cur.length || row.length){ row.push(cur); rows.push(row); }
     return rows;
   }
+async function copyText(v){
+  if(!v || v === "010-0000-0000") return;
+  try{
+    await navigator.clipboard.writeText(v);
+    phoneHint.textContent = "복사됨 ✅";
+  }catch{
+    phoneHint.textContent = "복사 실패(브라우저 권한 확인)";
+  }
+}
+
+// ✅ 출력칸 원클릭 복사
+phoneOutput.addEventListener("click", (e)=>{
+  e.preventDefault();
+  e.stopPropagation();
+  copyText(phoneOutput.textContent);
+});
+
+// (선택) 기존 복사 버튼도 동일 함수 사용
+phoneCopy.addEventListener("click", (e)=>{
+  e.preventDefault();
+  e.stopPropagation();
+  copyText(phoneOutput.textContent);
+});
 
   async function loadEventsFromSheet(){
     try{
