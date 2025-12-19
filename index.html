@@ -1554,6 +1554,22 @@
       card.appendChild(head);
       card.appendChild(fields);
       frag.appendChild(card);
+
+      // ✅ 카드 클릭하면 자동 복사 (PW > ID > 상점 우선)
+card.addEventListener("click", ()=>{
+  const pw = (item.pw || "").trim();
+  const id = (item.loginId || "").trim();
+  const store = (item.storeId || "").trim();
+
+  const pick =
+    (pw && pw !== "-" && pw !== "없음") ? pw :
+    (id && id !== "-" && id !== "없음") ? id :
+    (store && store !== "-" && store !== "없음") ? store :
+    "";
+
+  if(pick) copyToClipboard(pick);
+});
+
     });
 
     accountResult.appendChild(frag);
