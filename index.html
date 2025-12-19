@@ -19,27 +19,27 @@
         inset 0 1px 0 rgba(255,255,255,0.9);
       --card-bg: radial-gradient(circle at top left, #fef3ff 0%, #ffffff 50%, #f1f5f9 100%);
 
-      --main-sidebar-bg: #b79cff; /* 파스텔 퍼플 단색 */
+      /* ✅ main sidebar: 단색 */
+      --main-sidebar-bg: #b79cff;
 
       --nav-text: #f9fafb;
       --nav-chip-bg: rgba(255,255,255,0.18);
       --nav-active-chip-bg: #ffffff;
       --nav-active-color: #6d28d9;
 
-      /* ✅ 서브(하위) 사이드바: 핑크 글라스 */
-  --sub-panel-bg: rgba(245, 240, 255, 0.92);   /* 단색 파스텔 보라 */
-  --sub-panel-border: rgba(124, 58, 237, 0.22);
-  --sub-panel-shadow: 0 22px 55px rgba(15,23,42,0.18);
+      /* ✅ sub-panel tone (정리) */
+      --sub-panel-bg: rgba(255, 255, 255, 0.22);
+      --sub-panel-border: rgba(255, 255, 255, 0.45);
+      --sub-panel-shadow: 0 18px 40px rgba(15,23,42,0.18);
 
-  --sub-item-bg: rgba(255, 255, 255, 0.20);
-  --sub-item-hover: rgba(255, 255, 255, 0.32)
-      --sub-title-color: rgba(255,255,255,0.96);
+      /* ✅ sub text 대비 강화 */
+      --sub-ink: rgba(15, 23, 42, 0.92);
+      --sub-ink-muted: rgba(15, 23, 42, 0.62);
+      --sub-title-ink: rgba(15, 23, 42, 0.92);
 
-       --sub-ink: rgba(15, 23, 42, 0.90);           /* 글자 진하게 */
-  --sub-ink-muted: rgba(15, 23, 42, 0.62);
-  --sub-item-bg: rgba(255,255,255,0.70);
-  --sub-item-hover: rgba(255,255,255,0.88);
-  --sub-item-active-bg: rgba(255,255,255,0.95);
+      --sub-item-bg: rgba(255,255,255,0.78);
+      --sub-item-hover: rgba(255,255,255,0.92);
+      --sub-item-active-bg: rgba(255,255,255,0.95);
 
       /* glass calendar */
       --glass-bg: rgba(255,255,255,0.62);
@@ -154,24 +154,23 @@
       box-shadow: 0 14px 28px rgba(15,23,42,0.22);
     }
 
-    /* ✅ 하위 사이드바(구글시트/유틸): 내용만큼 + 핑크 글라스 + "메인 옆" 위치는 JS로 */
+    /* ✅ 하위 사이드바(구글시트/유틸): 단색/폭 줄임 */
     .sub-sidebar{
       position:absolute;
-      left: 96px;          /* 메인(82px) 옆 */
-      width: 160px;
+      left: 96px;
+      width: 160px; /* ✅ 반으로 줄임 */
       border-radius: 22px;
       padding: 12px 12px 10px;
 
-    background: rgba(255, 255, 255, 0.22); /* 단색 */
-   border: 1px solid rgba(255, 255, 255, 0.45);
+      background: var(--sub-panel-bg);
+      border: 1px solid var(--sub-panel-border);
 
-  /* “살짝 글로우” */
-   box-shadow:
-    0 18px 40px rgba(15,23,42,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.35);
+      box-shadow:
+        var(--sub-panel-shadow),
+        inset 0 1px 0 rgba(255,255,255,0.35);
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
 
       height: auto;
       max-height: min(520px, calc(100vh - 40px));
@@ -191,31 +190,28 @@
       transform: translateX(0);
       pointer-events:auto;
     }
+
     .sub-title{
       font-size: 12px;
-      font-weight: 900;
-      color: rgba(255,255,255,0.98);
-      text-shadow: 0 8px 18px rgba(15,23,42,0.22);
+      font-weight: 1000;
+      color: var(--sub-title-ink);
       margin-bottom: 8px;
       letter-spacing: -0.2px;
     }
+
     .sub-list{
       display:flex; flex-direction:column;
       gap: 8px;
       overflow-y:auto;
       padding-right: 2px;
     }
-    .sub-item{
-        border: 1px solid rgba(255, 180, 220, 0.28);
-       box-shadow:
-    0 10px 20px rgba(15,23,42,0.10),
-    inset 0 1px 0 rgba(255,255,255,0.35);
 
+    .sub-item{
       width:100%;
       padding: 9px 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.18);
-      color: rgba(255,255,255,0.95);
+      background: var(--sub-item-bg);
+      color: var(--sub-ink);
       font-size: 12px;
       cursor:pointer;
       display:flex;
@@ -223,19 +219,24 @@
       gap: 8px;
       transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
       text-align:left;
+
+      border: 1px solid rgba(15,23,42,0.08);
+      box-shadow:
+        0 10px 18px rgba(15,23,42,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.55);
     }
-    .sub-item i{ font-size:16px; }
+    .sub-item i{ font-size:16px; color: rgba(15,23,42,0.55); }
     .sub-item:hover{
-      background: rgba(255,255,255,0.30);
-  border-color: rgba(255, 180, 220, 0.40);
-  box-shadow:
-    0 16px 28px rgba(15,23,42,0.14),
-    0 12px 26px rgba(236,72,153,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.40);
-}
+      background: var(--sub-item-hover);
+      transform: translateY(-1px);
+      box-shadow:
+        0 14px 22px rgba(15,23,42,0.10),
+        inset 0 1px 0 rgba(255,255,255,0.60);
+    }
     .sub-item.active{
-      background: rgba(255,255,255,0.92);
+      background: var(--sub-item-active-bg);
       color: var(--nav-active-color);
+      border-color: rgba(124,58,237,0.18);
       box-shadow: 0 12px 20px rgba(124,58,237,.16);
     }
 
@@ -334,7 +335,7 @@
       color: var(--accent);
     }
 
-    /* bell (also sheet link) */
+    /* bell */
     .today-event-icon{
       position:relative;
       width:30px;height:30px;border-radius:999px;
@@ -684,9 +685,16 @@
     }
     .account-head{
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
       margin-bottom: 10px;
+      gap: 10px;
+    }
+    .account-head-left{
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      align-items:flex-start;
     }
     .account-title{
       font-size: 14px;
@@ -702,6 +710,7 @@
       box-shadow: 0 12px 18px rgba(15,23,42,0.10);
       display:flex;align-items:center;justify-content:center;
       color: rgba(15,23,42,0.70);
+      flex: 0 0 auto;
     }
     .account-row{
       display:flex;
@@ -719,17 +728,6 @@
       box-shadow: 0 10px 18px rgba(15,23,42,0.06);
       font-weight: 800;
     }
-    .account-search{
-      border:none;
-      cursor:pointer;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      font-weight: 900;
-      color: var(--accent);
-    }
-    .account-search:active{ transform: translateY(1px); }
     .account-toggle{
       margin-top: 8px;
       display:flex;
@@ -748,6 +746,12 @@
       align-items:center;
       gap: 10px;
     }
+    .account-count{
+      font-size: 11px;
+      font-weight: 1000;
+      color: rgba(15,23,42,0.62);
+    }
+
     .account-badge{
       font-size: 10px;
       padding: 4px 10px;
@@ -758,11 +762,19 @@
       font-weight: 1000;
       letter-spacing: 0.08em;
     }
-    .account-count{
-      font-size: 11px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.62);
+    .account-badge-link{
+      border: none;
+      cursor: pointer;
+      user-select:none;
     }
+    .account-badge-link:hover{
+      background: rgba(124,58,237,0.20);
+      border-color: rgba(124,58,237,0.26);
+    }
+    .account-badge-link:active{
+      transform: translateY(1px);
+    }
+
     .account-result{
       margin-top: 8px;
       max-height: 360px;
@@ -824,6 +836,16 @@
       border: 1px solid rgba(15,23,42,0.08);
       box-shadow: 0 6px 12px rgba(15,23,42,0.06);
       min-width: 0;
+      cursor: pointer; /* ✅ 클릭 복사 */
+      user-select:none;
+    }
+    .account-chip:hover{
+      background: rgba(255,255,255,0.98);
+      box-shadow: 0 10px 16px rgba(15,23,42,0.08);
+      transform: translateY(-1px);
+    }
+    .account-chip:active{
+      transform: translateY(0px);
     }
     .account-chip .k{
       font-size: 9px;
@@ -871,29 +893,6 @@
       opacity: 1;
       transform: translateX(-50%) translateY(-2px);
     }
-    .account-head-left{
-  display:flex;
-  flex-direction:column;
-  gap: 8px; /* 제목 아래에 버튼이 붙게 */
-  align-items:flex-start;
-}
-
-/* ACCOUNT 버튼 클릭 가능하게 */
-.account-badge-link{
-  border: none;
-  cursor: pointer;
-  user-select:none;
-}
-
-.account-badge-link:hover{
-  background: rgba(124,58,237,0.20);
-  border-color: rgba(124,58,237,0.26);
-}
-
-.account-badge-link:active{
-  transform: translateY(1px);
-}
-
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
@@ -954,7 +953,7 @@
       <span>Phone</span>
     </button>
 
-    <!-- ✅ account widget toggle (위젯은 그대로 유지) -->
+    <!-- ✅ account widget toggle -->
     <button class="nav-footer-btn" id="accountWidgetBtn" type="button" title="계정 조회">
       <i class='bx bx-key'></i>
       <span>ID/PW</span>
@@ -995,22 +994,15 @@
   <aside class="sub-sidebar" id="utilSidebar">
     <div class="sub-title">유틸</div>
     <div class="sub-list">
-      <!-- ✅ 계정: 기존 account 페이지로 이동 -->
       <button class="sub-item util-child" data-href="https://wskimkj.github.io/account/">
         <i class='bx bx-chevron-right'></i><span>계정</span>
       </button>
-
-      <!-- ✅ 배송조회: 기존 tracking -->
       <button class="sub-item util-child" data-href="https://wskimkj.github.io/tracking/">
         <i class='bx bx-chevron-right'></i><span>배송조회</span>
       </button>
-
-      <!-- ✅ 환불: 기존 refund24 -->
       <button class="sub-item util-child" data-href="https://wskimkj.github.io/refund24/">
         <i class='bx bx-chevron-right'></i><span>환불</span>
       </button>
-
-      <!-- ✅ 이벤트: 위젯 토글 -->
       <button class="sub-item util-child" data-action="event">
         <i class='bx bx-chevron-right'></i><span>이벤트</span>
       </button>
@@ -1044,46 +1036,40 @@
   </div>
 
   <!-- ✅ account widget -->
-<div class="account-widget" id="accountWidget">
-  <div class="account-head">
-    <div class="account-head-left">
-      <div class="account-title">계정 조회</div>
+  <div class="account-widget" id="accountWidget">
+    <div class="account-head">
+      <div class="account-head-left">
+        <div class="account-title">계정 조회</div>
+        <button type="button" class="account-badge account-badge-link" id="accountSheetBtn">ACCOUNT</button>
+      </div>
 
-      <!-- ✅ ACCOUNT 버튼: 화살표 위치로 이동 -->
-      <button type="button" class="account-badge account-badge-link" id="accountSheetBtn">
-        ACCOUNT
+      <button class="account-close" id="accountClose" type="button" aria-label="닫기">
+        <i class='bx bx-x' style="font-size:18px;"></i>
       </button>
     </div>
 
-    <button class="account-close" id="accountClose" type="button" aria-label="닫기">
-      <i class='bx bx-x' style="font-size:18px;"></i>
-    </button>
+    <div class="account-body">
+      <div class="account-row">
+        <input id="accountQuery" class="account-input" placeholder="" />
+      </div>
+
+      <label class="account-toggle" title="기본은 OR, 체크하면 AND">
+        <input id="accountMatchAll" type="checkbox" />
+        ALL
+      </label>
+
+      <div class="account-meta">
+        <span></span>
+        <span id="accountCount" class="account-count">0건</span>
+      </div>
+
+      <div id="accountResult" class="account-result">
+        <div class="account-empty">데이터 불러오는 중...</div>
+      </div>
+
+      <div id="accountToast" class="account-toast">복사</div>
+    </div>
   </div>
-
-  <div class="account-body">
-    <div class="account-row">
-      <input id="accountQuery" class="account-input" placeholder="" />
-    </div>
-
-    <label class="account-toggle" title="기본은 OR, 체크하면 AND">
-      <input id="accountMatchAll" type="checkbox" />
-      ALL
-    </label>
-
-    <!-- ✅ meta에는 count만 남김 -->
-    <div class="account-meta">
-      <span></span>
-      <span id="accountCount" class="account-count">0건</span>
-    </div>
-
-    <div id="accountResult" class="account-result">
-      <div class="account-empty">데이터 불러오는 중...</div>
-    </div>
-
-    <div id="accountToast" class="account-toast">복사</div>
-  </div>
-</div>
-
 
   <!-- calendar widget -->
   <div class="calendar-widget" id="calendarWidget">
@@ -1120,6 +1106,7 @@
     </div>
     <div class="calendar-days" id="calendarDays"></div>
   </div>
+
 </div>
 
 <script>
@@ -1208,7 +1195,6 @@
   const accountWidgetBtn = document.getElementById("accountWidgetBtn");
   const accountClose = document.getElementById("accountClose");
   const accountQuery = document.getElementById("accountQuery");
-  const accountSearchBtn = document.getElementById("accountSearchBtn");
   const accountMatchAll = document.getElementById("accountMatchAll");
   const accountResult = document.getElementById("accountResult");
   const accountCount = document.getElementById("accountCount");
@@ -1217,11 +1203,11 @@
   const mainFrame = document.getElementById("mainFrame");
   const navItems = document.querySelectorAll(".nav-item");
 
-  const subSidebar = document.getElementById("subSidebar");       // 시트
+  const subSidebar = document.getElementById("subSidebar");
   const googleBtn = document.getElementById("googleBtn");
   const googleChildren = document.querySelectorAll(".google-child");
 
-  const utilSidebar = document.getElementById("utilSidebar");     // 유틸
+  const utilSidebar = document.getElementById("utilSidebar");
   const utilBtn = document.getElementById("utilBtn");
   const utilChildren = document.querySelectorAll(".util-child");
 
@@ -1233,23 +1219,20 @@
   const todayBadge = document.getElementById("todayBadge");
 
   const popup = document.getElementById("datePopup");
-  const popupList = document.getElementById("popupEventList");
-  const popupLabel = document.getElementById("popupDateLabel");
   const popupClose = document.getElementById("popupClose");
 
   const EVENT_SHEET_URL =
     "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
 
+  /* ✅ ACCOUNT 버튼 → 시트 */
   const accountSheetBtn = document.getElementById("accountSheetBtn");
+  const ACCOUNT_SHEET_URL =
+    "https://docs.google.com/spreadsheets/d/1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0/edit?gid=0#gid=0";
 
-const ACCOUNT_SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0/edit?gid=0#gid=0";
-
-accountSheetBtn.addEventListener("click", (e) => {
-  window.open(ACCOUNT_SHEET_URL, "_blank");
-  e.stopPropagation();
-});
-
+  accountSheetBtn.addEventListener("click", (e) => {
+    window.open(ACCOUNT_SHEET_URL, "_blank");
+    e.stopPropagation();
+  });
 
   /* ======================
      iframe refresh restore
@@ -1292,11 +1275,11 @@ accountSheetBtn.addEventListener("click", (e) => {
   }
 
   /* ======================
-     ✅ Sub-sidebar positioning (그룹 느낌: 버튼 옆에 딱)
+     ✅ Sub-sidebar positioning
      ====================== */
   function placeSubSidebarNear(btn, panel){
     const r = btn.getBoundingClientRect();
-    const left = 96; // main sidebar 옆
+    const left = 96;
 
     const h = panel.offsetHeight || 220;
     let top = r.top + window.scrollY + (r.height/2) - (h/2);
@@ -1371,13 +1354,13 @@ accountSheetBtn.addEventListener("click", (e) => {
       phoneOutput.textContent = result.value;
       phoneHint.textContent = (result.type === "safe") ? "안전번호 (가상번호)" : "휴대폰 번호";
     }else{
-      phoneOutput.textContent = "010-0000-0000";
+      phoneOutput.textContent = "";
       phoneHint.textContent = "번호를 입력하세요";
     }
   });
 
   async function copyText(v){
-    if(!v || v === "010-0000-0000") return;
+    if(!v) return;
     try{
       await navigator.clipboard.writeText(v);
       phoneHint.textContent = "복사됨 ✅";
@@ -1395,7 +1378,7 @@ accountSheetBtn.addEventListener("click", (e) => {
   });
 
   /* ======================
-     Account widget (existing)
+     Account widget
      ====================== */
   const ACCOUNT_SHEET_ID = "1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0";
   const SHOP_GIDS = [0, 618725932, 1481873109];
@@ -1547,7 +1530,7 @@ accountSheetBtn.addEventListener("click", (e) => {
       }
 
       accountLoaded = true;
-      accountResult.innerHTML = '<div class="account-empty">검색어를 입력하세요.</div>';
+      accountResult.innerHTML = '<div class="account-empty">검색어를 입력하세요. (Enter)</div>';
       accountCount.textContent = "0건";
     }catch(err){
       console.error(err);
@@ -1613,33 +1596,28 @@ accountSheetBtn.addEventListener("click", (e) => {
     }
   }
 
-function makeAccountChip(label, value){
-  const chip = document.createElement("div");
-  chip.className = "account-chip";
+  function makeAccountChip(label, value){
+    const chip = document.createElement("div");
+    chip.className = "account-chip";
 
-  const k = document.createElement("div");
-  k.className = "k";
-  k.textContent = label;
+    const k = document.createElement("div");
+    k.className = "k";
+    k.textContent = label;
 
-  const v = document.createElement("div");
-  v.className = "v";
-  v.textContent = value;
+    const v = document.createElement("div");
+    v.className = "v";
+    v.textContent = value;
 
-  chip.appendChild(k);
-  chip.appendChild(v);
+    chip.appendChild(k);
+    chip.appendChild(v);
 
-  // ✅ 칩(셀) 클릭 → 값 복사
-  chip.addEventListener("click", (e)=>{
-    e.stopPropagation();
-    copyToClipboard(value);
-  });
+    chip.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      copyToClipboard(value);
+    });
 
-  // ✅ UX: 마우스 올리면 클릭 가능 느낌
-  chip.style.cursor = "pointer";
-
-  return chip;
-}
-
+    return chip;
+  }
 
   function renderAccountResults(list){
     if(!list || list.length === 0){
@@ -1732,7 +1710,6 @@ function makeAccountChip(label, value){
   accountWidget.addEventListener("click",(e)=> e.stopPropagation());
   accountWidget.addEventListener("mouseleave", ()=> hideAccount());
 
-  accountSearchBtn.addEventListener("click", doAccountSearch);
   accountQuery.addEventListener("keydown",(e)=>{
     if(e.key === "Enter") doAccountSearch();
   });
@@ -1760,7 +1737,6 @@ function makeAccountChip(label, value){
     e.stopPropagation();
   });
 
-  // ✅ 시트 토글(버튼 옆에 딱)
   googleBtn.addEventListener("click",(e)=>{
     const isOpen = subSidebar.classList.contains("visible");
     closeAllPanels();
@@ -1770,7 +1746,6 @@ function makeAccountChip(label, value){
     e.stopPropagation();
   });
 
-  // ✅ 유틸 토글(버튼 옆에 딱)
   utilBtn.addEventListener("click",(e)=>{
     const isOpen = utilSidebar.classList.contains("visible");
     closeAllPanels();
@@ -1780,14 +1755,12 @@ function makeAccountChip(label, value){
     e.stopPropagation();
   });
 
-  // ✅ 메인 nav 일반 이동(유틸/시트는 제외)
   navItems.forEach(btn=>{
     btn.addEventListener("click",(e)=>{
       const id = btn.dataset.id;
       const href = btn.dataset.href;
 
       if(id === "google" || id === "util"){
-        // 토글은 위에서 처리
         e.stopPropagation();
         return;
       }
@@ -1805,7 +1778,6 @@ function makeAccountChip(label, value){
     });
   });
 
-  // ✅ 구글 시트 하위 클릭
   googleChildren.forEach(btn=>{
     btn.addEventListener("click",(e)=>{
       googleChildren.forEach(b=>b.classList.remove("active"));
@@ -1816,13 +1788,11 @@ function makeAccountChip(label, value){
         mainFrame.src = url;
         rememberFrame(url);
       }
-      // 서브는 닫아도 되고 유지해도 되는데, 보통 클릭 후 닫는게 깔끔
       closeAllPanels();
       e.stopPropagation();
     });
   });
 
-  // ✅ 유틸 하위 클릭
   utilChildren.forEach(btn=>{
     btn.addEventListener("click",(e)=>{
       utilChildren.forEach(b=>b.classList.remove("active"));
@@ -1859,23 +1829,6 @@ function makeAccountChip(label, value){
     e.stopPropagation();
   });
 
-  // ITEM 토글
-  document.addEventListener("click", (e)=>{
-    const btn = e.target.closest("[data-itemtoggle]");
-    if(!btn) return;
-
-    e.stopPropagation();
-
-    const box = btn.closest("[data-itembox]");
-    const content = box?.querySelector("[data-itemcontent]");
-    if(!content) return;
-
-    const expanded = btn.getAttribute("aria-expanded") === "true";
-    btn.setAttribute("aria-expanded", String(!expanded));
-    content.classList.toggle("is-collapsed", expanded ? true : false);
-  });
-
-  // ✅ 바깥 클릭하면 서브 사이드바 닫기(그룹 느낌 유지)
   document.addEventListener("click", (e)=>{
     const t = e.target;
     const clickedGoogle = googleBtn.contains(t) || subSidebar.contains(t);
@@ -2000,9 +1953,9 @@ function makeAccountChip(label, value){
 
   function openPopupForDate(dateKey){
     const items = events.filter(ev => inRangeKey(dateKey, ev.start, ev.end));
-    popupLabel.textContent = formatMDKorean(dateKey);
+    document.getElementById("popupDateLabel").textContent = formatMDKorean(dateKey);
 
-    popupList.innerHTML = items.length
+    document.getElementById("popupEventList").innerHTML = items.length
       ? items.map(ev=>{
           const pretty = formatBulletLines(ev.content || "(내용없음)");
           const hasItem = !!(ev.target && ev.target.trim());
@@ -2157,6 +2110,24 @@ function makeAccountChip(label, value){
       closePopup();
       hideCalendar();
     }
+  });
+
+  /* ======================
+     ITEM 토글
+     ====================== */
+  document.addEventListener("click", (e)=>{
+    const btn = e.target.closest("[data-itemtoggle]");
+    if(!btn) return;
+
+    e.stopPropagation();
+
+    const box = btn.closest("[data-itembox]");
+    const content = box?.querySelector("[data-itemcontent]");
+    if(!content) return;
+
+    const expanded = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!expanded));
+    content.classList.toggle("is-collapsed", expanded ? true : false);
   });
 
   /* ======================
