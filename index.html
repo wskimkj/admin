@@ -19,7 +19,8 @@
         inset 0 1px 0 rgba(255,255,255,0.9);
       --card-bg: radial-gradient(circle at top left, #fef3ff 0%, #ffffff 50%, #f1f5f9 100%);
 
-      --main-sidebar-bg: linear-gradient(180deg, #b79cff 0%, #ff8fb8 52%, #ffd6e7 100%);
+      --main-sidebar-bg: #b79cff; /* 파스텔 퍼플 단색 */
+
       --nav-text: #f9fafb;
       --nav-chip-bg: rgba(255,255,255,0.18);
       --nav-active-chip-bg: #ffffff;
@@ -153,14 +154,11 @@
     .sub-sidebar{
       position:absolute;
       left: 96px;          /* 메인(82px) 옆 */
-      width: 220px;
+      width: 110px;
       border-radius: 22px;
       padding: 12px 12px 10px;
 
-     background:
-    radial-gradient(circle at 20% 15%, rgba(255, 70, 160, 0.46), transparent 55%),
-    radial-gradient(circle at 85% 90%, rgba(255, 180, 220, 0.28), transparent 55%),
-    linear-gradient(180deg, rgba(255, 70, 160, 0.26), rgba(255, 70, 160, 0.14));
+    background: rgba(255, 255, 255, 0.22); /* 단색 */
   border: 1px solid var(--sub-glass-border);
 
   /* “살짝 글로우” */
