@@ -25,10 +25,16 @@
       --nav-active-chip-bg: #ffffff;
       --nav-active-color: #6d28d9;
 
-      --sub-sidebar-bg:
-        radial-gradient(circle at top left, rgba(255, 182, 213, 0.55), rgba(170, 190, 255, 0.55)),
-        linear-gradient(180deg, rgba(15,23,42,0.16), rgba(15,23,42,0.26));
-      --sub-title-color: #fff7fd;
+      /* ✅ 서브(하위) 사이드바: 핑크 글라스 */
+       --sub-glass-bg: rgba(255, 60, 150, 0.34);   /* 상단 핑크 */
+  --sub-glass-bg2: rgba(255, 160, 210, 0.22); /* 하단 라이트핑크 */
+  --sub-glass-border: rgba(255, 170, 220, 0.58);
+  --sub-glass-shadow: 0 22px 55px rgba(236, 72, 153, 0.22),
+                      0 18px 45px rgba(15,23,42,0.18);
+
+  --sub-item-bg: rgba(255, 255, 255, 0.20);
+  --sub-item-hover: rgba(255, 255, 255, 0.32)
+      --sub-title-color: rgba(255,255,255,0.96);
 
       /* glass calendar */
       --glass-bg: rgba(255,255,255,0.62);
@@ -118,7 +124,7 @@
       box-shadow: 0 12px 24px rgba(15,23,42,.18);
     }
 
-    /* ===== ADMIN button -> calendar toggle ===== */
+    /* ===== footer buttons ===== */
     .nav-footer-btn{
       margin-top: auto;
       margin-bottom: 6px;
@@ -143,72 +149,93 @@
       box-shadow: 0 14px 28px rgba(15,23,42,0.22);
     }
 
+    /* ✅ 하위 사이드바(구글시트/유틸): 내용만큼 + 핑크 글라스 + "메인 옆" 위치는 JS로 */
     .sub-sidebar{
-  position:absolute;
-  top: 15%;
-  bottom: 25%;
-  left: 96px;
-  width: 220px;
-  border-radius: 24px;
-  padding: 12px 12px 10px;
+      position:absolute;
+      left: 96px;          /* 메인(82px) 옆 */
+      width: 220px;
+      border-radius: 22px;
+      padding: 12px 12px 10px;
 
-  /* 여기만 변경 */
-  background: #E9D5FF; /* 파스텔 보라 */
+     background:
+    radial-gradient(circle at 20% 15%, rgba(255, 70, 160, 0.46), transparent 55%),
+    radial-gradient(circle at 85% 90%, rgba(255, 180, 220, 0.28), transparent 55%),
+    linear-gradient(180deg, rgba(255, 70, 160, 0.26), rgba(255, 70, 160, 0.14));
+  border: 1px solid var(--sub-glass-border);
 
-  box-shadow: 0 20px 40px rgba(15,23,42,0.35),
-              0 0 0 1px rgba(255,255,255,0.55);
+  /* “살짝 글로우” */
+  box-shadow:
+    0 26px 65px rgba(15,23,42,0.22),
+    0 18px 55px rgba(236,72,153,0.24),
+    inset 0 1px 0 rgba(255,255,255,0.45);
+
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  display:flex;
-  flex-direction:column;
-  opacity:0;
-  transform: translateX(-16px);
-  pointer-events:none;
-  transition: all .22s ease;
-  z-index: 40;
-}
 
+      height: auto;
+      max-height: min(520px, calc(100vh - 40px));
+      overflow: hidden;
+
+      display:flex;
+      flex-direction:column;
+
+      opacity:0;
+      transform: translateX(-12px);
+      pointer-events:none;
+      transition: all .18s ease;
+      z-index: 45;
+    }
     .sub-sidebar.visible{
       opacity:1;
       transform: translateX(0);
       pointer-events:auto;
     }
     .sub-title{
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--sub-title-color);
-      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.98);
+      text-shadow: 0 8px 18px rgba(15,23,42,0.22);
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
     }
     .sub-list{
       display:flex; flex-direction:column;
-      gap: 6px;
+      gap: 8px;
       overflow-y:auto;
+      padding-right: 2px;
     }
     .sub-item{
-      border:none;
+        border: 1px solid rgba(255, 180, 220, 0.28);
+       box-shadow:
+    0 10px 20px rgba(15,23,42,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+
       width:100%;
-      padding: 8px 11px;
+      padding: 9px 12px;
       border-radius: 999px;
       background: rgba(255,255,255,0.18);
-      color: #f9fafb;
+      color: rgba(255,255,255,0.95);
       font-size: 12px;
       cursor:pointer;
       display:flex;
       align-items:center;
       gap: 8px;
-      transition: all .18s ease;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
       text-align:left;
     }
     .sub-item i{ font-size:16px; }
     .sub-item:hover{
-      background: rgba(255,255,255,0.28);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 18px rgba(15,23,42,.20);
-    }
+      background: rgba(255,255,255,0.30);
+  border-color: rgba(255, 180, 220, 0.40);
+  box-shadow:
+    0 16px 28px rgba(15,23,42,0.14),
+    0 12px 26px rgba(236,72,153,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.40);
+}
     .sub-item.active{
-      background:#fff;
+      background: rgba(255,255,255,0.92);
       color: var(--nav-active-color);
-      box-shadow: 0 12px 20px rgba(124,58,237,.18);
+      box-shadow: 0 12px 20px rgba(124,58,237,.16);
     }
 
     /* ===== main content ===== */
@@ -883,33 +910,29 @@
         <div class="nav-icon-wrap"><i class='bx bx-search'></i></div>
         <span> 상품</span>
       </button>
-         <button class="nav-item" data-id="template" data-href="https://wskimkj.github.io/trim2/">
+
+      <button class="nav-item" data-id="template" data-href="https://wskimkj.github.io/trim2/">
         <div class="nav-icon-wrap"><i class='bx bx-message'></i></div>
         <span> 템플릿</span>
       </button>
+
       <button class="nav-item" data-id="order" data-href="https://wskimkj.github.io/return-inf/">
         <div class="nav-icon-wrap"><i class='bx bx-cart'></i></div>
         <span> 주문 </span>
       </button>
-       <button class="nav-item" data-id="memo" data-href="https://wskimkj.github.io/memo/">
+
+      <button class="nav-item" data-id="memo" data-href="https://wskimkj.github.io/memo/">
         <div class="nav-icon-wrap"><i class='bx bx-pen'></i></div>
         <span> 메모</span>
       </button>
-      <button class="nav-item" data-id="refund" data-href="https://wskimkj.github.io/refund24/">
-        <div class="nav-icon-wrap"><i class='bx bx-calculator'></i></div>
-        <span> 환불 </span>
+
+      <!-- ✅ 유틸(하위) -->
+      <button class="nav-item" id="utilBtn" data-id="util">
+        <div class="nav-icon-wrap"><i class='bx bx-wrench'></i></div>
+        <span> 유틸 </span>
       </button>
-      <button class="nav-item" data-id="tracking" data-href="https://wskimkj.github.io/tracking/">
-        <div class="nav-icon-wrap"><i class='bx bx-package'></i></div>
-        <span> 배송</span>
-      </button>
-   
-      
-      <button class="nav-item" data-id="account" data-href="https://wskimkj.github.io/account/">
-        <div class="nav-icon-wrap"><i class='bx bx-lock'></i></div>
-        <span> 계정</span>
-      </button>
-     
+
+      <!-- ✅ 시트(하위) -->
       <button class="nav-item" id="googleBtn" data-id="google">
         <div class="nav-icon-wrap"><i class='bx bx-spreadsheet'></i></div>
         <span> 시트 </span>
@@ -921,7 +944,7 @@
       <span>Phone</span>
     </button>
 
-    <!-- ✅ account widget toggle -->
+    <!-- ✅ account widget toggle (위젯은 그대로 유지) -->
     <button class="nav-footer-btn" id="accountWidgetBtn" type="button" title="계정 조회">
       <i class='bx bx-key'></i>
       <span>ID/PW</span>
@@ -933,7 +956,7 @@
     </button>
   </nav>
 
-  <!-- sub sidebar -->
+  <!-- ✅ sheet sub sidebar -->
   <aside class="sub-sidebar" id="subSidebar">
     <div class="sub-title">구글 시트</div>
     <div class="sub-list">
@@ -954,6 +977,32 @@
       </button>
       <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787">
         <i class='bx bx-chevron-right'></i><span>Team.주간</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ✅ util sub sidebar -->
+  <aside class="sub-sidebar" id="utilSidebar">
+    <div class="sub-title">유틸</div>
+    <div class="sub-list">
+      <!-- ✅ 계정: 기존 account 페이지로 이동 -->
+      <button class="sub-item util-child" data-href="https://wskimkj.github.io/account/">
+        <i class='bx bx-chevron-right'></i><span>계정</span>
+      </button>
+
+      <!-- ✅ 배송조회: 기존 tracking -->
+      <button class="sub-item util-child" data-href="https://wskimkj.github.io/tracking/">
+        <i class='bx bx-chevron-right'></i><span>배송조회</span>
+      </button>
+
+      <!-- ✅ 환불: 기존 refund24 -->
+      <button class="sub-item util-child" data-href="https://wskimkj.github.io/refund24/">
+        <i class='bx bx-chevron-right'></i><span>환불</span>
+      </button>
+
+      <!-- ✅ 이벤트: 위젯 토글 -->
+      <button class="sub-item util-child" data-action="event">
+        <i class='bx bx-chevron-right'></i><span>이벤트</span>
       </button>
     </div>
   </aside>
@@ -1149,9 +1198,13 @@
   const mainFrame = document.getElementById("mainFrame");
   const navItems = document.querySelectorAll(".nav-item");
 
-  const subSidebar = document.getElementById("subSidebar");
+  const subSidebar = document.getElementById("subSidebar");       // 시트
   const googleBtn = document.getElementById("googleBtn");
   const googleChildren = document.querySelectorAll(".google-child");
+
+  const utilSidebar = document.getElementById("utilSidebar");     // 유틸
+  const utilBtn = document.getElementById("utilBtn");
+  const utilChildren = document.querySelectorAll(".util-child");
 
   const calendarWidget = document.getElementById("calendarWidget");
   const adminEventBtn = document.getElementById("adminEventBtn");
@@ -1190,11 +1243,46 @@
   /* ======================
      UI helpers (close)
      ====================== */
-  function hideSubSidebar(){ subSidebar.classList.remove("visible"); }
-  function hideCalendar(){ calendarWidget.classList.remove("visible"); }
   function closePopup(){ popup.classList.remove("open"); }
+  function hideCalendar(){ calendarWidget.classList.remove("visible"); }
   function hidePhone(){ phoneWidget.classList.remove("visible"); }
   function hideAccount(){ accountWidget.classList.remove("visible"); }
+
+  function hideAllSubSidebars(){
+    subSidebar.classList.remove("visible");
+    utilSidebar.classList.remove("visible");
+  }
+
+  function closeAllPanels(){
+    hideAllSubSidebars();
+    hideCalendar();
+    hidePhone();
+    hideAccount();
+    closePopup();
+  }
+
+  /* ======================
+     ✅ Sub-sidebar positioning (그룹 느낌: 버튼 옆에 딱)
+     ====================== */
+  function placeSubSidebarNear(btn, panel){
+    const r = btn.getBoundingClientRect();
+    const left = 96; // main sidebar 옆
+
+    const h = panel.offsetHeight || 220;
+    let top = r.top + window.scrollY + (r.height/2) - (h/2);
+
+    const minTop = 12 + window.scrollY;
+    const maxTop = window.scrollY + window.innerHeight - h - 12;
+    top = Math.max(minTop, Math.min(top, maxTop));
+
+    panel.style.left = left + "px";
+    panel.style.top  = top  + "px";
+  }
+
+  function showSubSidebar(panel, anchorBtn){
+    panel.classList.add("visible");
+    requestAnimationFrame(()=> placeSubSidebarNear(anchorBtn, panel));
+  }
 
   /* ======================
      Phone widget
@@ -1229,7 +1317,7 @@
     }else{
       phoneWidget.classList.add("visible");
       hideCalendar();
-      hideSubSidebar();
+      hideAllSubSidebars();
       hideAccount();
       closePopup();
       phoneInput.focus();
@@ -1277,7 +1365,7 @@
   });
 
   /* ======================
-     Account widget (from your old account page -> widget)
+     Account widget (existing)
      ====================== */
   const ACCOUNT_SHEET_ID = "1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0";
   const SHOP_GIDS = [0, 618725932, 1481873109];
@@ -1591,7 +1679,7 @@
     }else{
       accountWidget.classList.add("visible");
       hideCalendar();
-      hideSubSidebar();
+      hideAllSubSidebars();
       hidePhone();
       closePopup();
 
@@ -1622,19 +1710,14 @@
   });
 
   /* ======================
-     Nav + sub sidebar + calendar
+     Nav + sub sidebars + calendar
      ====================== */
-  function toggleSubSidebar(){
-    const v = subSidebar.classList.contains("visible");
-    if(v) subSidebar.classList.remove("visible");
-    else{ subSidebar.classList.add("visible"); hideCalendar(); hidePhone(); hideAccount(); closePopup(); }
-  }
   function toggleCalendar(){
     const v = calendarWidget.classList.contains("visible");
     if(v) { calendarWidget.classList.remove("visible"); closePopup(); }
     else{
       calendarWidget.classList.add("visible");
-      hideSubSidebar();
+      hideAllSubSidebars();
       hidePhone();
       hideAccount();
       buildCalendar();
@@ -1646,21 +1729,42 @@
     e.stopPropagation();
   });
 
+  // ✅ 시트 토글(버튼 옆에 딱)
+  googleBtn.addEventListener("click",(e)=>{
+    const isOpen = subSidebar.classList.contains("visible");
+    closeAllPanels();
+    if(!isOpen){
+      showSubSidebar(subSidebar, googleBtn);
+    }
+    e.stopPropagation();
+  });
+
+  // ✅ 유틸 토글(버튼 옆에 딱)
+  utilBtn.addEventListener("click",(e)=>{
+    const isOpen = utilSidebar.classList.contains("visible");
+    closeAllPanels();
+    if(!isOpen){
+      showSubSidebar(utilSidebar, utilBtn);
+    }
+    e.stopPropagation();
+  });
+
+  // ✅ 메인 nav 일반 이동(유틸/시트는 제외)
   navItems.forEach(btn=>{
     btn.addEventListener("click",(e)=>{
       const id = btn.dataset.id;
       const href = btn.dataset.href;
 
-      if(id === "google"){ toggleSubSidebar(); e.stopPropagation(); return; }
+      if(id === "google" || id === "util"){
+        // 토글은 위에서 처리
+        e.stopPropagation();
+        return;
+      }
 
       navItems.forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
 
-      hideSubSidebar();
-      hideCalendar();
-      hidePhone();
-      hideAccount();
-      closePopup();
+      closeAllPanels();
 
       if(href){
         mainFrame.src = href;
@@ -1670,24 +1774,47 @@
     });
   });
 
+  // ✅ 구글 시트 하위 클릭
   googleChildren.forEach(btn=>{
     btn.addEventListener("click",(e)=>{
       googleChildren.forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
+
       const url = btn.dataset.href;
-      mainFrame.src = url;
-      rememberFrame(url);
+      if(url){
+        mainFrame.src = url;
+        rememberFrame(url);
+      }
+      // 서브는 닫아도 되고 유지해도 되는데, 보통 클릭 후 닫는게 깔끔
+      closeAllPanels();
+      e.stopPropagation();
+    });
+  });
+
+  // ✅ 유틸 하위 클릭
+  utilChildren.forEach(btn=>{
+    btn.addEventListener("click",(e)=>{
+      utilChildren.forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const action = btn.dataset.action;
+      const url = btn.dataset.href;
+
+      if(action === "event"){
+        toggleCalendar();
+      }else if(url){
+        mainFrame.src = url;
+        rememberFrame(url);
+        closeAllPanels();
+      }
       e.stopPropagation();
     });
   });
 
   document.addEventListener("keydown",(e)=>{
     if(e.key === "Escape"){
-      closePopup();
-      hideCalendar();
-      hidePhone();
-      hideAccount();
-      hideSubSidebar();
+      closeAllPanels();
+      hideAllSubSidebars();
     }
   });
 
@@ -1701,6 +1828,7 @@
     e.stopPropagation();
   });
 
+  // ITEM 토글
   document.addEventListener("click", (e)=>{
     const btn = e.target.closest("[data-itemtoggle]");
     if(!btn) return;
@@ -1714,6 +1842,21 @@
     const expanded = btn.getAttribute("aria-expanded") === "true";
     btn.setAttribute("aria-expanded", String(!expanded));
     content.classList.toggle("is-collapsed", expanded ? true : false);
+  });
+
+  // ✅ 바깥 클릭하면 서브 사이드바 닫기(그룹 느낌 유지)
+  document.addEventListener("click", (e)=>{
+    const t = e.target;
+    const clickedGoogle = googleBtn.contains(t) || subSidebar.contains(t);
+    const clickedUtil   = utilBtn.contains(t) || utilSidebar.contains(t);
+
+    const clickedInsideCalendar = calendarWidget.contains(t) || adminEventBtn.contains(t);
+    const clickedInsidePhone = phoneWidget.contains(t) || phoneFormatBtn.contains(t);
+    const clickedInsideAccount = accountWidget.contains(t) || accountWidgetBtn.contains(t);
+
+    if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideAccount){
+      hideAllSubSidebars();
+    }
   });
 
   /* ======================
