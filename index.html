@@ -656,9 +656,15 @@
     }
 
     /* ===== account widget (glass) ===== */
+/* ===== account widget (glass) ===== */
 .account-widget{
+  position:absolute;
+  left: 96px;
+  bottom: 20px;
   width: 420px;
   border-radius: 26px;
+  padding: 14px;
+
   background:
     radial-gradient(circle at 20% 10%, rgba(124,58,237,0.16), transparent 55%),
     radial-gradient(circle at 85% 90%, rgba(236,72,153,0.14), transparent 55%),
@@ -668,10 +674,25 @@
     0 26px 70px rgba(15,23,42,0.18),
     0 18px 45px rgba(124,58,237,0.10),
     inset 0 1px 0 rgba(255,255,255,0.70);
+
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 14px;
+
+  z-index: 60; /* iframe 위로 */
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  pointer-events: none;
+  transition: all .22s ease;
+
+  overflow: hidden;
 }
+
+.account-widget.visible{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
 
 .account-head{
   margin-bottom: 12px;
@@ -772,13 +793,28 @@
 
 /* 토스트: 성공 느낌 */
 .account-toast{
+  position:absolute;
+  left:50%;
+  bottom: 12px;
+  transform: translateX(-50%);
   background: rgba(15,23,42,0.92);
   border: 1px solid rgba(255,255,255,0.14);
+  color:#fff;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 7px 12px;
+  border-radius: 999px;
+
+  opacity: 0;
+  pointer-events:none;
+  transition: opacity .16s ease, transform .16s ease;
 }
+
 .account-toast.show{
   opacity: 1;
   transform: translateX(-50%) translateY(-2px);
 }
+
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
