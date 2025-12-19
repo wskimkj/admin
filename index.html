@@ -870,6 +870,29 @@
       opacity: 1;
       transform: translateX(-50%) translateY(-2px);
     }
+    .account-head-left{
+  display:flex;
+  flex-direction:column;
+  gap: 8px; /* 제목 아래에 버튼이 붙게 */
+  align-items:flex-start;
+}
+
+/* ACCOUNT 버튼 클릭 가능하게 */
+.account-badge-link{
+  border: none;
+  cursor: pointer;
+  user-select:none;
+}
+
+.account-badge-link:hover{
+  background: rgba(124,58,237,0.20);
+  border-color: rgba(124,58,237,0.26);
+}
+
+.account-badge-link:active{
+  transform: translateY(1px);
+}
+
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
@@ -1020,37 +1043,47 @@
   </div>
 
   <!-- ✅ account widget -->
-  <div class="account-widget" id="accountWidget">
-    <div class="account-head">
+<div class="account-widget" id="accountWidget">
+  <div class="account-head">
+    <div class="account-head-left">
       <div class="account-title">계정 조회</div>
-      <button class="account-close" id="accountClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
+
+      <!-- ✅ ACCOUNT 버튼: 화살표 위치로 이동 -->
+      <button type="button" class="account-badge account-badge-link" id="accountSheetBtn">
+        ACCOUNT
       </button>
     </div>
 
-    <div class="account-body">
-      <div class="account-row">
-        <input id="accountQuery" class="account-input" placeholder="예) 스마트스토어 / 쿠팡 / 11번가 ..." />
-        <button id="accountSearchBtn" class="account-search" type="button">검색</button>
-      </div>
-
-      <label class="account-toggle" title="기본은 OR, 체크하면 AND">
-        <input id="accountMatchAll" type="checkbox" />
-        ALL
-      </label>
-
-      <div class="account-meta">
-        <span class="account-badge">ACCOUNT</span>
-        <span id="accountCount" class="account-count">0건</span>
-      </div>
-
-      <div id="accountResult" class="account-result">
-        <div class="account-empty">데이터 불러오는 중...</div>
-      </div>
-
-      <div id="accountToast" class="account-toast">복사</div>
-    </div>
+    <button class="account-close" id="accountClose" type="button" aria-label="닫기">
+      <i class='bx bx-x' style="font-size:18px;"></i>
+    </button>
   </div>
+
+  <div class="account-body">
+    <div class="account-row">
+      <input id="accountQuery" class="account-input" placeholder="예) 스마트스토어 / 쿠팡 / 11번가 ..." />
+      <button id="accountSearchBtn" class="account-search" type="button">검색</button>
+    </div>
+
+    <label class="account-toggle" title="기본은 OR, 체크하면 AND">
+      <input id="accountMatchAll" type="checkbox" />
+      ALL
+    </label>
+
+    <!-- ✅ meta에는 count만 남김 -->
+    <div class="account-meta">
+      <span></span>
+      <span id="accountCount" class="account-count">0건</span>
+    </div>
+
+    <div id="accountResult" class="account-result">
+      <div class="account-empty">데이터 불러오는 중...</div>
+    </div>
+
+    <div id="accountToast" class="account-toast">복사</div>
+  </div>
+</div>
+
 
   <!-- calendar widget -->
   <div class="calendar-widget" id="calendarWidget">
@@ -1206,6 +1239,17 @@
 
   const EVENT_SHEET_URL =
     "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
+
+  const accountSheetBtn = document.getElementById("accountSheetBtn");
+
+const ACCOUNT_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0/edit?gid=0#gid=0";
+
+accountSheetBtn.addEventListener("click", (e) => {
+  window.open(ACCOUNT_SHEET_URL, "_blank");
+  e.stopPropagation();
+});
+
 
   /* ======================
      iframe refresh restore
