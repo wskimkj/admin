@@ -656,234 +656,127 @@
     }
 
     /* ===== account widget (glass) ===== */
-    .account-widget{
-      position:absolute;
-      left: 96px;
-      bottom: 20px;
-      width: 380px;
-      border-radius: 24px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: var(--ink);
-      padding: 12px;
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      z-index: 38;
+   /* ===== account widget (refine) ===== */
+.account-widget{
+  width: 420px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(124,58,237,0.16), transparent 55%),
+    radial-gradient(circle at 85% 90%, rgba(236,72,153,0.14), transparent 55%),
+    rgba(255,255,255,0.62);
+  border: 1px solid rgba(255,255,255,0.72);
+  box-shadow:
+    0 26px 70px rgba(15,23,42,0.18),
+    0 18px 45px rgba(124,58,237,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.70);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 14px;
+}
 
-      opacity: 0;
-      transform: translateY(12px) scale(0.98);
-      pointer-events:none;
-      transition: all .22s ease;
-    }
-    .account-widget.visible{
-      opacity:1;
-      transform: translateY(0) scale(1);
-      pointer-events:auto;
-    }
-    .account-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 10px;
-    }
-    .account-title{
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: -0.2px;
-    }
-    .account-close{
-      border:none;
-      width:30px;height:30px;
-      border-radius:999px;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-      display:flex;align-items:center;justify-content:center;
-      color: rgba(15,23,42,0.70);
-    }
-    .account-row{
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .account-input{
-      flex: 1;
-      border:none;
-      outline:none;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.85);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      font-weight: 800;
-    }
-    .account-search{
-      border:none;
-      cursor:pointer;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      font-weight: 900;
-      color: var(--accent);
-    }
-    .account-search:active{ transform: translateY(1px); }
-    .account-toggle{
-      margin-top: 8px;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.60);
-      user-select:none;
-    }
-    .account-toggle input{ accent-color: var(--accent); }
-    .account-meta{
-      margin-top: 8px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 10px;
-    }
-    .account-badge{
-      font-size: 10px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(124,58,237,0.16);
-      border: 1px solid rgba(124,58,237,0.22);
-      color: var(--accent);
-      font-weight: 1000;
-      letter-spacing: 0.08em;
-    }
-    .account-count{
-      font-size: 11px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.62);
-    }
-    .account-result{
-      margin-top: 8px;
-      max-height: 360px;
-      overflow:auto;
-      padding-right: 4px;
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-    }
-    .account-card{
-      border-radius: 16px;
-      padding: 10px;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      min-width: 0;
-    }
-    .account-card-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap: 8px;
-    }
-    .account-site{
-      font-size: 12px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.92);
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 0;
-      flex: 1;
-    }
-    .account-group{
-      font-size: 10px;
-      font-weight: 1000;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(236,72,153,0.14);
-      border: 1px solid rgba(236,72,153,0.22);
-      color: rgba(236,72,153,0.95);
-      white-space: nowrap;
-    }
-    .account-fields{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .account-chip{
-      display:flex;
-      align-items:center;
-      gap: 6px;
-      padding: 6px 8px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 6px 12px rgba(15,23,42,0.06);
-      min-width: 0;
-    }
-    .account-chip .k{
-      font-size: 9px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.55);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .account-chip .v{
-      font-size: 10px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.88);
-      max-width: 140px;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-    }
-    .account-chip .copy{
-      border:none;
-      cursor:pointer;
-      border-radius: 999px;
-      padding: 5px 8px;
-      font-size: 10px;
-      font-weight: 1000;
-      background: rgba(15,23,42,0.06);
-      color: rgba(15,23,42,0.70);
-      white-space: nowrap;
-    }
-    .account-chip .copy:hover{
-      background: rgba(15,23,42,0.10);
-      color: rgba(15,23,42,0.92);
-    }
-    .account-empty{
-      grid-column: 1 / -1;
-      padding: 10px 4px;
-      font-size: 12px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.55);
-      text-align:center;
-    }
-    .account-toast{
-      position: absolute;
-      left: 50%;
-      bottom: 12px;
-      transform: translateX(-50%);
-      background: rgba(15,23,42,0.92);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 900;
-      padding: 7px 12px;
-      border-radius: 999px;
-      opacity: 0;
-      pointer-events:none;
-      transition: opacity .16s ease, transform .16s ease;
-      box-shadow: 0 14px 28px rgba(15,23,42,0.22);
-    }
-    .account-toast.show{
-      opacity: 1;
-      transform: translateX(-50%) translateY(-2px);
-    }
+.account-head{
+  margin-bottom: 12px;
+}
+
+.account-title{
+  font-size: 15px;
+  font-weight: 1000;
+  color: rgba(15,23,42,0.92);
+}
+
+.account-close{
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(15,23,42,0.06);
+}
+
+.account-row{
+  gap: 10px;
+}
+
+.account-input{
+  border-radius: 18px;
+  padding: 11px 12px;
+  background: rgba(255,255,255,0.82);
+  border: 1px solid rgba(15,23,42,0.08);
+  box-shadow: 0 12px 20px rgba(15,23,42,0.06);
+  font-weight: 900;
+}
+
+.account-search{
+  border-radius: 18px;
+  padding: 11px 14px;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(15,23,42,0.06);
+  box-shadow: 0 12px 20px rgba(15,23,42,0.08);
+}
+
+.account-toggle{
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(15,23,42,0.06);
+  width: fit-content;
+}
+
+.account-meta{
+  margin-top: 10px;
+}
+
+.account-badge{
+  background: rgba(124,58,237,0.14);
+  border: 1px solid rgba(124,58,237,0.20);
+}
+
+.account-result{
+  margin-top: 10px;
+  max-height: 380px;
+  padding-right: 6px;
+}
+
+/* 결과 카드: hover/active 더 또렷 */
+.account-card{
+  border-radius: 18px;
+  background: rgba(255,255,255,0.74);
+  border: 1px solid rgba(15,23,42,0.08);
+  box-shadow: 0 14px 24px rgba(15,23,42,0.06);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  cursor: pointer; /* 카드 클릭 복사용 */
+}
+.account-card:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.86);
+  box-shadow: 0 18px 30px rgba(15,23,42,0.10);
+}
+.account-card:active{
+  transform: translateY(0px) scale(0.99);
+}
+
+/* 칩도 클릭 가능 */
+.account-chip{
+  cursor: pointer;
+  user-select:none;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+.account-chip:hover{
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 10px 18px rgba(15,23,42,0.08);
+}
+.account-chip:active{
+  transform: scale(0.99);
+}
+
+/* 복사 버튼은 숨겨도 되게 (원하면 display:none) */
+.account-chip .copy{
+  background: rgba(15,23,42,0.06);
+}
+
+/* 토스트: 성공 느낌 */
+.account-toast{
+  background: rgba(15,23,42,0.92);
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
@@ -1584,31 +1477,41 @@
   }
 
   function makeAccountChip(label, value){
-    const chip = document.createElement("div");
-    chip.className = "account-chip";
+  const chip = document.createElement("div");
+  chip.className = "account-chip";
+  chip.setAttribute("data-copyvalue", value || "");
 
-    const k = document.createElement("div");
-    k.className = "k";
-    k.textContent = label;
+  const k = document.createElement("div");
+  k.className = "k";
+  k.textContent = label;
 
-    const v = document.createElement("div");
-    v.className = "v";
-    v.textContent = value;
+  const v = document.createElement("div");
+  v.className = "v";
+  v.textContent = value;
 
-    const btn = document.createElement("button");
-    btn.className = "copy";
-    btn.type = "button";
-    btn.textContent = "복사";
-    btn.addEventListener("click",(e)=>{
-      e.stopPropagation();
-      copyToClipboard(value);
-    });
+  const btn = document.createElement("button");
+  btn.className = "copy";
+  btn.type = "button";
+  btn.textContent = "복사";
 
-    chip.appendChild(k);
-    chip.appendChild(v);
-    chip.appendChild(btn);
-    return chip;
-  }
+  // ✅ 버튼 클릭 복사
+  btn.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    copyToClipboard(value);
+  });
+
+  // ✅ 칩 자체 클릭해도 복사
+  chip.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    copyToClipboard(value);
+  });
+
+  chip.appendChild(k);
+  chip.appendChild(v);
+  chip.appendChild(btn);
+  return chip;
+}
+
 
   function renderAccountResults(list){
     if(!list || list.length === 0){
