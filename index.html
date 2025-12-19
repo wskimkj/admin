@@ -33,8 +33,8 @@
                       0 18px 45px rgba(15,23,42,0.18);
 
   --sub-item-bg: rgba(255, 255, 255, 0.20);
-  --sub-item-hover: rgba(255, 255, 255, 0.32)
-      --sub-title-color: rgba(255,255,255,0.96);
+  --sub-item-hover: rgba(255, 255, 255, 0.32);
+--sub-title-color: rgba(255,255,255,0.96);
 
       /* glass calendar */
       --glass-bg: rgba(255,255,255,0.62);
@@ -656,7 +656,6 @@
     }
 
     /* ===== account widget (glass) ===== */
-   /* ===== account widget (refine) ===== */
 .account-widget{
   width: 420px;
   border-radius: 26px;
@@ -776,7 +775,10 @@
   background: rgba(15,23,42,0.92);
   border: 1px solid rgba(255,255,255,0.14);
 }
-
+.account-toast.show{
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
