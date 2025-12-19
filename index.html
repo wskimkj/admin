@@ -894,6 +894,159 @@
       transform: translateX(-50%) translateY(-2px);
     }
 
+    /* ===== tracking widget (glass) ===== */
+    .tracking-widget{
+      position:absolute;
+      left: 96px;
+      bottom: 20px;
+      width: 540px;
+      border-radius: 24px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--ink);
+      padding: 12px;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      z-index: 37;
+
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+      pointer-events:none;
+      transition: all .22s ease;
+    }
+    .tracking-widget.visible{
+      opacity:1;
+      transform: translateY(0) scale(1);
+      pointer-events:auto;
+    }
+
+    .tracking-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom: 10px;
+    }
+    .tracking-title{
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: -0.2px;
+    }
+    .tracking-close{
+      border:none;
+      width:30px;height:30px;
+      border-radius:999px;
+      cursor:pointer;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
+      display:flex;align-items:center;justify-content:center;
+      color: rgba(15,23,42,0.70);
+    }
+
+    .tracking-carrier-row{
+      display:flex;
+      gap: 8px;
+      overflow-x:auto;
+      padding-bottom: 2px;
+      margin-bottom: 10px;
+    }
+    .tracking-carrier-pill{
+      flex:0 0 auto;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.10);
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: 900;
+      background: rgba(255,255,255,0.72);
+      cursor:pointer;
+      color: rgba(15,23,42,0.70);
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      white-space: nowrap;
+    }
+    .tracking-carrier-pill:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
+    }
+    .tracking-carrier-pill.active{
+      background: rgba(124,58,237,0.92);
+      color:#fff;
+      border-color: rgba(124,58,237,0.35);
+      box-shadow: 0 12px 20px rgba(124,58,237,.18);
+    }
+
+    .tracking-label{
+      display:block;
+      font-size: 11px;
+      font-weight: 900;
+      color: rgba(15,23,42,0.60);
+      margin-bottom: 6px;
+    }
+    .tracking-input{
+      width:100%;
+      border:none;
+      outline:none;
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(15,23,42,0.08);
+      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
+      font-weight: 900;
+    }
+    .tracking-btn{
+      width:100%;
+      margin-top: 10px;
+      border:none;
+      cursor:pointer;
+      border-radius: 999px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
+      font-weight: 1000;
+      color: var(--accent);
+    }
+    .tracking-btn:active{ transform: translateY(1px); }
+
+    .tracking-error{
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 900;
+      color: #e11d48;
+    }
+
+    .tracking-result{
+      margin-top: 10px;
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+    }
+    .tracking-result-header{
+      font-size: 11px;
+      font-weight: 900;
+      color: rgba(15,23,42,0.65);
+    }
+    .tracking-result-header .em{
+      color: rgba(124,58,237,0.95);
+      font-weight: 1000;
+    }
+
+    .tracking-frame-wrapper{
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.70);
+      border: 1px solid rgba(15,23,42,0.08);
+      min-height: 420px;
+    }
+    .tracking-frame-scale{
+      width: 125%;
+      height: 125%;
+      border: none;
+      transform: scale(0.8);
+      transform-origin: top left;
+      background: rgba(255,255,255,0.70);
+    }
+
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
       .app-shell{ height:auto; min-height: calc(100vh - 20px); }
@@ -951,6 +1104,12 @@
     <button class="nav-footer-btn" id="phoneFormatBtn" type="button" title="전화번호 포맷">
       <i class='bx bx-phone'></i>
       <span>Phone</span>
+    </button>
+
+    <!-- ✅ tracking widget toggle -->
+    <button class="nav-footer-btn" id="trackingWidgetBtn" type="button" title="배송조회">
+      <i class='bx bx-package'></i>
+      <span>Track</span>
     </button>
 
     <!-- ✅ account widget toggle -->
@@ -1030,6 +1189,37 @@
         <button id="phoneCopy" class="phone-copy" type="button">복사</button>
       </div>
       <div id="phoneHint" class="phone-hint">.</div>
+    </div>
+  </div>
+
+  <!-- ✅ tracking widget -->
+  <div class="tracking-widget" id="trackingWidget">
+    <div class="tracking-head">
+      <div class="tracking-title">Tracking</div>
+      <button class="tracking-close" id="trackingClose" type="button" aria-label="닫기">
+        <i class='bx bx-x' style="font-size:18px;"></i>
+      </button>
+    </div>
+
+    <div class="tracking-body">
+      <div class="tracking-carrier-row" id="trackingCarrierRow">
+        <button class="tracking-carrier-pill active" data-full="CJ대한통운" data-url="https://trace.cjlogistics.com/next/tracking.html?wblNo=">CJ</button>
+        <button class="tracking-carrier-pill" data-full="로젠택배" data-url="https://www.ilogen.com/web/personal/trace/">로젠</button>
+        <button class="tracking-carrier-pill" data-full="한진택배" data-url="https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mCode=MN038&schLang=KR&wblnumText2=">한진</button>
+        <button class="tracking-carrier-pill" data-full="우체국택배" data-url="https://service.epost.go.kr/trace.RetrieveDomRigiTraceList.comm?sid1=">우체국</button>
+      </div>
+
+      <label class="tracking-label" for="trackingInput">운송장 번호</label>
+      <input id="trackingInput" class="tracking-input" placeholder="숫자만 입력 (8~15자리)" />
+      <button class="tracking-btn" id="trackingGo" type="button">조회</button>
+      <p id="trackingError" class="tracking-error" style="display:none;"></p>
+
+      <div class="tracking-result">
+        <div id="trackingResultHeader" class="tracking-result-header"></div>
+        <div class="tracking-frame-wrapper">
+          <iframe id="trackingFrame" class="tracking-frame-scale"></iframe>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1188,6 +1378,16 @@
   const phoneCopy = document.getElementById("phoneCopy");
   const phoneHint = document.getElementById("phoneHint");
 
+  const trackingWidgetBtn = document.getElementById("trackingWidgetBtn");
+  const trackingWidget = document.getElementById("trackingWidget");
+  const trackingClose = document.getElementById("trackingClose");
+  const trackingCarrierRow = document.getElementById("trackingCarrierRow");
+  const trackingInput = document.getElementById("trackingInput");
+  const trackingGo = document.getElementById("trackingGo");
+  const trackingError = document.getElementById("trackingError");
+  const trackingResultHeader = document.getElementById("trackingResultHeader");
+  const trackingFrame = document.getElementById("trackingFrame");
+
   const accountWidget = document.getElementById("accountWidget");
   const accountWidgetBtn = document.getElementById("accountWidgetBtn");
   const accountClose = document.getElementById("accountClose");
@@ -1256,6 +1456,7 @@
   function closePopup(){ popup.classList.remove("open"); }
   function hideCalendar(){ calendarWidget.classList.remove("visible"); }
   function hidePhone(){ phoneWidget.classList.remove("visible"); }
+  function hideTracking(){ trackingWidget.classList.remove("visible"); }
   function hideAccount(){ accountWidget.classList.remove("visible"); }
 
   function hideAllSubSidebars(){
@@ -1267,6 +1468,7 @@
     hideAllSubSidebars();
     hideCalendar();
     hidePhone();
+    hideTracking();
     hideAccount();
     closePopup();
   }
@@ -1329,6 +1531,7 @@
       hideCalendar();
       hideAllSubSidebars();
       hideAccount();
+      hideTracking();
       closePopup();
       phoneInput.focus();
     }
@@ -1372,6 +1575,88 @@
   phoneCopy.addEventListener("click",(e)=>{
     e.preventDefault(); e.stopPropagation();
     copyText(phoneOutput.textContent);
+  });
+
+  /* ======================
+     Tracking widget
+     ====================== */
+  function validateTracking(num){
+    const digits = String(num || "").replace(/\s+/g, "");
+    if(!digits) return "운송장 번호를 입력해주세요.";
+    if(!/^\d{8,15}$/.test(digits)) return "운송장 번호는 숫자 8~15자리로 입력해주세요.";
+    return "";
+  }
+
+  function getActiveCarrier(){
+    return trackingCarrierRow.querySelector(".tracking-carrier-pill.active");
+  }
+
+  function track(){
+    trackingError.style.display = "none";
+
+    const raw = trackingInput.value.trim();
+    const msg = validateTracking(raw);
+
+    if(msg){
+      trackingError.textContent = msg;
+      trackingError.style.display = "block";
+      trackingResultHeader.textContent = "입력값을 다시 확인해주세요.";
+      trackingFrame.src = "";
+      return;
+    }
+
+    const digits = raw.replace(/\s+/g, "");
+    const carrierBtn = getActiveCarrier();
+    const fullName = carrierBtn?.dataset?.full || "택배사";
+    const baseUrl = carrierBtn?.dataset?.url || "";
+
+    trackingResultHeader.innerHTML = `<span class="em">${fullName}</span> 배송 조회 화면입니다.`;
+    trackingFrame.src = baseUrl + encodeURIComponent(digits);
+  }
+
+  function toggleTracking(){
+    const v = trackingWidget.classList.contains("visible");
+    if(v){
+      hideTracking();
+    }else{
+      trackingWidget.classList.add("visible");
+      hideCalendar();
+      hideAllSubSidebars();
+      hidePhone();
+      hideAccount();
+      closePopup();
+      trackingInput.focus();
+    }
+  }
+
+  trackingWidgetBtn.addEventListener("click",(e)=>{
+    toggleTracking();
+    e.stopPropagation();
+  });
+
+  trackingClose.addEventListener("click",(e)=>{
+    hideTracking();
+    e.stopPropagation();
+  });
+
+  trackingWidget.addEventListener("click",(e)=> e.stopPropagation());
+  trackingWidget.addEventListener("mouseleave", ()=> hideTracking());
+
+  trackingCarrierRow.addEventListener("click",(e)=>{
+    const btn = e.target.closest(".tracking-carrier-pill");
+    if(!btn) return;
+    trackingCarrierRow.querySelectorAll(".tracking-carrier-pill").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    e.stopPropagation();
+  });
+
+  trackingGo.addEventListener("click",(e)=>{
+    track();
+    e.stopPropagation();
+  });
+
+  trackingInput.addEventListener("keydown",(e)=>{
+    if(e.key === "Enter") track();
   });
 
   /* ======================
@@ -1687,6 +1972,7 @@
       hideCalendar();
       hideAllSubSidebars();
       hidePhone();
+      hideTracking();
       closePopup();
 
       if(!accountLoaded){
@@ -1724,6 +2010,7 @@
       calendarWidget.classList.add("visible");
       hideAllSubSidebars();
       hidePhone();
+      hideTracking();
       hideAccount();
       buildCalendar();
     }
@@ -1833,9 +2120,10 @@
 
     const clickedInsideCalendar = calendarWidget.contains(t) || adminEventBtn.contains(t);
     const clickedInsidePhone = phoneWidget.contains(t) || phoneFormatBtn.contains(t);
+    const clickedInsideTracking = trackingWidget.contains(t) || trackingWidgetBtn.contains(t);
     const clickedInsideAccount = accountWidget.contains(t) || accountWidgetBtn.contains(t);
 
-    if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideAccount){
+    if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount){
       hideAllSubSidebars();
     }
   });
