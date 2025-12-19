@@ -143,26 +143,31 @@
       box-shadow: 0 14px 28px rgba(15,23,42,0.22);
     }
 
-    /* ===== sub sidebar (google sheets) ===== */
     .sub-sidebar{
-      position:absolute;
-      top: 15%;
-      bottom: 25%;
-      left: 96px;
-      width: 220px;
-      border-radius: 24px;
-      padding: 12px 12px 10px;
-      background: var(--sub-sidebar-bg);
-      box-shadow: 0 20px 40px rgba(15,23,42,0.35), 0 0 0 1px rgba(255,255,255,0.55);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      display:flex; flex-direction:column;
-      opacity:0;
-      transform: translateX(-16px);
-      pointer-events:none;
-      transition: all .22s ease;
-      z-index: 40;
-    }
+  position:absolute;
+  top: 15%;
+  bottom: 25%;
+  left: 96px;
+  width: 220px;
+  border-radius: 24px;
+  padding: 12px 12px 10px;
+
+  /* 여기만 변경 */
+  background: #E9D5FF; /* 파스텔 보라 */
+
+  box-shadow: 0 20px 40px rgba(15,23,42,0.35),
+              0 0 0 1px rgba(255,255,255,0.55);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display:flex;
+  flex-direction:column;
+  opacity:0;
+  transform: translateX(-16px);
+  pointer-events:none;
+  transition: all .22s ease;
+  z-index: 40;
+}
+}
     .sub-sidebar.visible{
       opacity:1;
       transform: translateX(0);
