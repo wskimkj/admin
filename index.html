@@ -1426,6 +1426,15 @@
   const ACCOUNT_SHEET_URL =
     "https://docs.google.com/spreadsheets/d/1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0/edit?gid=0#gid=0";
 
+  const ACCOUNT_SHEET_ID = "1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0";
+const ACCOUNT_SHEET_BASE = `https://docs.google.com/spreadsheets/d/${ACCOUNT_SHEET_ID}/edit`;
+
+function openAccountSheetAt(gid, a1){
+  const url = `${ACCOUNT_SHEET_BASE}?gid=${gid}#gid=${gid}&range=${encodeURIComponent(a1)}`;
+  window.open(url, "_blank");
+}
+
+
   accountSheetBtn.addEventListener("click", (e) => {
     window.open(ACCOUNT_SHEET_URL, "_blank");
     e.stopPropagation();
@@ -1756,7 +1765,8 @@
 
         let groupLabel = (gid === 0) ? "JH" : (gid === 618725932) ? "NH" : (gid === 1481873109) ? "HTY" : "기타";
 
-        rows.slice(1).forEach(cols=>{
+        rows.slice(1).forEach((cols, rIdx)=>{
+  const rowNumber = rIdx + 2;
           const colA = (cols[0] || "").toString().trim();
           if(colA === "매장") return;
 
@@ -1775,7 +1785,10 @@
             pw      = cols[14];
           }
 
+        
           SHOP_SITES.push({
+             gid,                 // ✅ 어느 탭인지
+    rowNumber,           // ✅ 몇 행인지
             group: groupLabel,
             siteName: ag || "",
             agKeywords,
@@ -1790,7 +1803,8 @@
       if(OTHER_GID != null){
         const otherRows = await fetchCsv(OTHER_GID);
         if(otherRows && otherRows.length > 1){
-          otherRows.slice(1).forEach(cols=>{
+          otherRows.slice(1).forEach((cols, rIdx)=>{
+  const rowNumber = rIdx + 2;
             const colA = (cols[0] || "").toString().trim();
             if(colA === "매장") return;
 
@@ -1800,6 +1814,8 @@
             if(!siteName) return;
 
             OTHER_SITES.push({
+               gid: OTHER_GID,
+               rowNumber,
               group: "기타",
               siteName: siteName || "",
               agKeywords: splitAgKeywords(siteName),
@@ -1942,6 +1958,13 @@
       card.appendChild(head);
       card.appendChild(fields);
       frag.appendChild(card);
+
+      card.addEventListener("dblclick", (e)=>{
+  e.stopPropagation();
+  openAccountSheetAt(item.gid, `A${item.rowNumber}`); // ✅ A열 해당 행으로 이동
+});
+
+      
     });
 
     accountResult.appendChild(frag);
