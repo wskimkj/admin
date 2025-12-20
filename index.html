@@ -1,2426 +1,1618 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <link rel="stylesheet" href="./css/common.css">
-  <meta charset="UTF-8" />
-  <title>어드민</title>
-  <link rel="icon" type="image/png" href="favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://wskimkj.github.io/admin/css/common.css">
 
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <title> Search </title>
 
-    :root{
-      --shell-bg: rgba(255,255,255,0.98);
-      --shell-shadow: 0 24px 60px rgba(15,23,42,.22);
-      --card-shadow:
-        0 18px 40px rgba(148, 163, 184, 0.28),
-        inset 0 1px 0 rgba(255,255,255,0.9);
-      --card-bg: radial-gradient(circle at top left, #fef3ff 0%, #ffffff 50%, #f1f5f9 100%);
+  <!-- 파비콘 -->
+  <link rel="icon" type="image/png" href="android-chrome-512x512 (1).ico">
 
-      /* ✅ main sidebar: 단색 */
-      --main-sidebar-bg: #b79cff;
+  <!-- 폰트 -->
+  <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 
-      --nav-text: #f9fafb;
-      --nav-chip-bg: rgba(255,255,255,0.18);
-      --nav-active-chip-bg: #ffffff;
-      --nav-active-color: #6d28d9;
+  <!-- CSV 파서 -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-      /* ✅ sub-panel tone (정리) */
-      --sub-panel-bg: rgba(255, 255, 255, 0.22);
-      --sub-panel-border: rgba(255, 255, 255, 0.45);
-      --sub-panel-shadow: 0 18px 40px rgba(15,23,42,0.18);
+ <style>
+/* ===================== FINAL CSS (기능 유지 / 레이아웃 정상 / pill 복구) ===================== */
+:root{
+  --page-bg: #f7f4ff;
+  --page-bg2:#eef6ff;
 
-      /* ✅ sub text 대비 강화 */
-      --sub-ink: rgba(15, 23, 42, 0.92);
-      --sub-ink-muted: rgba(15, 23, 42, 0.62);
-      --sub-title-ink: rgba(15, 23, 42, 0.92);
+  --card-bg: rgba(255,255,255,.88);
+  --card-stroke: rgba(170,150,230,.22);
 
-      --sub-item-bg: rgba(255,255,255,0.78);
-      --sub-item-hover: rgba(255,255,255,0.92);
-      --sub-item-active-bg: rgba(255,255,255,0.95);
+  --text-main: #2f2a3a;
+  --text-muted: #6e6a82;
 
-      /* glass calendar */
-      --glass-bg: rgba(255,255,255,0.62);
-      --glass-border: rgba(255,255,255,0.70);
-      --glass-shadow: 0 18px 50px rgba(15,23,42,0.16);
-      --ink: #0f172a;
-      --muted: rgba(15,23,42,0.55);
-      --accent: #7c3aed;
-      --accent2: #ec4899;
-    }
+  --pink: #ff8fbc;
+  --lilac:#b8a7ff;
 
-    body{
-      min-height: 100vh;
-      padding: 0;
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(236,72,153,.35), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(96,165,250,.28), transparent 55%),
-        radial-gradient(circle at top right, rgba(124,58,237,.22), transparent 55%),
-        #fdf2ff;
-      overflow: hidden;
-      font-size: 14px;
-    }
+  --radius-xl: 18px;
+  --shadow-main: 0 18px 50px rgba(30,18,60,.10);
+  --shadow-card: 0 10px 26px rgba(30,18,60,.08);
+}
 
-    .app-shell{
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      border-radius: 18px;
-      background: var(--shell-bg);
-      box-shadow: var(--shell-shadow);
-      overflow: hidden;
-    }
+*{box-sizing:border-box;}
+html,body{height:100%;}
 
-    /* ===== main sidebar ===== */
-    .main-sidebar{
-      position:absolute; top:0; left:0;
-      width:82px; height:100%;
-      background: var(--main-sidebar-bg);
-      display:flex; flex-direction:column; align-items:center;
-      padding: 16px 0;
-      z-index: 50;
-    }
+body{
+  margin:0;
+  font-family:"Pretendard",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text-main);
+  background:
+    radial-gradient(900px 520px at 20% 18%, rgba(255,143,188,.25), transparent 60%),
+    radial-gradient(900px 520px at 82% 24%, rgba(184,167,255,.20), transparent 58%),
+    linear-gradient(180deg, var(--page-bg), var(--page-bg2));
+}
 
-    .nav-list{
-      flex:1;
-      display:flex; flex-direction:column;
-      align-items:center;
-      gap: 10px;
-      margin-top: 4px;
-    }
+/* ===== layout ===== */
+.app-shell{
+  min-height:100vh;
+  padding:24px;
+}
+.inner-shell{
+  max-width:1400px;
+  margin:0 auto;
+  background:var(--card-bg);
+  border:1px solid var(--card-stroke);
+  border-radius:24px;
+  padding:18px 20px 20px;
+  box-shadow:var(--shadow-main);
+}
 
-    .nav-item{
-      width:60px;
-      border:none;
-      background:transparent;
-      color: var(--nav-text);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap: 4px;
-      cursor:pointer;
-      font-size: 11px;
-      font-weight: 600;
-    }
+/* ===== header ===== */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:14px;
+}
+.title-wrap h1{
+  margin:0;
+  font-size:20px;
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  cursor:pointer;
+}
+.title-tag{
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(255,143,188,.25);
+  border:1px solid rgba(255,143,188,.35);
+}
+.header-right{
+  font-size:12px;
+  color:var(--text-muted);
+}
 
-    .nav-icon-wrap{
-      width:40px;height:40px;
-      border-radius:18px;
-      background: var(--nav-chip-bg);
-      display:flex;align-items:center;justify-content:center;
-      box-shadow: 0 6px 14px rgba(15,23,42,0.20);
-      transition: all .2s ease;
-    }
+/* ===== cards ===== */
+.card{
+  background:#fff;
+  border:1px solid var(--card-stroke);
+  border-radius:22px;
+  box-shadow:var(--shadow-card);
+}
+/* ✅ 검색 타이틀 제거했으니 search 카드 정렬 보정 */
+.card-search{
+  align-items: stretch;
+}
 
-    .nav-item i{ font-size: 20px; }
-    .nav-item span{ opacity:.95; }
+/* ✅ Result 영역이 빈데도 커 보이는 현상 방지 */
+.result-card{
+  padding: 14px 16px 16px;   /* 카드 안쪽 정리 */
+}
 
-    .nav-item.active .nav-icon-wrap{
-      background: var(--nav-active-chip-bg);
-      color: var(--nav-active-color);
-      box-shadow: 0 10px 22px rgba(124,58,237,.16);
-    }
+#result{
+  min-height: 0 !important;
+}
 
-    .nav-item:hover .nav-icon-wrap{
-      transform: translateY(-1px);
-      box-shadow: 0 12px 24px rgba(15,23,42,.18);
-    }
+/* 안내문구(검색 전/결과 없음) 스타일 */
+.no-result{
+  padding: 14px 0;
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
 
-    /* ===== footer buttons ===== */
-    .nav-footer-btn{
-      margin-top: auto;
-      margin-bottom: 6px;
-      border: none;
-      background: rgba(255,255,255,0.18);
-      color: rgba(255,255,255,0.92);
-      border-radius: 999px;
-      padding: 8px 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 900;
-      box-shadow: 0 10px 22px rgba(15,23,42,0.22);
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-    }
-    .nav-footer-btn i{ font-size: 16px; }
-    .nav-footer-btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.26);
-      box-shadow: 0 14px 28px rgba(15,23,42,0.22);
-    }
+/* ===== search ===== */
+.card-search{
+  display:flex;
+  gap:14px;
+  padding:12px 14px;
+  align-items:flex-start;
+}
+.card-title{
+  font-size:13px;
+  font-weight:700;
+  margin:0;
+  white-space:nowrap;
+}
+.search-box{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.input-wrap{
+  position:relative;
+}
+.input-wrap input{
+  width:100%;
+  padding:12px 42px 12px 34px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.25);
+  background:#f5f3fb;
+}
+.input-wrap input:focus{
+  outline:none;
+  border-color:var(--pink);
+  box-shadow:0 0 0 4px rgba(255,143,188,.18);
+}
+.input-icon-left{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+}
+.input-icon-right{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:11px;
+  color:#999;
+}
 
-    /* ✅ 하위 사이드바(구글시트/유틸): 단색/폭 줄임 */
-    .sub-sidebar{
-      position:absolute;
-      left: 96px;
-      width: 160px; /* ✅ 반으로 줄임 */
-      border-radius: 22px;
-      padding: 12px 12px 10px;
+/* ===== chips (창고 / 소재 / 재고) ===== */
+.chip-group{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.chip-input{display:none;}
+.chip{
+  height:25px;
+  padding:0 14px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.25);
+  background:#fff;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:10px;
+}
+.chip::before{
+  content:"";
+  width:14px;
+  height:14px;
+  border-radius:6px;
+  border:1.5px solid rgba(170,150,230,.35);
+}
+.chip-input:checked + .chip{
+  background:rgba(255,143,188,.25);
+  border-color:rgba(255,143,188,.45);
+}
+.chip-input:checked + .chip::before{
+  background:var(--pink);
+  border-color:var(--pink);
+}
 
-      background: var(--sub-panel-bg);
-      border: 1px solid var(--sub-panel-border);
+/* ===== result ===== */
+.result-card{
+  padding-top:14px;
+}
+.result-header-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+.result-header-right{
+  font-size:11px;
+  color:var(--text-muted);
+}
 
-      box-shadow:
-        var(--sub-panel-shadow),
-        inset 0 1px 0 rgba(255,255,255,0.35);
+/* ===== op legend (운영 / 소진후종료 / 단종 / 일시중단) ===== */
+#opLegend.op-legend{
+  display:none; /* JS가 데이터 있으면 flex */
+  margin:6px 0 10px;
+  gap:12px;
+}
+#opLegend .op-legend-item{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:var(--text-muted);
+}
+.op-legend-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  border:2px solid #fff;
+  box-shadow:0 0 0 1px rgba(170,150,230,.25);
+}
+.op-legend-dot.on{background:#22c55e;}
+.op-legend-dot.end{background:#f97316;}
+.op-legend-dot.stop{background:#ef4444;}
+.op-legend-dot.pause{background:#eab308;}
 
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+/* ===== table ===== */
+.result-table-wrap{
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(170,150,230,.18);
+}
+.result-scroll{
+  max-height:520px;
+  overflow:auto;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:auto; /* 🔥 리사이즈/정렬 핵심 */
+  font-size:12px;
+}
+th,td{
+  padding:10px 12px;
+  border-bottom:1px solid rgba(170,150,230,.15);
+}
+th{
+  background:#fff;
+  position:sticky;
+  top:0;
+  z-index:2;
+  user-select:none;
+}
+tr:nth-child(even) td{background:#faf9fe;}
+tr:hover td{background:rgba(255,143,188,.18);}
 
-      height: auto;
-      max-height: min(520px, calc(100vh - 40px));
-      overflow: hidden;
+/* ===== column resize ===== */
+th{ position:sticky; }
+.resize-handle{
+  position:absolute;
+  top:0;
+  right:0;
+  width:10px;
+  height:100%;
+  cursor:col-resize;
+}
+.resize-handle::after{
+  content:"";
+  position:absolute;
+  top:20%;
+  bottom:20%;
+  left:50%;
+  width:1px;
+  transform:translateX(-50%);
+  background:rgba(170,150,230,.35);
+  opacity:0;
+}
+th:hover .resize-handle::after{opacity:1;}
+th.sortable{cursor:pointer; position:relative;}
+.sort-indicator{
+  margin-left:4px;
+  font-size:10px;
+  color:var(--pink);
+}
 
-      display:flex;
-      flex-direction:column;
+/* ===== product name / status dot ===== */
+.product-name-cell{
+  position:relative;
+  padding-left:28px;
+}
+.op-status-dot{
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+}
 
-      opacity:0;
-      transform: translateX(-12px);
-      pointer-events:none;
-      transition: all .18s ease;
-      z-index: 45;
-    }
-    .sub-sidebar.visible{
-      opacity:1;
-      transform: translateX(0);
-      pointer-events:auto;
-    }
+/* ===== stock pill ===== */
+.stock-pill{
+  font-size:11px;
+  padding:3px 8px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.stock-pill-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+}
+.stock-pill-green{background:#e9fbf3;}
+.stock-pill-green .stock-pill-dot{background:#22c55e;}
+.stock-pill-yellow{background:#fff7d6;}
+.stock-pill-yellow .stock-pill-dot{background:#facc15;}
+.stock-pill-red{background:#ffe4ee;}
+.stock-pill-red .stock-pill-dot{background:#ff8fbc;}
+/* ===== 상품명 앞 상태 점 색상 (이게 빠져 있었음) ===== */
+.op-status-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  border:2px solid #fff;
+  box-shadow:0 0 0 1px rgba(170,150,230,.25);
+}
 
-    .sub-title{
-      font-size: 12px;
-      font-weight: 1000;
-      color: var(--sub-title-ink);
-      margin-bottom: 8px;
-      letter-spacing: -0.2px;
-    }
+/* 상태별 색 (이게 핵심) */
+.op-status-dot--on    { background:#22c55e; } /* 운영 */
+.op-status-dot--end   { background:#f97316; } /* 소진 후 종료 */
+.op-status-dot--stop  { background:#ef4444; } /* 단종 */
+.op-status-dot--pause { background:#eab308; } /* 일시 중단 */
 
-    .sub-list{
-      display:flex; flex-direction:column;
-      gap: 8px;
-      overflow-y:auto;
-      padding-right: 2px;
-    }
+/* ===== misc ===== */
+.kw-mark{background:yellow;padding:0 2px;}
+#toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid rgba(255,143,188,.35);
+  opacity:0;
+}
+#toast.show{opacity:1;}
 
-    .sub-item{
-      width:100%;
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: var(--sub-item-bg);
-      color: var(--sub-ink);
-      font-size: 12px;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
-      text-align:left;
+/* ✅ "상품 4117개" (status) 크기 줄이기 */
+#status{
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  margin-top: 6px !important;
+  color: var(--text-muted) !important;
+}
 
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow:
-        0 10px 18px rgba(15,23,42,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.55);
-    }
-    .sub-item i{ font-size:16px; color: rgba(15,23,42,0.55); }
-    .sub-item:hover{
-      background: var(--sub-item-hover);
-      transform: translateY(-1px);
-      box-shadow:
-        0 14px 22px rgba(15,23,42,0.10),
-        inset 0 1px 0 rgba(255,255,255,0.60);
-    }
-    .sub-item.active{
-      background: var(--sub-item-active-bg);
-      color: var(--nav-active-color);
-      border-color: rgba(124,58,237,0.18);
-      box-shadow: 0 12px 20px rgba(124,58,237,.16);
-    }
+#status strong{
+  font-size: 12px !important;
+  font-weight: 600 !important;  /* 700~800 느낌 줄이기 */
+  color: var(--text-main) !important;
+}
 
-    /* ===== main content ===== */
-    .content{
-      position:absolute;
-      top:0; left:82px; right:0; bottom:0;
-      padding: 10px 14px 14px;
-      z-index: 1;
-    }
-    .card{
-      width:100%;
-      height:100%;
-      border-radius: 24px;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-      padding: 10px;
-    }
-    iframe{
-      width:100%;
-      height:100%;
-      border:none;
-      border-radius:16px;
-      background: rgba(255,255,255,0.72);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.55);
-      box-shadow: 0 10px 26px rgba(15,23,42,.12);
-    }
+/* ===== responsive ===== */
+@media(max-width:860px){
+  .header{flex-direction:column;gap:10px;}
+  .card-search{flex-direction:column;}
+}
+/* ===== slim search bar (Information 페이지 느낌으로 통일) ===== */
+.input-wrap.slim{
+  position:relative;
+}
 
-    /* ===== calendar widget (glass) ===== */
-    .calendar-widget{
-      position:absolute;
-      left: 96px;
-      bottom: 20px;
-      width: 310px;
-      border-radius: 24px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: var(--ink);
-      padding: 12px;
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      z-index: 35;
+.input-wrap.slim input{
+  height: 42px;                 /* 얄쌍 */
+  padding: 0 78px 0 42px;       /* 좌(아이콘) / 우(Enter+X) */
+  border-radius: 999px;
+  border: 1px solid rgba(170,150,230,.22);
+  background: rgba(245,243,251,.75);
+  font-size: 13px;
+}
 
-      opacity: 0;
-      transform: translateY(12px) scale(0.98);
-      pointer-events:none;
-      transition: all .22s ease;
-    }
-    .calendar-widget.visible{
-      opacity:1;
-      transform: translateY(0) scale(1);
-      pointer-events:auto;
-    }
+.input-wrap.slim input:focus{
+  outline:none;
+  border-color: rgba(255,143,188,.55);
+  box-shadow: 0 0 0 4px rgba(255,143,188,.16);
+}
 
-    .calendar-header{
-      display:flex; align-items:flex-start; justify-content:space-between;
-      margin-bottom: 10px;
-      gap: 10px;
-    }
-    .calendar-title{ font-size: 14px; font-weight: 900; letter-spacing: -0.2px; }
-    .calendar-left{ display:flex; flex-direction:column; }
+/* 왼쪽 돋보기 */
+.input-wrap.slim .input-icon-left{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;
+  height:18px;
+  opacity:.95;
+}
+.icon-search{ width:18px; height:18px; display:block; }
 
-    .calendar-right{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap: wrap;
-      justify-content:flex-end;
-    }
+/* 오른쪽 Enter ↵ (작게/얌전하게) */
+.input-wrap.slim .input-icon-right{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:11px;
+  color: rgba(110,106,130,.55);
+  pointer-events:none;
+}
 
-    /* view toggle */
-    .cal-view-seg{
-      display:flex;
-      gap:6px;
-      padding: 4px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(15,23,42,0.08);
-    }
-    .cal-view-seg button{
-      border:none;
-      cursor:pointer;
-      font-size: 10px;
-      font-weight: 900;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: transparent;
-      color: rgba(15,23,42,0.72);
-    }
-    .cal-view-seg button.active{
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 8px 18px rgba(15,23,42,0.10);
-      color: var(--accent);
-    }
+/* X 버튼 (Enter 왼쪽) */
+.clear-btn{
+  position:absolute;
+  right:52px;
+  top:50%;
+  transform:translateY(-50%);
+  width:22px;
+  height:22px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.18);
+  background: rgba(255,255,255,.65);
+  color: rgba(110,106,130,.75);
+  font-size:16px;
+  line-height:1;
+  cursor:pointer;
+  display:none; /* 입력 있을 때만 표시 */
+}
+.clear-btn:hover{
+  background: rgba(255,143,188,.12);
+  border-color: rgba(255,143,188,.22);
+}
+.type-pills{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
 
-    /* bell */
-    .today-event-icon{
-      position:relative;
-      width:30px;height:30px;border-radius:999px;
-      background: rgba(255,255,255,0.92);
-      display:inline-flex;align-items:center;justify-content:center;
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
-      cursor: pointer;
-      user-select:none;
-    }
-    .today-event-icon:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 24px rgba(15,23,42,0.12);
-    }
-    .today-event-icon i{ font-size:16px; color: var(--accent2); }
-    .today-event-icon.dim{ opacity: .75; }
-    .today-event-badge{
-      position:absolute; top:-4px; right:-4px;
-      min-width:16px;height:16px;border-radius:999px;
-      background:#ef4444;
-      color:#fff;
-      border:2px solid rgba(255,255,255,0.9);
-      font-size:10px;
-      font-weight:900;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 0 5px;
-    }
+.type-pill{
+  height:34px;
+  padding:0 14px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.25);
+  background:#fff;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  font-size:13px;
+  user-select:none;
+  transition: background .12s ease, border-color .12s ease, transform .06s ease;
+}
 
-    .calendar-weekdays, .calendar-days{
-      display:grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 4px;
-      text-align:center;
-    }
-    .calendar-weekdays{
-      margin: 6px 0 8px;
-    }
-    .calendar-weekdays span{
-      font-size: 10px;
-      font-weight: 800;
-      color: rgba(15,23,42,0.55);
-    }
+.type-pill input{
+  display:none;
+}
 
-    .calendar-day{
-      position: relative;
-      font-size: 11px;
-      padding: 7px 0;
-      border-radius: 12px;
-      color: rgba(15,23,42,0.82);
-      user-select:none;
-      cursor: pointer;
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    .calendar-day:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 24px rgba(15,23,42,0.08);
-    }
-    .calendar-day.other-month{ opacity:.35; cursor: default; }
-    .calendar-day.today{
-      outline: 2px solid rgba(124,58,237,0.35);
-      background: rgba(255,255,255,0.88);
-      color: var(--accent);
-      font-weight: 900;
-    }
+.type-pill.active{
+  background:rgba(255,143,188,.25);
+  border-color:rgba(255,143,188,.45);
+}
 
-    .day-badge{
-      position:absolute;
-      top:-6px; right:-6px;
-      min-width:18px; height:18px;
-      padding: 0 6px;
-      border-radius: 999px;
-      background: rgba(124,58,237,0.92);
-      color:#fff;
-      border: 2px solid rgba(255,255,255,0.95);
-      font-size:9px;
-      font-weight:900;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 10px 18px rgba(124,58,237,0.20);
-    }
-    .calendar-day.has-event .day-badge{ display:inline-flex; }
+.type-pill:active{
+  transform: scale(.98);
+}
 
-    /* ===== date popup (preview) ===== */
-    .date-popup{
-      position:absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: calc(100% + 10px);
-      width: 300px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 22px 50px rgba(15,23,42,.22);
-      border: 1px solid rgba(255,255,255,0.80);
-      padding: 10px;
-      display:none;
-      z-index: 80;
-    }
-    .date-popup.open{ display:block; }
+/* 기존 ⌨️ 텍스트 아이콘은 완전 제거(혹시 남아있을 때 대비) */
+.input-wrap .input-icon-left{ font-size:0; }
 
-    .date-popup::after{
-      content:"";
-      position:absolute;
-      bottom:-8px;
-      left:50%;
-      transform: translateX(-50%);
-      border-width: 8px 8px 0 8px;
-      border-style: solid;
-      border-color: rgba(255,255,255,0.88) transparent transparent transparent;
-      filter: drop-shadow(0 6px 10px rgba(15,23,42,0.12));
-    }
+/* util */
+.text-right{ text-align:right; }
+.text-center{ text-align:center; }
 
-    .date-popup-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 8px;
-      margin-bottom:8px;
-    }
-    .date-popup-head strong{
-      font-size:13px;
-      font-weight:1000;
-      color: rgba(15,23,42,0.92);
-      letter-spacing: -0.2px;
-    }
-    .date-popup-close{
-      border:none;
-      width:30px;height:30px;
-      border-radius: 999px;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-      display:flex; align-items:center; justify-content:center;
-      color: rgba(15,23,42,0.70);
-    }
+/* ===========================
+   ✅✅ 미리보기 모달 (product_no 있을 때 사용)
+   =========================== */
+.pv-modal{ position:fixed; inset:0; display:none; z-index:9999; }
+.pv-modal.show{ display:block; }
+.pv-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.35); }
 
-    .date-popup-list{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      max-height: 320px;
-      overflow:auto;
-      padding-right: 4px;
-    }
+.pv-panel{
+  position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  width:min(1100px, 92vw);
+  height:min(86vh, 900px);
+  background:#fff;
+  border-radius:18px;
+  border:1px solid rgba(170,150,230,.22);
+  box-shadow:0 18px 50px rgba(30,18,60,.18);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
 
-    .mini-event{
-      border-radius: 16px;
-      padding: 10px;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-    }
-    .mini-event .mall{
-      font-size: 11px;
-      font-weight: 1000;
-      color: var(--accent);
-    }
+.pv-topbar{
+  height:46px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 12px 0 14px;
+  border-bottom:1px solid rgba(170,150,230,.18);
+  background:rgba(245,243,251,.75);
+}
+.pv-title{ font-size:13px; font-weight:700; color:var(--text-main); }
+.pv-actions{ display:flex; gap:8px; align-items:center; }
+.pv-btn{
+  height:30px;
+  padding:0 10px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.22);
+  background:#fff;
+  font-size:12px;
+  cursor:pointer;
+  text-decoration:none;
+  color:var(--text-main);
+  display:inline-flex;
+  align-items:center;
+}
+.pv-btn:hover{
+  background: rgba(255,143,188,.12);
+  border-color: rgba(255,143,188,.22);
+}
+.pv-body{ position:relative; flex:1; }
+.pv-loading{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  color:var(--text-muted);
+  background:rgba(255,255,255,.85);
+  z-index:2;
+}
+.pv-frame{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+ </style>
 
-    .mini-event .event-text{
-      margin-top: 6px;
-      font-size: 10px;
-      font-weight: 800;
-      color: rgba(15,23,42,0.92);
-      line-height: 1.45;
-      max-height: 110px;
-      overflow: auto;
-      padding-right: 6px;
-      word-break: break-word;
-    }
-
-    .mini-event .meta{
-      margin-top: 8px;
-      font-size: 10px;
-      color: rgba(15,23,42,0.55);
-      font-weight: 900;
-    }
-
-    /* ===== ITEM(접기/펼치기) ===== */
-    .item-box{
-      margin-top: 8px;
-      padding: 6px 8px;
-      border-radius: 12px;
-      background: rgba(124,58,237,0.08);
-      border: 1px solid rgba(124,58,237,0.18);
-    }
-    .item-head{
-      width: 100%;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 8px;
-      padding: 0;
-    }
-    .item-label{
-      font-size: 8px;
-      font-weight: 900;
-      color: #7c3aed;
-    }
-    .item-caret{
-      font-size: 14px;
-      color: rgba(124,58,237,0.85);
-      transition: transform .15s ease;
-    }
-    .item-head[aria-expanded="true"] .item-caret{
-      transform: rotate(180deg);
-    }
-    .item-text{
-      margin-top: 6px;
-      font-size: 8px;
-      line-height: 1.4;
-      color: rgba(15,23,42,0.88);
-      max-height: 44px;
-      overflow: auto;
-      word-break: break-word;
-      padding-right: 6px;
-    }
-    .item-text.is-collapsed{ display:none; }
-
-    /* ===== phone widget (glass) ===== */
-    .phone-widget{
-      position:absolute;
-      left: 96px;
-      bottom: 20px;
-      width: 310px;
-      border-radius: 24px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: var(--ink);
-      padding: 12px;
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      z-index: 36;
-
-      opacity: 0;
-      transform: translateY(12px) scale(0.98);
-      pointer-events:none;
-      transition: all .22s ease;
-    }
-    .phone-widget.visible{
-      opacity:1;
-      transform: translateY(0) scale(1);
-      pointer-events:auto;
-    }
-    .phone-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 10px;
-    }
-    .phone-title{
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: -0.2px;
-    }
-    .phone-close{
-      border:none;
-      width:30px;height:30px;
-      border-radius:999px;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-      display:flex;align-items:center;justify-content:center;
-      color: rgba(15,23,42,0.70);
-    }
-    .phone-input{
-      width:100%;
-      border:none;
-      outline:none;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.85);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      font-weight: 800;
-    }
-    .phone-row{
-      margin-top: 10px;
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .phone-output{
-      flex:1;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(15,23,42,0.08);
-      font-weight: 900;
-      color: rgba(15,23,42,0.86);
-      user-select: none;
-      cursor: copy;
-    }
-    .phone-copy{
-      border:none;
-      cursor:pointer;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      font-weight: 900;
-      color: var(--accent);
-    }
-    .phone-copy:active{ transform: translateY(1px); }
-    .phone-hint{
-      margin-top: 8px;
-      font-size: 10px;
-      font-weight: 800;
-      color: rgba(15,23,42,0.55);
-    }
-
-    /* ===== account widget (glass) ===== */
-    .account-widget{
-      position:absolute;
-      left: 96px;
-      bottom: 20px;
-      width: 380px;
-      border-radius: 24px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: var(--ink);
-      padding: 12px;
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      z-index: 38;
-
-      opacity: 0;
-      transform: translateY(12px) scale(0.98);
-      pointer-events:none;
-      transition: all .22s ease;
-    }
-    .account-widget.visible{
-      opacity:1;
-      transform: translateY(0) scale(1);
-      pointer-events:auto;
-    }
-    .account-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      margin-bottom: 10px;
-      gap: 10px;
-    }
-    .account-head-left{
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      align-items:flex-start;
-    }
-    .account-title{
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: -0.2px;
-    }
-    .account-close{
-      border:none;
-      width:30px;height:30px;
-      border-radius:999px;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-      display:flex;align-items:center;justify-content:center;
-      color: rgba(15,23,42,0.70);
-      flex: 0 0 auto;
-    }
-    .account-row{
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .account-input{
-      flex: 1;
-      border:none;
-      outline:none;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.85);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      font-weight: 800;
-    }
-    .account-toggle{
-      margin-top: 8px;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.60);
-      user-select:none;
-    }
-    .account-toggle input{ accent-color: var(--accent); }
-    .account-meta{
-      margin-top: 8px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 10px;
-    }
-    .account-count{
-      font-size: 11px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.62);
-    }
-
-    .account-badge{
-      font-size: 10px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(124,58,237,0.16);
-      border: 1px solid rgba(124,58,237,0.22);
-      color: var(--accent);
-      font-weight: 1000;
-      letter-spacing: 0.08em;
-    }
-    .account-badge-link{
-      border: none;
-      cursor: pointer;
-      user-select:none;
-    }
-    .account-badge-link:hover{
-      background: rgba(124,58,237,0.20);
-      border-color: rgba(124,58,237,0.26);
-    }
-    .account-badge-link:active{
-      transform: translateY(1px);
-    }
-
-    .account-result{
-      margin-top: 8px;
-      max-height: 360px;
-      overflow:auto;
-      padding-right: 4px;
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-    }
-    .account-card{
-      border-radius: 16px;
-      padding: 10px;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      min-width: 0;
-    }
-    .account-card-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap: 8px;
-    }
-    .account-site{
-      font-size: 12px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.92);
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 0;
-      flex: 1;
-    }
-    .account-group{
-      font-size: 10px;
-      font-weight: 1000;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(236,72,153,0.14);
-      border: 1px solid rgba(236,72,153,0.22);
-      color: rgba(236,72,153,0.95);
-      white-space: nowrap;
-    }
-    .account-fields{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .account-chip{
-      display:flex;
-      align-items:center;
-      gap: 6px;
-      padding: 6px 8px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 6px 12px rgba(15,23,42,0.06);
-      min-width: 0;
-      cursor: pointer; /* ✅ 클릭 복사 */
-      user-select:none;
-    }
-    .account-chip:hover{
-      background: rgba(255,255,255,0.98);
-      box-shadow: 0 10px 16px rgba(15,23,42,0.08);
-      transform: translateY(-1px);
-    }
-    .account-chip:active{
-      transform: translateY(0px);
-    }
-    .account-chip .k{
-      font-size: 9px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.55);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .account-chip .v{
-      font-size: 10px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.88);
-      max-width: 140px;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-    }
-
-    .account-empty{
-      grid-column: 1 / -1;
-      padding: 10px 4px;
-      font-size: 12px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.55);
-      text-align:center;
-    }
-    .account-toast{
-      position: absolute;
-      left: 50%;
-      bottom: 12px;
-      transform: translateX(-50%);
-      background: rgba(15,23,42,0.92);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 900;
-      padding: 7px 12px;
-      border-radius: 999px;
-      opacity: 0;
-      pointer-events:none;
-      transition: opacity .16s ease, transform .16s ease;
-      box-shadow: 0 14px 28px rgba(15,23,42,0.22);
-    }
-    .account-toast.show{
-      opacity: 1;
-      transform: translateX(-50%) translateY(-2px);
-    }
-
-    /* ===== tracking widget (glass) ===== */
-    .tracking-widget{
-      position:absolute;
-      left: 96px;
-      bottom: 20px;
-      width: 540px;
-      border-radius: 24px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: var(--ink);
-      padding: 12px;
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      z-index: 37;
-
-      opacity: 0;
-      transform: translateY(12px) scale(0.98);
-      pointer-events:none;
-      transition: all .22s ease;
-    }
-    .tracking-widget.visible{
-      opacity:1;
-      transform: translateY(0) scale(1);
-      pointer-events:auto;
-    }
-
-    .tracking-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 10px;
-    }
-    .tracking-title{
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: -0.2px;
-    }
-    .tracking-close{
-      border:none;
-      width:30px;height:30px;
-      border-radius:999px;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-      display:flex;align-items:center;justify-content:center;
-      color: rgba(15,23,42,0.70);
-    }
-
-    .tracking-carrier-row{
-      display:flex;
-      gap: 8px;
-      overflow-x:auto;
-      padding-bottom: 2px;
-      margin-bottom: 10px;
-    }
-    .tracking-carrier-pill{
-      flex:0 0 auto;
-      border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.10);
-      padding: 7px 12px;
-      font-size: 11px;
-      font-weight: 900;
-      background: rgba(255,255,255,0.72);
-      cursor:pointer;
-      color: rgba(15,23,42,0.70);
-      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
-      white-space: nowrap;
-    }
-    .tracking-carrier-pill:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-    }
-    .tracking-carrier-pill.active{
-      background: rgba(124,58,237,0.92);
-      color:#fff;
-      border-color: rgba(124,58,237,0.35);
-      box-shadow: 0 12px 20px rgba(124,58,237,.18);
-    }
-
-    .tracking-label{
-      display:block;
-      font-size: 11px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.60);
-      margin-bottom: 6px;
-    }
-    .tracking-input{
-      width:100%;
-      border:none;
-      outline:none;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.85);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      font-weight: 900;
-    }
-    .tracking-btn{
-      width:100%;
-      margin-top: 10px;
-      border:none;
-      cursor:pointer;
-      border-radius: 999px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      font-weight: 1000;
-      color: var(--accent);
-    }
-    .tracking-btn:active{ transform: translateY(1px); }
-
-    .tracking-error{
-      margin-top: 8px;
-      font-size: 11px;
-      font-weight: 900;
-      color: #e11d48;
-    }
-
-    .tracking-result{
-      margin-top: 10px;
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-    }
-    .tracking-result-header{
-      font-size: 11px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.65);
-    }
-    .tracking-result-header .em{
-      color: rgba(124,58,237,0.95);
-      font-weight: 1000;
-    }
-
-    .tracking-frame-wrapper{
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.70);
-      border: 1px solid rgba(15,23,42,0.08);
-      min-height: 420px;
-    }
-    .tracking-frame-scale{
-      width: 125%;
-      height: 125%;
-      border: none;
-      transform: scale(0.8);
-      transform-origin: top left;
-      background: rgba(255,255,255,0.70);
-    }
-
-    @media (max-width: 900px) {
-      body{ padding:10px; overflow:auto; }
-      .app-shell{ height:auto; min-height: calc(100vh - 20px); }
-      .main-sidebar{ position:fixed; height: calc(100vh - 20px); }
-      .content{
-        position:relative;
-        left:82px;
-        width: calc(100% - 82px);
-        height:auto;
-        min-height:70vh;
-      }
-    }
-  </style>
 </head>
 
 <body>
-<div class="app-shell">
-
-  <!-- main sidebar -->
-  <nav class="main-sidebar">
-    <div class="nav-list">
-      <button class="nav-item active" data-id="search" data-href="https://wskimkj.github.io/search/">
-        <div class="nav-icon-wrap"><i class='bx bx-search'></i></div>
-        <span> 상품</span>
-      </button>
-
-      <button class="nav-item" data-id="template" data-href="https://wskimkj.github.io/trim2/">
-        <div class="nav-icon-wrap"><i class="bx bx-chat"></i></div>
-        <span> 멘트</span>
-      </button>
-
-      <button class="nav-item" data-id="order" data-href="https://wskimkj.github.io/return-inf/">
-        <div class="nav-icon-wrap"><i class='bx  bxs-basket'></i></div>
-        <span> 주문 </span>
-      </button>
-
-      <button class="nav-item" data-id="memo" data-href="https://wskimkj.github.io/memo/">
-        <div class="nav-icon-wrap"><i class="bx bx-edit-alt"></i></div>
-        <span> 메모</span>
-      </button>
-
-      <!-- ✅ 유틸(하위) -->
-      <button class="nav-item" id="utilBtn" data-id="util">
-        <div class="nav-icon-wrap"><i class='bx bx-category'></i></div>
-        <span> 유틸 </span>
-      </button>
-
-      <!-- ✅ 시트(하위) -->
-      <button class="nav-item" id="googleBtn" data-id="google">
-        <div class="nav-icon-wrap"><i class='bx  bxs-cabinet'></i> </div>
-        <span> 시트 </span>
-      </button>
-    </div>
-
-    <button class="nav-footer-btn" id="phoneFormatBtn" type="button" title="전화번호 포맷">
-      <i class='bx bx-phone'></i>
-      <span>Phone</span>
-    </button>
-
-    <!-- ✅ tracking widget toggle -->
-    <button class="nav-footer-btn" id="trackingWidgetBtn" type="button" title="배송조회">
-      <i class='bx bx-package'></i>
-      <span>Track</span>
-    </button>
-
-    <!-- ✅ account widget toggle -->
-    <button class="nav-footer-btn" id="accountWidgetBtn" type="button" title="계정 조회">
-      <i class='bx bx-key'></i>
-      <span>ID/PW</span>
-    </button>
-
-    <button class="nav-footer-btn" id="adminEventBtn" type="button" title="이벤트 보기">
-      <i class='bx bx-calendar-event'></i>
-      <span>event</span>
-    </button>
-  </nav>
-
-  <!-- ✅ sheet sub sidebar -->
-  <aside class="sub-sidebar" id="subSidebar">
-    <div class="sub-list">
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=366983013#gid=366983013">
-        <i class='bx bx-chevron-right'></i><span>개인시트</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1_Bxfag-90U6u-6JbhxNqeoD9vRns-CpPeXPIJYO1Z5o/edit?gid=1265906605#gid=1265906605">
-        <i class='bx bx-chevron-right'></i><span>반품</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0">
-        <i class='bx bx-chevron-right'></i><span>Team.반품</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0">
-        <i class='bx bx-chevron-right'></i><span>Team.물류</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY/edit?gid=925106579#gid=925106579">
-        <i class='bx bx-chevron-right'></i><span>Team.업무</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787">
-        <i class='bx bx-chevron-right'></i><span>Team.주간</span>
-      </button>
-    </div>
-  </aside>
-
-  <!-- ✅ util sub sidebar -->
-  <aside class="sub-sidebar" id="utilSidebar">
-    <div class="sub-list">
-      <button class="sub-item util-child" data-href="https://wskimkj.github.io/account/">
-        <i class='bx bx-chevron-right'></i><span>계정</span>
-      </button>
-      <button class="sub-item util-child" data-href="https://wskimkj.github.io/tracking/">
-        <i class='bx bx-chevron-right'></i><span>배송조회</span>
-      </button>
-      <button class="sub-item util-child" data-href="https://wskimkj.github.io/refund24/">
-        <i class='bx bx-chevron-right'></i><span>환불</span>
-      </button>
-      <button class="sub-item util-child" data-action="event">
-        <i class='bx bx-chevron-right'></i><span>이벤트</span>
-      </button>
-    </div>
-  </aside>
-
-  <!-- main content -->
-  <div class="content">
-    <div class="card">
-      <iframe src="https://wskimkj.github.io/search/" id="mainFrame"></iframe>
-    </div>
-  </div>
-
-  <!-- phone widget -->
-  <div class="phone-widget" id="phoneWidget">
-    <div class="phone-head">
-      <div class="phone-title">Phone</div>
-      <button class="phone-close" id="phoneClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
-    </div>
-
-    <div class="phone-body">
-      <input id="phoneInput" class="phone-input" placeholder="" />
-      <div class="phone-row">
-        <div id="phoneOutput" class="phone-output"></div>
-        <button id="phoneCopy" class="phone-copy" type="button">복사</button>
-      </div>
-      <div id="phoneHint" class="phone-hint">.</div>
-    </div>
-  </div>
-
-  <!-- ✅ tracking widget -->
-  <div class="tracking-widget" id="trackingWidget">
-    <div class="tracking-head">
-      <div class="tracking-title">Tracking</div>
-      <button class="tracking-close" id="trackingClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
-    </div>
-
-    <div class="tracking-body">
-      <div class="tracking-carrier-row" id="trackingCarrierRow">
-        <button class="tracking-carrier-pill active" data-full="CJ대한통운" data-url="https://trace.cjlogistics.com/next/tracking.html?wblNo=">CJ</button>
-        <button class="tracking-carrier-pill" data-full="로젠택배" data-url="https://www.ilogen.com/web/personal/trace/">로젠</button>
-        <button class="tracking-carrier-pill" data-full="한진택배" data-url="https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mCode=MN038&schLang=KR&wblnumText2=">한진</button>
-        <button class="tracking-carrier-pill" data-full="우체국택배" data-url="https://service.epost.go.kr/trace.RetrieveDomRigiTraceList.comm?sid1=">우체국</button>
+  <div class="app-shell">
+    <div class="inner-shell">
+      <div class="header">
+        <div class="header-left">
+          <div class="title-wrap">
+            <h1>
+              Search
+              <span class="title-tag"> PlayMD </span>
+            </h1>
+          </div>
+        </div>
+        <div class="header-right">
+          <div style="margin-top: 4px;">
+            <span id="stockInfo">로딩 중...</span>
+          </div>
+        </div>
       </div>
 
-      <label class="tracking-label" for="trackingInput">운송장 번호</label>
-      <input id="trackingInput" class="tracking-input" placeholder="숫자만 입력 (8~15자리)" />
-      <button class="tracking-btn" id="trackingGo" type="button">조회</button>
-      <p id="trackingError" class="tracking-error" style="display:none;"></p>
+      <div class="content-row">
+        <!-- 검색 카드 -->
+        <div class="card card-search">
 
-      <div class="tracking-result">
-        <div id="trackingResultHeader" class="tracking-result-header"></div>
-        <div class="tracking-frame-wrapper">
-          <iframe id="trackingFrame" class="tracking-frame-scale"></iframe>
+          <div class="search-box">
+            <div class="input-wrap slim">
+              <span class="input-icon-left" aria-hidden="true">
+                <!-- 돋보기 아이콘 -->
+                <svg class="icon-search" viewBox="0 0 24 24" fill="none">
+                  <path d="M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z" stroke="rgba(110,106,130,.55)" stroke-width="2"/>
+                  <path d="M20 20l-3.5-3.5" stroke="rgba(255,143,188,.80)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+
+              <input type="text" id="keyword" placeholder="(예: 상품명, 상품코드, 칼라코드 등)" />
+
+              <button type="button" id="clearKeyword" class="clear-btn" aria-label="검색어 지우기">×</button>
+
+              <span class="input-icon-right">Enter ↵</span>
+            </div>
+
+            <div class="type-pills" id="filterPills">
+              <label class="type-pill" for="warehouse">
+                <input type="checkbox" id="warehouse">
+                창고
+              </label>
+
+              <label class="type-pill" for="material">
+                <input type="checkbox" id="material">
+                소재
+              </label>
+
+              <label class="type-pill" for="stock">
+                <input type="checkbox" id="stock">
+                재고
+              </label>
+            </div>
+
+            <div class="status" id="status">
+              데이터 불러오는 중...
+            </div>
+          </div>
+        </div>
+
+        <!-- 결과 카드 -->
+        <div class="card result-card">
+          <div class="result-header-row">
+            <h2 class="card-title">
+              <span class="icon"></span>
+            </h2>
+          </div>
+
+          <div id="opLegend" class="op-legend">
+            <span class="op-legend-item">
+              <span class="op-legend-dot on"></span> 운영
+            </span>
+            <span class="op-legend-item">
+              <span class="op-legend-dot end"></span> 소진 후 종료
+            </span>
+            <span class="op-legend-item">
+              <span class="op-legend-dot stop"></span> 단종
+            </span>
+            <span class="op-legend-item">
+              <span class="op-legend-dot pause"></span> 일시 중단
+            </span>
+          </div>
+
+          <div id="result">
+            <div class="no-result"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ✅ account widget -->
-  <div class="account-widget" id="accountWidget">
-    <div class="account-head">
-      <div class="account-head-left">
-        <button type="button" class="account-badge account-badge-link" id="accountSheetBtn">ACCOUNT</button>
+  <div id="toast" class="toast">복사</div>
+
+  <!-- ✅✅ 미리보기 모달 -->
+  <div id="previewModal" class="pv-modal" aria-hidden="true">
+    <div class="pv-backdrop"></div>
+    <div class="pv-panel" role="dialog" aria-modal="true">
+      <div class="pv-topbar">
+        <div class="pv-title">상품 미리보기</div>
+        <div class="pv-actions">
+          <a id="pvOpenNewTab" class="pv-btn" href="#" target="_blank" rel="noopener">새창</a>
+          <button type="button" id="pvClose" class="pv-btn">닫기</button>
+        </div>
       </div>
 
-      <button class="account-close" id="accountClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
-    </div>
-
-    <div class="account-body">
-      <div class="account-row">
-        <input id="accountQuery" class="account-input" placeholder="" />
+      <div class="pv-body">
+        <div id="pvLoading" class="pv-loading">불러오는 중…</div>
+        <iframe id="pvFrame" class="pv-frame" loading="lazy"></iframe>
       </div>
-
-      <label class="account-toggle" title="기본은 OR, 체크하면 AND">
-        <input id="accountMatchAll" type="checkbox" />
-        ALL
-      </label>
-
-      <div class="account-meta">
-        <span></span>
-        <span id="accountCount" class="account-count">0건</span>
-      </div>
-
-      <div id="accountResult" class="account-result">
-        <div class="account-empty">데이터 불러오는 중...</div>
-      </div>
-
-      <div id="accountToast" class="account-toast">복사</div>
     </div>
   </div>
 
-  <!-- calendar widget -->
-  <div class="calendar-widget" id="calendarWidget">
-    <div class="calendar-header">
-      <div class="calendar-left">
-        <div class="calendar-title" id="calendarMonthLabel">December 2025</div>
-      </div>
+  <script>
+    // ===== 시트 설정 =====
+    const PRODUCT_SHEET_ID = '1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc';
+    const PRODUCT_GID = '885700988';
 
-      <div class="calendar-right">
-        <div class="cal-view-seg" id="calViewSeg">
-          <button type="button" data-view="week">주</button>
-          <button type="button" data-view="month">월</button>
-        </div>
+    const STOCK_SHEET_ID = '1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM';
+    const STOCK_GID = '366983013';
 
-        <div class="today-event-icon dim" id="todayEventIcon" title="이벤트 시트 열기">
-          <i class='bx bx-bell'></i>
-          <div class="today-event-badge" id="todayBadge"></div>
-        </div>
-      </div>
-    </div>
+    const OPER_SHEET_ID = '1F4EC5w1VPmFpwSbw0LuIv5QkwSSs8YkCBPZKY3h-z64';
+    const OPER_GID = '2108422262';
 
-    <div class="date-popup" id="datePopup">
-      <div class="date-popup-head">
-        <strong id="popupDateLabel">12/15(월)</strong>
-        <button class="date-popup-close" id="popupClose" type="button" aria-label="닫기">
-          <i class='bx bx-x' style="font-size:18px;"></i>
-        </button>
-      </div>
-      <div class="date-popup-list" id="popupEventList"></div>
-    </div>
+    const PRODUCT_CSV_URL =
+      `https://docs.google.com/spreadsheets/d/${PRODUCT_SHEET_ID}/export?format=csv&gid=${PRODUCT_GID}`;
+    const STOCK_CSV_URL =
+      `https://docs.google.com/spreadsheets/d/${STOCK_SHEET_ID}/export?format=csv&gid=${STOCK_GID}`;
+    const OPER_CSV_URL =
+      `https://docs.google.com/spreadsheets/d/${OPER_SHEET_ID}/export?format=csv&gid=${OPER_GID}`;
 
-    <div class="calendar-weekdays">
-      <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
-    </div>
-    <div class="calendar-days" id="calendarDays"></div>
-  </div>
+    // ===== 전역 데이터 =====
+    let products = [];
+    let stockEntriesByColorCode = {};
+    let sizeByColorCode = {};
+    let stockUpdatedAt = '';
 
-</div>
+    let showMaterial = false;
+    let showWarehouse = false;
+    let inStockOnly = false;
+    let opStatusByColorCode = {};
 
-<script>
-  /* ======================
-     Helpers
-     ====================== */
-  function pad2(n){ return String(n).padStart(2, "0"); }
-  function dateKeyLocal(d){
-    return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
-  }
+    // ✅ J열(상품번호) 매핑: colorCode -> productNo
+    let productNoByColorCode = {};
 
-  function normalizeToKey(value){
-    if(!value) return null;
-    let s = String(value).trim();
-    s = s.replace(/\([^)]+\)/g, "");
-    s = s.replace(/\s+/g, "");
+    let sortKey = 'productName';
+    let sortDir = 'asc';
 
-    const ymd = s.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})$/);
-    if(ymd){
-      return `${ymd[1]}-${String(ymd[2]).padStart(2,"0")}-${String(ymd[3]).padStart(2,"0")}`;
+    let lastKeyword = '';
+
+    const statusEl = document.getElementById('status');
+    const resultEl = document.getElementById('result');
+    const stockInfoEl = document.getElementById('stockInfo');
+
+    const keywordInput = document.getElementById('keyword');
+    const clearBtn = document.getElementById('clearKeyword');
+
+    // ✅ 칩 토글 input (id가 material/warehouse/stock 임)
+    const toggleMaterialInput = document.getElementById('material');
+    const toggleWarehouseInput = document.getElementById('warehouse');
+    const toggleInStockOnlyInput = document.getElementById('stock');
+
+    const toastEl = document.getElementById('toast');
+    const opLegendEl = document.getElementById('opLegend');
+    const resultInfoEl = document.getElementById('resultInfo'); // (현재 DOM에 없어서 null일 수 있음)
+
+    // ✅ 미리보기 모달 DOM
+    const previewModalEl = document.getElementById('previewModal');
+    const pvBackdropEl = previewModalEl ? previewModalEl.querySelector('.pv-backdrop') : null;
+    const pvCloseEl = document.getElementById('pvClose');
+    const pvFrameEl = document.getElementById('pvFrame');
+    const pvLoadingEl = document.getElementById('pvLoading');
+    const pvOpenNewTabEl = document.getElementById('pvOpenNewTab');
+
+    const regexBracket = /\[[^\]]*\]/g;
+    const regexSeason  = /^\s*[0-9]{2}\s*(FW|SS)\s*/i;
+
+    function cleanProductName(name) {
+      if (!name) return '';
+      return String(name)
+        .replace(/[\r\n]+/g, '')
+        .replace(/\u00A0/g, ' ')
+        .replace(regexBracket, '')
+        .replace(regexSeason, '')
+        .replace(/\s*\([^)]*\)\s*[^()]*$/, '')
+        .replace(/\([^)]*\)\s*$/, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
     }
 
-    const md = s.match(/^(\d{1,2})[\/\-.](\d{1,2})$/);
-    if(md){
-      const year = new Date().getFullYear();
-      return `${year}-${pad2(Number(md[1]))}-${pad2(Number(md[2]))}`;
+    function escapeHtml(str) {
+      if (!str && str !== 0) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
 
-    const d = new Date(s);
-    if(!isNaN(d)) return dateKeyLocal(d);
-    return null;
-  }
-
-  function inRangeKey(dayKey, startKey, endKey){
-    return dayKey >= startKey && dayKey <= endKey;
-  }
-
-  const KOR_DOW = ["일","월","화","수","목","금","토"];
-  function formatMDKorean(dateKey){
-    const [y,m,d] = dateKey.split("-").map(Number);
-    const dt = new Date(y, m-1, d);
-    return `${pad2(m)}/${pad2(d)}(${KOR_DOW[dt.getDay()]})`;
-  }
-
-  function formatBulletLines(text){
-    const s = String(text ?? "");
-    return s
-      .replace(/\s*■\s*/g, "\n■ ")
-      .replace(/\n{3,}/g, "\n\n")
-      .trim();
-  }
-
-  function escapeHtml(str){
-    return String(str ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
-
-  function textToHtmlWithBreaks(text){
-    const safe = escapeHtml(String(text ?? ""));
-    return safe.replace(/\r\n|\r|\n/g, "<br>");
-  }
-
-  function cleanTarget(raw){
-    let t = String(raw ?? "").trim();
-    t = t.replace(/^"+|"+$/g, "").trim();
-    if(t === '""') t = "";
-    return t;
-  }
-
-  /* ======================
-     DOM
-     ====================== */
-  const phoneWidget = document.getElementById("phoneWidget");
-  const phoneFormatBtn = document.getElementById("phoneFormatBtn");
-  const phoneClose = document.getElementById("phoneClose");
-  const phoneInput = document.getElementById("phoneInput");
-  const phoneOutput = document.getElementById("phoneOutput");
-  const phoneCopy = document.getElementById("phoneCopy");
-  const phoneHint = document.getElementById("phoneHint");
-
-  const trackingWidgetBtn = document.getElementById("trackingWidgetBtn");
-  const trackingWidget = document.getElementById("trackingWidget");
-  const trackingClose = document.getElementById("trackingClose");
-  const trackingCarrierRow = document.getElementById("trackingCarrierRow");
-  const trackingInput = document.getElementById("trackingInput");
-  const trackingGo = document.getElementById("trackingGo");
-  const trackingError = document.getElementById("trackingError");
-  const trackingResultHeader = document.getElementById("trackingResultHeader");
-  const trackingFrame = document.getElementById("trackingFrame");
-
-  const accountWidget = document.getElementById("accountWidget");
-  const accountWidgetBtn = document.getElementById("accountWidgetBtn");
-  const accountClose = document.getElementById("accountClose");
-  const accountQuery = document.getElementById("accountQuery");
-  const accountMatchAll = document.getElementById("accountMatchAll");
-  const accountResult = document.getElementById("accountResult");
-  const accountCount = document.getElementById("accountCount");
-  const accountToast = document.getElementById("accountToast");
-
-  const mainFrame = document.getElementById("mainFrame");
-  const navItems = document.querySelectorAll(".nav-item");
-
-  const subSidebar = document.getElementById("subSidebar");
-  const googleBtn = document.getElementById("googleBtn");
-  const googleChildren = document.querySelectorAll(".google-child");
-
-  const utilSidebar = document.getElementById("utilSidebar");
-  const utilBtn = document.getElementById("utilBtn");
-  const utilChildren = document.querySelectorAll(".util-child");
-
-  const calendarWidget = document.getElementById("calendarWidget");
-  const adminEventBtn = document.getElementById("adminEventBtn");
-  const calViewSeg = document.getElementById("calViewSeg");
-
-  const todayIcon = document.getElementById("todayEventIcon");
-  const todayBadge = document.getElementById("todayBadge");
-
-  const popup = document.getElementById("datePopup");
-  const popupClose = document.getElementById("popupClose");
-
-  const EVENT_SHEET_URL =
-    "https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?pli=1&gid=1830278768#gid=1830278768";
-
-  /* ✅ ACCOUNT 버튼 → 시트 */
-  const accountSheetBtn = document.getElementById("accountSheetBtn");
-  const ACCOUNT_SHEET_URL =
-    "https://docs.google.com/spreadsheets/d/1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0/edit?gid=0#gid=0";
-
-  accountSheetBtn.addEventListener("click", (e) => {
-    window.open(ACCOUNT_SHEET_URL, "_blank");
-    e.stopPropagation();
-  });
-
-  /* ======================
-     iframe refresh restore
-     ====================== */
-  const LAST_FRAME_KEY = "lastFrameURL";
-  function restoreLastFrame(){
-    const last = localStorage.getItem(LAST_FRAME_KEY);
-    mainFrame.src = last ? last : "https://wskimkj.github.io/search/";
-  }
-  function rememberFrame(url){ localStorage.setItem(LAST_FRAME_KEY, url); }
-  restoreLastFrame();
-
-  mainFrame.addEventListener("load", () => {
-    rememberFrame(mainFrame.src);
-    try{
-      const real = mainFrame.contentWindow.location.href;
-      if(real) rememberFrame(real);
-    }catch{}
-  });
-
-  /* ======================
-     UI helpers (close)
-     ====================== */
-  function closePopup(){ popup.classList.remove("open"); }
-  function hideCalendar(){ calendarWidget.classList.remove("visible"); }
-  function hidePhone(){ phoneWidget.classList.remove("visible"); }
-  function hideTracking(){ trackingWidget.classList.remove("visible"); }
-  function hideAccount(){ accountWidget.classList.remove("visible"); }
-
-  function hideAllSubSidebars(){
-    subSidebar.classList.remove("visible");
-    utilSidebar.classList.remove("visible");
-  }
-
-  function closeAllPanels(){
-    hideAllSubSidebars();
-    hideCalendar();
-    hidePhone();
-    hideTracking();
-    hideAccount();
-    closePopup();
-  }
-
-  /* ======================
-     ✅ Sub-sidebar positioning
-     ====================== */
-  function placeSubSidebarNear(btn, panel){
-    const r = btn.getBoundingClientRect();
-    const left = 96;
-
-    const h = panel.offsetHeight || 220;
-    let top = r.top + window.scrollY + (r.height/2) - (h/2);
-
-    const minTop = 12 + window.scrollY;
-    const maxTop = window.scrollY + window.innerHeight - h - 12;
-    top = Math.max(minTop, Math.min(top, maxTop));
-
-    panel.style.left = left + "px";
-    panel.style.top  = top  + "px";
-  }
-
-  function showSubSidebar(panel, anchorBtn){
-    panel.classList.add("visible");
-    requestAnimationFrame(()=> placeSubSidebarNear(anchorBtn, panel));
-  }
-
-  /* ======================
-     Phone widget
-     ====================== */
-  function formatKoreanPhone(input){
-    let num = String(input ?? "").replace(/\D/g, "");
-    if(num.startsWith("82")) num = "0" + num.slice(2);
-
-    const SAFE_PREFIX = ["0502","0504","0505","0506","0507"];
-    for(const p of SAFE_PREFIX){
-      if(num.startsWith(p)){
-        if(num.length === 11){
-          return { type:"safe", value: num.replace(/(\d{4})(\d{3})(\d{4})/, "$1-$2-$3") };
-        }
-        if(num.length === 12){
-          return { type:"safe", value: num.replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3") };
-        }
-      }
-    }
-
-    if(num.length === 10 && num.startsWith("10")) num = "0" + num;
-    if(num.length === 11 && num.startsWith("010")){
-      return { type:"mobile", value: num.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3") };
-    }
-    return { type:"unknown", value:"" };
-  }
-
-  function togglePhone(){
-    const v = phoneWidget.classList.contains("visible");
-    if(v){
-      hidePhone();
-    }else{
-      phoneWidget.classList.add("visible");
-      hideCalendar();
-      hideAllSubSidebars();
-      hideAccount();
-      hideTracking();
-      closePopup();
-      phoneInput.focus();
-    }
-  }
-
-  phoneFormatBtn.addEventListener("click",(e)=>{
-    togglePhone();
-    e.stopPropagation();
-  });
-  phoneClose.addEventListener("click",(e)=>{
-    hidePhone();
-    e.stopPropagation();
-  });
-  phoneWidget.addEventListener("click",(e)=> e.stopPropagation());
-  phoneWidget.addEventListener("mouseleave", () => hidePhone());
-
-  phoneInput.addEventListener("input", ()=>{
-    const result = formatKoreanPhone(phoneInput.value);
-    if(result.value){
-      phoneOutput.textContent = result.value;
-      phoneHint.textContent = (result.type === "safe") ? "안전번호 (가상번호)" : "휴대폰 번호";
-    }else{
-      phoneOutput.textContent = "";
-      phoneHint.textContent = "번호를 입력하세요";
-    }
-  });
-
-  async function copyText(v){
-    if(!v) return;
-    try{
-      await navigator.clipboard.writeText(v);
-      phoneHint.textContent = "복사됨 ✅";
-    }catch{
-      phoneHint.textContent = "복사 실패(브라우저 권한 확인)";
-    }
-  }
-  phoneOutput.addEventListener("click",(e)=>{
-    e.preventDefault(); e.stopPropagation();
-    copyText(phoneOutput.textContent);
-  });
-  phoneCopy.addEventListener("click",(e)=>{
-    e.preventDefault(); e.stopPropagation();
-    copyText(phoneOutput.textContent);
-  });
-
-  /* ======================
-     Tracking widget
-     ====================== */
-  function validateTracking(num){
-    const digits = String(num || "").replace(/\s+/g, "");
-    if(!digits) return "운송장 번호를 입력해주세요.";
-    if(!/^\d{8,15}$/.test(digits)) return "운송장 번호는 숫자 8~15자리로 입력해주세요.";
-    return "";
-  }
-
-  function getActiveCarrier(){
-    return trackingCarrierRow.querySelector(".tracking-carrier-pill.active");
-  }
-
-  function track(){
-    trackingError.style.display = "none";
-
-    const raw = trackingInput.value.trim();
-    const msg = validateTracking(raw);
-
-    if(msg){
-      trackingError.textContent = msg;
-      trackingError.style.display = "block";
-      trackingResultHeader.textContent = "입력값을 다시 확인해주세요.";
-      trackingFrame.src = "";
-      return;
-    }
-
-    const digits = raw.replace(/\s+/g, "");
-    const carrierBtn = getActiveCarrier();
-    const fullName = carrierBtn?.dataset?.full || "택배사";
-    const baseUrl = carrierBtn?.dataset?.url || "";
-
-    trackingResultHeader.innerHTML = `<span class="em">${fullName}</span> 배송 조회 화면입니다.`;
-    trackingFrame.src = baseUrl + encodeURIComponent(digits);
-  }
-
-  function toggleTracking(){
-    const v = trackingWidget.classList.contains("visible");
-    if(v){
-      hideTracking();
-    }else{
-      trackingWidget.classList.add("visible");
-      hideCalendar();
-      hideAllSubSidebars();
-      hidePhone();
-      hideAccount();
-      closePopup();
-      trackingInput.focus();
-    }
-  }
-
-  trackingWidgetBtn.addEventListener("click",(e)=>{
-    toggleTracking();
-    e.stopPropagation();
-  });
-
-  trackingClose.addEventListener("click",(e)=>{
-    hideTracking();
-    e.stopPropagation();
-  });
-
-  trackingWidget.addEventListener("click",(e)=> e.stopPropagation());
-  trackingWidget.addEventListener("mouseleave", ()=> hideTracking());
-
-  trackingCarrierRow.addEventListener("click",(e)=>{
-    const btn = e.target.closest(".tracking-carrier-pill");
-    if(!btn) return;
-    trackingCarrierRow.querySelectorAll(".tracking-carrier-pill").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    e.stopPropagation();
-  });
-
-  trackingGo.addEventListener("click",(e)=>{
-    track();
-    e.stopPropagation();
-  });
-
-  trackingInput.addEventListener("keydown",(e)=>{
-    if(e.key === "Enter") track();
-  });
-
-  /* ======================
-     Account widget
-     ====================== */
-  const ACCOUNT_SHEET_ID = "1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0";
-  const SHOP_GIDS = [0, 618725932, 1481873109];
-  const OTHER_GID = 267581891;
-
-  let SHOP_SITES = [];
-  let OTHER_SITES = [];
-  let accountLoaded = false;
-
-  function accountCsvUrl(gid){
-    return `https://docs.google.com/spreadsheets/d/${ACCOUNT_SHEET_ID}/export?format=csv&gid=${gid}`;
-  }
-
-  function parseCsv(text){
-    const rows = [];
-    let row = [];
-    let cur = "";
-    let inQuotes = false;
-
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i];
-      const next = text[i + 1];
-
-      if (ch === '"') {
-        if (inQuotes && next === '"') { cur += '"'; i++; }
-        else inQuotes = !inQuotes;
-        continue;
-      }
-
-      if (!inQuotes && ch === ",") { row.push(cur); cur = ""; continue; }
-
-      if (!inQuotes && (ch === "\n" || ch === "\r")) {
-        if (ch === "\r" && next === "\n") i++;
-        row.push(cur);
-        if (row.some(c => (c || "").toString().trim() !== "")) rows.push(row);
-        row = [];
-        cur = "";
-        continue;
-      }
-
-      cur += ch;
-    }
-
-    if (cur.length > 0 || row.length > 0) {
-      row.push(cur);
-      if (row.some(c => (c || "").toString().trim() !== "")) rows.push(row);
-    }
-
-    return rows;
-  }
-
-  async function fetchCsv(gid){
-    const res = await fetch(accountCsvUrl(gid), { cache:"no-store" });
-    if(!res.ok) throw new Error("csv fetch failed");
-    const text = await res.text();
-    return parseCsv(text);
-  }
-
-  function splitAgKeywords(v){
-    return (v || "").toString().split(",").map(s=>s.trim()).filter(Boolean);
-  }
-  function splitQueryKeywords(q){
-    return (q || "").toString().split(/[,\s]+/g).map(s=>s.trim()).filter(Boolean);
-  }
-  function normalize(s){ return (s || "").toString().toLowerCase().trim(); }
-
-  function tokenMatchAny(agTokens, queryTokens){
-    const a = (agTokens || []).map(normalize).filter(Boolean);
-    const q = (queryTokens || []).map(normalize).filter(Boolean);
-    if(!a.length || !q.length) return false;
-    return q.some(qt => a.some(at => at.includes(qt)));
-  }
-  function tokenMatchAll(agTokens, queryTokens){
-    const a = (agTokens || []).map(normalize).filter(Boolean);
-    const q = (queryTokens || []).map(normalize).filter(Boolean);
-    if(!a.length || !q.length) return false;
-    return q.every(qt => a.some(at => at.includes(qt)));
-  }
-
-  async function loadAccountData(){
-    accountResult.innerHTML = '<div class="account-empty">데이터 불러오는 중...</div>';
-    accountCount.textContent = "";
-
-    try{
-      const shopPromises = SHOP_GIDS.map(gid => fetchCsv(gid));
-      const shopSheetsRows = await Promise.all(shopPromises);
-
-      SHOP_SITES = [];
-
-      shopSheetsRows.forEach((rows, idx)=>{
-        const gid = SHOP_GIDS[idx];
-        if(!rows || rows.length <= 1) return;
-
-        let groupLabel = (gid === 0) ? "JH" : (gid === 618725932) ? "NH" : (gid === 1481873109) ? "HTY" : "기타";
-
-        rows.slice(1).forEach(cols=>{
-          const colA = (cols[0] || "").toString().trim();
-          if(colA === "매장") return;
-
-          const ag = cols[32] || "";
-          const agKeywords = splitAgKeywords(ag);
-          if(!agKeywords.length) return;
-
-          let storeId = "", loginId = "", pw = "";
-          if(gid === 0 || gid === 618725932){
-            storeId = cols[13];
-            loginId = cols[14];
-            pw      = cols[15];
-          }else if(gid === 1481873109){
-            storeId = cols[12];
-            loginId = cols[13];
-            pw      = cols[14];
-          }
-
-          SHOP_SITES.push({
-            group: groupLabel,
-            siteName: ag || "",
-            agKeywords,
-            storeId: storeId || "",
-            loginId: loginId || "",
-            pw: pw || ""
-          });
-        });
+    function parseCSV(text) {
+      const parsed = Papa.parse(text, {
+        header: false,
+        skipEmptyLines: true
       });
-
-      OTHER_SITES = [];
-      if(OTHER_GID != null){
-        const otherRows = await fetchCsv(OTHER_GID);
-        if(otherRows && otherRows.length > 1){
-          otherRows.slice(1).forEach(cols=>{
-            const colA = (cols[0] || "").toString().trim();
-            if(colA === "매장") return;
-
-            const siteName = cols[0];
-            const loginId  = cols[3];
-            const pw       = cols[4];
-            if(!siteName) return;
-
-            OTHER_SITES.push({
-              group: "기타",
-              siteName: siteName || "",
-              agKeywords: splitAgKeywords(siteName),
-              storeId: "",
-              loginId: loginId || "",
-              pw: pw || ""
-            });
-          });
-        }
-      }
-
-      accountLoaded = true;
-      accountResult.innerHTML = '<div class="account-empty">검색어를 입력하세요. (Enter)</div>';
-      accountCount.textContent = "0건";
-    }catch(err){
-      console.error(err);
-      accountLoaded = false;
-      accountResult.innerHTML =
-        '<div class="account-empty">데이터를 불러오지 못했습니다. (시트 공개 권한 확인 필요)</div>';
-      accountCount.textContent = "";
-    }
-  }
-
-  function searchAccountSites(query, matchAll){
-    const queryTokens = splitQueryKeywords(query);
-    if(!queryTokens.length) return [];
-    const matcher = matchAll ? tokenMatchAll : tokenMatchAny;
-
-    const results = [];
-    SHOP_SITES.forEach(item=>{
-      if(matcher(item.agKeywords, queryTokens)){
-        results.push({
-          group: item.group || "기타",
-          siteName: item.siteName || "",
-          storeId: item.storeId || "",
-          loginId: item.loginId || "",
-          pw: item.pw || ""
-        });
-      }
-    });
-
-    OTHER_SITES.forEach(item=>{
-      if(matcher(item.agKeywords, queryTokens)){
-        results.push({
-          group: item.group || "기타",
-          siteName: item.siteName || "",
-          storeId: "",
-          loginId: item.loginId || "",
-          pw: item.pw || ""
-        });
-      }
-    });
-
-    results.sort((a,b)=>(a.siteName||"").localeCompare(b.siteName||""));
-    return results;
-  }
-
-  let accountToastTimer = null;
-  function showAccountToast(){
-    accountToast.classList.add("show");
-    if(accountToastTimer) clearTimeout(accountToastTimer);
-    accountToastTimer = setTimeout(()=> accountToast.classList.remove("show"), 1100);
-  }
-
-  function copyToClipboard(text){
-    if(!text) return;
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(showAccountToast).catch(()=>{});
-    }else{
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      try{ document.execCommand("copy"); showAccountToast(); }catch{}
-      document.body.removeChild(ta);
-    }
-  }
-
-  function makeAccountChip(label, value){
-    const chip = document.createElement("div");
-    chip.className = "account-chip";
-
-    const k = document.createElement("div");
-    k.className = "k";
-    k.textContent = label;
-
-    const v = document.createElement("div");
-    v.className = "v";
-    v.textContent = value;
-
-    chip.appendChild(k);
-    chip.appendChild(v);
-
-    chip.addEventListener("click", (e)=>{
-      e.stopPropagation();
-      copyToClipboard(value);
-    });
-
-    return chip;
-  }
-
-  function renderAccountResults(list){
-    if(!list || list.length === 0){
-      accountResult.innerHTML = '<div class="account-empty">검색 결과가 없습니다.</div>';
-      accountCount.textContent = "0건";
-      return;
+      return parsed.data;
     }
 
-    accountCount.textContent = list.length + "건";
-    accountResult.innerHTML = "";
-    const frag = document.createDocumentFragment();
-
-    list.forEach(item=>{
-      const card = document.createElement("div");
-      card.className = "account-card";
-
-      const head = document.createElement("div");
-      head.className = "account-card-head";
-
-      const site = document.createElement("div");
-      site.className = "account-site";
-      site.textContent = item.siteName || "(사이트명 없음)";
-
-      const grp = document.createElement("div");
-      grp.className = "account-group";
-      grp.textContent = (item.group || "기타").toUpperCase();
-
-      head.appendChild(site);
-      head.appendChild(grp);
-
-      const fields = document.createElement("div");
-      fields.className = "account-fields";
-
-      const store = (item.storeId || "").toString().trim();
-      const hasStore = store !== "" && store !== "-" && store !== "없음";
-      if(hasStore) fields.appendChild(makeAccountChip("상점", item.storeId));
-      if(item.loginId) fields.appendChild(makeAccountChip("ID", item.loginId));
-      if(item.pw) fields.appendChild(makeAccountChip("PW", item.pw));
-
-      card.appendChild(head);
-      card.appendChild(fields);
-      frag.appendChild(card);
-    });
-
-    accountResult.appendChild(frag);
-  }
-
-  function doAccountSearch(){
-    if(!accountLoaded){
-      accountResult.innerHTML = '<div class="account-empty">아직 데이터 로딩 중입니다.</div>';
-      accountCount.textContent = "";
-      return;
+    function showToast(msg) {
+      if (!toastEl) return;
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      setTimeout(() => {
+        toastEl.classList.remove('show');
+      }, 1400);
     }
-    const q = accountQuery.value.trim();
-    if(!q){
-      accountResult.innerHTML = '<div class="account-empty">검색어를 입력하세요.</div>';
-      accountCount.textContent = "0건";
-      return;
+
+    function updateLegendVisibility() {
+      if (!opLegendEl) return;
+      const hasData = Object.keys(opStatusByColorCode).length > 0;
+      opLegendEl.style.display = hasData ? 'flex' : 'none';
     }
-    const results = searchAccountSites(q, !!accountMatchAll.checked);
-    renderAccountResults(results);
-  }
 
-  function toggleAccount(){
-    const v = accountWidget.classList.contains("visible");
-    if(v){
-      hideAccount();
-    }else{
-      accountWidget.classList.add("visible");
-      hideCalendar();
-      hideAllSubSidebars();
-      hidePhone();
-      hideTracking();
-      closePopup();
-
-      if(!accountLoaded){
-        loadAccountData();
-      }
-      accountQuery.focus();
-    }
-  }
-
-  accountWidgetBtn.addEventListener("click",(e)=>{
-    toggleAccount();
-    e.stopPropagation();
-  });
-  accountClose.addEventListener("click",(e)=>{
-    hideAccount();
-    e.stopPropagation();
-  });
-  accountWidget.addEventListener("click",(e)=> e.stopPropagation());
-  accountWidget.addEventListener("mouseleave", ()=> hideAccount());
-
-  accountQuery.addEventListener("keydown",(e)=>{
-    if(e.key === "Enter") doAccountSearch();
-  });
-  accountMatchAll.addEventListener("change", ()=>{
-    if(accountQuery.value.trim()) doAccountSearch();
-  });
-
-  /* ======================
-     Nav + sub sidebars + calendar
-     ====================== */
-  function toggleCalendar(){
-    const v = calendarWidget.classList.contains("visible");
-    if(v) { calendarWidget.classList.remove("visible"); closePopup(); }
-    else{
-      calendarWidget.classList.add("visible");
-      hideAllSubSidebars();
-      hidePhone();
-      hideTracking();
-      hideAccount();
-      buildCalendar();
-    }
-  }
-
-  adminEventBtn.addEventListener("click",(e)=>{
-    toggleCalendar();
-    e.stopPropagation();
-  });
-
-  googleBtn.addEventListener("click",(e)=>{
-    const isOpen = subSidebar.classList.contains("visible");
-    closeAllPanels();
-    if(!isOpen){
-      showSubSidebar(subSidebar, googleBtn);
-    }
-    e.stopPropagation();
-  });
-
-  utilBtn.addEventListener("click",(e)=>{
-    const isOpen = utilSidebar.classList.contains("visible");
-    closeAllPanels();
-    if(!isOpen){
-      showSubSidebar(utilSidebar, utilBtn);
-    }
-    e.stopPropagation();
-  });
-
-  navItems.forEach(btn=>{
-    btn.addEventListener("click",(e)=>{
-      const id = btn.dataset.id;
-      const href = btn.dataset.href;
-
-      if(id === "google" || id === "util"){
-        e.stopPropagation();
+    // ✅ 미리보기 모달 열기/닫기
+    function openPreviewByProductNo(productNo){
+      if (!previewModalEl || !pvFrameEl || !pvLoadingEl || !pvOpenNewTabEl) {
+        // 모달 DOM이 없으면 새창 fallback
+        window.open(`https://whitesands.co.kr/product/detail.html?product_no=${encodeURIComponent(productNo)}`, '_blank');
         return;
       }
 
-      navItems.forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
+      const url = `https://whitesands.co.kr/product/detail.html?product_no=${encodeURIComponent(productNo)}`;
 
-      closeAllPanels();
+      pvLoadingEl.style.display = 'flex';
+      pvFrameEl.src = url;
+      pvOpenNewTabEl.href = url;
 
-      if(href){
-        mainFrame.src = href;
-        rememberFrame(href);
-      }
-      e.stopPropagation();
+      previewModalEl.classList.add('show');
+      previewModalEl.setAttribute('aria-hidden', 'false');
+
+      showToast('미리보기 여는 중...');
+    }
+
+    function closePreview(){
+      if (!previewModalEl || !pvFrameEl || !pvLoadingEl) return;
+      previewModalEl.classList.remove('show');
+      previewModalEl.setAttribute('aria-hidden', 'true');
+
+      // 로딩 리셋 + iframe 정리
+      pvLoadingEl.style.display = 'flex';
+      pvFrameEl.src = 'about:blank';
+    }
+
+    if (pvFrameEl) {
+      pvFrameEl.addEventListener('load', () => {
+        if (pvLoadingEl) pvLoadingEl.style.display = 'none';
+      });
+    }
+
+    if (pvCloseEl) pvCloseEl.addEventListener('click', closePreview);
+    if (pvBackdropEl) pvBackdropEl.addEventListener('click', closePreview);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePreview();
     });
-  });
 
-  googleChildren.forEach(btn=>{
-    btn.addEventListener("click",(e)=>{
-      googleChildren.forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
+    async function loadProducts() {
+      const res = await fetch(PRODUCT_CSV_URL);
+      if (!res.ok) throw new Error('상품 시트 로드 실패: ' + res.status);
 
-      const url = btn.dataset.href;
-      if(url){
-        mainFrame.src = url;
-        rememberFrame(url);
+      const text = await res.text();
+      const rows = parseCSV(text);
+      if (rows.length < 2) return;
+
+      const idxProductCode = 5;
+      const idxColorName   = 15;
+      const idxBarcode     = 20;
+      const idxMaterial    = 22;
+      const idxColorCode   = 25;
+      const idxProductName = 26;
+
+      products = rows.slice(1).map(row => {
+        const rawName = row[idxProductName] || '';
+        const cleanedName = cleanProductName(rawName);
+
+        return {
+          productCode: row[idxProductCode] || '',
+          colorName:   row[idxColorName]   || '',
+          barcode:     row[idxBarcode]     || '',
+          material:    row[idxMaterial]    || '',
+          colorCode:   row[idxColorCode]   || '',
+          rawName,
+          productName: cleanedName
+        };
+      }).filter(p => p.productName);
+    }
+
+    async function loadStock() {
+      const res = await fetch(STOCK_CSV_URL);
+      if (!res.ok) throw new Error('재고 시트 로드 실패: ' + res.status);
+
+      const text = await res.text();
+      const rows = parseCSV(text);
+      if (!rows.length) return;
+
+      stockUpdatedAt = (rows[0][1] || '').trim();
+      stockInfoEl.textContent = stockUpdatedAt || '미기재';
+
+      stockEntriesByColorCode = {};
+      sizeByColorCode = {};
+      productNoByColorCode = {};
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (!row || !row.length) continue;
+
+        const colorCode = (row[0] || '').trim();
+        if (!colorCode) continue;
+
+        const size      = (row[1] || '').trim();
+        const warehouse = (row[2] || '').trim() || '미정';
+
+        // ✅ J열 = 상품번호 (0-based index: 9)
+        const productNo = (row[9] || '').toString().trim();
+        if (productNo && !productNoByColorCode[colorCode]) {
+          productNoByColorCode[colorCode] = productNo;
+        }
+
+        // 기존 로직: 재고는 K열(row[10]) 사용
+        let qtyRaw      = (row[10] || '').toString().trim();
+        if (!qtyRaw) continue;
+
+        qtyRaw = qtyRaw.replace(/,/g, '');
+        const qty = Number(qtyRaw);
+        if (isNaN(qty)) continue;
+
+        if (!stockEntriesByColorCode[colorCode]) {
+          stockEntriesByColorCode[colorCode] = [];
+        }
+        stockEntriesByColorCode[colorCode].push({ warehouse, size, qty });
+
+        if (!sizeByColorCode[colorCode] && size) {
+          sizeByColorCode[colorCode] = size;
+        }
       }
-      closeAllPanels();
-      e.stopPropagation();
-    });
-  });
+    }
 
-  utilChildren.forEach(btn=>{
-    btn.addEventListener("click",(e)=>{
-      utilChildren.forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const action = btn.dataset.action;
-      const url = btn.dataset.href;
-
-      if(action === "event"){
-        toggleCalendar();
-      }else if(url){
-        mainFrame.src = url;
-        rememberFrame(url);
-        closeAllPanels();
+    async function loadOperationStatus() {
+      const res = await fetch(OPER_CSV_URL);
+      if (!res.ok) {
+        console.log('운영 여부 시트 로드 실패 상태코드:', res.status);
+        return;
       }
-      e.stopPropagation();
-    });
-  });
+      const text = await res.text();
+      const rows = parseCSV(text);
+      if (rows.length < 2) return;
 
-  document.addEventListener("keydown",(e)=>{
-    if(e.key === "Escape"){
-      closeAllPanels();
-      hideAllSubSidebars();
-    }
-  });
-
-  popupClose.addEventListener("click",(e)=>{
-    closePopup();
-    e.stopPropagation();
-  });
-
-  todayIcon.addEventListener("click",(e)=>{
-    window.open(EVENT_SHEET_URL, "_blank");
-    e.stopPropagation();
-  });
-
-  document.addEventListener("click", (e)=>{
-    const t = e.target;
-    const clickedGoogle = googleBtn.contains(t) || subSidebar.contains(t);
-    const clickedUtil   = utilBtn.contains(t) || utilSidebar.contains(t);
-
-    const clickedInsideCalendar = calendarWidget.contains(t) || adminEventBtn.contains(t);
-    const clickedInsidePhone = phoneWidget.contains(t) || phoneFormatBtn.contains(t);
-    const clickedInsideTracking = trackingWidget.contains(t) || trackingWidgetBtn.contains(t);
-    const clickedInsideAccount = accountWidget.contains(t) || accountWidgetBtn.contains(t);
-
-    if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount){
-      hideAllSubSidebars();
-    }
-  });
-
-  /* ======================
-     calendar view mode
-     ====================== */
-  const CAL_VIEW_KEY = "calendarViewMode";
-  let calendarViewMode = localStorage.getItem(CAL_VIEW_KEY) || "week";
-
-  function applyViewSeg(){
-    [...calViewSeg.querySelectorAll("button")].forEach(b=>{
-      b.classList.toggle("active", b.dataset.view === calendarViewMode);
-    });
-  }
-  applyViewSeg();
-
-  calViewSeg.addEventListener("click",(e)=>{
-    const btn = e.target.closest("button");
-    if(!btn) return;
-    calendarViewMode = btn.dataset.view;
-    localStorage.setItem(CAL_VIEW_KEY, calendarViewMode);
-    applyViewSeg();
-    closePopup();
-    buildCalendar();
-    e.stopPropagation();
-  });
-
-  /* ======================
-     Load events from sheet (C~G)
-     ====================== */
-  let events = [];
-
-  const SHEET_ID = "1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI";
-  const SHEET_GID = "1830278768";
-  const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${SHEET_GID}`;
-
-  function parseCSV(text){
-    const rows = [];
-    let row = [], cur = "", inQ = false;
-    if(text && text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-
-    for(let i=0;i<text.length;i++){
-      const ch = text[i];
-      const next = text[i+1];
-
-      if(ch === '"' && next === '"'){ cur += '"'; i++; continue; }
-      if(ch === '"'){ inQ = !inQ; continue; }
-
-      if(ch === ',' && !inQ){ row.push(cur); cur=""; continue; }
-
-      if((ch === '\n' || ch === '\r') && !inQ){
-        if(cur.length || row.length){ row.push(cur); rows.push(row); }
-        cur=""; row=[];
-        continue;
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const colorCode = (row[0] || '').trim();
+        const op = (row[2] || '').trim();
+        if (!colorCode || !op) continue;
+        opStatusByColorCode[colorCode] = op;
       }
-      cur += ch;
+      updateLegendVisibility();
     }
-    if(cur.length || row.length){ row.push(cur); rows.push(row); }
-    return rows;
-  }
 
-  async function loadEventsFromSheet(){
-    try{
-      const res = await fetch(SHEET_CSV_URL, { cache:"no-store" });
-      if(!res.ok) throw new Error(`sheet fetch failed (${res.status})`);
-      const csv = await res.text();
-      const rows = parseCSV(csv);
+    async function init() {
+      try {
+        statusEl.textContent = '상품/재고 데이터 불러오는 중...';
+        keywordInput.disabled = true;
 
-      const parsed = [];
-      for(const r of rows){
-        const mall    = (r[2] || "").trim(); // C
-        const startV  = (r[3] || "").trim(); // D
-        const endV    = (r[4] || "").trim(); // E
-        const content = (r[5] || "").trim(); // F
-        const target  = cleanTarget(r[6] || ""); // G
+        await Promise.all([
+          loadProducts(),
+          loadStock(),
+          loadOperationStatus()
+        ]);
 
-        if(!mall && !startV && !endV && !content && !target) continue;
-
-        const startKey = normalizeToKey(startV);
-        const endKey   = normalizeToKey(endV);
-        if(!mall || !startKey || !endKey) continue;
-        if(startKey > endKey) continue;
-
-        parsed.push({ mall, start: startKey, end: endKey, content, target });
+        statusEl.innerHTML = `<strong>상품 ${products.length}개</strong>`;
+        keywordInput.disabled = false;
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = '데이터 로드 실패: ' + err.message;
+        stockInfoEl.textContent = '로드 실패';
       }
-
-      events = parsed;
-      buildCalendar();
-      updateTodayBadge();
-    }catch(err){
-      events = [];
-      buildCalendar();
-      updateTodayBadge();
-    }
-  }
-
-  function updateTodayBadge(){
-    const todayKey = dateKeyLocal(new Date());
-    const count = events.filter(ev => inRangeKey(todayKey, ev.start, ev.end)).length;
-
-    if(count > 0){
-      todayIcon.classList.remove("dim");
-      todayBadge.style.display = "inline-flex";
-      todayBadge.textContent = String(count);
-    }else{
-      todayIcon.classList.add("dim");
-      todayBadge.style.display = "none";
-      todayBadge.textContent = "";
-    }
-  }
-
-  function openPopupForDate(dateKey){
-    const items = events.filter(ev => inRangeKey(dateKey, ev.start, ev.end));
-    document.getElementById("popupDateLabel").textContent = formatMDKorean(dateKey);
-
-    document.getElementById("popupEventList").innerHTML = items.length
-      ? items.map(ev=>{
-          const pretty = formatBulletLines(ev.content || "(내용없음)");
-          const hasItem = !!(ev.target && ev.target.trim());
-
-          return `
-            <div class="mini-event">
-              <div class="mall">${escapeHtml(ev.mall)}</div>
-              <div class="event-text">${textToHtmlWithBreaks(pretty)}</div>
-
-              ${hasItem ? `
-                <div class="item-box" data-itembox>
-                  <button type="button" class="item-head" data-itemtoggle aria-expanded="false">
-                    <span class="item-label">ITEM</span>
-                    <i class='bx bx-chevron-down item-caret'></i>
-                  </button>
-                  <div class="item-text is-collapsed" data-itemcontent>
-                    ${escapeHtml(ev.target)}
-                  </div>
-                </div>
-              ` : ``}
-
-              <div class="meta">${escapeHtml(ev.start)} ~ ${escapeHtml(ev.end)}</div>
-            </div>
-          `;
-        }).join("")
-      : `<div style="font-size:11px;color:rgba(15,23,42,0.62);font-weight:800;padding:6px 2px;">이날 이벤트 없음</div>`;
-
-    popup.classList.add("open");
-  }
-
-  function buildCalendar(){
-    if(calendarViewMode === "month") buildCalendarMonth();
-    else buildCalendarWeek();
-  }
-
-  function buildCalendarWeek(){
-    const today = new Date();
-    const todayKey = dateKeyLocal(today);
-
-    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    document.getElementById("calendarMonthLabel").textContent = `${monthNames[today.getMonth()]} ${today.getFullYear()}`;
-
-    const dow = (today.getDay()+6)%7; // Mon=0
-    const mon = new Date(today);
-    mon.setDate(today.getDate() - dow);
-
-    const days = [];
-    for(let i=0;i<5;i++){
-      const d = new Date(mon);
-      d.setDate(mon.getDate()+i);
-      days.push(d);
     }
 
-    const daysContainer = document.getElementById("calendarDays");
-    daysContainer.innerHTML = "";
+    function buildOperationIndicator(colorCode) {
+      const rawStatus = opStatusByColorCode[colorCode];
+      if (!rawStatus) return '';
 
-    days.forEach(d=>{
-      const key = dateKeyLocal(d);
-      const count = events.filter(ev => inRangeKey(key, ev.start, ev.end)).length;
+      const s = rawStatus.trim();
+      const normalized = s.replace(/\s+/g, '').replace(/[()]/g, '');
+      let cls = 'op-status-dot ';
+      if (normalized.startsWith('운영')) cls += 'op-status-dot--on';
+      else if (normalized.startsWith('소진후종료')) cls += 'op-status-dot--end';
+      else if (normalized.startsWith('단종')) cls += 'op-status-dot--stop';
+      else if (normalized.startsWith('일시중단')) cls += 'op-status-dot--pause';
+      else cls += 'op-status-dot--pause';
 
-      const cell = document.createElement("div");
-      cell.className = "calendar-day";
-      cell.textContent = d.getDate();
+      return `<span class="${cls}" title="${escapeHtml(s)}"></span>`;
+    }
 
-      if(key === todayKey) cell.classList.add("today");
-      if(count > 0){
-        cell.classList.add("has-event");
-        const badge = document.createElement("div");
-        badge.className = "day-badge";
-        badge.textContent = String(count);
-        cell.appendChild(badge);
+    function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function highlightText(text, keyword) {
+      const base = escapeHtml(text || '');
+      if (!keyword) return base;
+
+      const kw = keyword.trim();
+      if (!kw) return base;
+
+      const pattern = new RegExp(escapeRegExp(kw), 'gi');
+      return base.replace(pattern, match => `<mark class="kw-mark">${match}</mark>`);
+    }
+
+    function buildHeaderCell(label, key, extraClass = '', textAlignCenter = false) {
+      const isActive = sortKey === key;
+      const arrow = isActive ? (sortDir === 'asc' ? '▲' : '▼') : '';
+      const classes = [
+        'sortable',
+        isActive ? 'sortable-active' : '',
+        extraClass || '',
+        textAlignCenter ? 'text-center' : ''
+      ].filter(Boolean).join(' ');
+
+      return `
+        <th class="${classes}" data-sort-key="${key}">
+          <span class="th-label">${escapeHtml(label)}${
+            arrow ? `<span class="sort-indicator">${arrow}</span>` : ''
+          }</span>
+          <span class="resize-handle"></span>
+        </th>
+      `;
+    }
+
+    function compareRows(a, b) {
+      const direction = sortDir === 'desc' ? -1 : 1;
+      const key = sortKey;
+
+      function cmpString(sa, sb) {
+        return sa.localeCompare(sb, 'ko-KR');
       }
 
-      cell.addEventListener("click", (e)=>{
-        openPopupForDate(key);
-        e.stopPropagation();
+      function tieBreak(a, b) {
+        const nCmp = cmpString(a.productName || '', b.productName || '');
+        if (nCmp !== 0) return nCmp;
+        const cCmp = cmpString(a.colorName || '', b.colorName || '');
+        if (cCmp !== 0) return cCmp;
+        return cmpString(a.colorCode || '', b.colorCode || '');
+      }
+
+      if (key === 'stock') {
+        const aNum = (typeof a.stockNum === 'number') ? a.stockNum : -1;
+        const bNum = (typeof b.stockNum === 'number') ? b.stockNum : -1;
+        if (aNum !== bNum) {
+          return (aNum < bNum ? -1 : 1) * direction;
+        }
+        return tieBreak(a, b);
+      }
+
+      let valA = '';
+      let valB = '';
+
+      switch (key) {
+        case 'productName': valA = a.productName || ''; valB = b.productName || ''; break;
+        case 'colorName':   valA = a.colorName || '';   valB = b.colorName || '';   break;
+        case 'barcode':     valA = a.barcode || '';     valB = b.barcode || '';     break;
+        case 'productCode': valA = a.productCode || ''; valB = b.productCode || ''; break;
+        case 'colorCode':   valA = a.colorCode || '';   valB = b.colorCode || '';   break;
+        case 'size':        valA = a.size || '';        valB = b.size || '';        break;
+        case 'material':    valA = a.material || '';    valB = b.material || '';    break;
+        case 'warehouse':   valA = a.warehouse || '';   valB = b.warehouse || '';   break;
+        default: return tieBreak(a, b);
+      }
+
+      const primary = cmpString(valA, valB);
+      if (primary !== 0) return primary * direction;
+      return tieBreak(a, b);
+    }
+
+    // ===========================
+    // ✅✅ 상세 링크 캐시/프리패치(속도 개선) - fallback용 (product_no 없을 때만)
+    // ===========================
+    const detailUrlCache = new Map();
+    const CACHE_KEY = 'ws_detail_cache_v2'; // localStorage 캐시
+    let inflightCtrl = null;
+
+    // localStorage 캐시 복원
+    try {
+      const saved = localStorage.getItem(CACHE_KEY);
+      if (saved) {
+        const obj = JSON.parse(saved);
+        Object.entries(obj).forEach(([k, v]) => detailUrlCache.set(k, v));
+      }
+    } catch {}
+
+    function persistCache(){
+      try{
+        const obj = Object.fromEntries(detailUrlCache.entries());
+        localStorage.setItem(CACHE_KEY, JSON.stringify(obj));
+      }catch{}
+    }
+
+    // 검색 결과 HTML에서 첫 상품 링크 추출
+    function extractFirstProductHref(html){
+      if (!html) return '';
+
+      // 1) product_no 기반 상세 링크 우선
+      let m = html.match(/href\s*=\s*["']([^"']*product\/detail\.html\?product_no=\d+[^"']*)["']/i);
+      if (m && m[1]) return decodeHtmlEntities(m[1]);
+
+      // 2) “보기좋은 URL” 형태
+      m = html.match(/href\s*=\s*["'](\/product\/[^"']+\/\d+\/[^"']*)["']/i);
+      if (m && m[1]) return decodeHtmlEntities(m[1]);
+
+      // 3) 마지막 fallback: /product/ 로 시작하는 링크 중 첫 번째
+      m = html.match(/href\s*=\s*["'](\/product\/[^"']+)["']/i);
+      if (m && m[1]) return decodeHtmlEntities(m[1]);
+
+      return '';
+    }
+
+    function decodeHtmlEntities(str){
+      if (!str) return '';
+      const ta = document.createElement('textarea');
+      ta.innerHTML = str;
+      return ta.value;
+    }
+
+    // ✅ fetch 로직(캐시 채우기 전용) - fallback용
+    async function fetchAndCacheFirstDetailUrl(keyword){
+      const searchUrl = `https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(keyword)}`;
+      const proxyUrl  = `https://r.jina.ai/${searchUrl}`;
+
+      const cached = detailUrlCache.get(keyword);
+      if (cached) return cached;
+
+      const res = await fetch(proxyUrl, {
+        headers: {
+          // Jina 캐시 허용(초): 예) 6시간
+          'x-cache-tolerance': '21600'
+        }
       });
 
-      daysContainer.appendChild(cell);
-    });
-  }
+      if (!res.ok) throw new Error('검색 페이지 로드 실패: ' + res.status);
 
-  function buildCalendarMonth(){
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const todayKey = dateKeyLocal(today);
+      const html = await res.text();
+      const firstHref = extractFirstProductHref(html);
 
-    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    document.getElementById("calendarMonthLabel").textContent = `${monthNames[month]} ${year}`;
+      if (!firstHref) return '';
 
-    const firstOfMonth = new Date(year, month, 1);
-    const lastOfMonth  = new Date(year, month + 1, 0);
+      const detailUrl = firstHref.startsWith('http')
+        ? firstHref
+        : `https://whitesands.co.kr${firstHref.startsWith('/') ? '' : '/'}${firstHref}`;
 
-    const daysContainer = document.getElementById("calendarDays");
-    daysContainer.innerHTML = "";
+      detailUrlCache.set(keyword, detailUrl);
+      persistCache();
+      return detailUrl;
+    }
 
-    let start = new Date(firstOfMonth);
-    const startDow = (start.getDay()+6)%7;
-    start.setDate(start.getDate()-startDow);
-
-    let end = new Date(lastOfMonth);
-    const endDow = (end.getDay()+6)%7;
-    end.setDate(end.getDate() + (4 - endDow)); // Fri
-
-    let d = new Date(start);
-    while(d <= end){
-      const wd = d.getDay();
-      if(wd >= 1 && wd <= 5){
-        const key = dateKeyLocal(d);
-        const count = events.filter(ev => inRangeKey(key, ev.start, ev.end)).length;
-
-        const cell = document.createElement("div");
-        cell.className = "calendar-day";
-        if(d.getMonth() !== month) cell.classList.add("other-month");
-        cell.textContent = d.getDate();
-
-        if(key === todayKey) cell.classList.add("today");
-        if(count > 0){
-          cell.classList.add("has-event");
-          const badge = document.createElement("div");
-          badge.className = "day-badge";
-          badge.textContent = String(count);
-          cell.appendChild(badge);
+    // ✅ 후보 키워드 순차 시도: colorCode → productCode → productName (fallback용)
+    async function openFirstProductDetailWithFallback(candidates){
+      // 1) 캐시 hit (후보 중 하나라도 캐시 있으면 즉시 오픈)
+      for (const kw of candidates) {
+        const cached = detailUrlCache.get(kw);
+        if (cached){
+          window.open(cached, '_blank');
+          showToast(`상세(캐시)로 이동!`);
+          return;
         }
-
-        if(d.getMonth() === month){
-          cell.addEventListener("click", (e)=>{ openPopupForDate(key); e.stopPropagation(); });
-        }else{
-          cell.style.pointerEvents = "none";
-        }
-
-        daysContainer.appendChild(cell);
       }
-      d.setDate(d.getDate()+1);
+
+      // 2) 사용자 클릭 연타/중복 끊기
+      if (inflightCtrl) inflightCtrl.abort();
+      inflightCtrl = new AbortController();
+
+      try{
+        showToast('첫 상품 찾는 중...');
+
+        // 타임아웃(4초) - 너무 오래 걸리면 끊고 다음 후보로 (완전 abort는 아님, 체감 방어용)
+        const makeTimeoutAbort = (ms) => setTimeout(() => {
+          try{ inflightCtrl?.abort(); } catch {}
+        }, ms);
+
+        for (const kw of candidates) {
+          if (inflightCtrl) inflightCtrl.abort();
+          inflightCtrl = new AbortController();
+
+          const timeoutId = makeTimeoutAbort(4000);
+
+          try {
+            const url = await fetchAndCacheFirstDetailUrl(kw);
+            clearTimeout(timeoutId);
+
+            if (url) {
+              window.open(url, '_blank');
+              showToast('첫 상품 상세로 이동!');
+              inflightCtrl = null;
+              return;
+            }
+          } catch (err) {
+            clearTimeout(timeoutId);
+            continue;
+          }
+        }
+
+        // 3) 전부 실패하면 마지막 후보로 검색페이지 오픈
+        const last = candidates[candidates.length - 1];
+        window.open(`https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(last)}`, '_blank');
+        showToast('상세를 못 찾아서 검색페이지로 열었어요.');
+      } finally {
+        inflightCtrl = null;
+      }
     }
-  }
 
-  calendarWidget.addEventListener("click", (e)=> e.stopPropagation());
-  calendarWidget.addEventListener("mouseleave", () => {
-    closePopup();
-    hideCalendar();
-  });
+    // ✅ 검색 결과 렌더 후 상위 N개 프리패치(체감속도 상승) - fallback용
+    function prefetchDetailUrlsFromCurrentTable(limit = 8){
+      const cells = Array.from(resultEl.querySelectorAll('.product-name-cell'));
+      if (!cells.length) return;
 
-  document.addEventListener("click", (e)=>{
-    const t = e.target;
+      const keys = [];
+      for (const cell of cells) {
+        const colorCode = (cell.dataset.colorCode || '').trim();
+        // product_no가 있는 colorCode는 굳이 프리패치할 필요 없음
+        if (colorCode && !productNoByColorCode[colorCode] && !detailUrlCache.get(colorCode)) keys.push(colorCode);
+        if (keys.length >= limit) break;
+      }
+      if (!keys.length) return;
 
-    const clickedInsideCalendar = calendarWidget.contains(t);
-    const clickedAdminBtn = adminEventBtn.contains(t);
+      const run = async () => {
+        for (const k of keys) {
+          try { await fetchAndCacheFirstDetailUrl(k); } catch {}
+        }
+      };
 
-    if(calendarWidget.classList.contains("visible") && !clickedInsideCalendar && !clickedAdminBtn){
-      closePopup();
-      hideCalendar();
+      if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 1500 });
+      else setTimeout(run, 50);
     }
-  });
 
-  /* ======================
-     ITEM 토글
-     ====================== */
-  document.addEventListener("click", (e)=>{
-    const btn = e.target.closest("[data-itemtoggle]");
-    if(!btn) return;
+    // ===========================
+    // 검색
+    // ===========================
+    function search() {
+      const kw = keywordInput.value.trim();
+      lastKeyword = kw;
 
-    e.stopPropagation();
+      if (!products.length) {
+        statusEl.textContent = '데이터가 아직 로드되지 않았습니다.';
+        return;
+      }
+      if (!kw) {
+        statusEl.textContent = '검색 키워드를 입력해주세요.';
+        resultEl.innerHTML = '<div class="no-result">검색 키워드를 입력한 후 다시 시도해주세요.</div>';
+        if (resultInfoEl) resultInfoEl.textContent = '검색 전 입니다.';
+        return;
+      }
 
-    const box = btn.closest("[data-itembox]");
-    const content = box?.querySelector("[data-itemcontent]");
-    if(!content) return;
+      const lowerKw = kw.toLowerCase();
+      const filteredProducts = products.filter(p => {
+        const name      = (p.productName || '').toLowerCase();
+        const code      = (p.productCode || '').toLowerCase();
+        const colorCode = (p.colorCode   || '').toLowerCase();
 
-    const expanded = btn.getAttribute("aria-expanded") === "true";
-    btn.setAttribute("aria-expanded", String(!expanded));
-    content.classList.toggle("is-collapsed", expanded ? true : false);
-  });
+        return (
+          name.includes(lowerKw) ||
+          code.includes(lowerKw) ||
+          colorCode.includes(lowerKw)
+        );
+      });
 
-  /* ======================
-     init
-     ====================== */
-  loadEventsFromSheet();
-  buildCalendar();
-  updateTodayBadge();
-</script>
+      if (!filteredProducts.length) {
+        statusEl.textContent = `"${kw}" 검색 결과: 0개`;
+        resultEl.innerHTML = '<div class="no-result">검색 결과 없음</div>';
+        if (resultInfoEl) resultInfoEl.textContent = `검색어 "${kw}" 결과 0개`;
+        return;
+      }
+
+      const rows = [];
+
+      filteredProducts.forEach(p => {
+        const entries = stockEntriesByColorCode[p.colorCode] || [];
+        const pno = productNoByColorCode[p.colorCode] || '';
+
+        let useEntries;
+        if (showWarehouse) {
+          useEntries = entries;
+        } else {
+          useEntries = entries.filter(e => e.warehouse === '주희물류');
+        }
+
+        if (!useEntries.length) {
+          rows.push({
+            productName: p.productName || '',
+            colorName:   p.colorName   || '',
+            barcode:     p.barcode     || '',
+            productCode: p.productCode || '',
+            colorCode:   p.colorCode   || '',
+            size:        sizeByColorCode[p.colorCode] || '',
+            material:    p.material    || '',
+            warehouse:   '',
+            stockNum:    null,
+            stockStr:    '',
+            stockClass:  '',
+            rawName:     p.rawName     || '',
+            colorCodeKey: p.colorCode  || '',
+            productNo:   pno
+          });
+          return;
+        }
+
+        let sortedEntries = useEntries;
+        if (showWarehouse) {
+          sortedEntries = [...useEntries].sort((a, b) => {
+            const aw = a.warehouse || '';
+            const bw = b.warehouse || '';
+            if (aw === '주희물류' && bw !== '주희물류') return -1;
+            if (bw === '주희물류' && aw !== '주희물류') return 1;
+            return aw.localeCompare(bw, 'ko-KR');
+          });
+        }
+
+        sortedEntries.forEach(entry => {
+          const stockNum = entry.qty;
+          const stockStr = String(stockNum);
+          let stockClass = 'stock-pill stock-pill-green';
+          if (!isNaN(stockNum)) {
+            if (stockNum >= 100) stockClass = 'stock-pill stock-pill-green';
+            else if (stockNum >= 10) stockClass = 'stock-pill stock-pill-yellow';
+            else if (stockNum >= 0) stockClass = 'stock-pill stock-pill-red';
+          }
+
+          rows.push({
+            productName: p.productName || '',
+            colorName:   p.colorName   || '',
+            barcode:     p.barcode     || '',
+            productCode: p.productCode || '',
+            colorCode:   p.colorCode   || '',
+            size:        entry.size || sizeByColorCode[p.colorCode] || '',
+            material:    p.material    || '',
+            warehouse:   showWarehouse ? (entry.warehouse || '') : '',
+            stockNum,
+            stockStr,
+            stockClass,
+            rawName:     p.rawName     || '',
+            colorCodeKey: p.colorCode  || '',
+            productNo:   pno
+          });
+        });
+      });
+
+      let usedRows = rows;
+      if (inStockOnly) {
+        usedRows = rows.filter(r => typeof r.stockNum === 'number' && r.stockNum > 0);
+      }
+
+      if (!usedRows.length) {
+        statusEl.innerHTML = `"${kw}" 검색 결과: <strong>0행</strong> (재고 있음만 필터 적용)`;
+        resultEl.innerHTML = '<div class="no-result">조건에 맞는 재고가 없습니다.</div>';
+        if (resultInfoEl) {
+          resultInfoEl.innerHTML = `"${escapeHtml(kw)}" / 행 0개 <span class="badge-filter">재고 있음만</span>`;
+        }
+        return;
+      }
+
+      usedRows.sort(compareRows);
+
+      statusEl.innerHTML = `"${kw}" 검색 결과: <strong>${usedRows.length}행</strong>`;
+      if (resultInfoEl) {
+        const countStr = usedRows.length.toLocaleString();
+        if (inStockOnly) {
+          resultInfoEl.innerHTML =
+            `"${escapeHtml(kw)}" / 행 ${countStr}개 <span class="badge-filter">재고 있음만</span>`;
+        } else {
+          resultInfoEl.textContent = `"${kw}" / 행 ${countStr}개`;
+        }
+      }
+
+      let headerHtml = '<tr>';
+      headerHtml += buildHeaderCell('상품명', 'productName', 'col-product');
+      headerHtml += buildHeaderCell('칼라명', 'colorName', 'col-color');
+      headerHtml += buildHeaderCell('바코드', 'barcode');
+      headerHtml += buildHeaderCell('상품코드', 'productCode', 'col-pcode');
+      headerHtml += buildHeaderCell('상품칼라코드', 'colorCode');
+      headerHtml += buildHeaderCell('사이즈', 'size');
+
+      if (showMaterial) headerHtml += buildHeaderCell('소재', 'material');
+      if (showWarehouse) headerHtml += buildHeaderCell('창고', 'warehouse', 'col-warehouse');
+
+      headerHtml += buildHeaderCell('재고', 'stock', 'stock-header', true);
+      headerHtml += '</tr>';
+
+      let bodyHtml = '';
+
+      usedRows.forEach(r => {
+        const opIndicatorHtml = buildOperationIndicator(r.colorCode);
+        const rawNameEsc = escapeHtml(r.rawName || '');
+        const hasRaw = r.rawName && r.rawName !== r.productName;
+        const titleAttr = hasRaw ? ` title="${rawNameEsc}"` : '';
+
+        const hasStock = r.stockStr && r.stockClass;
+
+        const stockCellInner = hasStock ? `
+          <span class="stock-cell"
+                data-product-no="${escapeHtml(r.productNo || '')}"
+                data-product-name="${escapeHtml(r.productName)}"
+                data-product-code="${escapeHtml(r.productCode)}"
+                data-color-code="${escapeHtml(r.colorCodeKey || '')}">
+            <span class="${r.stockClass}">
+              <span class="stock-pill-dot"></span>${escapeHtml(r.stockStr)}
+            </span>
+          </span>
+        ` : '';
+
+        bodyHtml += `
+          <tr>
+            <td class="product-name-cell col-product"${titleAttr} data-color-code="${escapeHtml(r.colorCodeKey || '')}">
+              ${opIndicatorHtml}${highlightText(r.productName || '', lastKeyword)}
+            </td>
+            <td class="col-color">${highlightText(r.colorName || '', lastKeyword)}</td>
+            <td>${highlightText(r.barcode || '', lastKeyword)}</td>
+            <td class="col-pcode">${highlightText(r.productCode || '', lastKeyword)}</td>
+            <td>${highlightText(r.colorCode || '', lastKeyword)}</td>
+            <td>${highlightText(r.size || '', lastKeyword)}</td>
+            ${showMaterial ? `<td>${highlightText(r.material || '', lastKeyword)}</td>` : ''}
+            ${showWarehouse ? `<td class="col-warehouse">${highlightText(r.warehouse || '', lastKeyword)}</td>` : ''}
+            <td class="text-right">${stockCellInner}</td>
+          </tr>
+        `;
+      });
+
+      const html = `
+        <div class="result-table-wrap">
+          <div class="result-scroll">
+            <table>
+              <thead>${headerHtml}</thead>
+              <tbody>${bodyHtml}</tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      resultEl.innerHTML = html;
+      updateLegendVisibility();
+      attachTableHeaderEvents();
+
+      // ✅ 렌더 후 상위 N개 프리패치 (product_no 없는 것만)
+      prefetchDetailUrlsFromCurrentTable(8);
+    }
+
+    function attachTableHeaderEvents() {
+      const table = resultEl.querySelector('table');
+      if (!table) return;
+
+      const thead = table.querySelector('thead');
+      const ths = thead ? Array.from(thead.querySelectorAll('th')) : [];
+
+      ths.forEach((th, index) => {
+        const key = th.dataset.sortKey;
+
+        if (key) {
+          th.addEventListener('click', (e) => {
+            if (e.target.classList.contains('resize-handle') || e.target.closest('.resize-handle')) return;
+            if (sortKey === key) sortDir = (sortDir === 'asc') ? 'desc' : 'asc';
+            else { sortKey = key; sortDir = 'asc'; }
+            search();
+          });
+        }
+
+        let handle = th.querySelector('.resize-handle');
+        if (!handle) {
+          handle = document.createElement('span');
+          handle.className = 'resize-handle';
+          th.appendChild(handle);
+        }
+
+        handle.addEventListener('mousedown', (e) => {
+          e.stopPropagation();
+          startColumnResize(e, table, th, index);
+        });
+      });
+    }
+
+    function startColumnResize(e, table, th, colIndex) {
+      const startX = e.pageX;
+      const startWidth = th.offsetWidth;
+
+      const bodyRows = table.tBodies[0] ? Array.from(table.tBodies[0].rows) : [];
+      const thead = table.tHead;
+      const headCells = thead ? Array.from(thead.rows[0].cells) : [];
+
+      function onMouseMove(ev) {
+        const dx = ev.pageX - startX;
+        const newWidth = Math.max(60, startWidth + dx);
+
+        if (headCells[colIndex]) headCells[colIndex].style.width = newWidth + 'px';
+        bodyRows.forEach(row => {
+          if (row.cells[colIndex]) row.cells[colIndex].style.width = newWidth + 'px';
+        });
+      }
+
+      function onMouseUp() {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      }
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+    }
+
+    // ✅ 엔터 검색 (버튼 없음)
+    keywordInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        search();
+      }
+    });
+
+    // ✅ 칩 토글 변경 시 바로 재검색 (키워드 있을 때만)
+    toggleMaterialInput.addEventListener('change', () => {
+      showMaterial = toggleMaterialInput.checked;
+      if (keywordInput.value.trim()) search();
+    });
+
+    toggleWarehouseInput.addEventListener('change', () => {
+      showWarehouse = toggleWarehouseInput.checked;
+      if (keywordInput.value.trim()) search();
+    });
+
+    toggleInStockOnlyInput.addEventListener('change', () => {
+      inStockOnly = toggleInStockOnlyInput.checked;
+      if (keywordInput.value.trim()) search();
+    });
+
+    // 상품명 클릭 → 원래 상품명 복사
+    resultEl.addEventListener('click', e => {
+      const cell = e.target.closest('.product-name-cell');
+      if (!cell) return;
+
+      const colorCode = cell.dataset.colorCode;
+      if (!colorCode) return;
+
+      const prod = products.find(p => p.colorCode === colorCode);
+      if (!prod || !prod.rawName) return;
+
+      const textToCopy = prod.rawName;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => showToast('원래 상품명을 복사했어요.'))
+          .catch(() => showToast('복사에 실패했어요. 브라우저 권한을 확인해주세요.'));
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = textToCopy;
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast('원래 상품명을 복사했어요.');
+        } catch (err) {
+          showToast('복사에 실패했어요.');
+        }
+        document.body.removeChild(ta);
+      }
+    });
+
+    // 타이틀 클릭 → 사이트 검색 페이지
+    document.addEventListener('DOMContentLoaded', () => {
+      const titleEl = document.querySelector('.title-wrap h1');
+      if (titleEl) {
+        titleEl.addEventListener('click', () => {
+          window.open('https://whitesands.co.kr/product/search.html?keyword=', '_blank');
+        });
+      }
+    });
+
+    // ✅✅ 재고 pill 클릭:
+    // 1) product_no 있으면 => 미리보기 모달(빠름)
+    // 2) 없으면 => 기존 fallback(느림) 유지
+    document.addEventListener("click", async (e) => {
+      const cell = e.target.closest(".stock-cell");
+      if (!cell) return;
+
+      const productNo = (cell.dataset.productNo || "").trim();
+
+      // ✅ 1순위: 상품번호가 있으면 즉시 미리보기(또는 새창으로 바꾸고 싶으면 openPreviewByProductNo 대신 window.open)
+      if (productNo) {
+        openPreviewByProductNo(productNo);
+        return;
+      }
+
+      // ❗ 2순위: 기존 fallback
+      const colorCode   = (cell.dataset.colorCode || "").trim();
+      const productCode = (cell.dataset.productCode || "").trim();
+      const productName = (cell.dataset.productName || "").trim();
+
+      const candidates = [colorCode, productCode, productName].filter(Boolean);
+      if (!candidates.length) return;
+
+      await openFirstProductDetailWithFallback(candidates);
+    });
+
+    // 단축키: Ctrl+K / Cmd+K / /
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        keywordInput.focus();
+        keywordInput.select();
+        return;
+      }
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const tag = document.activeElement && document.activeElement.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+          e.preventDefault();
+          keywordInput.focus();
+          keywordInput.select();
+        }
+      }
+    });
+
+    // ✅ 검색어 X 버튼
+    function updateClearBtn(){
+      if (!clearBtn) return;
+      clearBtn.style.display = keywordInput.value.trim() ? 'inline-flex' : 'none';
+    }
+    keywordInput.addEventListener('input', updateClearBtn);
+    clearBtn.addEventListener('click', () => {
+      keywordInput.value = '';
+      updateClearBtn();
+      keywordInput.focus();
+      statusEl.textContent = '검색 키워드를 입력해주세요.';
+      resultEl.innerHTML = '<div class="no-result">검색 키워드를 입력한 후 다시 시도해주세요.</div>';
+    });
+
+    function syncPillActiveByInput(inputEl){
+      const label = inputEl.closest('.type-pill');
+      if (!label) return;
+      label.classList.toggle('active', inputEl.checked);
+    }
+
+    // 초기 상태 반영 + 변경될 때마다 반영
+    [ toggleWarehouseInput, toggleMaterialInput, toggleInStockOnlyInput ].forEach(inp => {
+      if (!inp) return;
+      syncPillActiveByInput(inp);
+      inp.addEventListener('change', () => syncPillActiveByInput(inp));
+    });
+
+    init();
+  </script>
 </body>
 </html>
