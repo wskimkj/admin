@@ -1077,6 +1077,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.open(url, "_blank");
   }
 
+  // ✅ EXTRA ACCOUNT DB (추가 스프레드시트)
+  const EXTRA_SHEET_ID = "1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY";
+  const EXTRA_GID = 1617573679;
+  const EXTRA_SHEET_BASE = `https://docs.google.com/spreadsheets/d/${EXTRA_SHEET_ID}/edit`;
+  function openExtraSheetAt(gid, a1){
+    const url = `${EXTRA_SHEET_BASE}?gid=${gid}#gid=${gid}&range=${encodeURIComponent(a1)}`;
+    window.open(url, "_blank");
+  }
+
   // ✅ EVENT
   const EVENT_SHEET_ID = "1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI";
   const EVENT_SHEET_GID = "1830278768";
@@ -1321,90 +1330,84 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ======================
      Tracking
      ====================== */
-/* ======================
-   Tracking
-   ====================== */
-function normalizeWaybill(raw){
-  // 하이픈/공백/기타문자 전부 제거 → 숫자만
-  return String(raw || "").replace(/\D/g, "");
-}
-
-function validateTracking(raw){
-  const digits = normalizeWaybill(raw);
-  if(!digits) return "운송장 번호를 입력해주세요.";
-  if(digits.length < 8 || digits.length > 15) return "운송장 번호는 숫자 8~15자리로 입력해주세요.";
-  return "";
-}
-
-function getActiveCarrier(){
-  return trackingCarrierRow.querySelector(".tracking-carrier-pill.active");
-}
-
-function track(){
-  trackingError.style.display = "none";
-
-  const raw = trackingInput.value;
-  const digits = normalizeWaybill(raw);
-  const msg = validateTracking(raw);
-
-  if(msg){
-    trackingError.textContent = msg;
-    trackingError.style.display = "block";
-    trackingResultHeader.textContent = "입력값을 다시 확인해주세요.";
-    trackingFrame.src = "";
-    return;
+  function normalizeWaybill(raw){
+    return String(raw || "").replace(/\D/g, "");
   }
-
-  // 조회 직전에 입력창도 숫자만으로 정리(원치 않으면 이 줄 삭제)
-  trackingInput.value = digits;
-
-  const carrierBtn = getActiveCarrier();
-  const fullName = carrierBtn?.dataset?.full || "택배사";
-  const baseUrl = carrierBtn?.dataset?.url || "";
-
-  trackingResultHeader.innerHTML = `<span class="em">${fullName}</span> 배송 조회 화면입니다.`;
-  trackingFrame.src = baseUrl + encodeURIComponent(digits);
-}
-
-function toggleTracking(){
-  const v = trackingWidget.classList.contains("visible");
-  if(v) hideTracking();
-  else{
-    trackingWidget.classList.add("visible");
-    hideCalendar(); hideAllSubSidebars(); hidePhone(); hideAccount(); closePopup();
-    trackingInput.focus();
+  function validateTracking(raw){
+    const digits = normalizeWaybill(raw);
+    if(!digits) return "운송장 번호를 입력해주세요.";
+    if(digits.length < 8 || digits.length > 15) return "운송장 번호는 숫자 8~15자리로 입력해주세요.";
+    return "";
   }
-}
+  function getActiveCarrier(){
+    return trackingCarrierRow.querySelector(".tracking-carrier-pill.active");
+  }
+  function track(){
+    trackingError.style.display = "none";
 
-trackingWidgetBtn.addEventListener("click",(e)=>{ toggleTracking(); e.stopPropagation(); });
-trackingClose.addEventListener("click",(e)=>{ hideTracking(); e.stopPropagation(); });
-trackingWidget.addEventListener("click",(e)=> e.stopPropagation());
-trackingWidget.addEventListener("mouseleave", ()=> hideTracking());
+    const raw = trackingInput.value;
+    const digits = normalizeWaybill(raw);
+    const msg = validateTracking(raw);
 
-trackingCarrierRow.addEventListener("click",(e)=>{
-  const btn = e.target.closest(".tracking-carrier-pill");
-  if(!btn) return;
-  trackingCarrierRow.querySelectorAll(".tracking-carrier-pill").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  e.stopPropagation();
-});
+    if(msg){
+      trackingError.textContent = msg;
+      trackingError.style.display = "block";
+      trackingResultHeader.textContent = "입력값을 다시 확인해주세요.";
+      trackingFrame.src = "";
+      return;
+    }
 
-trackingGo.addEventListener("click",(e)=>{ track(); e.stopPropagation(); });
-trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); });
+    trackingInput.value = digits;
 
+    const carrierBtn = getActiveCarrier();
+    const fullName = carrierBtn?.dataset?.full || "택배사";
+    const baseUrl = carrierBtn?.dataset?.url || "";
+
+    trackingResultHeader.innerHTML = `<span class="em">${fullName}</span> 배송 조회 화면입니다.`;
+    trackingFrame.src = baseUrl + encodeURIComponent(digits);
+  }
+  function toggleTracking(){
+    const v = trackingWidget.classList.contains("visible");
+    if(v) hideTracking();
+    else{
+      trackingWidget.classList.add("visible");
+      hideCalendar(); hideAllSubSidebars(); hidePhone(); hideAccount(); closePopup();
+      trackingInput.focus();
+    }
+  }
+  trackingWidgetBtn.addEventListener("click",(e)=>{ toggleTracking(); e.stopPropagation(); });
+  trackingClose.addEventListener("click",(e)=>{ hideTracking(); e.stopPropagation(); });
+  trackingWidget.addEventListener("click",(e)=> e.stopPropagation());
+  trackingWidget.addEventListener("mouseleave", ()=> hideTracking());
+
+  trackingCarrierRow.addEventListener("click",(e)=>{
+    const btn = e.target.closest(".tracking-carrier-pill");
+    if(!btn) return;
+    trackingCarrierRow.querySelectorAll(".tracking-carrier-pill").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    e.stopPropagation();
+  });
+
+  trackingGo.addEventListener("click",(e)=>{ track(); e.stopPropagation(); });
+  trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); });
 
   /* ======================
      Account (CSV 로딩 + 검색 + 복사 + 더블클릭 행점프)
+     ✅ 추가 DB 포함(전체 셀 검색 / H=ID / I=PW)
      ====================== */
   const SHOP_GIDS = [0, 618725932, 1481873109];
   const OTHER_GID = 267581891;
 
   let SHOP_SITES = [];
   let OTHER_SITES = [];
+  let EXTRA_SITES = [];
   let accountLoaded = false;
 
   function accountCsvUrl(gid){
     return `https://docs.google.com/spreadsheets/d/${ACCOUNT_SHEET_ID}/export?format=csv&gid=${gid}`;
+  }
+  function extraCsvUrl(gid){
+    return `https://docs.google.com/spreadsheets/d/${EXTRA_SHEET_ID}/export?format=csv&gid=${gid}`;
   }
 
   function parseCsvGeneric(text){
@@ -1441,9 +1444,16 @@ trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); }
     return rows;
   }
 
-  async function fetchCsv(gid){
+  async function fetchAccountCsv(gid){
     const res = await fetch(accountCsvUrl(gid), { cache:"no-store" });
-    if(!res.ok) throw new Error("csv fetch failed");
+    if(!res.ok) throw new Error("account csv fetch failed");
+    const text = await res.text();
+    return parseCsvGeneric(text);
+  }
+
+  async function fetchExtraCsv(gid){
+    const res = await fetch(extraCsvUrl(gid), { cache:"no-store" });
+    if(!res.ok) throw new Error("extra csv fetch failed");
     const text = await res.text();
     return parseCsvGeneric(text);
   }
@@ -1469,12 +1479,27 @@ trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); }
     return q.every(qt => a.some(at => at.includes(qt)));
   }
 
+  // ✅ 추가 DB: 전체 셀 텍스트 검색
+  function textMatchAny(text, queryTokens){
+    const t = normalize(text);
+    const q = (queryTokens || []).map(normalize).filter(Boolean);
+    if(!t || !q.length) return false;
+    return q.some(qt => t.includes(qt));
+  }
+  function textMatchAll(text, queryTokens){
+    const t = normalize(text);
+    const q = (queryTokens || []).map(normalize).filter(Boolean);
+    if(!t || !q.length) return false;
+    return q.every(qt => t.includes(qt));
+  }
+
   async function loadAccountData(){
     accountResult.innerHTML = '<div class="account-empty">데이터 불러오는 중...</div>';
     accountCount.textContent = "";
 
     try{
-      const shopSheetsRows = await Promise.all(SHOP_GIDS.map(gid => fetchCsv(gid)));
+      // 1) 기존 3개 시트
+      const shopSheetsRows = await Promise.all(SHOP_GIDS.map(gid => fetchAccountCsv(gid)));
       SHOP_SITES = [];
 
       shopSheetsRows.forEach((rows, idx)=>{
@@ -1504,6 +1529,7 @@ trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); }
           }
 
           SHOP_SITES.push({
+            source: "main",
             gid,
             rowNumber,
             group: groupLabel,
@@ -1516,9 +1542,10 @@ trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); }
         });
       });
 
+      // 2) 기타 시트
       OTHER_SITES = [];
       if(OTHER_GID != null){
-        const otherRows = await fetchCsv(OTHER_GID);
+        const otherRows = await fetchAccountCsv(OTHER_GID);
         if(otherRows && otherRows.length > 1){
           otherRows.slice(1).forEach((cols, rIdx)=>{
             const rowNumber = rIdx + 2;
@@ -1531,6 +1558,7 @@ trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); }
             if(!siteName) return;
 
             OTHER_SITES.push({
+              source: "main",
               gid: OTHER_GID,
               rowNumber,
               group: "기타",
@@ -1542,6 +1570,34 @@ trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); }
             });
           });
         }
+      }
+
+      // 3) ✅ 추가 DB 로딩 (전체 셀 검색 / H=ID / I=PW)
+      EXTRA_SITES = [];
+      const extraRows = await fetchExtraCsv(EXTRA_GID);
+      if(extraRows && extraRows.length > 1){
+        extraRows.slice(1).forEach((cols, rIdx)=>{
+          const rowNumber = rIdx + 2;
+
+          const searchText = (cols || []).map(c => (c || "").toString()).join(" ");
+          if(!searchText.trim()) return;
+
+          const siteName = (cols?.[0] || "").toString().trim() || "(추가DB)";
+          const loginId  = cols?.[7] || ""; // H
+          const pw       = cols?.[8] || ""; // I
+
+          EXTRA_SITES.push({
+            source: "extra",
+            gid: EXTRA_GID,
+            rowNumber,
+            group: "추가DB",
+            siteName,
+            searchText,
+            storeId: "",
+            loginId: loginId || "",
+            pw: pw || ""
+          });
+        });
       }
 
       accountLoaded = true;
@@ -1558,12 +1614,15 @@ trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); }
   function searchAccountSites(query, matchAll){
     const queryTokens = splitQueryKeywords(query);
     if(!queryTokens.length) return [];
-    const matcher = matchAll ? tokenMatchAll : tokenMatchAny;
 
     const results = [];
+
+    // 기존(AG 토큰)
+    const tokenMatcher = matchAll ? tokenMatchAll : tokenMatchAny;
     SHOP_SITES.forEach(item=>{
-      if(matcher(item.agKeywords, queryTokens)){
+      if(tokenMatcher(item.agKeywords, queryTokens)){
         results.push({
+          source: item.source,
           gid: item.gid,
           rowNumber: item.rowNumber,
           group: item.group || "기타",
@@ -1574,10 +1633,27 @@ trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); }
         });
       }
     });
-
     OTHER_SITES.forEach(item=>{
-      if(matcher(item.agKeywords, queryTokens)){
+      if(tokenMatcher(item.agKeywords, queryTokens)){
         results.push({
+          source: item.source,
+          gid: item.gid,
+          rowNumber: item.rowNumber,
+          group: item.group || "기타",
+          siteName: item.siteName || "",
+          storeId: "",
+          loginId: item.loginId || "",
+          pw: item.pw || ""
+        });
+      }
+    });
+
+    // 추가DB(전체 셀)
+    const textMatcher = matchAll ? textMatchAll : textMatchAny;
+    EXTRA_SITES.forEach(item=>{
+      if(textMatcher(item.searchText, queryTokens)){
+        results.push({
+          source: item.source,
           gid: item.gid,
           rowNumber: item.rowNumber,
           group: item.group || "기타",
@@ -1679,10 +1755,15 @@ trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); }
       card.appendChild(fields);
       frag.appendChild(card);
 
-      // ✅ 더블클릭: 해당 gid / A열 행으로 점프
+      // ✅ 더블클릭: 해당 스프레드시트로 점프
       card.addEventListener("dblclick", (e)=>{
         e.stopPropagation();
-        openAccountSheetAt(item.gid, `A${item.rowNumber}`);
+        const a1 = `A${item.rowNumber}`;
+        if(item.source === "extra"){
+          openExtraSheetAt(item.gid, a1);
+        }else{
+          openAccountSheetAt(item.gid, a1);
+        }
       });
     });
 
