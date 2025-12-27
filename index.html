@@ -921,7 +921,7 @@
         <span> 주문 </span>
       </button>
 
-      <button class="nav-item active" data-id="search" data-href="https://wskimkj.github.io/Shipment/">
+      <button class="nav-item" data-id="shipment" data-href="https://wskimkj.github.io/Shipment/">
         <div class="nav-icon-wrap"><i class='bx bx-send'></i></div>
         <span> 출고</span>
       </button>
@@ -1346,6 +1346,34 @@ document.addEventListener("DOMContentLoaded", () => {
       if(real) rememberFrame(real);
     }catch{}
   });
+
+
+  function normalizeUrl(u){
+  try{
+    const url = new URL(u, location.href);
+    url.hash = "";
+    return url.toString();
+  }catch{
+    return (u || "").split("#")[0];
+  }
+}
+
+function syncNavActiveByFrame(){
+  const cur = normalizeUrl(mainFrame.src);
+  let matched = null;
+
+  navItems.forEach(b=>{
+    const href = b.dataset.href ? normalizeUrl(b.dataset.href) : "";
+    if(href && cur.startsWith(href)) matched = b;
+  });
+
+  // 일치하는 게 있으면 그거만 active
+  if(matched){
+    navItems.forEach(b=>b.classList.remove("active"));
+    matched.classList.add("active");
+  }
+}
+
 
   /* ======================
      UI helpers
