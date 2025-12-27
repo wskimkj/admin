@@ -1364,6 +1364,25 @@ document.addEventListener("DOMContentLoaded", () => {
     return t;
   }
 
+  function attachAutoHide(panelEl, hideFn, delay = 650){
+  let t = null;
+
+  const schedule = () => {
+    clearTimeout(t);
+    t = setTimeout(() => hideFn(), delay);
+  };
+
+  const cancel = () => {
+    clearTimeout(t);
+    t = null;
+  };
+
+  panelEl.addEventListener("mouseleave", schedule);
+  panelEl.addEventListener("mouseenter", cancel);
+  panelEl.addEventListener("focusin", cancel);  // 내부 input 클릭/포커스 시 유지
+}
+
+
   /* ======================
      DOM
      ====================== */
@@ -1544,7 +1563,6 @@ function syncNavActiveByFrame(){
   phoneFormatBtn.addEventListener("click",(e)=>{ togglePhone(); e.stopPropagation(); });
   phoneClose.addEventListener("click",(e)=>{ hidePhone(); e.stopPropagation(); });
   phoneWidget.addEventListener("click",(e)=> e.stopPropagation());
-  phoneWidget.addEventListener("mouseleave", () => hidePhone());
 
   phoneInput.addEventListener("input", ()=>{
     const result = formatKoreanPhone(phoneInput.value);
@@ -1618,7 +1636,6 @@ function track(){
   trackingWidgetBtn.addEventListener("click",(e)=>{ toggleTracking(); e.stopPropagation(); });
   trackingClose.addEventListener("click",(e)=>{ hideTracking(); e.stopPropagation(); });
   trackingWidget.addEventListener("click",(e)=> e.stopPropagation());
-  trackingWidget.addEventListener("mouseleave", ()=> hideTracking());
 
  
 
@@ -2034,7 +2051,6 @@ function track(){
   accountWidgetBtn.addEventListener("click",(e)=>{ toggleAccount(); e.stopPropagation(); });
   accountClose.addEventListener("click",(e)=>{ hideAccount(); e.stopPropagation(); });
   accountWidget.addEventListener("click",(e)=> e.stopPropagation());
-  accountWidget.addEventListener("mouseleave", ()=> hideAccount());
 
   accountQuery.addEventListener("keydown",(e)=>{ if(e.key === "Enter") doAccountSearch(); });
   accountMatchAll.addEventListener("change", ()=>{ if(accountQuery.value.trim()) doAccountSearch(); });
@@ -2282,7 +2298,6 @@ function track(){
   }
 
   calendarWidget.addEventListener("click", (e)=> e.stopPropagation());
-  calendarWidget.addEventListener("mouseleave", () => { closePopup(); hideCalendar(); });
 
   /* ITEM 토글 */
   document.addEventListener("click", (e)=>{
@@ -2436,6 +2451,10 @@ function track(){
     });
   });
 
+attachAutoHide(phoneWidget, hidePhone, 650);
+attachAutoHide(trackingWidget, hideTracking, 650);
+attachAutoHide(accountWidget, hideAccount, 650);
+attachAutoHide(calendarWidget, () => { closePopup(); hideCalendar(); }, 650);
 
   /* ======================
      init
