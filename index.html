@@ -45,6 +45,8 @@
       --ink: #0f172a;
       --accent: #7c3aed;
       --accent2: #ec4899;
+    --widget-w: 340px;  /* ✅ phone/account/calendar 통일 폭 (원하면 숫자만 바꾸면 됨) */
+
     }
 
     body{
@@ -386,10 +388,14 @@
       transform: translateY(0) scale(1);
       pointer-events:auto;
     }
-    .calendar-widget{ z-index: 1600; width: 310px; }
-    .phone-widget{ z-index: 1601; width: 310px; }
-    .tracking-widget{ z-index: 1602; width: 540px; }
-    .account-widget{ z-index: 1603; width: 380px; }
+    /* ✅ 위젯 폭 통일 (배송조회 제외) */
+.calendar-widget{ z-index: 1600; width: var(--widget-w); }
+.phone-widget{ z-index: 1601; width: var(--widget-w); }
+.account-widget{ z-index: 1603; width: var(--widget-w); }
+
+/* ✅ 배송조회는 그대로 */
+.tracking-widget{ z-index: 1602; width: 540px; }
+
 
 
     /* ===== phone ===== */
@@ -1010,6 +1016,13 @@
   flex: 1;
 }
 
+.phone-output{
+  min-height: 42px;
+  display:flex;
+  align-items:center;
+}
+
+
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
@@ -1207,7 +1220,10 @@
       <input id="phoneInput" class="phone-input" placeholder="" />
       <div class="phone-row">
         <div id="phoneOutput" class="phone-output"></div>
-        <button id="phoneCopy" class="phone-copy" type="button">복사</button>
+      <button id="phoneCopy" class="tracking-search-btn" type="button" title="복사">
+  <i class='bx bx-copy'></i>
+</button>
+
       </div>
       <div id="phoneHint" class="phone-hint">.</div>
     </div>
