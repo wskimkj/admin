@@ -7,8 +7,10 @@
   <link rel="icon" type="image/png" href="favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-
-  <style>
+   <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+ 
+    <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root{
@@ -218,6 +220,76 @@
       box-shadow: 0 12px 20px rgba(124,58,237,.16);
     }
 
+    /* ✅ 3레벨 아코디언 (기타) */
+    .sub-accordion{
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(15,23,42,0.08);
+      background: rgba(255,255,255,0.18);
+    }
+    .sub-acc-head{
+      width:100%;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: var(--sub-item-bg);
+      color: var(--sub-ink);
+      font-size: 12px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 8px;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      text-align:left;
+      border: 1px solid rgba(15,23,42,0.08);
+      box-shadow:
+        0 10px 18px rgba(15,23,42,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.55);
+      user-select:none;
+    }
+    .sub-acc-head:hover{ background: var(--sub-item-hover); transform: translateY(-1px); }
+    .sub-acc-head .left{ display:flex; align-items:center; gap:8px; }
+    .sub-acc-caret{
+      font-size: 18px;
+      color: rgba(15,23,42,0.55);
+      transition: transform .15s ease;
+    }
+    .sub-acc-head[aria-expanded="true"] .sub-acc-caret{ transform: rotate(180deg); }
+
+    .sub-acc-body{
+      padding: 8px 0 2px;
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+    }
+    .sub-acc-body[hidden]{ display:none; }
+
+    .sub-acc-item{
+      margin: 0 6px;
+      width: calc(100% - 12px);
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.70);
+      border: 1px solid rgba(15,23,42,0.08);
+      box-shadow: 0 8px 14px rgba(15,23,42,0.06);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: rgba(15,23,42,0.86);
+      text-align:left;
+      user-select:none;
+    }
+    .sub-acc-item:hover{
+      background: rgba(255,255,255,0.88);
+    }
+    .sub-acc-item i{
+      font-size: 16px;
+      color: rgba(15,23,42,0.50);
+    }
+
     /* ===== main content ===== */
     .content{
       position:absolute;
@@ -273,6 +345,7 @@
     .phone-widget{ z-index: 1601; width: 310px; }
     .tracking-widget{ z-index: 1602; width: 540px; }
     .account-widget{ z-index: 1603; width: 380px; }
+
 
     /* ===== phone ===== */
     .phone-head,.tracking-head,.account-head{
@@ -891,6 +964,7 @@
   <!-- sheet sub sidebar -->
   <aside class="sub-sidebar" id="subSidebar">
     <div class="sub-list">
+
       <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=366983013#gid=366983013">
         <i class='bx bx-chevron-right'></i><span>개인시트</span>
       </button>
@@ -909,6 +983,59 @@
       <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787">
         <i class='bx bx-chevron-right'></i><span>Team.주간</span>
       </button>
+
+      <!-- ✅ 추가: "기타" (3레벨 아래 아코디언) -->
+      <div class="sub-accordion" id="googleEtcAccordion">
+        <button type="button" class="sub-acc-head" id="googleEtcHead" aria-expanded="false">
+          <span class="left">
+            <i class='bx bx-chevron-right'></i><span>기타</span>
+          </span>
+          <i class='bx bx-chevron-down sub-acc-caret'></i>
+        </button>
+
+        <div class="sub-acc-body" id="googleEtcBody" hidden>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0/edit?gid=0#gid=0">
+            <i class='bx bxs-spreadsheet'></i><span>어드민 정보</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1zzqZGk8C30LZo3BXxhzFSNpe_GzgBVeDw4X5eIVystc/edit?gid=100436764#gid=100436764">
+            <i class='bx bxs-spreadsheet'></i><span>생산팀</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1F4EC5w1VPmFpwSbw0LuIv5QkwSSs8YkCBPZKY3h-z64/edit?gid=0#gid=0">
+            <i class='bx bxs-spreadsheet'></i><span>SCM</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1fcAxrvEENtakHa8rdtebbOuX5aVga37kMjGqqkpnW_o/edit?gid=960948614#gid=960948614">
+            <i class='bx bxs-spreadsheet'></i><span>입고 예정</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1bMkC-aPMY8Ot2Ye7At9RkijD3ve3grlWC1tM3eZbGng/edit?gid=1325056976#gid=1325056976">
+            <i class='bx bxs-spreadsheet'></i><span>25년 재고</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1jbQoWqwIEOZhe2hhQwgdOdvIUPXvMAOubmED0xylOY4/edit?gid=1761427069#gid=1761427069">
+            <i class='bx bxs-spreadsheet'></i><span>면세점</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1rnp4nddpDtfewbH0GUMAvRYykGiITVaqDKIIKGJSWyc/edit?gid=1054398719#gid=1054398719">
+            <i class='bx bxs-spreadsheet'></i><span>결제 내역</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1H2hiIfmhHf7NmSDINNGZ5jOD-mx3Uw_JvukmU51IwRA/edit?pli=1&gid=1629484064#gid=1629484064">
+            <i class='bx bxs-spreadsheet'></i><span>공구일정</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1NIrkvMGHIs6Ho0KwWUD7N1q6yxFuvk6aHa2LCiftXQA/edit?gid=1834028852#gid=1834028852">
+            <i class='bx bxs-spreadsheet'></i><span>콘텐츠기획팀_디자인&마케팅 요청 기획안</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1na2Q2HN4h2h-ko9Ua4zx_XWMkEpT6mbazt1eeMKt-bA/edit?gid=2111576866#gid=2111576866">
+            <i class='bx bxs-spreadsheet'></i><span>콘텐츠기획팀_웹디 스케줄</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1fEjw9YrnDmMLwGMHST4_UCi2OuuBypdH775V6BnVRfQ/edit?gid=469621993#gid=469621993">
+            <i class='bx bxs-spreadsheet'></i><span>ws 기획팀</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1_nmC5LgfcjJgUK0eL1oVaf0mPRAevY5oVUr47dyb6Ow/edit?gid=214355881#gid=214355881">
+            <i class='bx bxs-spreadsheet'></i><span>bs 기획팀</span>
+          </button>
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1Po6I7Q3gBl8OU85IDjpjTvtDlZhOovjxBvGdNH6wyFw/edit?gid=139252057#gid=139252057">
+            <i class='bx bxs-spreadsheet'></i><span>회사 문화</span>
+          </button>
+        </div>
+      </div>
+
     </div>
   </aside>
 
