@@ -1192,15 +1192,16 @@
     </div>
   </div>
 
-  <!-- phone widget -->
- <div class="widget-head">
-  <div class="widget-title">
-    <span class="widget-badge">PHONE</span>
-  </div>
-  <button class="widget-close" id="phoneClose" type="button" aria-label="닫기">
-    <i class='bx bx-x' style="font-size:18px;"></i>
-  </button>
-</div>
+    <!-- phone widget -->
+  <div class="phone-widget" id="phoneWidget">
+    <div class="widget-head">
+      <div class="widget-title">
+        <span class="widget-badge">PHONE</span>
+      </div>
+      <button class="widget-close" id="phoneClose" type="button" aria-label="닫기">
+        <i class='bx bx-x' style="font-size:18px;"></i>
+      </button>
+    </div>
 
     <div class="phone-body">
       <input id="phoneInput" class="phone-input" placeholder="" />
@@ -1213,36 +1214,25 @@
   </div>
 
   <!-- tracking widget -->
-  <div class="widget-head">
-  <div class="widget-title">
-    <span class="widget-badge">TRACK</span>
-  </div>
-  <button class="widget-close" id="trackingClose" type="button" aria-label="닫기">
-    <i class='bx bx-x' style="font-size:18px;"></i>
-  </button>
-</div>
-
+  <div class="tracking-widget" id="trackingWidget">
+    <div class="widget-head">
+      <div class="widget-title">
+        <span class="widget-badge">TRACK</span>
+      </div>
+      <button class="widget-close" id="trackingClose" type="button" aria-label="닫기">
+        <i class='bx bx-x' style="font-size:18px;"></i>
+      </button>
+    </div>
 
     <div class="tracking-body">
-   
+      <label class="tracking-label" for="trackingInput">운송장 번호</label>
 
-<label class="tracking-label" for="trackingInput">운송장 번호</label>
-
-<div class="tracking-search-row">
-  <input
-    id="trackingInput"
-    class="tracking-input"
-    placeholder="숫자만 입력 (8~15자리)"
-  />
-  <button
-    class="tracking-search-btn"
-    id="trackingGo"
-    type="button"
-    title="조회"
-  >
-    <i class='bx bx-search'></i>
-  </button>
-</div>
+      <div class="tracking-search-row">
+        <input id="trackingInput" class="tracking-input" placeholder="숫자만 입력 (8~15자리)" />
+        <button class="tracking-search-btn" id="trackingGo" type="button" title="조회">
+          <i class='bx bx-search'></i>
+        </button>
+      </div>
 
       <p id="trackingError" class="tracking-error" style="display:none;"></p>
 
@@ -1256,25 +1246,24 @@
   </div>
 
   <!-- account widget -->
-  <div class="widget-head">
-  <div class="widget-title">
-    <button type="button" class="widget-badge" id="accountSheetBtn">ACCOUNT</button>
-  </div>
+  <div class="account-widget" id="accountWidget">
+    <div class="widget-head">
+      <div class="widget-title">
+        <button type="button" class="widget-badge" id="accountSheetBtn">ACCOUNT</button>
+      </div>
 
-  <button class="widget-close" id="accountClose" type="button" aria-label="닫기">
-    <i class='bx bx-x' style="font-size:18px;"></i>
-  </button>
-</div>
-
+      <button class="widget-close" id="accountClose" type="button" aria-label="닫기">
+        <i class='bx bx-x' style="font-size:18px;"></i>
+      </button>
+    </div>
 
     <div class="account-body">
-     <div class="account-search-row">
-  <input id="accountQuery" class="account-input" placeholder="검색어 입력 후 Enter" />
-  <button class="tracking-search-btn" id="accountGo" type="button" title="검색">
-    <i class='bx bx-search'></i>
-  </button>
-</div>
-
+      <div class="account-search-row">
+        <input id="accountQuery" class="account-input" placeholder="검색어 입력 후 Enter" />
+        <button class="tracking-search-btn" id="accountGo" type="button" title="검색">
+          <i class='bx bx-search'></i>
+        </button>
+      </div>
 
       <label class="account-toggle" title="기본은 OR, 체크하면 AND">
         <input id="accountMatchAll" type="checkbox" />
@@ -1293,7 +1282,6 @@
       <div id="accountToast" class="account-toast">복사</div>
     </div>
   </div>
-
   <!-- calendar widget -->
   <div class="calendar-widget" id="calendarWidget">
     <div class="calendar-header">
@@ -1655,13 +1643,12 @@ function syncNavActiveByFrame(){
   function normalizeWaybill(raw){
     return String(raw || "").replace(/\D/g, "");
   }
-  function validateTracking(raw){
-    const digits = normalizeWaybill(raw);
-    if(!digits) return "운송장을 입력해주세요.";
-    if(digits.length < 8 || digits.length > 15) return "";
-    return "";
-  }
- 
+ function validateTracking(raw){
+  const digits = normalizeWaybill(raw);
+  if(!digits) return "운송장을 입력해주세요.";
+  if(digits.length < 8 || digits.length > 15) return "8~15자리 운송장 번호";
+  return "";
+}
 const CJ_FULL_NAME = "CJ";
 const CJ_TRACK_URL = "https://trace.cjlogistics.com/next/tracking.html?wblNo=";
 
