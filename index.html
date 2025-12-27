@@ -183,11 +183,11 @@
     }
 
     .sub-list{
-      display:flex; flex-direction:column;
-      gap: 8px;
-      overflow-y:auto;
-      padding-right: 2px;
-    }
+       flex: 1;          /* ✅ 남는 높이 전부 사용 */
+  min-height: 0;    /* ✅ overflow 스크롤 필수 옵션 */
+  overflow-y: auto; /* ✅ 여기 스크롤 */
+  padding-right: 2px;
+}
 
     .sub-item{
       width:100%;
@@ -316,7 +316,52 @@
       border: 1px solid rgba(255,255,255,0.55);
       box-shadow: 0 10px 26px rgba(15,23,42,.12);
     }
+     /* ✅ 위젯 공용 헤더 */
+.widget-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom: 10px;
+}
 
+.widget-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size: 14px;
+  font-weight: 1000;
+  letter-spacing: -0.2px;
+  color: rgba(15,23,42,0.92);
+}
+
+.widget-badge{
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(124,58,237,0.14);
+  border: 1px solid rgba(124,58,237,0.22);
+  color: var(--accent);
+  font-weight: 1000;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  user-select:none;
+}
+
+.widget-close{
+  border:none;
+  width:30px;height:30px;
+  border-radius:999px;
+  cursor:pointer;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 12px 18px rgba(15,23,42,0.10);
+  display:flex;align-items:center;justify-content:center;
+  color: rgba(15,23,42,0.70);
+  flex: 0 0 auto;
+}
+
+
+      
     /* ===== widgets base ===== */
     .calendar-widget,.phone-widget,.account-widget,.tracking-widget{
       position:absolute;
@@ -956,6 +1001,14 @@
   min-height: 0;
   overflow: hidden;
 }
+.account-search-row{
+  display:flex;
+  gap: 8px;
+  align-items:center;
+}
+.account-search-row .account-input{
+  flex: 1;
+}
 
 
     @media (max-width: 900px) {
@@ -1140,13 +1193,14 @@
   </div>
 
   <!-- phone widget -->
-  <div class="phone-widget" id="phoneWidget">
-    <div class="phone-head">
-      <div class="phone-title">Phone</div>
-      <button class="phone-close" id="phoneClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
-    </div>
+ <div class="widget-head">
+  <div class="widget-title">
+    <span class="widget-badge">PHONE</span>
+  </div>
+  <button class="widget-close" id="phoneClose" type="button" aria-label="닫기">
+    <i class='bx bx-x' style="font-size:18px;"></i>
+  </button>
+</div>
 
     <div class="phone-body">
       <input id="phoneInput" class="phone-input" placeholder="" />
@@ -1159,13 +1213,15 @@
   </div>
 
   <!-- tracking widget -->
-  <div class="tracking-widget" id="trackingWidget">
-    <div class="tracking-head">
-      <div class="tracking-title">Tracking</div>
-      <button class="tracking-close" id="trackingClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
-    </div>
+  <div class="widget-head">
+  <div class="widget-title">
+    <span class="widget-badge">TRACK</span>
+  </div>
+  <button class="widget-close" id="trackingClose" type="button" aria-label="닫기">
+    <i class='bx bx-x' style="font-size:18px;"></i>
+  </button>
+</div>
+
 
     <div class="tracking-body">
    
@@ -1200,21 +1256,25 @@
   </div>
 
   <!-- account widget -->
-  <div class="account-widget" id="accountWidget">
-    <div class="account-head">
-      <div class="account-head-left">
-        <button type="button" class="account-badge account-badge-link" id="accountSheetBtn">ACCOUNT</button>
-      </div>
+  <div class="widget-head">
+  <div class="widget-title">
+    <button type="button" class="widget-badge" id="accountSheetBtn">ACCOUNT</button>
+  </div>
 
-      <button class="account-close" id="accountClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
-    </div>
+  <button class="widget-close" id="accountClose" type="button" aria-label="닫기">
+    <i class='bx bx-x' style="font-size:18px;"></i>
+  </button>
+</div>
+
 
     <div class="account-body">
-      <div class="account-row">
-        <input id="accountQuery" class="account-input" placeholder="검색어 입력 후 Enter" />
-      </div>
+     <div class="account-search-row">
+  <input id="accountQuery" class="account-input" placeholder="검색어 입력 후 Enter" />
+  <button class="tracking-search-btn" id="accountGo" type="button" title="검색">
+    <i class='bx bx-search'></i>
+  </button>
+</div>
+
 
       <label class="account-toggle" title="기본은 OR, 체크하면 AND">
         <input id="accountMatchAll" type="checkbox" />
@@ -1431,6 +1491,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const todayBadge = document.getElementById("todayBadge");
   const popup = document.getElementById("datePopup");
   const popupClose = document.getElementById("popupClose");
+  const accountGo = document.getElementById("accountGo");
+
 
   /* ======================
      iframe restore
@@ -2455,6 +2517,12 @@ attachAutoHide(phoneWidget, hidePhone, 650);
 attachAutoHide(trackingWidget, hideTracking, 650);
 attachAutoHide(accountWidget, hideAccount, 650);
 attachAutoHide(calendarWidget, () => { closePopup(); hideCalendar(); }, 650);
+
+
+  accountGo.addEventListener("click", (e)=>{
+  doAccountSearch();
+  e.stopPropagation();
+});
 
   /* ======================
      init
