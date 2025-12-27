@@ -2289,6 +2289,47 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+
+    /* ======================
+     ✅ Google > 기타(아코디언) 토글 + 하위 링크 처리
+     ====================== */
+  const googleEtcHead = document.getElementById("googleEtcHead");
+  const googleEtcBody = document.getElementById("googleEtcBody");
+  const googleEtcChildren = document.querySelectorAll(".google-etc-child");
+
+  function toggleGoogleEtcAccordion() {
+    const expanded = googleEtcHead.getAttribute("aria-expanded") === "true";
+    googleEtcHead.setAttribute("aria-expanded", String(!expanded));
+    googleEtcBody.hidden = expanded; // expanded=true 였으면 숨김
+  }
+
+  if (googleEtcHead && googleEtcBody) {
+    googleEtcHead.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleGoogleEtcAccordion();
+    });
+  }
+
+  // 기타(3레벨) 하위 항목 클릭 시 iframe 로드
+  googleEtcChildren.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      // (선택) active 스타일 처리하고 싶으면
+      googleChildren.forEach((b) => b.classList.remove("active"));
+      googleEtcChildren.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const url = btn.dataset.href;
+      if (url) {
+        mainFrame.src = url;
+        rememberFrame(url);
+      }
+      closeAllPanels();
+    });
+  });
+
+
   /* ======================
      init
      ====================== */
