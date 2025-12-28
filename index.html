@@ -989,25 +989,34 @@
 }
 
 
-.tracking-body{
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
+.tracking-body,
 .tracking-result{
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
 }
 
-.tracking-frame-wrapper{
-  flex: 1;            /* 🔥 빨간 영역 커짐 */
-  min-height: 0;
+tracking-frame-wrapper{
+  border-radius: 16px;
   overflow: hidden;
+  background: rgba(255,255,255,0.70);
+  border: 1px solid rgba(15,23,42,0.08);
+
+  height: 70vh;
+  min-height: 420px;
 }
+
+#trackingFrame{
+  border: 0;
+  display: block;
+
+  transform: scale(0.6);
+  transform-origin: top left;
+
+  width: calc(100% / 0.6);
+  height: calc(100% / 0.6);
+}
+   
 .account-search-row{
   display:flex;
   gap: 8px;
