@@ -1036,15 +1036,22 @@ tracking-frame-wrapper{
 .sidebar-date{
   width: 100%;
   text-align: center;
-  margin: 4px 0 10px;
-  color: #5b21b6;
-  font-weight: 1000;
-  font-size: 12px;
-  letter-spacing: -0.2px;
-  user-select: none;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+  margin: 6px 0 14px;
 
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+
+  color: #5b21b6; /* 선명한 딥 보라 */
+  
+  /* 🔥 가독성 핵심 */
+  text-shadow:
+    0 1px 0 rgba(255,255,255,0.65),
+    0 0 1px rgba(255,255,255,0.35);
+
+  user-select: none;
 }
+
 
 
 
@@ -1528,12 +1535,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setSidebarToday(){
     if(!sidebarDateEl) return;
-    const now = new Date();
-    const mm = String(now.getMonth() + 1).padStart(2, "0");
-    const dd = String(now.getDate()).padStart(2, "0");
-    const dow = KOR_DOW2[now.getDay()];
-    sidebarDateEl.textContent = `${mm}/${dd}(${dow})`;
-  }
+     const now = new Date();
+  const dd = String(now.getDate()).padStart(2, "0");
+  const dow = ["일","월","화","수","목","금","토"][now.getDay()];
+
+  sidebarDateEl.textContent = `${dd}(${dow})`;
+}
 
   setSidebarToday();
 
