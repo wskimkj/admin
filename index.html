@@ -351,6 +351,26 @@
   user-select:none;
 }
 
+.pv-btn{
+  height:30px;
+  padding:0 10px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,42,0.10);
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 12px 18px rgba(15,23,42,0.10);
+  font-size:12px;
+  font-weight: 900;
+  cursor:pointer;
+  text-decoration:none;
+  color: rgba(15,23,42,0.78);
+  display:inline-flex;
+  align-items:center;
+}
+.pv-btn:hover{
+  transform: translateY(-1px);
+}
+
+
 .widget-close{
   border:none;
   width:30px;height:30px;
@@ -527,7 +547,7 @@
       color: rgba(15,23,42,0.65);
     }
     .tracking-result-header .em{ color: rgba(124,58,237,0.95); font-weight: 1000; }
-    .tracking-frame-wrapper{
+ .tracking-frame-wrapper{
   border-radius: 16px;
   overflow: hidden;
   background: rgba(255,255,255,0.70);
@@ -997,15 +1017,6 @@
   min-height:0;
 }
 
-tracking-frame-wrapper{
-  border-radius: 16px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.70);
-  border: 1px solid rgba(15,23,42,0.08);
-
-  height: 70vh;
-  min-height: 420px;
-}
 
 #trackingFrame{
   border: 0;
@@ -1052,44 +1063,34 @@ tracking-frame-wrapper{
   user-select: none;
 }
 
-/* ✅ search widget 추가 */
+/* ===== Search widget only ===== */
 .search-widget{
   position:absolute;
   left: 96px;
   bottom: 20px;
+  width: 720px;
+  max-width: calc(100vw - 120px);
   border-radius: 24px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  color: var(--ink);
+  background: rgba(255,255,255,0.62);
+  border: 1px solid rgba(255,255,255,0.70);
   padding: 12px;
-  box-shadow: var(--glass-shadow);
+  box-shadow: 0 18px 50px rgba(15,23,42,0.16);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-
   opacity: 0;
   transform: translateY(12px) scale(0.98);
   pointer-events:none;
   transition: all .22s ease;
+  z-index: 1600;
 }
 .search-widget.visible{
   opacity:1;
   transform: translateY(0) scale(1);
   pointer-events:auto;
 }
-
-/* 폭/레이어 */
-.search-widget{ z-index: 1604; width: 720px; max-width: calc(100vw - 120px); }
-
-/* 내부 */
-.search-search-row{
-  display:flex;
-  gap: 8px;
-  align-items:center;
-  margin-top: 6px;
-}
-.search-search-row .search-input{
-  flex: 1;
-  width:100%;
+.search-search-row{ display:flex; gap:8px; align-items:center; }
+.search-input{
+  flex:1;
   border:none;
   outline:none;
   border-radius: 16px;
@@ -1098,6 +1099,15 @@ tracking-frame-wrapper{
   border: 1px solid rgba(15,23,42,0.08);
   box-shadow: 0 10px 18px rgba(15,23,42,0.06);
   font-weight: 800;
+}
+.search-mini-btn{
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 10px 18px rgba(15,23,42,0.10);
 }
 .search-frame-wrapper{
   margin-top: 10px;
@@ -1108,31 +1118,8 @@ tracking-frame-wrapper{
   height: 70vh;
   min-height: 520px;
 }
-#searchFrame{
-  width:100%;
-  height:100%;
-  border:0;
-  display:block;
-}
-.search-mini-btn{
-  flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color: var(--accent);
-}
-.search-mini-btn i{ font-size: 18px; }
-.search-mini-btn:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 14px 24px rgba(15,23,42,0.16);
-}
+#searchFrame{ width:100%; height:100%; border:0; display:block; }
+
 
 
 
@@ -1324,7 +1311,7 @@ tracking-frame-wrapper{
     </div>
   </div>
 
-  <!-- ✅ search widget -->
+ <!-- ✅ Search widget -->
 <div class="search-widget" id="searchWidget">
   <div class="widget-head">
     <div class="widget-title">
@@ -1332,29 +1319,18 @@ tracking-frame-wrapper{
     </div>
 
     <div style="display:flex; gap:8px; align-items:center;">
-      <button class="search-mini-btn" id="searchOpenNewTab" type="button" title="새 탭으로 열기">
-        <i class='bx bx-link-external'></i>
-      </button>
-
-      <button class="widget-close" id="searchClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
+      <a id="searchOpenNewTab" class="pv-btn" href="#" target="_blank" rel="noopener">↗️</a>
+      <button class="widget-close" id="searchClose" type="button" aria-label="닫기">✕</button>
     </div>
   </div>
 
-  <div class="search-body">
-    <label class="tracking-label" for="searchInput">상품 검색어</label>
+  <div class="search-search-row">
+    <input id="searchInput" class="search-input" placeholder="검색어 입력 후 Enter" />
+    <button class="search-mini-btn" id="searchGo" type="button" title="검색">🔍</button>
+  </div>
 
-    <div class="search-search-row">
-      <input id="searchInput" class="search-input" placeholder="검색어 입력 후 Enter" />
-      <button class="search-mini-btn" id="searchGo" type="button" title="검색">
-        <i class='bx bx-search'></i>
-      </button>
-    </div>
-
-    <div class="search-frame-wrapper">
-      <iframe id="searchFrame"></iframe>
-    </div>
+  <div class="search-frame-wrapper">
+    <iframe id="searchFrame"></iframe>
   </div>
 </div>
 
@@ -1773,46 +1749,84 @@ function syncNavActiveByFrame(){
   }
 
     /* ======================
-     ✅ Search Widget (DOM 이후에 실행!)
-     ====================== */
+   ✅ Search widget (Account/Calendar 로직 영향 없음)
+   ====================== */
+(function(){
   const SEARCH_BASE_URL = "https://wskimkj.github.io/search/";
-  const SEARCH_QS_KEY = "q";
+  const SEARCH_QS_KEY = "q"; // search 페이지가 ?q= 로 받게 만든 경우
 
-  function buildSearchUrl(q){
+  const btn = document.getElementById("searchWidgetBtn");
+  const panel = document.getElementById("searchWidget");
+  const closeBtn = document.getElementById("searchClose");
+  const input = document.getElementById("searchInput");
+  const goBtn = document.getElementById("searchGo");
+  const frame = document.getElementById("searchFrame");
+  const openNewTab = document.getElementById("searchOpenNewTab");
+
+  if(!btn || !panel || !closeBtn || !input || !goBtn || !frame || !openNewTab) return;
+
+  const LAST_Q_KEY = "search:lastQuery";
+  const LAST_URL_KEY = "search:lastUrl";
+
+  function buildUrl(q){
     const kw = (q || "").trim();
     if(!kw) return SEARCH_BASE_URL;
-    return `${SEARCH_BASE_URL}?${SEARCH_QS_KEY}=${encodeURIComponent(kw)}`;
+    return SEARCH_BASE_URL;
+  }
+
+  function openWidget(){
+    panel.classList.add("visible");
+
+    const lastQ = localStorage.getItem(LAST_Q_KEY) || "";
+    const lastUrl = localStorage.getItem(LAST_URL_KEY) || "";
+
+    if(lastQ && !input.value.trim()) input.value = lastQ;
+
+    if(!frame.src || frame.src === "about:blank"){
+      frame.src = lastUrl || buildUrl(input.value.trim());
+    }
+
+    openNewTab.href = frame.src || buildUrl(input.value.trim());
+    input.focus();
+  }
+
+  function closeWidget(){
+    panel.classList.remove("visible");
   }
 
   function doSearch(){
-    const q = searchInput.value.trim();
-    searchFrame.src = buildSearchUrl(q);
+    const q = input.value.trim();
+    const url = buildUrl(q);
+    frame.src = url;
+    openNewTab.href = url;
+    localStorage.setItem(LAST_Q_KEY, q);
+    localStorage.setItem(LAST_URL_KEY, url);
   }
 
-  function toggleSearch(){
-    const v = searchWidget.classList.contains("visible");
-    if(v){
-      hideSearch();
-    }else{
-      searchWidget.classList.add("visible");
-      hideCalendar(); hideAllSubSidebars(); hidePhone(); hideTracking(); hideAccount(); closePopup();
-      if(!searchFrame.src) searchFrame.src = SEARCH_BASE_URL;
-      searchInput.focus();
-    }
-  }
-
-  searchWidgetBtn.addEventListener("click",(e)=>{ toggleSearch(); e.stopPropagation(); });
-  searchClose.addEventListener("click",(e)=>{ hideSearch(); e.stopPropagation(); });
-  searchWidget.addEventListener("click",(e)=> e.stopPropagation());
-
-  searchGo.addEventListener("click",(e)=>{ doSearch(); e.stopPropagation(); });
-  searchInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") doSearch(); });
-
-  searchOpenNewTab.addEventListener("click",(e)=>{
-    const q = searchInput.value.trim();
-    window.open(buildSearchUrl(q), "_blank");
+  btn.addEventListener("click", (e)=>{
     e.stopPropagation();
+
+    // ✅ 여기서 Account/Calendar 닫는 함수가 네 기존 코드에 있으면 호출만 해줘도 됨.
+    // 예) closeAllWidgets?.();  // 이런 식으로 "있으면" 실행되게
+    if(typeof window.closeAllWidgets === "function") window.closeAllWidgets();
+
+    if(panel.classList.contains("visible")) closeWidget();
+    else openWidget();
   });
+
+  closeBtn.addEventListener("click", (e)=>{ e.stopPropagation(); closeWidget(); });
+  panel.addEventListener("click", (e)=> e.stopPropagation());
+
+  goBtn.addEventListener("click", (e)=>{ e.stopPropagation(); doSearch(); });
+  input.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter"){ e.preventDefault(); doSearch(); }
+  });
+
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape") closeWidget();
+  });
+})();
+
 
 
   /* ======================
