@@ -1052,6 +1052,87 @@ tracking-frame-wrapper{
   user-select: none;
 }
 
+/* ✅ search widget 추가 */
+.search-widget{
+  position:absolute;
+  left: 96px;
+  bottom: 20px;
+  border-radius: 24px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--ink);
+  padding: 12px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  pointer-events:none;
+  transition: all .22s ease;
+}
+.search-widget.visible{
+  opacity:1;
+  transform: translateY(0) scale(1);
+  pointer-events:auto;
+}
+
+/* 폭/레이어 */
+.search-widget{ z-index: 1604; width: 720px; max-width: calc(100vw - 120px); }
+
+/* 내부 */
+.search-search-row{
+  display:flex;
+  gap: 8px;
+  align-items:center;
+  margin-top: 6px;
+}
+.search-search-row .search-input{
+  flex: 1;
+  width:100%;
+  border:none;
+  outline:none;
+  border-radius: 16px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(15,23,42,0.08);
+  box-shadow: 0 10px 18px rgba(15,23,42,0.06);
+  font-weight: 800;
+}
+.search-frame-wrapper{
+  margin-top: 10px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.70);
+  border: 1px solid rgba(15,23,42,0.08);
+  height: 70vh;
+  min-height: 520px;
+}
+#searchFrame{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+.search-mini-btn{
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 10px 18px rgba(15,23,42,0.10);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: var(--accent);
+}
+.search-mini-btn i{ font-size: 18px; }
+.search-mini-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px rgba(15,23,42,0.16);
+}
 
 
 
@@ -1115,6 +1196,11 @@ tracking-frame-wrapper{
         <span> 시트 </span>
       </button>
     </div>
+
+    <button class="nav-footer-btn" id="searchWidgetBtn" type="button" title="상품 검색 위젯">
+  <i class='bx bx-search-alt-2'></i><span>Search</span>
+</button>
+
 
     <button class="nav-footer-btn" id="phoneFormatBtn" type="button" title="전화번호 포맷">
       <i class='bx bx-phone'></i><span>Phone</span>
@@ -1237,6 +1323,41 @@ tracking-frame-wrapper{
       <iframe src="https://wskimkj.github.io/search/" id="mainFrame"></iframe>
     </div>
   </div>
+
+  <!-- ✅ search widget -->
+<div class="search-widget" id="searchWidget">
+  <div class="widget-head">
+    <div class="widget-title">
+      <span class="widget-badge">SEARCH</span>
+    </div>
+
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button class="search-mini-btn" id="searchOpenNewTab" type="button" title="새 탭으로 열기">
+        <i class='bx bx-link-external'></i>
+      </button>
+
+      <button class="widget-close" id="searchClose" type="button" aria-label="닫기">
+        <i class='bx bx-x' style="font-size:18px;"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="search-body">
+    <label class="tracking-label" for="searchInput">상품 검색어</label>
+
+    <div class="search-search-row">
+      <input id="searchInput" class="search-input" placeholder="검색어 입력 후 Enter" />
+      <button class="search-mini-btn" id="searchGo" type="button" title="검색">
+        <i class='bx bx-search'></i>
+      </button>
+    </div>
+
+    <div class="search-frame-wrapper">
+      <iframe id="searchFrame"></iframe>
+    </div>
+  </div>
+</div>
+
 
     <!-- phone widget -->
   <div class="phone-widget" id="phoneWidget">
@@ -1401,6 +1522,48 @@ document.addEventListener("DOMContentLoaded", () => {
   const EVENT_SHEET_URL = `https://docs.google.com/spreadsheets/d/${EVENT_SHEET_ID}/edit?gid=${EVENT_SHEET_GID}#gid=${EVENT_SHEET_GID}`;
   const EVENT_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${EVENT_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${EVENT_SHEET_GID}`;
 
+  const SEARCH_BASE_URL = "https://wskimkj.github.io/search/";
+const SEARCH_QS_KEY = "q"; // ?q=검색어 로 던짐 (페이지가 무시해도 문제없음)
+
+function buildSearchUrl(q){
+  const kw = (q || "").trim();
+  if(!kw) return SEARCH_BASE_URL;
+  // 검색 페이지에서 ?q= 를 지원하면 바로 검색됨
+  return `${SEARCH_BASE_URL}?${SEARCH_QS_KEY}=${encodeURIComponent(kw)}`;
+}
+
+function doSearch(){
+  const q = searchInput.value.trim();
+  searchFrame.src = buildSearchUrl(q);
+}
+
+function toggleSearch(){
+  const v = searchWidget.classList.contains("visible");
+  if(v){
+    hideSearch();
+  }else{
+    searchWidget.classList.add("visible");
+    hideCalendar(); hideAllSubSidebars(); hidePhone(); hideTracking(); hideAccount(); closePopup();
+    // 처음 열 때는 기본 페이지 로드
+    if(!searchFrame.src) searchFrame.src = SEARCH_BASE_URL;
+    searchInput.focus();
+  }
+}
+
+searchWidgetBtn.addEventListener("click",(e)=>{ toggleSearch(); e.stopPropagation(); });
+searchClose.addEventListener("click",(e)=>{ hideSearch(); e.stopPropagation(); });
+searchWidget.addEventListener("click",(e)=> e.stopPropagation());
+
+searchGo.addEventListener("click",(e)=>{ doSearch(); e.stopPropagation(); });
+searchInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") doSearch(); });
+
+searchOpenNewTab.addEventListener("click",(e)=>{
+  const q = searchInput.value.trim();
+  window.open(buildSearchUrl(q), "_blank");
+  e.stopPropagation();
+});
+
+
   /* ======================
      Helpers (공용)
      ====================== */
@@ -1533,6 +1696,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarDateEl = document.getElementById("sidebarDate");
   const KOR_DOW2 = ["일","월","화","수","목","금","토"];
 
+  const searchWidgetBtn = document.getElementById("searchWidgetBtn");
+const searchWidget = document.getElementById("searchWidget");
+const searchClose = document.getElementById("searchClose");
+const searchInput = document.getElementById("searchInput");
+const searchGo = document.getElementById("searchGo");
+const searchFrame = document.getElementById("searchFrame");
+const searchOpenNewTab = document.getElementById("searchOpenNewTab");
+
+
   function setSidebarToday(){
     if(!sidebarDateEl) return;
      const now = new Date();
@@ -1607,6 +1779,8 @@ function syncNavActiveByFrame(){
     subSidebar.classList.remove("visible");
     utilSidebar.classList.remove("visible");
   }
+  function hideSearch(){ searchWidget.classList.remove("visible"); }
+
 
   function closeAllPanels(){
     hideAllSubSidebars();
@@ -1614,6 +1788,7 @@ function syncNavActiveByFrame(){
     hidePhone();
     hideTracking();
     hideAccount();
+   hideSearch();   
     closePopup();
   }
 
@@ -2518,7 +2693,7 @@ function track(){
     const clickedInsideTracking = trackingWidget.contains(t) || trackingWidgetBtn.contains(t);
     const clickedInsideAccount = accountWidget.contains(t) || accountWidgetBtn.contains(t);
 
-    if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount){
+    if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount && !clickedInsideSearch){
       hideAllSubSidebars();
     }
   });
@@ -2567,6 +2742,8 @@ attachAutoHide(phoneWidget, hidePhone, 650);
 attachAutoHide(trackingWidget, hideTracking, 650);
 attachAutoHide(accountWidget, hideAccount, 650);
 attachAutoHide(calendarWidget, () => { closePopup(); hideCalendar(); }, 650);
+  attachAutoHide(searchWidget, hideSearch, 650);
+
 
 
   accountGo.addEventListener("click", (e)=>{
