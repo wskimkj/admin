@@ -1522,46 +1522,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const EVENT_SHEET_URL = `https://docs.google.com/spreadsheets/d/${EVENT_SHEET_ID}/edit?gid=${EVENT_SHEET_GID}#gid=${EVENT_SHEET_GID}`;
   const EVENT_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${EVENT_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${EVENT_SHEET_GID}`;
 
-  const SEARCH_BASE_URL = "https://wskimkj.github.io/search/";
-const SEARCH_QS_KEY = "q"; // ?q=검색어 로 던짐 (페이지가 무시해도 문제없음)
-
-function buildSearchUrl(q){
-  const kw = (q || "").trim();
-  if(!kw) return SEARCH_BASE_URL;
-  // 검색 페이지에서 ?q= 를 지원하면 바로 검색됨
-  return `${SEARCH_BASE_URL}?${SEARCH_QS_KEY}=${encodeURIComponent(kw)}`;
-}
-
-function doSearch(){
-  const q = searchInput.value.trim();
-  searchFrame.src = buildSearchUrl(q);
-}
-
-function toggleSearch(){
-  const v = searchWidget.classList.contains("visible");
-  if(v){
-    hideSearch();
-  }else{
-    searchWidget.classList.add("visible");
-    hideCalendar(); hideAllSubSidebars(); hidePhone(); hideTracking(); hideAccount(); closePopup();
-    // 처음 열 때는 기본 페이지 로드
-    if(!searchFrame.src) searchFrame.src = SEARCH_BASE_URL;
-    searchInput.focus();
-  }
-}
-
-searchWidgetBtn.addEventListener("click",(e)=>{ toggleSearch(); e.stopPropagation(); });
-searchClose.addEventListener("click",(e)=>{ hideSearch(); e.stopPropagation(); });
-searchWidget.addEventListener("click",(e)=> e.stopPropagation());
-
-searchGo.addEventListener("click",(e)=>{ doSearch(); e.stopPropagation(); });
-searchInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") doSearch(); });
-
-searchOpenNewTab.addEventListener("click",(e)=>{
-  const q = searchInput.value.trim();
-  window.open(buildSearchUrl(q), "_blank");
-  e.stopPropagation();
-});
 
 
   /* ======================
@@ -1811,6 +1771,49 @@ function syncNavActiveByFrame(){
     panel.classList.add("visible");
     requestAnimationFrame(()=> placeSubSidebarNear(anchorBtn, panel));
   }
+
+    /* ======================
+     ✅ Search Widget (DOM 이후에 실행!)
+     ====================== */
+  const SEARCH_BASE_URL = "https://wskimkj.github.io/search/";
+  const SEARCH_QS_KEY = "q";
+
+  function buildSearchUrl(q){
+    const kw = (q || "").trim();
+    if(!kw) return SEARCH_BASE_URL;
+    return `${SEARCH_BASE_URL}?${SEARCH_QS_KEY}=${encodeURIComponent(kw)}`;
+  }
+
+  function doSearch(){
+    const q = searchInput.value.trim();
+    searchFrame.src = buildSearchUrl(q);
+  }
+
+  function toggleSearch(){
+    const v = searchWidget.classList.contains("visible");
+    if(v){
+      hideSearch();
+    }else{
+      searchWidget.classList.add("visible");
+      hideCalendar(); hideAllSubSidebars(); hidePhone(); hideTracking(); hideAccount(); closePopup();
+      if(!searchFrame.src) searchFrame.src = SEARCH_BASE_URL;
+      searchInput.focus();
+    }
+  }
+
+  searchWidgetBtn.addEventListener("click",(e)=>{ toggleSearch(); e.stopPropagation(); });
+  searchClose.addEventListener("click",(e)=>{ hideSearch(); e.stopPropagation(); });
+  searchWidget.addEventListener("click",(e)=> e.stopPropagation());
+
+  searchGo.addEventListener("click",(e)=>{ doSearch(); e.stopPropagation(); });
+  searchInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") doSearch(); });
+
+  searchOpenNewTab.addEventListener("click",(e)=>{
+    const q = searchInput.value.trim();
+    window.open(buildSearchUrl(q), "_blank");
+    e.stopPropagation();
+  });
+
 
   /* ======================
      Phone
@@ -2594,6 +2597,7 @@ function track(){
     e.stopPropagation();
     const box = btn.closest("[data-itembox]");
     const content = box?.querySelector("[data-itemcontent]");
+    
     if(!content) return;
 
     const expanded = btn.getAttribute("aria-expanded") === "true";
@@ -2692,6 +2696,8 @@ function track(){
     const clickedInsidePhone = phoneWidget.contains(t) || phoneFormatBtn.contains(t);
     const clickedInsideTracking = trackingWidget.contains(t) || trackingWidgetBtn.contains(t);
     const clickedInsideAccount = accountWidget.contains(t) || accountWidgetBtn.contains(t);
+        const clickedInsideSearch = searchWidget.contains(t) || searchWidgetBtn.contains(t); // ✅ 추가
+
 
     if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount && !clickedInsideSearch){
       hideAllSubSidebars();
