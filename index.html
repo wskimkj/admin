@@ -1769,10 +1769,14 @@ function syncNavActiveByFrame(){
   const LAST_URL_KEY = "search:lastUrl";
 
   function buildUrl(q){
-    const kw = (q || "").trim();
-    if(!kw) return SEARCH_BASE_URL;
-    return SEARCH_BASE_URL;
-  }
+  const kw = (q || "").trim();
+  const u = new URL("https://wskimkj.github.io/search/");
+  u.searchParams.set("embed", "1");   // ✅ 항상 embed 모드
+
+  if(kw) u.searchParams.set("q", kw); // ✅ 검색어 있으면 q로 전달
+  return u.toString();
+}
+
 
   function openWidget(){
     panel.classList.add("visible");
