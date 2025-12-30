@@ -386,7 +386,11 @@
 
       
     /* ===== widgets base ===== */
-    .calendar-widget,.phone-widget,.account-widget,.tracking-widget.search-widget{
+    .calendar-widget,
+.phone-widget,
+.account-widget,
+.tracking-widget,
+.search-widget{
       position:absolute;
       left: 96px;
       bottom: 20px;
@@ -404,11 +408,15 @@
       pointer-events:none;
       transition: all .22s ease;
     }
-    .calendar-widget.visible,.phone-widget.visible,.account-widget.visible,.tracking-widget.visible.search-widget.visible{
-      opacity:1;
-      transform: translateY(0) scale(1);
-      pointer-events:auto;
-    }
+        .calendar-widget.visible,
+        .phone-widget.visible,
+        .account-widget.visible,
+        .tracking-widget.visible,
+        .search-widget.visible{
+          opacity:1;
+          transform: translateY(0) scale(1);
+          pointer-events:auto;
+        }
     /* ✅ 위젯 폭 통일 (배송조회 제외) */
 .calendar-widget{ z-index: 1600; width: var(--widget-w); }
 .phone-widget{ z-index: 1601; width: var(--widget-w); }
@@ -934,11 +942,7 @@
       user-select:none;
     }
    .item-label{ font-size: 10px; }
-.item-text{
-  font-size: 11px;
-  max-height: 140px; /* 44 -> 140 */
-  line-height: 1.45;
-}
+
 
     .item-caret{
       font-size: 14px;
