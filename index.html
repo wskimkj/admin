@@ -933,11 +933,13 @@
       padding: 0;
       user-select:none;
     }
-    .item-label{
-      font-size: 8px;
-      font-weight: 900;
-      color: #7c3aed;
-    }
+   .item-label{ font-size: 10px; }
+.item-text{
+  font-size: 11px;
+  max-height: 140px; /* 44 -> 140 */
+  line-height: 1.45;
+}
+
     .item-caret{
       font-size: 14px;
       color: rgba(124,58,237,0.85);
@@ -2903,8 +2905,9 @@ function track(){
                     <i class='bx bx-chevron-down item-caret'></i>
                   </button>
                   <div class="item-text is-collapsed" data-itemcontent>
-                    ${escapeHtml(ev.target)}
-                  </div>
+  ${textToHtmlWithBreaks(ev.target)}
+</div>
+
                 </div>
               ` : ``}
 
@@ -3040,7 +3043,7 @@ function track(){
 
     const expanded = btn.getAttribute("aria-expanded") === "true";
     btn.setAttribute("aria-expanded", String(!expanded));
-    content.classList.toggle("is-collapsed", expanded ? true : false);
+content.classList.toggle("is-collapsed", expanded);
   });
 
   /* ======================
