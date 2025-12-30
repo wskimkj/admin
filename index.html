@@ -7,10 +7,10 @@
   <link rel="icon" type="image/png" href="favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-   <link rel="stylesheet" as="style" crossorigin
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
- 
-    <style>
+  <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
+  <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root{
@@ -33,7 +33,6 @@
       --sub-panel-shadow: 0 18px 40px rgba(15,23,42,0.18);
 
       --sub-ink: rgba(15, 23, 42, 0.92);
-      --sub-title-ink: rgba(15, 23, 42, 0.92);
 
       --sub-item-bg: rgba(255,255,255,0.78);
       --sub-item-hover: rgba(255,255,255,0.92);
@@ -45,8 +44,8 @@
       --ink: #0f172a;
       --accent: #7c3aed;
       --accent2: #ec4899;
-    --widget-w: 340px;  /* ✅ phone/account/calendar 통일 폭 (원하면 숫자만 바꾸면 됨) */
 
+      --widget-w: 340px; /* phone/account/calendar 통일 폭 */
     }
 
     body{
@@ -81,8 +80,6 @@
       padding: 16px 0;
       z-index: 2000;
     }
-
-      
 
     .nav-list{
       flex:1;
@@ -187,10 +184,10 @@
     }
 
     .sub-list{
-       flex: 1;          /* ✅ 남는 높이 전부 사용 */
-  min-height: 0;    /* ✅ overflow 스크롤 필수 옵션 */
-  overflow-y: auto; /* ✅ 여기 스크롤 */
-}
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+    }
 
     .sub-item{
       width:100%;
@@ -285,13 +282,8 @@
       text-align:left;
       user-select:none;
     }
-    .sub-acc-item:hover{
-      background: rgba(255,255,255,0.88);
-    }
-    .sub-acc-item i{
-      font-size: 14px;
-      color: rgba(15,23,42,0.50);
-    }
+    .sub-acc-item:hover{ background: rgba(255,255,255,0.88); }
+    .sub-acc-item i{ font-size: 14px; color: rgba(15,23,42,0.50); }
 
     /* ===== main content ===== */
     .content{
@@ -319,78 +311,74 @@
       border: 1px solid rgba(255,255,255,0.55);
       box-shadow: 0 10px 26px rgba(15,23,42,.12);
     }
-     /* ✅ 위젯 공용 헤더 */
-.widget-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom: 10px;
-}
 
-.widget-title{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size: 14px;
-  font-weight: 1000;
-  letter-spacing: -0.2px;
-  color: rgba(15,23,42,0.92);
-}
+    /* ✅ 위젯 공용 헤더 */
+    .widget-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
 
-.widget-badge{
-  font-size: 10px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(124,58,237,0.14);
-  border: 1px solid rgba(124,58,237,0.22);
-  color: var(--accent);
-  font-weight: 1000;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  user-select:none;
-}
+    .widget-title{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size: 14px;
+      font-weight: 1000;
+      letter-spacing: -0.2px;
+      color: rgba(15,23,42,0.92);
+    }
 
-.pv-btn{
-  height:30px;
-  padding:0 10px;
-  border-radius:999px;
-  border:1px solid rgba(15,23,42,0.10);
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-  font-size:12px;
-  font-weight: 900;
-  cursor:pointer;
-  text-decoration:none;
-  color: rgba(15,23,42,0.78);
-  display:inline-flex;
-  align-items:center;
-}
-.pv-btn:hover{
-  transform: translateY(-1px);
-}
+    .widget-badge{
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(124,58,237,0.14);
+      border: 1px solid rgba(124,58,237,0.22);
+      color: var(--accent);
+      font-weight: 1000;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      user-select:none;
+    }
 
+    .pv-btn{
+      height:30px;
+      padding:0 10px;
+      border-radius:999px;
+      border:1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
+      font-size:12px;
+      font-weight: 900;
+      cursor:pointer;
+      text-decoration:none;
+      color: rgba(15,23,42,0.78);
+      display:inline-flex;
+      align-items:center;
+    }
+    .pv-btn:hover{ transform: translateY(-1px); }
 
-.widget-close{
-  border:none;
-  width:30px;height:30px;
-  border-radius:999px;
-  cursor:pointer;
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-  display:flex;align-items:center;justify-content:center;
-  color: rgba(15,23,42,0.70);
-  flex: 0 0 auto;
-}
+    .widget-close{
+      border:none;
+      width:30px;height:30px;
+      border-radius:999px;
+      cursor:pointer;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
+      display:flex;align-items:center;justify-content:center;
+      color: rgba(15,23,42,0.70);
+      flex: 0 0 auto;
+    }
 
-
-      
     /* ===== widgets base ===== */
     .calendar-widget,
-.phone-widget,
-.account-widget,
-.tracking-widget,
-.search-widget{
+    .phone-widget,
+    .account-widget,
+    .tracking-widget,
+    .search-widget{
       position:absolute;
       left: 96px;
       bottom: 20px;
@@ -408,49 +396,26 @@
       pointer-events:none;
       transition: all .22s ease;
     }
-        .calendar-widget.visible,
-        .phone-widget.visible,
-        .account-widget.visible,
-        .tracking-widget.visible,
-        .search-widget.visible{
-          opacity:1;
-          transform: translateY(0) scale(1);
-          pointer-events:auto;
-        }
+    .calendar-widget.visible,
+    .phone-widget.visible,
+    .account-widget.visible,
+    .tracking-widget.visible,
+    .search-widget.visible{
+      opacity:1;
+      transform: translateY(0) scale(1);
+      pointer-events:auto;
+    }
+
     /* ✅ 위젯 폭 통일 (배송조회 제외) */
-.calendar-widget{ z-index: 1600; width: var(--widget-w); }
-.phone-widget{ z-index: 1601; width: var(--widget-w); }
-.account-widget{ z-index: 1603; width: var(--widget-w); }
+    .calendar-widget{ z-index: 1600; width: var(--widget-w); }
+    .phone-widget{ z-index: 1601; width: var(--widget-w); }
+    .account-widget{ z-index: 1603; width: var(--widget-w); }
 
-/* ✅ 배송조회는 그대로 */
-.tracking-widget{ z-index: 1602; width: 540px; }
-.search-widget{ z-index: 1604; }
-
+    /* ✅ 배송조회는 그대로 */
+    .tracking-widget{ z-index: 1602; width: 540px; }
+    .search-widget{ z-index: 1604; }
 
     /* ===== phone ===== */
-    .phone-head,.tracking-head,.account-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 10px;
-      gap:10px;
-    }
-    .phone-title,.tracking-title,.account-title{
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: -0.2px;
-    }
-    .phone-close,.tracking-close,.account-close{
-      border:none;
-      width:30px;height:30px;
-      border-radius:999px;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-      display:flex;align-items:center;justify-content:center;
-      color: rgba(15,23,42,0.70);
-      flex: 0 0 auto;
-    }
     .phone-input,.tracking-input,.account-input{
       width:100%;
       border:none;
@@ -478,16 +443,9 @@
       color: rgba(15,23,42,0.86);
       user-select: none;
       cursor: copy;
-    }
-    .phone-copy{
-      border:none;
-      cursor:pointer;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      font-weight: 900;
-      color: var(--accent);
+      min-height: 42px;
+      display:flex;
+      align-items:center;
     }
     .phone-hint{
       margin-top: 8px;
@@ -497,50 +455,12 @@
     }
 
     /* ===== tracking ===== */
-    .tracking-carrier-row{
-      display:flex;
-      gap: 8px;
-      overflow-x:auto;
-      padding-bottom: 2px;
-      margin-bottom: 10px;
-    }
-    .tracking-carrier-pill{
-      flex:0 0 auto;
-      border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.10);
-      padding: 7px 12px;
-      font-size: 11px;
-      font-weight: 900;
-      background: rgba(255,255,255,0.72);
-      cursor:pointer;
-      color: rgba(15,23,42,0.70);
-      white-space: nowrap;
-      user-select:none;
-    }
-    .tracking-carrier-pill.active{
-      background: rgba(124,58,237,0.92);
-      color:#fff;
-      border-color: rgba(124,58,237,0.35);
-    }
     .tracking-label{
       display:block;
       font-size: 11px;
       font-weight: 900;
       color: rgba(15,23,42,0.60);
       margin-bottom: 6px;
-    }
-    .tracking-btn{
-      width:100%;
-      margin-top: 10px;
-      border:none;
-      cursor:pointer;
-      border-radius: 999px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      font-weight: 1000;
-      color: var(--accent);
-      user-select:none;
     }
     .tracking-error{
       margin-top: 8px;
@@ -555,38 +475,59 @@
       color: rgba(15,23,42,0.65);
     }
     .tracking-result-header .em{ color: rgba(124,58,237,0.95); font-weight: 1000; }
- .tracking-frame-wrapper{
-  border-radius: 16px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.70);
-  border: 1px solid rgba(15,23,42,0.08);
-  min-height: 420px; /* 취향껏 420까지 올려도 됨 */
-        height: 70vh;       /* 또는 100%, 520px 등 */
 
-}
+    .tracking-frame-wrapper{
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.70);
+      border: 1px solid rgba(15,23,42,0.08);
+      min-height: 420px;
+      height: 70vh;
+    }
 
     #trackingFrame{
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+
+      transform: scale(0.6);
+      transform-origin: top left;
+      width: calc(100% / 0.6);
+      height: calc(100% / 0.6);
+    }
+
+    .tracking-search-row{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+    }
+    .tracking-search-row .tracking-input{ flex:1; }
+
+    .tracking-search-btn{
+      flex: 0 0 auto;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--accent);
+    }
+    .tracking-search-btn i{ font-size: 18px; }
+    .tracking-search-btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(15,23,42,0.16);
+    }
 
     /* ===== account ===== */
-    .account-head{ align-items:flex-start; }
-    .account-head-left{ display:flex; flex-direction:column; gap: 8px; align-items:flex-start; }
-    .account-badge{
-      font-size: 10px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(124,58,237,0.16);
-      border: 1px solid rgba(124,58,237,0.22);
-      color: var(--accent);
-      font-weight: 1000;
-      letter-spacing: 0.08em;
-      user-select:none;
-    }
-    .account-badge-link{ border:none; cursor:pointer; }
-    .account-row{ display:flex; gap: 8px; align-items:center; }
+    .account-search-row{ display:flex; gap: 8px; align-items:center; }
+    .account-search-row .account-input{ flex: 1; }
+
     .account-toggle{
       margin-top: 8px;
       display:flex;
@@ -598,6 +539,7 @@
       user-select:none;
     }
     .account-toggle input{ accent-color: var(--accent); }
+
     .account-meta{
       margin-top: 8px;
       display:flex;
@@ -922,6 +864,7 @@
       color: rgba(15,23,42,0.55);
       font-weight: 900;
     }
+
     .item-box{
       margin-top: 8px;
       padding: 6px 8px;
@@ -941,9 +884,7 @@
       padding: 0;
       user-select:none;
     }
-   .item-label{ font-size: 10px; }
-
-
+    .item-label{ font-size: 10px; }
     .item-caret{
       font-size: 14px;
       color: rgba(124,58,237,0.85);
@@ -962,411 +903,248 @@
     }
     .item-text.is-collapsed{ display:none; }
 
+    /* ✅ 기타(아코디언) 펼쳤을 때 하위 목록만 스크롤 */
+    #googleEtcBody{
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    #googleEtcBody::-webkit-scrollbar{ width: 8px; }
+    #googleEtcBody::-webkit-scrollbar-thumb{
+      background: rgba(15,23,42,0.18);
+      border-radius: 999px;
+    }
+    #googleEtcBody::-webkit-scrollbar-track{ background: transparent; }
 
-      /* ✅ 기타(아코디언) 펼쳤을 때 하위 목록만 스크롤 */
-#googleEtcBody{
-  max-height: 280px;       /* 필요하면 240~360 사이로 조절 */
-  overflow-y: auto;
-  padding-right: 4px;      /* 스크롤바 공간 */
-}
+    /* ✅ sidebar top date */
+    .sidebar-date{
+      width: fit-content;
+      margin: 8px auto 14px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 1000;
+      letter-spacing: -0.01em;
+      color: #6d28d9;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 999px;
+      box-shadow:
+        0 6px 14px rgba(15,23,42,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+      user-select: none;
+    }
 
-/* (선택) 스크롤바 예쁘게 */
-#googleEtcBody::-webkit-scrollbar{ width: 8px; }
-#googleEtcBody::-webkit-scrollbar-thumb{
-  background: rgba(15,23,42,0.18);
-  border-radius: 999px;
-}
-#googleEtcBody::-webkit-scrollbar-track{ background: transparent; }
+    /* ===== Search widget only (narrower) ===== */
+    .search-widget{
+      width: 480px;
+      max-width: calc(100vw - 120px);
+    }
+    #swStatus{
+      margin: 8px 2px 10px;
+      font-size: 12px;
+      font-weight: 900;
+      color: rgba(15,23,42,.65);
+    }
+    .sw-result{
+      border-radius:16px;
+      overflow:hidden;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(15,23,42,0.08);
+      max-height: 62vh;
+      overflow:auto;
+    }
+    .sw-table{
+      width:100%;
+      border-collapse:collapse;
+      table-layout: fixed;
+      font-size:12px;
+    }
+    .sw-table th, .sw-table td{
+      padding: 8px 10px;
+      border-bottom:1px solid rgba(15,23,42,0.06);
+      vertical-align:middle;
+    }
+    .sw-table th{
+      position:sticky;
+      top:0;
+      background: rgba(255,255,255,0.92);
+      z-index:2;
+      font-size:11px;
+      color: rgba(15,23,42,0.65);
+      font-weight: 1000;
+      text-align:left;
+    }
+    .sw-table th:last-child,
+    .sw-table td:last-child{ text-align:right; }
+    .sw-table tbody tr:hover td{ background: rgba(124,58,237,0.06); }
 
-/* ✅ 검색창 + 조회 버튼 한 줄 */
-.tracking-search-row{
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
+    .sw-td-name{ text-align:left; }
+    .sw-td-color{ text-align:left; }
+    .sw-td-code{
+      text-align:left;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+    }
+    .sw-name{
+      font-weight:1000;
+      color: rgba(15,23,42,0.92);
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .sw-sub{
+      font-size:11px;
+      font-weight:800;
+      color: rgba(15,23,42,0.60);
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .sw-stock-wrap{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap: 8px;
+    }
+    .sw-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width: 46px;
+      padding: 4px 10px;
+      border-radius:999px;
+      font-weight:1000;
+      font-size:11px;
+      background: rgba(124,58,237,0.10);
+      border: 1px solid rgba(124,58,237,0.18);
+      color: rgba(124,58,237,0.95);
+    }
+    .sw-pill.low{
+      background: rgba(236,72,153,0.10);
+      border-color: rgba(236,72,153,0.18);
+      color: rgba(236,72,153,0.95);
+    }
+    .sw-pill.mid{
+      background: rgba(234,179,8,0.12);
+      border-color: rgba(234,179,8,0.20);
+      color: rgba(161,98,7,0.95);
+    }
+    .sw-pill-btn{ cursor:pointer; }
+    .sw-pill-btn:disabled{ opacity:.45; cursor:not-allowed; }
 
-/* input은 기존 스타일 유지 */
-.tracking-search-row .tracking-input{
-  flex: 1;
-}
+    .sw-acc-btn{
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 10px 18px rgba(15,23,42,0.08);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 14px;
+      color: rgba(15,23,42,0.70);
+      transition: transform .12s ease;
+    }
+    .sw-acc-btn:hover{ transform: translateY(-1px); }
+    .sw-acc-btn[aria-expanded="true"]{ color: rgba(124,58,237,0.95); }
 
-/* ✅ 작은 조회 버튼 */
-.tracking-search-btn{
-  flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-}
+    .sw-detail{
+      margin: 8px 0;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(15,23,42,0.08);
+      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
+      padding: 10px;
+    }
+    .sw-kv{
+      display:grid;
+      grid-template-columns: 80px 1fr 80px 1fr;
+      gap: 6px 10px;
+      font-size: 11px;
+    }
+    .sw-k{ font-weight: 1000; color: rgba(15,23,42,0.55); }
+    .sw-v{ font-weight: 900; color: rgba(15,23,42,0.88); overflow:hidden; text-overflow: ellipsis; }
 
-.tracking-search-btn i{
-  font-size: 18px;
-}
+    /* ✅ 상세페이지 프리뷰 모달 */
+    .sw-preview{
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.35);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index: 9999;
+    }
+    .sw-preview.show{ display:flex; }
 
-.tracking-search-btn:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 14px 24px rgba(15,23,42,0.16);
-}
+    .sw-preview-box{
+      width: min(980px, calc(100vw - 40px));
+      height: min(720px, calc(100vh - 60px));
+      border-radius: 18px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: 0 24px 70px rgba(15,23,42,0.28);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .sw-preview-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(15,23,42,0.08);
+      background: rgba(255,255,255,0.92);
+    }
+    .sw-preview-title{
+      font-size: 13px;
+      font-weight: 1000;
+      color: rgba(15,23,42,0.86);
+    }
+    .sw-preview-close{
+      border:none;
+      width:34px;height:34px;
+      border-radius: 12px;
+      cursor:pointer;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
+      font-weight: 1000;
+    }
+    .sw-preview-body{ flex:1; min-height:0; }
+    #swPreviewFrame{ width:100%; height:100%; border:0; background:#fff; }
 
-
-.tracking-body,
-.tracking-result{
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-}
-
-
-#trackingFrame{
-  border: 0;
-  display: block;
-
-  transform: scale(0.6);
-  transform-origin: top left;
-
-  width: calc(100% / 0.6);
-  height: calc(100% / 0.6);
-}
-   
-.account-search-row{
-  display:flex;
-  gap: 8px;
-  align-items:center;
-}
-.account-search-row .account-input{
-  flex: 1;
-}
-
-.phone-output{
-  min-height: 42px;
-  display:flex;
-  align-items:center;
-}
-/* ✅ sidebar top date */
-.sidebar-date{
-  width: fit-content;
-  margin: 8px auto 14px;
-  padding: 6px 12px;
-
-  font-size: 12px;
-  font-weight: 1000;
-  letter-spacing: -0.01em;
-
-  color: #6d28d9;               /* 진한 보라 텍스트 */
-  background: rgba(255,255,255,0.75);
-  border: 1px solid rgba(124,58,237,0.25);
-  border-radius: 999px;
-
-  box-shadow:
-    0 6px 14px rgba(15,23,42,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-
-  user-select: none;
-}
-
-
-/* ===== Search widget only (narrower) ===== */
-.search-widget{
-  width: 480px;                 /* ✅ 720 -> 480 (1/3 줄임) */
-  max-width: calc(100vw - 120px);
-}
-
-/* 상단 상태 텍스트(업데이트 시간 제거용) */
-#swStatus{
-  margin: 8px 2px 10px;
-  font-size: 12px;
-  font-weight: 900;
-  color: rgba(15,23,42,.65);
-}
-
-/* ===== Result table (accordion) ===== */
-/* ===== Result table (NO accordion, aligned) ===== */
-.sw-result{
-  border-radius:16px;
-  overflow:hidden;
-  background: rgba(255,255,255,0.72);
-  border: 1px solid rgba(15,23,42,0.08);
-  max-height: 62vh;
-  overflow:auto;
-}
-
-.sw-table{
-  width:100%;
-  border-collapse:collapse;
-  table-layout: fixed; /* ✅ colgroup 기반 고정 */
-  font-size:12px;
-}
-
-.sw-table th, .sw-table td{
-  padding: 8px 10px;
-  border-bottom:1px solid rgba(15,23,42,0.06);
-  vertical-align:middle;
-}
-
-.sw-table th{
-  position:sticky;
-  top:0;
-  background: rgba(255,255,255,0.92);
-  z-index:2;
-  font-size:11px;
-  color: rgba(15,23,42,0.65);
-  font-weight: 1000;
-  text-align:left;
-}
-
-/* ✅ 마지막 열(재고)만 오른쪽 정렬 */
-.sw-table th:last-child,
-.sw-table td:last-child{
-  text-align:right;
-}
-
-.sw-table tbody tr:hover td{
-  background: rgba(124,58,237,0.06);
-}
-
-/* ✅ 상품명/칼라 간격이 벌어진 느낌 줄이기:
-   - 상품명 열 비중 ↑
-   - 칼라 열 비중 ↓
-   - 텍스트 줄바꿈 억제 */
-.sw-td-name{ text-align:left; }
-.sw-td-color{ text-align:left; }
-.sw-td-code{ text-align:left; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; }
-
-.sw-name{
-  font-weight:1000;
-  color: rgba(15,23,42,0.92);
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.sw-sub{
-  font-size:11px;
-  font-weight:800;
-  color: rgba(15,23,42,0.60);
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-/* 재고 pill + 이동 버튼 */
-.sw-stock-wrap{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap: 8px;
-}
-
-.sw-pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width: 46px;
-  padding: 4px 10px;
-  border-radius:999px;
-  font-weight:1000;
-  font-size:11px;
-  background: rgba(124,58,237,0.10);
-  border: 1px solid rgba(124,58,237,0.18);
-  color: rgba(124,58,237,0.95);
-}
-
-.sw-pill.low{
-  background: rgba(236,72,153,0.10);
-  border-color: rgba(236,72,153,0.18);
-  color: rgba(236,72,153,0.95);
-}
-.sw-pill.mid{
-  background: rgba(234,179,8,0.12);
-  border-color: rgba(234,179,8,0.20);
-  color: rgba(161,98,7,0.95);
-}
-
-/* ✅ “재고 버튼 누르면 사이트 이동” 버튼 */
-.sw-go{
-  width: 30px;
-  height: 30px;
-  border-radius: 12px;
-  border: 1px solid rgba(15,23,42,0.10);
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.08);
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size: 14px;
-  color: rgba(15,23,42,0.70);
-  transition: transform .12s ease;
-}
-.sw-go:hover{ transform: translateY(-1px); }
-.sw-go:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-  transform:none;
-}
-/* ✅ 상세페이지 프리뷰 모달 */
-.sw-preview{
-  position: fixed;
-  inset: 0;
-  background: rgba(15,23,42,0.35);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index: 9999;
-}
-.sw-preview.show{ display:flex; }
-
-.sw-preview-box{
-  width: min(980px, calc(100vw - 40px));
-  height: min(720px, calc(100vh - 60px));
-  border-radius: 18px;
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(255,255,255,0.75);
-  box-shadow: 0 24px 70px rgba(15,23,42,0.28);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-
-.sw-preview-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding: 10px 12px;
-  border-bottom: 1px solid rgba(15,23,42,0.08);
-  background: rgba(255,255,255,0.92);
-}
-.sw-preview-title{
-  font-size: 13px;
-  font-weight: 1000;
-  color: rgba(15,23,42,0.86);
-}
-.sw-preview-close{
-  border:none;
-  width:34px;height:34px;
-  border-radius: 12px;
-  cursor:pointer;
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-  font-weight: 1000;
-}
-
-.sw-preview-body{ flex:1; min-height:0; }
-#swPreviewFrame{ width:100%; height:100%; border:0; background:#fff; }
-
-/* ✅ 아코디언 토글 버튼 */
-.sw-acc-btn{
-  width: 30px;
-  height: 30px;
-  border-radius: 12px;
-  border: 1px solid rgba(15,23,42,0.10);
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.08);
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size: 14px;
-  color: rgba(15,23,42,0.70);
-  transition: transform .12s ease;
-}
-.sw-acc-btn:hover{ transform: translateY(-1px); }
-.sw-acc-btn[aria-expanded="true"]{ color: rgba(124,58,237,0.95); }
-
-/* ✅ 디테일(아코디언 펼침 영역) */
-.sw-detail{
-  margin: 8px 0;
-  border-radius: 16px;
-  background: rgba(255,255,255,0.78);
-  border: 1px solid rgba(15,23,42,0.08);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-  padding: 10px;
-}
-.sw-kv{
-  display:grid;
-  grid-template-columns: 80px 1fr 80px 1fr;
-  gap: 6px 10px;
-  font-size: 11px;
-}
-.sw-k{
-  font-weight: 1000;
-  color: rgba(15,23,42,0.55);
-}
-.sw-v{
-  font-weight: 900;
-  color: rgba(15,23,42,0.88);
-  overflow:hidden;
-  text-overflow: ellipsis;
-}
-.sw-actions{
-  display:flex;
-  justify-content:flex-end;
-  margin-top: 10px;
-}
-.sw-a{
-  font-size: 11px;
-  font-weight: 1000;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(124,58,237,0.12);
-  border: 1px solid rgba(124,58,237,0.20);
-  color: rgba(124,58,237,0.95);
-  text-decoration:none;
-}
-.sw-a:hover{ transform: translateY(-1px); }
-/* ✅ 재고 pill 버튼화 */
-.sw-pill-btn{
-  cursor: pointer;
-}
-.sw-pill-btn:disabled{
-  opacity: .45;
-  cursor: not-allowed;
-}
-
-.search-search-row{
-  display:flex;
-  gap: 8px;
-  align-items:center;
-}
-
-.search-input{
-  flex:1;
-  width:100%;
-  border:none;
-  outline:none;
-  border-radius: 16px;
-  padding: 10px 12px;
-  background: rgba(255,255,255,0.85);
-  border: 1px solid rgba(15,23,42,0.08);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-  font-weight: 800;
-}
-
-.search-mini-btn{
-  flex:0 0 auto;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  border:none;
-  cursor:pointer;
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-}
-.search-mini-btn:hover{
-  transform: translateY(-1px);
-}
-
-
+    .search-search-row{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+    }
+    .search-input{
+      flex:1;
+      width:100%;
+      border:none;
+      outline:none;
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(15,23,42,0.08);
+      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
+      font-weight: 800;
+    }
+    .search-mini-btn{
+      flex:0 0 auto;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border:none;
+      cursor:pointer;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
+    }
+    .search-mini-btn:hover{ transform: translateY(-1px); }
 
     @media (max-width: 900px) {
       body{ padding:10px; overflow:auto; }
@@ -1388,7 +1166,7 @@
 
   <!-- main sidebar -->
   <nav class="main-sidebar">
-      <div class="sidebar-date" id="sidebarDate"></div>
+    <div class="sidebar-date" id="sidebarDate"></div>
 
     <div class="nav-list">
       <button class="nav-item active" data-id="search" data-href="https://wskimkj.github.io/search/">
@@ -1430,9 +1208,8 @@
     </div>
 
     <button class="nav-footer-btn" id="searchWidgetBtn" type="button" title="상품 검색 위젯">
-  <i class='bx bx-search-alt-2'></i><span>Items</span>
-</button>
-
+      <i class='bx bx-search-alt-2'></i><span>Items</span>
+    </button>
 
     <button class="nav-footer-btn" id="phoneFormatBtn" type="button" title="전화번호 포맷">
       <i class='bx bx-phone'></i><span>Phone</span>
@@ -1484,44 +1261,54 @@
         </button>
 
         <div class="sub-acc-body" id="googleEtcBody" hidden>
-            <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1rnp4nddpDtfewbH0GUMAvRYykGiITVaqDKIIKGJSWyc/edit?gid=1054398719#gid=1054398719">
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1rnp4nddpDtfewbH0GUMAvRYykGiITVaqDKIIKGJSWyc/edit?gid=1054398719#gid=1054398719">
             <i class='bx bxs-spreadsheet'></i><span>결제 내역</span>
           </button>
-          
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0/edit?gid=0#gid=0">
             <i class='bx bxs-spreadsheet'></i><span>계정 </span>
           </button>
-            <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1jbQoWqwIEOZhe2hhQwgdOdvIUPXvMAOubmED0xylOY4/edit?gid=1761427069#gid=1761427069">
+
+          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1jbQoWqwIEOZhe2hhQwgdOdvIUPXvMAOubmED0xylOY4/edit?gid=1761427069#gid=1761427069">
             <i class='bx bxs-spreadsheet'></i><span>면세점</span>
           </button>
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1zzqZGk8C30LZo3BXxhzFSNpe_GzgBVeDw4X5eIVystc/edit?gid=100436764#gid=100436764">
             <i class='bx bxs-spreadsheet'></i><span>생산팀</span>
           </button>
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1F4EC5w1VPmFpwSbw0LuIv5QkwSSs8YkCBPZKY3h-z64/edit?gid=0#gid=0">
             <i class='bx bxs-spreadsheet'></i><span>SCM</span>
           </button>
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1fcAxrvEENtakHa8rdtebbOuX5aVga37kMjGqqkpnW_o/edit?gid=960948614#gid=960948614">
             <i class='bx bxs-spreadsheet'></i><span>입고 예정</span>
           </button>
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1bMkC-aPMY8Ot2Ye7At9RkijD3ve3grlWC1tM3eZbGng/edit?gid=1325056976#gid=1325056976">
             <i class='bx bxs-spreadsheet'></i><span>25년 재고</span>
           </button>
-        
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1H2hiIfmhHf7NmSDINNGZ5jOD-mx3Uw_JvukmU51IwRA/edit?pli=1&gid=1629484064#gid=1629484064">
             <i class='bx bxs-spreadsheet'></i><span>공구일정</span>
           </button>
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1NIrkvMGHIs6Ho0KwWUD7N1q6yxFuvk6aHa2LCiftXQA/edit?gid=1834028852#gid=1834028852">
             <i class='bx bxs-spreadsheet'></i><span>[콘텐츠]기획안</span>
           </button>
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1na2Q2HN4h2h-ko9Ua4zx_XWMkEpT6mbazt1eeMKt-bA/edit?gid=2111576866#gid=2111576866">
             <i class='bx bxs-spreadsheet'></i><span>[콘텐츠]스케줄</span>
           </button>
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1fEjw9YrnDmMLwGMHST4_UCi2OuuBypdH775V6BnVRfQ/edit?gid=469621993#gid=469621993">
             <i class='bx bxs-spreadsheet'></i><span>[기획]WS 상품정보</span>
           </button>
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1_nmC5LgfcjJgUK0eL1oVaf0mPRAevY5oVUr47dyb6Ow/edit?gid=214355881#gid=214355881">
             <i class='bx bxs-spreadsheet'></i><span>[기획]BS 상품정보</span>
           </button>
+
           <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1Po6I7Q3gBl8OU85IDjpjTvtDlZhOovjxBvGdNH6wyFw/edit?gid=139252057#gid=139252057">
             <i class='bx bxs-spreadsheet'></i><span>회사문화</span>
           </button>
@@ -1556,48 +1343,44 @@
     </div>
   </div>
 
- <!-- ✅ Search widget -->
-<div class="search-widget" id="searchWidget">
-  <div class="widget-head">
-    <div class="widget-title">
-      <span class="widget-badge">SEARCH</span>
+  <!-- ✅ Search widget -->
+  <div class="search-widget" id="searchWidget">
+    <div class="widget-head">
+      <div class="widget-title">
+        <span class="widget-badge">SEARCH</span>
+      </div>
+
+      <div style="display:flex; gap:8px; align-items:center;">
+        <a id="searchOpenNewTab" class="pv-btn" href="#" target="_blank" rel="noopener">↗️</a>
+        <button class="widget-close" id="searchClose" type="button" aria-label="닫기">✕</button>
+      </div>
     </div>
 
-    <div style="display:flex; gap:8px; align-items:center;">
-      <a id="searchOpenNewTab" class="pv-btn" href="#" target="_blank" rel="noopener">↗️</a>
-      <button class="widget-close" id="searchClose" type="button" aria-label="닫기">✕</button>
+    <div class="search-search-row">
+      <input id="searchInput" class="search-input" placeholder="검색어 입력 후 Enter" />
+      <button class="search-mini-btn" id="searchGo" type="button" title="검색">🔍</button>
+    </div>
+
+    <div class="search-frame-wrapper" style="height:auto; min-height:0;">
+      <div id="swStatus">검색어를 입력하세요.</div>
+      <div id="swResult" class="sw-result"></div>
+    </div>
+
+    <!-- ✅ 상품 상세 미리보기(프리뷰) -->
+    <div class="sw-preview" id="swPreview" aria-hidden="true">
+      <div class="sw-preview-box" role="dialog" aria-modal="true">
+        <div class="sw-preview-head">
+          <div class="sw-preview-title">상품 상세</div>
+          <button type="button" class="sw-preview-close" id="swPreviewClose" aria-label="닫기">✕</button>
+        </div>
+        <div class="sw-preview-body">
+          <iframe id="swPreviewFrame" title="상품 상세 미리보기"></iframe>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="search-search-row">
-    <input id="searchInput" class="search-input" placeholder="검색어 입력 후 Enter" />
-    <button class="search-mini-btn" id="searchGo" type="button" title="검색">🔍</button>
-  </div>
-
-  <div class="search-frame-wrapper" style="height:auto; min-height:0;">
-  <div id="swStatus" style="margin:8px 2px 10px; font-size:12px; font-weight:900; color:rgba(15,23,42,.65);">
-    검색어를 입력하세요.
-  </div>
-
-  <div id="swResult" class="sw-result"></div>
-</div>
-  <!-- ✅ 상품 상세 미리보기(프리뷰) -->
-<div class="sw-preview" id="swPreview" aria-hidden="true">
-  <div class="sw-preview-box" role="dialog" aria-modal="true">
-    <div class="sw-preview-head">
-      <div class="sw-preview-title">상품 상세</div>
-      <button type="button" class="sw-preview-close" id="swPreviewClose" aria-label="닫기">✕</button>
-    </div>
-    <div class="sw-preview-body">
-      <iframe id="swPreviewFrame" title="상품 상세 미리보기"></iframe>
-    </div>
-  </div>
-</div>
-
-  </div>
-
-
-    <!-- phone widget -->
+  <!-- phone widget -->
   <div class="phone-widget" id="phoneWidget">
     <div class="widget-head">
       <div class="widget-title">
@@ -1612,10 +1395,9 @@
       <input id="phoneInput" class="phone-input" placeholder="" />
       <div class="phone-row">
         <div id="phoneOutput" class="phone-output"></div>
-      <button id="phoneCopy" class="tracking-search-btn" type="button" title="복사">
-  <i class='bx bx-copy'></i>
-</button>
-
+        <button id="phoneCopy" class="tracking-search-btn" type="button" title="복사">
+          <i class='bx bx-copy'></i>
+        </button>
       </div>
       <div id="phoneHint" class="phone-hint">.</div>
     </div>
@@ -1690,6 +1472,7 @@
       <div id="accountToast" class="account-toast">복사</div>
     </div>
   </div>
+
   <!-- calendar widget -->
   <div class="calendar-widget" id="calendarWidget">
     <div class="calendar-header">
@@ -1731,11 +1514,11 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   /* ======================
-     ✅ 상수/URL (선언 순서 중요!)
+     ✅ 상수/URL
      ====================== */
   const LAST_FRAME_KEY = "lastFrameURL";
 
-  // ✅ ACCOUNT: 반드시 ID 정의
+  // ✅ ACCOUNT
   const ACCOUNT_SHEET_ID = "1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0";
   const ACCOUNT_SHEET_URL = `https://docs.google.com/spreadsheets/d/${ACCOUNT_SHEET_ID}/edit?gid=0#gid=0`;
   const ACCOUNT_SHEET_BASE = `https://docs.google.com/spreadsheets/d/${ACCOUNT_SHEET_ID}/edit`;
@@ -1745,7 +1528,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.open(url, "_blank");
   }
 
-  // ✅ EXTRA ACCOUNT DB (추가 스프레드시트)
+  // ✅ EXTRA ACCOUNT DB
   const EXTRA_SHEET_ID = "1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY";
   const EXTRA_GID = 1617573679;
   const EXTRA_SHEET_BASE = `https://docs.google.com/spreadsheets/d/${EXTRA_SHEET_ID}/edit`;
@@ -1760,15 +1543,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const EVENT_SHEET_URL = `https://docs.google.com/spreadsheets/d/${EVENT_SHEET_ID}/edit?gid=${EVENT_SHEET_GID}#gid=${EVENT_SHEET_GID}`;
   const EVENT_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${EVENT_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${EVENT_SHEET_GID}`;
 
-
-
   /* ======================
      Helpers (공용)
      ====================== */
   function pad2(n){ return String(n).padStart(2, "0"); }
+
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
+
   function dateKeyLocal(d){
     return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
   }
+
+  function keyToDateLocal(key){
+    const [y,m,d] = String(key).split("-").map(Number);
+    return new Date(y, (m||1)-1, d||1);
+  }
+
   function normalizeToKey(value){
     if(!value) return null;
     let s = String(value).trim();
@@ -1788,33 +1585,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if(!isNaN(d)) return dateKeyLocal(d);
     return null;
   }
-  function inRangeKey(dayKey, startKey, endKey){
-    return dayKey >= startKey && dayKey <= endKey;
-  }
-
-  const KOR_DOW = ["일","월","화","수","목","금","토"];
-  function formatMDKorean(dateKey){
-    const [y,m,d] = dateKey.split("-").map(Number);
-    const dt = new Date(y, m-1, d);
-    return `${pad2(m)}/${pad2(d)}(${KOR_DOW[dt.getDay()]})`;
-  }
 
   function formatBulletLines(text){
     const s = String(text ?? "");
     return s.replace(/\s*■\s*/g, "\n■ ").replace(/\n{3,}/g, "\n\n").trim();
   }
-  function escapeHtml(str){
-  return String(str ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
+
   function textToHtmlWithBreaks(text){
     const safe = escapeHtml(String(text ?? ""));
     return safe.replace(/\r\n|\r|\n/g, "<br>");
   }
+
   function cleanTarget(raw){
     let t = String(raw ?? "").trim();
     t = t.replace(/^"+|"+$/g, "").trim();
@@ -1823,23 +1604,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function attachAutoHide(panelEl, hideFn, delay = 650){
-  let t = null;
+    let t = null;
+    const schedule = () => { clearTimeout(t); t = setTimeout(() => hideFn(), delay); };
+    const cancel = () => { clearTimeout(t); t = null; };
 
-  const schedule = () => {
-    clearTimeout(t);
-    t = setTimeout(() => hideFn(), delay);
-  };
+    panelEl.addEventListener("mouseleave", schedule);
+    panelEl.addEventListener("mouseenter", cancel);
+    panelEl.addEventListener("focusin", cancel);
+  }
 
-  const cancel = () => {
-    clearTimeout(t);
-    t = null;
-  };
+  function parseCsvGeneric(text){
+    const rows = [];
+    let row = [];
+    let cur = "";
+    let inQuotes = false;
 
-  panelEl.addEventListener("mouseleave", schedule);
-  panelEl.addEventListener("mouseenter", cancel);
-  panelEl.addEventListener("focusin", cancel);  // 내부 input 클릭/포커스 시 유지
-}
+    if(text && text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
 
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      const next = text[i + 1];
+
+      if (ch === '"') {
+        if (inQuotes && next === '"') { cur += '"'; i++; }
+        else inQuotes = !inQuotes;
+        continue;
+      }
+      if (!inQuotes && ch === ",") { row.push(cur); cur = ""; continue; }
+      if (!inQuotes && (ch === "\n" || ch === "\r")) {
+        if (ch === "\r" && next === "\n") i++;
+        row.push(cur);
+        if (row.some(c => (c || "").toString().trim() !== "")) rows.push(row);
+        row = [];
+        cur = "";
+        continue;
+      }
+      cur += ch;
+    }
+
+    row.push(cur);
+    if (row.some(c => (c || "").toString().trim() !== "")) rows.push(row);
+    return rows;
+  }
 
   /* ======================
      DOM
@@ -1870,6 +1676,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const accountCount = document.getElementById("accountCount");
   const accountToast = document.getElementById("accountToast");
   const accountSheetBtn = document.getElementById("accountSheetBtn");
+  const accountGo = document.getElementById("accountGo");
 
   const mainFrame = document.getElementById("mainFrame");
   const navItems = document.querySelectorAll(".nav-item");
@@ -1889,30 +1696,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const todayBadge = document.getElementById("todayBadge");
   const popup = document.getElementById("datePopup");
   const popupClose = document.getElementById("popupClose");
-  const accountGo = document.getElementById("accountGo");
-  // ✅ sidebar date (MM/DD(요일))
+
+  // sidebar date (DD(요일))
   const sidebarDateEl = document.getElementById("sidebarDate");
-  const KOR_DOW2 = ["일","월","화","수","목","금","토"];
-
-  const searchWidgetBtn = document.getElementById("searchWidgetBtn");
-const searchWidget = document.getElementById("searchWidget");
-const searchClose = document.getElementById("searchClose");
-const searchInput = document.getElementById("searchInput");
-const searchGo = document.getElementById("searchGo");
-const searchOpenNewTab = document.getElementById("searchOpenNewTab");
-
-
   function setSidebarToday(){
     if(!sidebarDateEl) return;
-     const now = new Date();
-  const dd = String(now.getDate()).padStart(2, "0");
-  const dow = ["일","월","화","수","목","금","토"][now.getDay()];
-
-  sidebarDateEl.textContent = `${dd}(${dow})`;
-}
-
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, "0");
+    const dow = ["일","월","화","수","목","금","토"][now.getDay()];
+    sidebarDateEl.textContent = `${dd}(${dow})`;
+  }
   setSidebarToday();
-
 
   /* ======================
      iframe restore
@@ -1922,6 +1716,32 @@ const searchOpenNewTab = document.getElementById("searchOpenNewTab");
     mainFrame.src = last ? last : "https://wskimkj.github.io/search/";
   }
   function rememberFrame(url){ localStorage.setItem(LAST_FRAME_KEY, url); }
+
+  function normalizeUrl(u){
+    try{
+      const url = new URL(u, location.href);
+      url.hash = "";
+      return url.toString();
+    }catch{
+      return (u || "").split("#")[0];
+    }
+  }
+
+  function syncNavActiveByFrame(){
+    const cur = normalizeUrl(mainFrame.src);
+    let matched = null;
+
+    navItems.forEach(b=>{
+      const href = b.dataset.href ? normalizeUrl(b.dataset.href) : "";
+      if(href && cur.startsWith(href)) matched = b;
+    });
+
+    if(matched){
+      navItems.forEach(b=>b.classList.remove("active"));
+      matched.classList.add("active");
+    }
+  }
+
   restoreLastFrame();
   syncNavActiveByFrame();
 
@@ -1932,36 +1752,7 @@ const searchOpenNewTab = document.getElementById("searchOpenNewTab");
       if(real) rememberFrame(real);
     }catch{}
     syncNavActiveByFrame();
-
   });
-
-
-  function normalizeUrl(u){
-  try{
-    const url = new URL(u, location.href);
-    url.hash = "";
-    return url.toString();
-  }catch{
-    return (u || "").split("#")[0];
-  }
-}
-
-function syncNavActiveByFrame(){
-  const cur = normalizeUrl(mainFrame.src);
-  let matched = null;
-
-  navItems.forEach(b=>{
-    const href = b.dataset.href ? normalizeUrl(b.dataset.href) : "";
-    if(href && cur.startsWith(href)) matched = b;
-  });
-
-  // 일치하는 게 있으면 그거만 active
-  if(matched){
-    navItems.forEach(b=>b.classList.remove("active"));
-    matched.classList.add("active");
-  }
-}
-
 
   /* ======================
      UI helpers
@@ -1972,12 +1763,14 @@ function syncNavActiveByFrame(){
   function hideTracking(){ trackingWidget.classList.remove("visible"); }
   function hideAccount(){ accountWidget.classList.remove("visible"); }
 
+  const searchWidgetBtn = document.getElementById("searchWidgetBtn");
+  const searchWidget = document.getElementById("searchWidget");
+  function hideSearch(){ searchWidget.classList.remove("visible"); }
+
   function hideAllSubSidebars(){
     subSidebar.classList.remove("visible");
     utilSidebar.classList.remove("visible");
   }
-  function hideSearch(){ searchWidget.classList.remove("visible"); }
-
 
   function closeAllPanels(){
     hideAllSubSidebars();
@@ -1985,14 +1778,13 @@ function syncNavActiveByFrame(){
     hidePhone();
     hideTracking();
     hideAccount();
-   hideSearch();   
+    hideSearch();
     closePopup();
   }
 
   function placeSubSidebarNear(btn, panel){
     const r = btn.getBoundingClientRect();
     const left = 96;
-
     const h = panel.offsetHeight || 220;
     let top = r.top + window.scrollY + (r.height/2) - (h/2);
 
@@ -2003,438 +1795,358 @@ function syncNavActiveByFrame(){
     panel.style.left = left + "px";
     panel.style.top  = top  + "px";
   }
-
   function showSubSidebar(panel, anchorBtn){
     panel.classList.add("visible");
     requestAnimationFrame(()=> placeSubSidebarNear(anchorBtn, panel));
   }
 
+  /* ======================
+     ✅ Search widget (Standalone)
+     ====================== */
+  (function(){
+    const PRODUCT_SHEET_ID = "1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc";
+    const PRODUCT_GID = "885700988";
+    const STOCK_SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
+    const STOCK_GID = "366983013";
 
-/* ======================
-   ✅ Search widget (Standalone, NO iframe)
-   ====================== */
-(function(){
-  // ==== (search 페이지 참고한) 시트 설정 ====
-  const PRODUCT_SHEET_ID = "1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc";
-  const PRODUCT_GID = "885700988";
+    const PRODUCT_CSV_URL = `https://docs.google.com/spreadsheets/d/${PRODUCT_SHEET_ID}/export?format=csv&gid=${PRODUCT_GID}`;
+    const STOCK_CSV_URL   = `https://docs.google.com/spreadsheets/d/${STOCK_SHEET_ID}/export?format=csv&gid=${STOCK_GID}`;
 
-  const STOCK_SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
-  const STOCK_GID = "366983013";
+    const btn = document.getElementById("searchWidgetBtn");
+    const panel = document.getElementById("searchWidget");
+    const closeBtn = document.getElementById("searchClose");
+    const input = document.getElementById("searchInput");
+    const goBtn = document.getElementById("searchGo");
+    const openNewTab = document.getElementById("searchOpenNewTab");
+    const statusEl = document.getElementById("swStatus");
+    const resultEl = document.getElementById("swResult");
 
-  const PRODUCT_CSV_URL = `https://docs.google.com/spreadsheets/d/${PRODUCT_SHEET_ID}/export?format=csv&gid=${PRODUCT_GID}`;
-  const STOCK_CSV_URL   = `https://docs.google.com/spreadsheets/d/${STOCK_SHEET_ID}/export?format=csv&gid=${STOCK_GID}`;
+    if(!btn || !panel || !closeBtn || !input || !goBtn || !openNewTab || !statusEl || !resultEl) return;
 
-  // ==== DOM ====
-  const btn = document.getElementById("searchWidgetBtn");
-  const panel = document.getElementById("searchWidget");
-  const closeBtn = document.getElementById("searchClose");
-  const input = document.getElementById("searchInput");
-  const goBtn = document.getElementById("searchGo");
-  const openNewTab = document.getElementById("searchOpenNewTab");
+    const previewEl = document.getElementById("swPreview");
+    const previewFrame = document.getElementById("swPreviewFrame");
+    const previewClose = document.getElementById("swPreviewClose");
 
-  const statusEl = document.getElementById("swStatus");
-  const resultEl = document.getElementById("swResult");
-
-  if(!btn || !panel || !closeBtn || !input || !goBtn || !openNewTab || !statusEl || !resultEl) return;
-
-const previewEl = document.getElementById("swPreview");
-const previewFrame = document.getElementById("swPreviewFrame");
-const previewClose = document.getElementById("swPreviewClose");
-
-function openPreview(url){
-  if(!url) return;
-  previewFrame.src = url;
-  previewEl.classList.add("show");
-  previewEl.setAttribute("aria-hidden", "false");
-}
-function closePreview(){
-  previewEl.classList.remove("show");
-  previewEl.setAttribute("aria-hidden", "true");
-  previewFrame.src = "about:blank";
-}
-
-previewClose.addEventListener("click", (e)=>{ e.stopPropagation(); closePreview(); });
-previewEl.addEventListener("click", (e)=>{
-  // 바깥(오버레이) 클릭 시 닫기
-  if(e.target === previewEl) closePreview();
-});
-document.addEventListener("keydown", (e)=>{
-  if(e.key !== "Escape") return;
-  if(previewEl.classList.contains("show")) return; // 프리뷰가 열려있으면 위젯은 안 닫음
-  closeWidget();
-});
-
-  
-  // ==== state ====
-  const LAST_Q_KEY = "sw:lastQuery";
-  let loaded = false;
-
-  let products = []; // {productCode,colorName,barcode,material,colorCode,productName,rawName}
-  let stockEntriesByColorCode = {}; // colorCode -> [{warehouse,size,qty,productNo}]
-  let sizeByColorCode = {};
-  let productNoByColorCode = {}; // colorCode -> productNo
-  let stockUpdatedAt = "";
-
-  // ==== utils ====
-  function escapeHtml(str){
-    return String(str ?? "")
-      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
-  }
-  function normalizeProductNo(v){
-    if(v == null) return "";
-    return String(v).trim().replace(/[^\d]/g,"");
-  }
-  function cleanProductName(name){
-    if(!name) return "";
-    return String(name)
-      .replace(/[\r\n]+/g, "")
-      .replace(/\u00A0/g, " ")
-      .replace(/\[[^\]]*\]/g, "")
-      .replace(/^\s*[0-9]{2}\s*(FW|SS)\s*/i, "")
-      .replace(/\s*\([^)]*\)\s*[^()]*$/, "")
-      .replace(/\([^)]*\)\s*$/, "")
-      .replace(/\s{2,}/g, " ")
-      .trim();
-  }
-
-  async function fetchText(url, timeoutMs=12000){
-    const ctrl = new AbortController();
-    const t = setTimeout(()=>ctrl.abort(), timeoutMs);
-    try{
-      const res = await fetch(url, { signal: ctrl.signal, cache:"no-store" });
-      if(!res.ok) throw new Error(`CSV fetch 실패 (${res.status})`);
-      const text = await res.text();
-      if(/<!doctype html>|<html/i.test(text)) throw new Error("CSV 대신 HTML(권한/게시 설정 확인)");
-      return text;
-    } finally {
-      clearTimeout(t);
+    function openPreview(url){
+      if(!url) return;
+      previewFrame.src = url;
+      previewEl.classList.add("show");
+      previewEl.setAttribute("aria-hidden", "false");
     }
-  }
+    function closePreview(){
+      previewEl.classList.remove("show");
+      previewEl.setAttribute("aria-hidden", "true");
+      previewFrame.src = "about:blank";
+    }
 
-  // 아주 단순 CSV 파서(네 admin 안에도 이미 parseCsvGeneric이 있지만, 위젯만 독립으로 씀)
-  function parseCsv(text){
-    const rows = [];
-    let row = [];
-    let cur = "";
-    let inQuotes = false;
+    previewClose.addEventListener("click", (e)=>{ e.stopPropagation(); closePreview(); });
+    previewEl.addEventListener("click", (e)=>{ if(e.target === previewEl) closePreview(); });
 
-    if(text && text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    const LAST_Q_KEY = "sw:lastQuery";
+    let loaded = false;
 
-    for(let i=0;i<text.length;i++){
-      const ch = text[i];
-      const next = text[i+1];
+    let products = []; // {productCode,colorName,barcode,material,colorCode,productName,rawName}
+    let stockEntriesByColorCode = {}; // colorCode -> [{warehouse,size,qty,productNo}]
+    let sizeByColorCode = {};
+    let productNoByColorCode = {};
 
-      if(ch === '"'){
-        if(inQuotes && next === '"'){ cur += '"'; i++; }
-        else inQuotes = !inQuotes;
-        continue;
+    function normalizeProductNo(v){
+      if(v == null) return "";
+      return String(v).trim().replace(/[^\d]/g,"");
+    }
+    function cleanProductName(name){
+      if(!name) return "";
+      return String(name)
+        .replace(/[\r\n]+/g, "")
+        .replace(/\u00A0/g, " ")
+        .replace(/\[[^\]]*\]/g, "")
+        .replace(/^\s*[0-9]{2}\s*(FW|SS)\s*/i, "")
+        .replace(/\s*\([^)]*\)\s*[^()]*$/, "")
+        .replace(/\([^)]*\)\s*$/, "")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+    }
+
+    async function fetchText(url, timeoutMs=12000){
+      const ctrl = new AbortController();
+      const t = setTimeout(()=>ctrl.abort(), timeoutMs);
+      try{
+        const res = await fetch(url, { signal: ctrl.signal, cache:"no-store" });
+        if(!res.ok) throw new Error(`CSV fetch 실패 (${res.status})`);
+        const text = await res.text();
+        if(/<!doctype html>|<html/i.test(text)) throw new Error("CSV 대신 HTML(권한/게시 설정 확인)");
+        return text;
+      } finally {
+        clearTimeout(t);
       }
-      if(!inQuotes && ch === ","){ row.push(cur); cur=""; continue; }
-      if(!inQuotes && (ch === "\n" || ch === "\r")){
-        if(ch === "\r" && next === "\n") i++;
-        row.push(cur);
-        rows.push(row);
-        row=[]; cur="";
-        continue;
+    }
+
+    async function loadProducts(){
+      const text = await fetchText(PRODUCT_CSV_URL);
+      const rows = parseCsvGeneric(text);
+      if(rows.length < 2) return;
+
+      const idxProductCode = 5;
+      const idxColorName   = 15;
+      const idxBarcode     = 20;
+      const idxMaterial    = 22;
+      const idxColorCode   = 25;
+      const idxProductName = 26;
+
+      products = rows.slice(1).map(r=>{
+        const rawName = r[idxProductName] || "";
+        const productName = cleanProductName(rawName);
+        return {
+          productCode: r[idxProductCode] || "",
+          colorName: r[idxColorName] || "",
+          barcode: r[idxBarcode] || "",
+          material: r[idxMaterial] || "",
+          colorCode: r[idxColorCode] || "",
+          rawName,
+          productName
+        };
+      }).filter(p=>p.productName && p.colorCode);
+    }
+
+    async function loadStock(){
+      const text = await fetchText(STOCK_CSV_URL);
+      const rows = parseCsvGeneric(text);
+      if(!rows.length) return;
+
+      stockEntriesByColorCode = {};
+      sizeByColorCode = {};
+      productNoByColorCode = {};
+
+      for(let i=1;i<rows.length;i++){
+        const r = rows[i] || [];
+        const colorCode = (r[0] || "").trim();
+        if(!colorCode) continue;
+
+        const size = (r[1] || "").trim();
+        const warehouse = (r[2] || "").trim() || "미정";
+
+        const productNo = (r[9] || "").toString().trim(); // J
+        if(productNo && !productNoByColorCode[colorCode]) productNoByColorCode[colorCode] = productNo;
+
+        let qtyRaw = (r[10] || "").toString().trim(); // K
+        if(!qtyRaw) continue;
+        qtyRaw = qtyRaw.replace(/,/g,"");
+        const qty = Number(qtyRaw);
+        if(Number.isNaN(qty)) continue;
+
+        if(!stockEntriesByColorCode[colorCode]) stockEntriesByColorCode[colorCode] = [];
+        stockEntriesByColorCode[colorCode].push({ warehouse, size, qty, productNo });
+
+        if(!sizeByColorCode[colorCode] && size) sizeByColorCode[colorCode] = size;
       }
-      cur += ch;
     }
-    row.push(cur);
-    rows.push(row);
 
-    // 빈줄 제거
-    return rows.filter(r => r.some(c => String(c??"").trim() !== ""));
-  }
-
-  async function loadProducts(){
-    const text = await fetchText(PRODUCT_CSV_URL);
-    const rows = parseCsv(text);
-    if(rows.length < 2) return;
-
-    // search 페이지 인덱스 그대로 참고
-    const idxProductCode = 5;
-    const idxColorName   = 15;
-    const idxBarcode     = 20;
-    const idxMaterial    = 22;
-    const idxColorCode   = 25;
-    const idxProductName = 26;
-
-    products = rows.slice(1).map(r=>{
-      const rawName = r[idxProductName] || "";
-      const productName = cleanProductName(rawName);
-      return {
-        productCode: r[idxProductCode] || "",
-        colorName: r[idxColorName] || "",
-        barcode: r[idxBarcode] || "",
-        material: r[idxMaterial] || "",
-        colorCode: r[idxColorCode] || "",
-        rawName,
-        productName
-      };
-    }).filter(p=>p.productName && p.colorCode);
-  }
-
-  async function loadStock(){
-    const text = await fetchText(STOCK_CSV_URL);
-    const rows = parseCsv(text);
-    if(!rows.length) return;
-
-    stockUpdatedAt = (rows[0]?.[1] || "").trim();
-    stockEntriesByColorCode = {};
-    sizeByColorCode = {};
-    productNoByColorCode = {};
-
-    for(let i=1;i<rows.length;i++){
-      const r = rows[i] || [];
-      const colorCode = (r[0] || "").trim();
-      if(!colorCode) continue;
-
-      const size = (r[1] || "").trim();
-      const warehouse = (r[2] || "").trim() || "미정";
-
-      const productNo = (r[9] || "").toString().trim(); // J
-      if(productNo && !productNoByColorCode[colorCode]) productNoByColorCode[colorCode] = productNo;
-
-      let qtyRaw = (r[10] || "").toString().trim(); // K
-      if(!qtyRaw) continue;
-      qtyRaw = qtyRaw.replace(/,/g,"");
-      const qty = Number(qtyRaw);
-      if(Number.isNaN(qty)) continue;
-
-      if(!stockEntriesByColorCode[colorCode]) stockEntriesByColorCode[colorCode] = [];
-      stockEntriesByColorCode[colorCode].push({ warehouse, size, qty, productNo });
-
-      if(!sizeByColorCode[colorCode] && size) sizeByColorCode[colorCode] = size;
+    async function ensureLoaded(){
+      if(loaded) return;
+      statusEl.textContent = "데이터 불러오는 중...";
+      await Promise.all([ loadProducts(), loadStock() ]);
+      loaded = true;
+      statusEl.textContent = `상품 ${products.length}개`;
     }
-  }
 
-  async function ensureLoaded(){
-    if(loaded) return;
-    statusEl.textContent = "데이터 불러오는 중...";
-    await Promise.all([ loadProducts(), loadStock() ]);
-    loaded = true;
-statusEl.textContent = `상품 ${products.length}개`;
-  }
+    function totalStockForColor(colorCode){
+      const entries = stockEntriesByColorCode[colorCode] || [];
+      return entries.reduce((sum,e)=>sum + (typeof e.qty === "number" ? e.qty : 0), 0);
+    }
+    function pillClass(qty){
+      if(qty >= 100) return "sw-pill";
+      if(qty >= 10) return "sw-pill mid";
+      return "sw-pill low";
+    }
 
-  function totalStockForColor(colorCode){
-    const entries = stockEntriesByColorCode[colorCode] || [];
-    return entries.reduce((sum,e)=>sum + (typeof e.qty === "number" ? e.qty : 0), 0);
-  }
-
-  function pillClass(qty){
-    if(qty >= 100) return "sw-pill";
-    if(qty >= 10) return "sw-pill mid";
-    return "sw-pill low";
-  }
-
-function renderResults(rows, kw){
-  if(!rows.length){
-    resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색 결과 없음</div>`;
-    return;
-  }
-
-  const header = `
-    <table class="sw-table">
-      <thead>
-        <tr>
-          <th style="width:44%;">상품명</th>
-          <th style="width:20%;">칼라</th>
-          <th style="width:22%;">상품칼라코드</th>
-          <th style="width:14%; text-align:right;">재고</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-
-  const body = rows.map((r, idx)=>{
-    const sum = r.totalStock;
-    const pno = normalizeProductNo(r.productNo || "");
-    const detailUrl = pno ? `https://whitesands.co.kr/product/detail.html?product_no=${encodeURIComponent(pno)}` : "";
-
-    const entries = r.entries || [];
-    const entryText = entries
-      .slice(0, 12)
-      .map(e => `${escapeHtml(e.warehouse)} · ${escapeHtml(e.size || "-")} · ${escapeHtml(String(e.qty))}`)
-      .join("<br>");
-
-    return `
-      <tr data-sw-row="${idx}">
-        <td class="sw-td-name">
-          <div class="sw-name">${escapeHtml(r.productName)}</div>
-          <div class="sw-sub">${escapeHtml(r.productCode || "")}</div>
-        </td>
-
-        <td class="sw-td-color">
-          <div class="sw-sub">${escapeHtml(r.colorName || "-")}</div>
-        </td>
-
-        <td class="sw-td-code">
-          <div class="sw-sub">${escapeHtml(r.colorCode)}</div>
-        </td>
-
-      <td class="sw-td-stock">
-  <div class="sw-stock-wrap">
-    <button
-      type="button"
-      class="${pillClass(sum)} sw-pill-btn"
-      data-sw-preview="${detailUrl}"
-      ${detailUrl ? "" : "disabled"}
-      title="${detailUrl ? "상세페이지 미리보기" : "상품번호 없음"}"
-    >${escapeHtml(String(sum))}</button>
-
-    <button class="sw-acc-btn" type="button" data-sw-acc="${idx}" aria-expanded="false" title="상세">
-      ▾
-    </button>
-  </div>
-</td>
-
-
-      <tr class="sw-detail-row" data-sw-detail-row="${idx}" style="display:none;">
-        <td colspan="4">
-          <div class="sw-detail" data-sw-detail="${idx}">
-            <div class="sw-kv">
-              <div class="sw-k">상품코드</div><div class="sw-v">${escapeHtml(r.productCode || "-")}</div>
-              <div class="sw-k">바코드</div><div class="sw-v">${escapeHtml(r.barcode || "-")}</div>
-              <div class="sw-k">사이즈</div><div class="sw-v">${escapeHtml(r.size || "-")}</div>
-              <div class="sw-k">소재</div><div class="sw-v">${escapeHtml(r.material || "-")}</div>
-              <div class="sw-k">창고/사이즈별</div><div class="sw-v">${entryText || "-"}</div>
-            </div>
-
-            <div class="sw-actions">
-            </div>
-          </div>
-        </td>
-      </tr>
-    `;
-  }).join("");
-
-  resultEl.innerHTML = header + body + `</tbody></table>`;
-
-  // ✅ 재고 pill 클릭 => 상세페이지 프리뷰
-resultEl.querySelectorAll("[data-sw-preview]").forEach(btn=>{
-  btn.addEventListener("click", (e)=>{
-    e.stopPropagation();
-    const url = btn.getAttribute("data-sw-preview");
-    if(!url) return;
-    openPreview(url);
-  });
-});
-
-
- // ✅ 토글: "한 번에 하나만 펼치기"
-resultEl.querySelectorAll("[data-sw-acc]").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const id = btn.getAttribute("data-sw-acc");
-
-    // 다른 것 모두 닫기
-    resultEl.querySelectorAll("[data-sw-detail-row]").forEach(tr=>{
-      if(tr.getAttribute("data-sw-detail-row") !== id){
-        tr.style.display = "none";
-        const d = tr.querySelector(".sw-detail");
-        if(d) d.classList.remove("show");
+    function renderResults(rows){
+      if(!rows.length){
+        resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색 결과 없음</div>`;
+        return;
       }
-    });
-    resultEl.querySelectorAll("[data-sw-acc]").forEach(b=>{
-      if(b.getAttribute("data-sw-acc") !== id){
-        b.setAttribute("aria-expanded", "false");
+
+      const header = `
+        <table class="sw-table">
+          <thead>
+            <tr>
+              <th style="width:44%;">상품명</th>
+              <th style="width:20%;">칼라</th>
+              <th style="width:22%;">상품칼라코드</th>
+              <th style="width:14%; text-align:right;">재고</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      const body = rows.map((r, idx)=>{
+        const sum = r.totalStock;
+        const pno = normalizeProductNo(r.productNo || "");
+        const detailUrl = pno ? `https://whitesands.co.kr/product/detail.html?product_no=${encodeURIComponent(pno)}` : "";
+
+        const entries = r.entries || [];
+        const entryText = entries
+          .slice(0, 12)
+          .map(e => `${escapeHtml(e.warehouse)} · ${escapeHtml(e.size || "-")} · ${escapeHtml(String(e.qty))}`)
+          .join("<br>");
+
+        return `
+          <tr>
+            <td class="sw-td-name">
+              <div class="sw-name">${escapeHtml(r.productName)}</div>
+              <div class="sw-sub">${escapeHtml(r.productCode || "")}</div>
+            </td>
+
+            <td class="sw-td-color">
+              <div class="sw-sub">${escapeHtml(r.colorName || "-")}</div>
+            </td>
+
+            <td class="sw-td-code">
+              <div class="sw-sub">${escapeHtml(r.colorCode)}</div>
+            </td>
+
+            <td class="sw-td-stock">
+              <div class="sw-stock-wrap">
+                <button
+                  type="button"
+                  class="${pillClass(sum)} sw-pill-btn"
+                  data-sw-preview="${detailUrl}"
+                  ${detailUrl ? "" : "disabled"}
+                  title="${detailUrl ? "상세페이지 미리보기" : "상품번호 없음"}"
+                >${escapeHtml(String(sum))}</button>
+
+                <button class="sw-acc-btn" type="button" data-sw-acc="${idx}" aria-expanded="false" title="상세">▾</button>
+              </div>
+            </td>
+          </tr>
+
+          <tr data-sw-detail-row="${idx}" style="display:none;">
+            <td colspan="4">
+              <div class="sw-detail">
+                <div class="sw-kv">
+                  <div class="sw-k">상품코드</div><div class="sw-v">${escapeHtml(r.productCode || "-")}</div>
+                  <div class="sw-k">바코드</div><div class="sw-v">${escapeHtml(r.barcode || "-")}</div>
+                  <div class="sw-k">사이즈</div><div class="sw-v">${escapeHtml(r.size || "-")}</div>
+                  <div class="sw-k">소재</div><div class="sw-v">${escapeHtml(r.material || "-")}</div>
+                  <div class="sw-k">창고/사이즈별</div><div class="sw-v">${entryText || "-"}</div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      resultEl.innerHTML = header + body + `</tbody></table>`;
+
+      resultEl.querySelectorAll("[data-sw-preview]").forEach(btn=>{
+        btn.addEventListener("click", (e)=>{
+          e.stopPropagation();
+          const url = btn.getAttribute("data-sw-preview");
+          if(url) openPreview(url);
+        });
+      });
+
+      // 한 번에 하나만 펼치기
+      resultEl.querySelectorAll("[data-sw-acc]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-sw-acc");
+
+          resultEl.querySelectorAll("[data-sw-detail-row]").forEach(tr=>{
+            if(tr.getAttribute("data-sw-detail-row") !== id){
+              tr.style.display = "none";
+            }
+          });
+          resultEl.querySelectorAll("[data-sw-acc]").forEach(b=>{
+            if(b.getAttribute("data-sw-acc") !== id){
+              b.setAttribute("aria-expanded", "false");
+            }
+          });
+
+          const tr = resultEl.querySelector(`[data-sw-detail-row="${id}"]`);
+          const expanded = btn.getAttribute("aria-expanded") === "true";
+
+          btn.setAttribute("aria-expanded", String(!expanded));
+          if(tr) tr.style.display = expanded ? "none" : "table-row";
+        });
+      });
+    }
+
+    function doSearch(){
+      const kw = input.value.trim();
+      localStorage.setItem(LAST_Q_KEY, kw);
+
+      if(!kw){
+        statusEl.textContent = "검색어를 입력하세요.";
+        resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색어를 입력하세요.</div>`;
+        openNewTab.href = "#";
+        return;
       }
-    });
 
-    // 대상 토글
-    const tr = resultEl.querySelector(`[data-sw-detail-row="${id}"]`);
-    const expanded = btn.getAttribute("aria-expanded") === "true";
-
-    btn.setAttribute("aria-expanded", String(!expanded));
-    if(tr){
-      tr.style.display = expanded ? "none" : "table-row";
-      const d = tr.querySelector(".sw-detail");
-      if(d) d.classList.toggle("show", !expanded);
-    }
-  });
-});
-}
-
-
-  function doSearch(){
-    const kw = input.value.trim();
-    localStorage.setItem(LAST_Q_KEY, kw);
-
-    if(!kw){
-      statusEl.textContent = "검색어를 입력하세요.";
-      resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색어를 입력하세요.</div>`;
-      openNewTab.href = "#";
-      return;
-    }
-
-    const q = kw.toLowerCase();
-    const filtered = products.filter(p=>{
-      return (p.productName||"").toLowerCase().includes(q)
+      const q = kw.toLowerCase();
+      const filtered = products.filter(p=>{
+        return (p.productName||"").toLowerCase().includes(q)
           || (p.productCode||"").toLowerCase().includes(q)
           || (p.colorCode||"").toLowerCase().includes(q);
+      });
+
+      const rows = filtered.map(p=>{
+        const colorCode = p.colorCode;
+        const entries = stockEntriesByColorCode[colorCode] || [];
+        const productNo = productNoByColorCode[colorCode] || "";
+        const totalStock = totalStockForColor(colorCode);
+
+        return {
+          productName: p.productName,
+          colorName: p.colorName,
+          productCode: p.productCode,
+          barcode: p.barcode,
+          material: p.material,
+          colorCode,
+          size: sizeByColorCode[colorCode] || "",
+          entries,
+          productNo,
+          totalStock
+        };
+      }).sort((a,b)=>(b.totalStock - a.totalStock));
+
+      statusEl.textContent = `"${kw}" 결과 ${rows.length}개`;
+      openNewTab.href = `https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(kw)}`;
+      renderResults(rows);
+    }
+
+    function openWidget(){
+      panel.classList.add("visible");
+      ensureLoaded().then(()=>{
+        const lastQ = localStorage.getItem(LAST_Q_KEY) || "";
+        if(lastQ && !input.value.trim()) input.value = lastQ;
+        input.focus();
+        if(input.value.trim()) doSearch();
+      }).catch(err=>{
+        console.error(err);
+        statusEl.textContent = "데이터 로드 실패(시트 권한/게시 확인)";
+      });
+    }
+    function closeWidget(){ panel.classList.remove("visible"); }
+
+    btn.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      if(panel.classList.contains("visible")) closeWidget();
+      else openWidget();
+    });
+    closeBtn.addEventListener("click", (e)=>{ e.stopPropagation(); closeWidget(); });
+    panel.addEventListener("click", (e)=> e.stopPropagation());
+
+    goBtn.addEventListener("click", (e)=>{ e.stopPropagation(); doSearch(); });
+    input.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter"){ e.preventDefault(); doSearch(); }
     });
 
-    // 위젯용 row 만들기 (색상코드 단위로)
-    const rows = filtered.map(p=>{
-      const colorCode = p.colorCode;
-      const entries = stockEntriesByColorCode[colorCode] || [];
-      const productNo = productNoByColorCode[colorCode] || "";
-      const totalStock = totalStockForColor(colorCode);
-
-      return {
-        productName: p.productName,
-        colorName: p.colorName,
-        productCode: p.productCode,
-        barcode: p.barcode,
-        material: p.material,
-        colorCode,
-        size: sizeByColorCode[colorCode] || "",
-        entries,
-        productNo,
-        totalStock
-      };
-    }).sort((a,b)=>(b.totalStock - a.totalStock));
-
-statusEl.textContent = `"${kw}" 결과 ${rows.length}개`;
-
-    // 새창 버튼은 “현재 검색어로 사이트 search”로
-    openNewTab.href = `https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(kw)}`;
-
-    renderResults(rows, kw);
-  }
-
-  function openWidget(){
-    panel.classList.add("visible");
-    ensureLoaded().then(()=>{
-      const lastQ = localStorage.getItem(LAST_Q_KEY) || "";
-      if(lastQ && !input.value.trim()) input.value = lastQ;
-      input.focus();
-      if(input.value.trim()) doSearch();
-    }).catch(err=>{
-      console.error(err);
-      statusEl.textContent = "데이터 로드 실패(시트 권한/게시 확인)";
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape"){
+        if(previewEl.classList.contains("show")) return; // 프리뷰 열려있으면 위젯 닫기 금지
+        closeWidget();
+      }
     });
-  }
-
-  function closeWidget(){ panel.classList.remove("visible"); }
-
-  btn.addEventListener("click", (e)=>{
-    e.stopPropagation();
-    if(panel.classList.contains("visible")) closeWidget();
-    else openWidget();
-  });
-  closeBtn.addEventListener("click", (e)=>{ e.stopPropagation(); closeWidget(); });
-  panel.addEventListener("click", (e)=> e.stopPropagation());
-
-  goBtn.addEventListener("click", (e)=>{ e.stopPropagation(); doSearch(); });
-  input.addEventListener("keydown", (e)=>{
-    if(e.key === "Enter"){ e.preventDefault(); doSearch(); }
-  });
-
-  document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeWidget(); });
-})();
-
-
+  })();
 
   /* ======================
      Phone
@@ -2471,7 +2183,6 @@ statusEl.textContent = `"${kw}" 결과 ${rows.length}개`;
       phoneInput.focus();
     }
   }
-
   phoneFormatBtn.addEventListener("click",(e)=>{ togglePhone(); e.stopPropagation(); });
   phoneClose.addEventListener("click",(e)=>{ hidePhone(); e.stopPropagation(); });
   phoneWidget.addEventListener("click",(e)=> e.stopPropagation());
@@ -2502,38 +2213,35 @@ statusEl.textContent = `"${kw}" 결과 ${rows.length}개`;
   /* ======================
      Tracking
      ====================== */
-  function normalizeWaybill(raw){
-    return String(raw || "").replace(/\D/g, "");
-  }
- function validateTracking(raw){
-  const digits = normalizeWaybill(raw);
-  if(!digits) return "운송장을 입력해주세요.";
-  if(digits.length < 8 || digits.length > 15) return "8~15자리 운송장 번호";
-  return "";
-}
-const CJ_FULL_NAME = "CJ";
-const CJ_TRACK_URL = "https://trace.cjlogistics.com/next/tracking.html?wblNo=";
-
-function track(){
-  trackingError.style.display = "none";
-
-  const raw = trackingInput.value;
-  const digits = normalizeWaybill(raw);
-  const msg = validateTracking(raw);
-
-  if(msg){
-    trackingError.textContent = msg;
-    trackingError.style.display = "block";
-    trackingResultHeader.textContent = "입력값을 확인해주세요.";
-    trackingFrame.src = "";
-    return;
+  function normalizeWaybill(raw){ return String(raw || "").replace(/\D/g, ""); }
+  function validateTracking(raw){
+    const digits = normalizeWaybill(raw);
+    if(!digits) return "운송장을 입력해주세요.";
+    if(digits.length < 8 || digits.length > 15) return "8~15자리 운송장 번호";
+    return "";
   }
 
-  trackingInput.value = digits;
+  const CJ_FULL_NAME = "CJ";
+  const CJ_TRACK_URL = "https://trace.cjlogistics.com/next/tracking.html?wblNo=";
 
-  trackingResultHeader.innerHTML = `<span class="em">${CJ_FULL_NAME}</span>`;
-  trackingFrame.src = CJ_TRACK_URL + encodeURIComponent(digits);
-}
+  function track(){
+    trackingError.style.display = "none";
+    const raw = trackingInput.value;
+    const digits = normalizeWaybill(raw);
+    const msg = validateTracking(raw);
+
+    if(msg){
+      trackingError.textContent = msg;
+      trackingError.style.display = "block";
+      trackingResultHeader.textContent = "입력값을 확인해주세요.";
+      trackingFrame.src = "";
+      return;
+    }
+
+    trackingInput.value = digits;
+    trackingResultHeader.innerHTML = `<span class="em">${CJ_FULL_NAME}</span>`;
+    trackingFrame.src = CJ_TRACK_URL + encodeURIComponent(digits);
+  }
 
   function toggleTracking(){
     const v = trackingWidget.classList.contains("visible");
@@ -2547,15 +2255,11 @@ function track(){
   trackingWidgetBtn.addEventListener("click",(e)=>{ toggleTracking(); e.stopPropagation(); });
   trackingClose.addEventListener("click",(e)=>{ hideTracking(); e.stopPropagation(); });
   trackingWidget.addEventListener("click",(e)=> e.stopPropagation());
-
- 
-
   trackingGo.addEventListener("click",(e)=>{ track(); e.stopPropagation(); });
   trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); });
 
   /* ======================
-     Account (CSV 로딩 + 검색 + 복사 + 더블클릭 행점프)
-     ✅ 추가 DB 포함(전체 셀 검색 / H=ID / I=PW)
+     Account (CSV 로딩 + 검색 + 복사 + 더블클릭 점프)
      ====================== */
   const SHOP_GIDS = [0, 618725932, 1481873109];
   const OTHER_GID = 267581891;
@@ -2570,40 +2274,6 @@ function track(){
   }
   function extraCsvUrl(gid){
     return `https://docs.google.com/spreadsheets/d/${EXTRA_SHEET_ID}/export?format=csv&gid=${gid}`;
-  }
-
-  function parseCsvGeneric(text){
-    const rows = [];
-    let row = [];
-    let cur = "";
-    let inQuotes = false;
-    if(text && text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i];
-      const next = text[i + 1];
-
-      if (ch === '"') {
-        if (inQuotes && next === '"') { cur += '"'; i++; }
-        else inQuotes = !inQuotes;
-        continue;
-      }
-      if (!inQuotes && ch === ",") { row.push(cur); cur = ""; continue; }
-      if (!inQuotes && (ch === "\n" || ch === "\r")) {
-        if (ch === "\r" && next === "\n") i++;
-        row.push(cur);
-        if (row.some(c => (c || "").toString().trim() !== "")) rows.push(row);
-        row = [];
-        cur = "";
-        continue;
-      }
-      cur += ch;
-    }
-    if (cur.length > 0 || row.length > 0) {
-      row.push(cur);
-      if (row.some(c => (c || "").toString().trim() !== "")) rows.push(row);
-    }
-    return rows;
   }
 
   async function fetchAccountCsv(gid){
@@ -2641,7 +2311,6 @@ function track(){
     return q.every(qt => a.some(at => at.includes(qt)));
   }
 
-  // ✅ 추가 DB: 전체 셀 텍스트 검색
   function textMatchAny(text, queryTokens){
     const t = normalize(text);
     const q = (queryTokens || []).map(normalize).filter(Boolean);
@@ -2668,7 +2337,10 @@ function track(){
         const gid = SHOP_GIDS[idx];
         if(!rows || rows.length <= 1) return;
 
-        const groupLabel = (gid === 0) ? "JH" : (gid === 618725932) ? "NH" : (gid === 1481873109) ? "HTY" : "기타";
+        const groupLabel =
+          (gid === 0) ? "JH" :
+          (gid === 618725932) ? "NH" :
+          (gid === 1481873109) ? "HTY" : "기타";
 
         rows.slice(1).forEach((cols, rIdx)=>{
           const rowNumber = rIdx + 2;
@@ -2734,13 +2406,12 @@ function track(){
         }
       }
 
-      // 3) ✅ 추가 DB 로딩 (전체 셀 검색 / H=ID / I=PW)
+      // 3) 추가 DB (전체 셀 검색 / H=ID / I=PW)
       EXTRA_SITES = [];
       const extraRows = await fetchExtraCsv(EXTRA_GID);
       if(extraRows && extraRows.length > 1){
         extraRows.slice(1).forEach((cols, rIdx)=>{
           const rowNumber = rIdx + 2;
-
           const searchText = (cols || []).map(c => (c || "").toString()).join(" ");
           if(!searchText.trim()) return;
 
@@ -2778,9 +2449,8 @@ function track(){
     if(!queryTokens.length) return [];
 
     const results = [];
-
-    // 기존(AG 토큰)
     const tokenMatcher = matchAll ? tokenMatchAll : tokenMatchAny;
+
     SHOP_SITES.forEach(item=>{
       if(tokenMatcher(item.agKeywords, queryTokens)){
         results.push({
@@ -2795,6 +2465,7 @@ function track(){
         });
       }
     });
+
     OTHER_SITES.forEach(item=>{
       if(tokenMatcher(item.agKeywords, queryTokens)){
         results.push({
@@ -2810,7 +2481,6 @@ function track(){
       }
     });
 
-    // 추가DB(전체 셀)
     const textMatcher = matchAll ? textMatchAll : textMatchAny;
     EXTRA_SITES.forEach(item=>{
       if(textMatcher(item.searchText, queryTokens)){
@@ -2917,15 +2587,11 @@ function track(){
       card.appendChild(fields);
       frag.appendChild(card);
 
-      // ✅ 더블클릭: 해당 스프레드시트로 점프
       card.addEventListener("dblclick", (e)=>{
         e.stopPropagation();
         const a1 = `A${item.rowNumber}`;
-        if(item.source === "extra"){
-          openExtraSheetAt(item.gid, a1);
-        }else{
-          openAccountSheetAt(item.gid, a1);
-        }
+        if(item.source === "extra") openExtraSheetAt(item.gid, a1);
+        else openAccountSheetAt(item.gid, a1);
       });
     });
 
@@ -2962,7 +2628,6 @@ function track(){
   accountWidgetBtn.addEventListener("click",(e)=>{ toggleAccount(); e.stopPropagation(); });
   accountClose.addEventListener("click",(e)=>{ hideAccount(); e.stopPropagation(); });
   accountWidget.addEventListener("click",(e)=> e.stopPropagation());
-
   accountQuery.addEventListener("keydown",(e)=>{ if(e.key === "Enter") doAccountSearch(); });
   accountMatchAll.addEventListener("change", ()=>{ if(accountQuery.value.trim()) doAccountSearch(); });
 
@@ -2971,8 +2636,14 @@ function track(){
     e.stopPropagation();
   });
 
-  /* ======================
+  accountGo.addEventListener("click", (e)=>{
+    doAccountSearch();
+    e.stopPropagation();
+  });
+
+    /* ======================
      Calendar (주/월 + 이벤트 CSV + 팝업 + 오늘뱃지)
+     ✅ 성능개선: dateKey -> count/items 맵 선계산
      ====================== */
   function toggleCalendar(){
     const v = calendarWidget.classList.contains("visible");
@@ -3015,6 +2686,44 @@ function track(){
 
   let events = [];
 
+  // ✅ 성능용 인덱스
+  // dayKey => count
+  let eventCountByDayKey = new Map();
+  // dayKey => [event,...]
+  let eventItemsByDayKey = new Map();
+
+  function addToMapList(map, key, value){
+    const arr = map.get(key);
+    if(arr) arr.push(value);
+    else map.set(key, [value]);
+  }
+
+  function buildEventIndex(){
+    eventCountByDayKey = new Map();
+    eventItemsByDayKey = new Map();
+
+    for(const ev of events){
+      // ev.start / ev.end 는 "YYYY-MM-DD" 문자열
+      // 날짜 범위 펼쳐서 인덱스 생성
+      const [sy, sm, sd] = ev.start.split("-").map(Number);
+      const [ey, em, ed] = ev.end.split("-").map(Number);
+      let cur = new Date(sy, sm - 1, sd);
+      const end = new Date(ey, em - 1, ed);
+
+      // start > end 방어 (이미 걸렀지만)
+      if(cur > end) continue;
+
+      while(cur <= end){
+        const k = dateKeyLocal(cur);
+
+        eventCountByDayKey.set(k, (eventCountByDayKey.get(k) || 0) + 1);
+        addToMapList(eventItemsByDayKey, k, ev);
+
+        cur.setDate(cur.getDate() + 1);
+      }
+    }
+  }
+
   async function loadEventsFromSheet(){
     try{
       const res = await fetch(EVENT_SHEET_CSV_URL, { cache:"no-store" });
@@ -3041,11 +2750,13 @@ function track(){
       }
 
       events = parsed;
+      buildEventIndex();      // ✅ 인덱스 생성
       buildCalendar();
       updateTodayBadge();
     }catch(err){
       console.error(err);
       events = [];
+      buildEventIndex();      // ✅ 비워진 상태로 초기화
       buildCalendar();
       updateTodayBadge();
     }
@@ -3053,7 +2764,7 @@ function track(){
 
   function updateTodayBadge(){
     const todayKey = dateKeyLocal(new Date());
-    const count = events.filter(ev => inRangeKey(todayKey, ev.start, ev.end)).length;
+    const count = eventCountByDayKey.get(todayKey) || 0;
 
     if(count > 0){
       todayIcon.classList.remove("dim");
@@ -3067,7 +2778,7 @@ function track(){
   }
 
   function openPopupForDate(dateKey){
-    const items = events.filter(ev => inRangeKey(dateKey, ev.start, ev.end));
+    const items = eventItemsByDayKey.get(dateKey) || [];
     document.getElementById("popupDateLabel").textContent = formatMDKorean(dateKey);
 
     document.getElementById("popupEventList").innerHTML = items.length
@@ -3086,9 +2797,8 @@ function track(){
                     <i class='bx bx-chevron-down item-caret'></i>
                   </button>
                   <div class="item-text is-collapsed" data-itemcontent>
-  ${textToHtmlWithBreaks(ev.target)}
-</div>
-
+                    ${textToHtmlWithBreaks(ev.target)}
+                  </div>
                 </div>
               ` : ``}
 
@@ -3129,7 +2839,7 @@ function track(){
 
     days.forEach(d=>{
       const key = dateKeyLocal(d);
-      const count = events.filter(ev => inRangeKey(key, ev.start, ev.end)).length;
+      const count = eventCountByDayKey.get(key) || 0;
 
       const cell = document.createElement("div");
       cell.className = "calendar-day";
@@ -3181,7 +2891,7 @@ function track(){
       const wd = d.getDay();
       if(wd >= 1 && wd <= 5){
         const key = dateKeyLocal(d);
-        const count = events.filter(ev => inRangeKey(key, ev.start, ev.end)).length;
+        const count = eventCountByDayKey.get(key) || 0;
 
         const cell = document.createElement("div");
         cell.className = "calendar-day";
@@ -3219,12 +2929,11 @@ function track(){
     e.stopPropagation();
     const box = btn.closest("[data-itembox]");
     const content = box?.querySelector("[data-itemcontent]");
-    
     if(!content) return;
 
     const expanded = btn.getAttribute("aria-expanded") === "true";
     btn.setAttribute("aria-expanded", String(!expanded));
-content.classList.toggle("is-collapsed", expanded);
+    content.classList.toggle("is-collapsed", expanded);
   });
 
   /* ======================
@@ -3308,7 +3017,7 @@ content.classList.toggle("is-collapsed", expanded);
     }
   });
 
-  /* ✅ 바깥 클릭하면 sub sidebar만 닫기 */
+  /* ✅ 바깥 클릭하면 전부 닫기 */
   document.addEventListener("click", (e)=>{
     const t = e.target;
     const clickedGoogle = googleBtn.contains(t) || subSidebar.contains(t);
@@ -3318,16 +3027,14 @@ content.classList.toggle("is-collapsed", expanded);
     const clickedInsidePhone = phoneWidget.contains(t) || phoneFormatBtn.contains(t);
     const clickedInsideTracking = trackingWidget.contains(t) || trackingWidgetBtn.contains(t);
     const clickedInsideAccount = accountWidget.contains(t) || accountWidgetBtn.contains(t);
-        const clickedInsideSearch = searchWidget.contains(t) || searchWidgetBtn.contains(t); // ✅ 추가
+    const clickedInsideSearch = searchWidget.contains(t) || searchWidgetBtn.contains(t);
 
-
- if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount && !clickedInsideSearch){
-  closeAllPanels(); // ✅ 서브바 + 위젯까지 전부 닫기
-}
+    if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount && !clickedInsideSearch){
+      closeAllPanels();
+    }
   });
 
-
-    /* ======================
+  /* ======================
      ✅ Google > 기타(아코디언) 토글 + 하위 링크 처리
      ====================== */
   const googleEtcHead = document.getElementById("googleEtcHead");
@@ -3337,7 +3044,7 @@ content.classList.toggle("is-collapsed", expanded);
   function toggleGoogleEtcAccordion() {
     const expanded = googleEtcHead.getAttribute("aria-expanded") === "true";
     googleEtcHead.setAttribute("aria-expanded", String(!expanded));
-    googleEtcBody.hidden = expanded; // expanded=true 였으면 숨김
+    googleEtcBody.hidden = expanded;
   }
 
   if (googleEtcHead && googleEtcBody) {
@@ -3347,12 +3054,10 @@ content.classList.toggle("is-collapsed", expanded);
     });
   }
 
-  // 기타(3레벨) 하위 항목 클릭 시 iframe 로드
   googleEtcChildren.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
 
-      // (선택) active 스타일 처리하고 싶으면
       googleChildren.forEach((b) => b.classList.remove("active"));
       googleEtcChildren.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
@@ -3366,26 +3071,26 @@ content.classList.toggle("is-collapsed", expanded);
     });
   });
 
-attachAutoHide(phoneWidget, hidePhone, 650);
-attachAutoHide(trackingWidget, hideTracking, 650);
-attachAutoHide(accountWidget, hideAccount, 650);
-attachAutoHide(calendarWidget, () => { closePopup(); hideCalendar(); }, 650);
+  // auto-hide
+  attachAutoHide(phoneWidget, hidePhone, 650);
+  attachAutoHide(trackingWidget, hideTracking, 650);
+  attachAutoHide(accountWidget, hideAccount, 650);
+  attachAutoHide(calendarWidget, () => { closePopup(); hideCalendar(); }, 650);
   attachAutoHide(searchWidget, hideSearch, 650);
 
-
-
   accountGo.addEventListener("click", (e)=>{
-  doAccountSearch();
-  e.stopPropagation();
-});
+    doAccountSearch();
+    e.stopPropagation();
+  });
 
   /* ======================
      init
      ====================== */
-  loadEventsFromSheet();
+  loadEventsFromSheet();   // ✅ 내부에서 buildEventIndex()까지 처리
   buildCalendar();
   updateTodayBadge();
 });
 </script>
 </body>
 </html>
+
