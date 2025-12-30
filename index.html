@@ -1087,6 +1087,7 @@
 }
 
 /* ===== Result table (accordion) ===== */
+/* ===== Result table (NO accordion, aligned) ===== */
 .sw-result{
   border-radius:16px;
   overflow:hidden;
@@ -1099,12 +1100,12 @@
 .sw-table{
   width:100%;
   border-collapse:collapse;
-  table-layout: fixed;
+  table-layout: fixed; /* ✅ colgroup 기반 고정 */
   font-size:12px;
 }
 
 .sw-table th, .sw-table td{
-  padding: 9px 10px;            /* ✅ 간격 효율화 */
+  padding: 8px 10px;
   border-bottom:1px solid rgba(15,23,42,0.06);
   vertical-align:middle;
 }
@@ -1117,17 +1118,26 @@
   font-size:11px;
   color: rgba(15,23,42,0.65);
   font-weight: 1000;
+  text-align:left;
+}
+
+/* ✅ 마지막 열(재고)만 오른쪽 정렬 */
+.sw-table th:last-child,
+.sw-table td:last-child{
+  text-align:right;
 }
 
 .sw-table tbody tr:hover td{
   background: rgba(124,58,237,0.06);
 }
 
-/* ✅ 열 너비/정렬 */
+/* ✅ 상품명/칼라 간격이 벌어진 느낌 줄이기:
+   - 상품명 열 비중 ↑
+   - 칼라 열 비중 ↓
+   - 텍스트 줄바꿈 억제 */
 .sw-td-name{ text-align:left; }
 .sw-td-color{ text-align:left; }
 .sw-td-code{ text-align:left; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; }
-.sw-td-stock{ text-align:right; }
 
 .sw-name{
   font-weight:1000;
@@ -1146,7 +1156,7 @@
   white-space:nowrap;
 }
 
-/* 재고 pill + 토글 버튼 */
+/* 재고 pill + 이동 버튼 */
 .sw-stock-wrap{
   display:flex;
   align-items:center;
@@ -1179,6 +1189,82 @@
   color: rgba(161,98,7,0.95);
 }
 
+/* ✅ “재고 버튼 누르면 사이트 이동” 버튼 */
+.sw-go{
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  border: 1px solid rgba(15,23,42,0.10);
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 10px 18px rgba(15,23,42,0.08);
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 14px;
+  color: rgba(15,23,42,0.70);
+  transition: transform .12s ease;
+}
+.sw-go:hover{ transform: translateY(-1px); }
+.sw-go:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  transform:none;
+}
+/* ✅ 상세페이지 프리뷰 모달 */
+.sw-preview{
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index: 9999;
+}
+.sw-preview.show{ display:flex; }
+
+.sw-preview-box{
+  width: min(980px, calc(100vw - 40px));
+  height: min(720px, calc(100vh - 60px));
+  border-radius: 18px;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(255,255,255,0.75);
+  box-shadow: 0 24px 70px rgba(15,23,42,0.28);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.sw-preview-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(15,23,42,0.08);
+  background: rgba(255,255,255,0.92);
+}
+.sw-preview-title{
+  font-size: 13px;
+  font-weight: 1000;
+  color: rgba(15,23,42,0.86);
+}
+.sw-preview-close{
+  border:none;
+  width:34px;height:34px;
+  border-radius: 12px;
+  cursor:pointer;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 10px 18px rgba(15,23,42,0.10);
+  font-weight: 1000;
+}
+
+.sw-preview-body{ flex:1; min-height:0; }
+#swPreviewFrame{ width:100%; height:100%; border:0; background:#fff; }
+
+/* ✅ 아코디언 토글 버튼 */
 .sw-acc-btn{
   width: 30px;
   height: 30px;
@@ -1187,70 +1273,65 @@
   background: rgba(255,255,255,0.92);
   box-shadow: 0 10px 18px rgba(15,23,42,0.08);
   cursor:pointer;
-  display:flex;
+  display:inline-flex;
   align-items:center;
   justify-content:center;
-  font-size: 16px;
+  font-size: 14px;
   color: rgba(15,23,42,0.70);
   transition: transform .12s ease;
 }
-.sw-acc-btn[aria-expanded="true"]{ transform: rotate(180deg); }
+.sw-acc-btn:hover{ transform: translateY(-1px); }
+.sw-acc-btn[aria-expanded="true"]{ color: rgba(124,58,237,0.95); }
 
-/* ✅ 아코디언 상세 row */
-.sw-detail-row td{
-  padding: 0;
-  border-bottom: 1px solid rgba(15,23,42,0.06);
-  background: rgba(255,255,255,0.92);
-}
-
+/* ✅ 디테일(아코디언 펼침 영역) */
 .sw-detail{
-  display:none;
-  padding: 10px 12px 12px;
+  margin: 8px 0;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(15,23,42,0.08);
+  box-shadow: 0 10px 18px rgba(15,23,42,0.06);
+  padding: 10px;
 }
-.sw-detail{ display:none; }
-.sw-detail.show{ display:block; }
-
 .sw-kv{
   display:grid;
-  grid-template-columns: 78px 1fr;
-  gap: 8px 10px;
-  font-size:11px;
+  grid-template-columns: 80px 1fr 80px 1fr;
+  gap: 6px 10px;
+  font-size: 11px;
 }
-
 .sw-k{
+  font-weight: 1000;
   color: rgba(15,23,42,0.55);
-  font-weight:1000;
 }
-
 .sw-v{
-  color: rgba(15,23,42,0.90);
-  font-weight:900;
-  word-break: break-word;
+  font-weight: 900;
+  color: rgba(15,23,42,0.88);
+  overflow:hidden;
+  text-overflow: ellipsis;
 }
-
 .sw-actions{
-  margin-top: 10px;
   display:flex;
-  gap: 8px;
-  flex-wrap:wrap;
+  justify-content:flex-end;
+  margin-top: 10px;
 }
-
 .sw-a{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding: 7px 10px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:1000;
+  font-size: 11px;
+  font-weight: 1000;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.20);
+  color: rgba(124,58,237,0.95);
   text-decoration:none;
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(15,23,42,0.10);
-  color: rgba(15,23,42,0.75);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.08);
 }
 .sw-a:hover{ transform: translateY(-1px); }
-
+/* ✅ 재고 pill 버튼화 */
+.sw-pill-btn{
+  cursor: pointer;
+}
+.sw-pill-btn:disabled{
+  opacity: .45;
+  cursor: not-allowed;
+}
 
 .search-search-row{
   display:flex;
@@ -1500,6 +1581,19 @@
 
   <div id="swResult" class="sw-result"></div>
 </div>
+  <!-- ✅ 상품 상세 미리보기(프리뷰) -->
+<div class="sw-preview" id="swPreview" aria-hidden="true">
+  <div class="sw-preview-box" role="dialog" aria-modal="true">
+    <div class="sw-preview-head">
+      <div class="sw-preview-title">상품 상세</div>
+      <button type="button" class="sw-preview-close" id="swPreviewClose" aria-label="닫기">✕</button>
+    </div>
+    <div class="sw-preview-body">
+      <iframe id="swPreviewFrame" title="상품 상세 미리보기"></iframe>
+    </div>
+  </div>
+</div>
+
   </div>
 
 
@@ -1943,6 +2037,34 @@ function syncNavActiveByFrame(){
 
   if(!btn || !panel || !closeBtn || !input || !goBtn || !openNewTab || !statusEl || !resultEl) return;
 
+const previewEl = document.getElementById("swPreview");
+const previewFrame = document.getElementById("swPreviewFrame");
+const previewClose = document.getElementById("swPreviewClose");
+
+function openPreview(url){
+  if(!url) return;
+  previewFrame.src = url;
+  previewEl.classList.add("show");
+  previewEl.setAttribute("aria-hidden", "false");
+}
+function closePreview(){
+  previewEl.classList.remove("show");
+  previewEl.setAttribute("aria-hidden", "true");
+  previewFrame.src = "about:blank";
+}
+
+previewClose.addEventListener("click", (e)=>{ e.stopPropagation(); closePreview(); });
+previewEl.addEventListener("click", (e)=>{
+  // 바깥(오버레이) 클릭 시 닫기
+  if(e.target === previewEl) closePreview();
+});
+document.addEventListener("keydown", (e)=>{
+  if(e.key !== "Escape") return;
+  if(previewEl.classList.contains("show")) return; // 프리뷰가 열려있으면 위젯은 안 닫음
+  closeWidget();
+});
+
+  
   // ==== state ====
   const LAST_Q_KEY = "sw:lastQuery";
   let loaded = false;
@@ -2151,15 +2273,22 @@ function renderResults(rows, kw){
           <div class="sw-sub">${escapeHtml(r.colorCode)}</div>
         </td>
 
-        <td class="sw-td-stock">
-          <div class="sw-stock-wrap">
-            <span class="${pillClass(sum)}">${escapeHtml(String(sum))}</span>
-            <button class="sw-acc-btn" type="button" data-sw-acc="${idx}" aria-expanded="false" title="상세">
-              ▾
-            </button>
-          </div>
-        </td>
-      </tr>
+      <td class="sw-td-stock">
+  <div class="sw-stock-wrap">
+    <button
+      type="button"
+      class="${pillClass(sum)} sw-pill-btn"
+      data-sw-preview="${detailUrl}"
+      ${detailUrl ? "" : "disabled"}
+      title="${detailUrl ? "상세페이지 미리보기" : "상품번호 없음"}"
+    >${escapeHtml(String(sum))}</button>
+
+    <button class="sw-acc-btn" type="button" data-sw-acc="${idx}" aria-expanded="false" title="상세">
+      ▾
+    </button>
+  </div>
+</td>
+
 
       <tr class="sw-detail-row" data-sw-detail-row="${idx}" style="display:none;">
         <td colspan="4">
@@ -2173,8 +2302,6 @@ function renderResults(rows, kw){
             </div>
 
             <div class="sw-actions">
-              ${detailUrl ? `<a class="sw-a" href="${detailUrl}" target="_blank" rel="noopener">상품 상세 ↗</a>` : ""}
-              <a class="sw-a" href="https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(r.colorCode)}" target="_blank" rel="noopener">사이트 검색 ↗</a>
             </div>
           </div>
         </td>
@@ -2183,6 +2310,17 @@ function renderResults(rows, kw){
   }).join("");
 
   resultEl.innerHTML = header + body + `</tbody></table>`;
+
+  // ✅ 재고 pill 클릭 => 상세페이지 프리뷰
+resultEl.querySelectorAll("[data-sw-preview]").forEach(btn=>{
+  btn.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    const url = btn.getAttribute("data-sw-preview");
+    if(!url) return;
+    openPreview(url);
+  });
+});
+
 
  // ✅ 토글: "한 번에 하나만 펼치기"
 resultEl.querySelectorAll("[data-sw-acc]").forEach(btn=>{
@@ -3183,9 +3321,9 @@ content.classList.toggle("is-collapsed", expanded);
         const clickedInsideSearch = searchWidget.contains(t) || searchWidgetBtn.contains(t); // ✅ 추가
 
 
-  if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount && !clickedInsideSearch){
-      hideAllSubSidebars();
-    }
+ if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount && !clickedInsideSearch){
+  closeAllPanels(); // ✅ 서브바 + 위젯까지 전부 닫기
+}
   });
 
 
