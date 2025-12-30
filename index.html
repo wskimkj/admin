@@ -1045,23 +1045,26 @@
 }
 /* ✅ sidebar top date */
 .sidebar-date{
-  width: 100%;
-  text-align: center;
-  margin: 6px 0 14px;
+  width: fit-content;
+  margin: 8px auto 14px;
+  padding: 6px 12px;
 
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 1000;
   letter-spacing: -0.01em;
 
-  color: #5b21b6; /* 선명한 딥 보라 */
-  
-  /* 🔥 가독성 핵심 */
-  text-shadow:
-    0 1px 0 rgba(255,255,255,0.65),
-    0 0 1px rgba(255,255,255,0.35);
+  color: #6d28d9;               /* 진한 보라 텍스트 */
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 999px;
+
+  box-shadow:
+    0 6px 14px rgba(15,23,42,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.9);
 
   user-select: none;
 }
+
 
 /* ===== Search widget only (narrower) ===== */
 .search-widget{
