@@ -1208,6 +1208,7 @@
   padding: 10px 12px 12px;
 }
 .sw-detail{ display:none; }
+.sw-detail.show{ display:block; }
 
 .sw-kv{
   display:grid;
@@ -2214,7 +2215,7 @@ resultEl.querySelectorAll("[data-sw-acc]").forEach(btn=>{
     }
   });
 });
-
+}
 
 
   function doSearch(){
@@ -3182,7 +3183,7 @@ content.classList.toggle("is-collapsed", expanded);
         const clickedInsideSearch = searchWidget.contains(t) || searchWidgetBtn.contains(t); // ✅ 추가
 
 
-    if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount && !clickedInsideSearch){
+  if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount && !clickedInsideSearch){
       hideAllSubSidebars();
     }
   });
