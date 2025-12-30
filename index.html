@@ -1768,14 +1768,15 @@ function syncNavActiveByFrame(){
   const LAST_Q_KEY = "search:lastQuery";
   const LAST_URL_KEY = "search:lastUrl";
 
-  function buildUrl(q){
+ function buildUrl(q){
   const kw = (q || "").trim();
-  const u = new URL("https://wskimkj.github.io/search/");
-  u.searchParams.set("embed", "1");   // ✅ 항상 embed 모드
-
-  if(kw) u.searchParams.set("q", kw); // ✅ 검색어 있으면 q로 전달
+  const u = new URL(SEARCH_BASE_URL);
+  u.searchParams.set("embed", "1"); // ✅ 위젯 모드
+  if (kw) u.searchParams.set(SEARCH_QS_KEY, kw);
   return u.toString();
 }
+
+ 
 
 
   function openWidget(){
