@@ -1063,63 +1063,21 @@
   user-select: none;
 }
 
-/* ===== Search widget only ===== */
+/* ===== Search widget only (narrower) ===== */
 .search-widget{
-  position:absolute;
-  left: 96px;
-  bottom: 20px;
-  width: 720px;
+  width: 480px;                 /* ✅ 720 -> 480 (1/3 줄임) */
   max-width: calc(100vw - 120px);
-  border-radius: 24px;
-  background: rgba(255,255,255,0.62);
-  border: 1px solid rgba(255,255,255,0.70);
-  padding: 12px;
-  box-shadow: 0 18px 50px rgba(15,23,42,0.16);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  opacity: 0;
-  transform: translateY(12px) scale(0.98);
-  pointer-events:none;
-  transition: all .22s ease;
-  z-index: 1600;
 }
-.search-widget.visible{
-  opacity:1;
-  transform: translateY(0) scale(1);
-  pointer-events:auto;
+
+/* 상단 상태 텍스트(업데이트 시간 제거용) */
+#swStatus{
+  margin: 8px 2px 10px;
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(15,23,42,.65);
 }
-.search-search-row{ display:flex; gap:8px; align-items:center; }
-.search-input{
-  flex:1;
-  border:none;
-  outline:none;
-  border-radius: 16px;
-  padding: 10px 12px;
-  background: rgba(255,255,255,0.85);
-  border: 1px solid rgba(15,23,42,0.08);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-  font-weight: 800;
-}
-.search-mini-btn{
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-}
-.search-frame-wrapper{
-  margin-top: 10px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.70);
-  border: 1px solid rgba(15,23,42,0.08);
-  height: 70vh;
-  min-height: 520px;
-}
-#searchFrame{ width:100%; height:100%; border:0; display:block; }
-/* ===== Search Widget (Standalone) Table ===== */
+
+/* ===== Result table (accordion) ===== */
 .sw-result{
   border-radius:16px;
   overflow:hidden;
@@ -1132,26 +1090,35 @@
 .sw-table{
   width:100%;
   border-collapse:collapse;
-  table-layout:fixed;
+  table-layout: fixed;
   font-size:12px;
 }
+
 .sw-table th, .sw-table td{
-  padding:10px 10px;
+  padding: 9px 10px;            /* ✅ 간격 효율화 */
   border-bottom:1px solid rgba(15,23,42,0.06);
   vertical-align:middle;
 }
+
 .sw-table th{
   position:sticky;
   top:0;
   background: rgba(255,255,255,0.92);
   z-index:2;
   font-size:11px;
-  letter-spacing:-0.02em;
-  color: rgba(15,23,42,0.70);
+  color: rgba(15,23,42,0.65);
+  font-weight: 1000;
 }
+
 .sw-table tbody tr:hover td{
   background: rgba(124,58,237,0.06);
 }
+
+/* ✅ 열 너비/정렬 */
+.sw-td-name{ text-align:left; }
+.sw-td-color{ text-align:left; }
+.sw-td-code{ text-align:left; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; }
+.sw-td-stock{ text-align:right; }
 
 .sw-name{
   font-weight:1000;
@@ -1160,6 +1127,7 @@
   text-overflow:ellipsis;
   white-space:nowrap;
 }
+
 .sw-sub{
   font-size:11px;
   font-weight:800;
@@ -1169,12 +1137,20 @@
   white-space:nowrap;
 }
 
+/* 재고 pill + 토글 버튼 */
+.sw-stock-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap: 8px;
+}
+
 .sw-pill{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-width:44px;
-  padding:4px 10px;
+  min-width: 46px;
+  padding: 4px 10px;
   border-radius:999px;
   font-weight:1000;
   font-size:11px;
@@ -1182,6 +1158,7 @@
   border: 1px solid rgba(124,58,237,0.18);
   color: rgba(124,58,237,0.95);
 }
+
 .sw-pill.low{
   background: rgba(236,72,153,0.10);
   border-color: rgba(236,72,153,0.18);
@@ -1193,51 +1170,66 @@
   color: rgba(161,98,7,0.95);
 }
 
-.sw-toggle{
-  border:none;
+.sw-acc-btn{
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  border: 1px solid rgba(15,23,42,0.10);
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 10px 18px rgba(15,23,42,0.08);
   cursor:pointer;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:1000;
-  background: rgba(15,23,42,0.06);
-  color: rgba(15,23,42,0.72);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 16px;
+  color: rgba(15,23,42,0.70);
+  transition: transform .12s ease;
 }
-.sw-toggle:hover{ transform: translateY(-1px); }
+.sw-acc-btn[aria-expanded="true"]{ transform: rotate(180deg); }
+
+/* ✅ 아코디언 상세 row */
+.sw-detail-row td{
+  padding: 0;
+  border-bottom: 1px solid rgba(15,23,42,0.06);
+  background: rgba(255,255,255,0.92);
+}
 
 .sw-detail{
   display:none;
-  padding:10px 10px 12px;
-  background: rgba(255,255,255,0.92);
+  padding: 10px 12px 12px;
 }
 .sw-detail.show{ display:block; }
 
 .sw-kv{
   display:grid;
-  grid-template-columns: 86px 1fr;
-  gap:8px 10px;
+  grid-template-columns: 78px 1fr;
+  gap: 8px 10px;
   font-size:11px;
 }
+
 .sw-k{
   color: rgba(15,23,42,0.55);
   font-weight:1000;
 }
+
 .sw-v{
   color: rgba(15,23,42,0.90);
   font-weight:900;
-  word-break:break-word;
+  word-break: break-word;
 }
+
 .sw-actions{
-  margin-top:10px;
+  margin-top: 10px;
   display:flex;
-  gap:8px;
+  gap: 8px;
   flex-wrap:wrap;
 }
+
 .sw-a{
   display:inline-flex;
   align-items:center;
   gap:6px;
-  padding:7px 10px;
+  padding: 7px 10px;
   border-radius:999px;
   font-size:11px;
   font-weight:1000;
@@ -1248,6 +1240,7 @@
   box-shadow: 0 10px 18px rgba(15,23,42,0.08);
 }
 .sw-a:hover{ transform: translateY(-1px); }
+
 
 
 
@@ -1675,13 +1668,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return s.replace(/\s*■\s*/g, "\n■ ").replace(/\n{3,}/g, "\n\n").trim();
   }
   function escapeHtml(str){
-    return String(str ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
+  return String(str ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
   function textToHtmlWithBreaks(text){
     const safe = escapeHtml(String(text ?? ""));
     return safe.replace(/\r\n|\r|\n/g, "<br>");
@@ -2057,7 +2050,7 @@ function syncNavActiveByFrame(){
     statusEl.textContent = "데이터 불러오는 중...";
     await Promise.all([ loadProducts(), loadStock() ]);
     loaded = true;
-    statusEl.textContent = `상품 ${products.length}개 · 재고 업데이트: ${stockUpdatedAt || "미기재"}`;
+statusEl.textContent = `상품 ${products.length}개`;
   }
 
   function totalStockForColor(colorCode){
@@ -2071,52 +2064,64 @@ function syncNavActiveByFrame(){
     return "sw-pill low";
   }
 
-  // embed 위젯 요구: 4컬럼 + 상세 토글
-  function renderResults(rows, kw){
-    if(!rows.length){
-      resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색 결과 없음</div>`;
-      return;
-    }
+function renderResults(rows, kw){
+  if(!rows.length){
+    resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색 결과 없음</div>`;
+    return;
+  }
 
-    const header = `
-      <table class="sw-table">
-        <thead>
-          <tr>
-            <th style="width:44%;">상품명</th>
-            <th style="width:20%;">칼라</th>
-            <th style="width:22%;">상품칼라코드</th>
-            <th style="width:14%; text-align:right;">재고</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
-
-    const body = rows.map((r, idx)=>{
-      const sum = r.totalStock;
-      const pno = normalizeProductNo(r.productNo || "");
-      const detailUrl = pno ? `https://whitesands.co.kr/product/detail.html?product_no=${encodeURIComponent(pno)}` : "";
-
-      // 디테일에 “창고/사이즈”는 stockEntries 요약으로 보여줌
-      const entries = r.entries || [];
-      const entryText = entries
-        .slice(0, 12)
-        .map(e => `${e.warehouse} · ${e.size || "-"} · ${e.qty}`)
-        .join("<br>");
-
-      return `
-        <tr data-sw-row="${idx}">
-          <td>
-            <div class="sw-name">${escapeHtml(r.productName)}</div>
-            <div class="sw-sub">
-              <button class="sw-toggle" type="button" data-sw-toggle="${idx}">상세보기</button>
-            </div>
-          </td>
-          <td><div class="sw-sub">${escapeHtml(r.colorName || "-")}</div></td>
-          <td><div class="sw-sub">${escapeHtml(r.colorCode)}</div></td>
-          <td style="text-align:right;"><span class="${pillClass(sum)}">${escapeHtml(String(sum))}</span></td>
-        </tr>
+  const header = `
+    <table class="sw-table">
+      <thead>
         <tr>
-          <td colspan="4" class="sw-detail" data-sw-detail="${idx}">
+          <th style="width:44%;">상품명</th>
+          <th style="width:20%;">칼라</th>
+          <th style="width:22%;">상품칼라코드</th>
+          <th style="width:14%; text-align:right;">재고</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  const body = rows.map((r, idx)=>{
+    const sum = r.totalStock;
+    const pno = normalizeProductNo(r.productNo || "");
+    const detailUrl = pno ? `https://whitesands.co.kr/product/detail.html?product_no=${encodeURIComponent(pno)}` : "";
+
+    const entries = r.entries || [];
+    const entryText = entries
+      .slice(0, 12)
+      .map(e => `${escapeHtml(e.warehouse)} · ${escapeHtml(e.size || "-")} · ${escapeHtml(String(e.qty))}`)
+      .join("<br>");
+
+    return `
+      <tr data-sw-row="${idx}">
+        <td class="sw-td-name">
+          <div class="sw-name">${escapeHtml(r.productName)}</div>
+          <div class="sw-sub">${escapeHtml(r.productCode || "")}</div>
+        </td>
+
+        <td class="sw-td-color">
+          <div class="sw-sub">${escapeHtml(r.colorName || "-")}</div>
+        </td>
+
+        <td class="sw-td-code">
+          <div class="sw-sub">${escapeHtml(r.colorCode)}</div>
+        </td>
+
+        <td class="sw-td-stock">
+          <div class="sw-stock-wrap">
+            <span class="${pillClass(sum)}">${escapeHtml(String(sum))}</span>
+            <button class="sw-acc-btn" type="button" data-sw-acc="${idx}" aria-expanded="false" title="상세">
+              ▾
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      <tr class="sw-detail-row" data-sw-detail-row="${idx}" style="display:none;">
+        <td colspan="4">
+          <div class="sw-detail" data-sw-detail="${idx}">
             <div class="sw-kv">
               <div class="sw-k">상품코드</div><div class="sw-v">${escapeHtml(r.productCode || "-")}</div>
               <div class="sw-k">바코드</div><div class="sw-v">${escapeHtml(r.barcode || "-")}</div>
@@ -2124,30 +2129,46 @@ function syncNavActiveByFrame(){
               <div class="sw-k">소재</div><div class="sw-v">${escapeHtml(r.material || "-")}</div>
               <div class="sw-k">창고/사이즈별</div><div class="sw-v">${entryText || "-"}</div>
             </div>
+
             <div class="sw-actions">
               ${detailUrl ? `<a class="sw-a" href="${detailUrl}" target="_blank" rel="noopener">상품 상세 ↗</a>` : ""}
               <a class="sw-a" href="https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(r.colorCode)}" target="_blank" rel="noopener">사이트 검색 ↗</a>
             </div>
-          </td>
-        </tr>
-      `;
-    }).join("");
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
 
-    resultEl.innerHTML = header + body + `</tbody></table>`;
+  resultEl.innerHTML = header + body + `</tbody></table>`;
 
-    // 토글: 하나만 펼치기(원하면 다중도 가능)
-    resultEl.querySelectorAll("[data-sw-toggle]").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const id = btn.getAttribute("data-sw-toggle");
-        // 다른거 닫기
-        resultEl.querySelectorAll("[data-sw-detail]").forEach(d=>{
-          if(d.getAttribute("data-sw-detail") !== id) d.classList.remove("show");
-        });
-        const detail = resultEl.querySelector(`[data-sw-detail="${id}"]`);
-        if(detail) detail.classList.toggle("show");
+  // ✅ 토글: "한 번에 하나만 펼치기"
+  resultEl.querySelectorAll("[data-sw-acc]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const id = btn.getAttribute("data-sw-acc");
+
+      // 다른 것 모두 닫기
+      resultEl.querySelectorAll("[data-sw-detail-row]").forEach(tr=>{
+        if(tr.getAttribute("data-sw-detail-row") !== id){
+          tr.style.display = "none";
+        }
       });
+      resultEl.querySelectorAll("[data-sw-acc]").forEach(b=>{
+        if(b.getAttribute("data-sw-acc") !== id){
+          b.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // 대상 토글
+      const tr = resultEl.querySelector(`[data-sw-detail-row="${id}"]`);
+      const expanded = btn.getAttribute("aria-expanded") === "true";
+
+      btn.setAttribute("aria-expanded", String(!expanded));
+      if(tr) tr.style.display = expanded ? "none" : "table-row";
     });
-  }
+  });
+}
+
 
   function doSearch(){
     const kw = input.value.trim();
@@ -2188,7 +2209,7 @@ function syncNavActiveByFrame(){
       };
     }).sort((a,b)=>(b.totalStock - a.totalStock));
 
-    statusEl.textContent = `"${kw}" 결과 ${rows.length}개 · 재고 업데이트: ${stockUpdatedAt || "미기재"}`;
+statusEl.textContent = `"${kw}" 결과 ${rows.length}개`;
 
     // 새창 버튼은 “현재 검색어로 사이트 search”로
     openNewTab.href = `https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(kw)}`;
