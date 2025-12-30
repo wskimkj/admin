@@ -1207,7 +1207,7 @@
   display:none;
   padding: 10px 12px 12px;
 }
-.sw-detail.show{ display:block; }
+.sw-detail{ display:none; }
 
 .sw-kv{
   display:grid;
@@ -2183,32 +2183,38 @@ function renderResults(rows, kw){
 
   resultEl.innerHTML = header + body + `</tbody></table>`;
 
-  // ✅ 토글: "한 번에 하나만 펼치기"
-  resultEl.querySelectorAll("[data-sw-acc]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const id = btn.getAttribute("data-sw-acc");
+ // ✅ 토글: "한 번에 하나만 펼치기"
+resultEl.querySelectorAll("[data-sw-acc]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const id = btn.getAttribute("data-sw-acc");
 
-      // 다른 것 모두 닫기
-      resultEl.querySelectorAll("[data-sw-detail-row]").forEach(tr=>{
-        if(tr.getAttribute("data-sw-detail-row") !== id){
-          tr.style.display = "none";
-        }
-      });
-      resultEl.querySelectorAll("[data-sw-acc]").forEach(b=>{
-        if(b.getAttribute("data-sw-acc") !== id){
-          b.setAttribute("aria-expanded", "false");
-        }
-      });
-
-      // 대상 토글
-      const tr = resultEl.querySelector(`[data-sw-detail-row="${id}"]`);
-      const expanded = btn.getAttribute("aria-expanded") === "true";
-
-      btn.setAttribute("aria-expanded", String(!expanded));
-      if(tr) tr.style.display = expanded ? "none" : "table-row";
+    // 다른 것 모두 닫기
+    resultEl.querySelectorAll("[data-sw-detail-row]").forEach(tr=>{
+      if(tr.getAttribute("data-sw-detail-row") !== id){
+        tr.style.display = "none";
+        const d = tr.querySelector(".sw-detail");
+        if(d) d.classList.remove("show");
+      }
     });
+    resultEl.querySelectorAll("[data-sw-acc]").forEach(b=>{
+      if(b.getAttribute("data-sw-acc") !== id){
+        b.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    // 대상 토글
+    const tr = resultEl.querySelector(`[data-sw-detail-row="${id}"]`);
+    const expanded = btn.getAttribute("aria-expanded") === "true";
+
+    btn.setAttribute("aria-expanded", String(!expanded));
+    if(tr){
+      tr.style.display = expanded ? "none" : "table-row";
+      const d = tr.querySelector(".sw-detail");
+      if(d) d.classList.toggle("show", !expanded);
+    }
   });
-}
+});
+
 
 
   function doSearch(){
