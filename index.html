@@ -1463,10 +1463,9 @@
     검색어를 입력하세요.
   </div>
 
-  <div id="swResult" class="sw-result">
-    <!-- table will render here -->
-  </div>
+  <div id="swResult" class="sw-result"></div>
 </div>
+  </div>
 
 
     <!-- phone widget -->
@@ -1771,7 +1770,6 @@ const searchWidget = document.getElementById("searchWidget");
 const searchClose = document.getElementById("searchClose");
 const searchInput = document.getElementById("searchInput");
 const searchGo = document.getElementById("searchGo");
-const searchFrame = document.getElementById("searchFrame");
 const searchOpenNewTab = document.getElementById("searchOpenNewTab");
 
 
@@ -1884,12 +1882,349 @@ function syncNavActiveByFrame(){
 
 
 /* ======================
-   ✅ Search widget ...
-====================== */
+   ✅ Search widget (Standalone, NO iframe)
+   ====================== */
 (function(){
-  ...
-  const frame = document.getElementById("searchFrame");
-  ...
+  // ==== (search 페이지 참고한) 시트 설정 ====
+  const PRODUCT_SHEET_ID = "1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc";
+  const PRODUCT_GID = "885700988";
+
+  const STOCK_SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
+  const STOCK_GID = "366983013";
+
+  const PRODUCT_CSV_URL = `https://docs.google.com/spreadsheets/d/${PRODUCT_SHEET_ID}/export?format=csv&gid=${PRODUCT_GID}`;
+  const STOCK_CSV_URL   = `https://docs.google.com/spreadsheets/d/${STOCK_SHEET_ID}/export?format=csv&gid=${STOCK_GID}`;
+
+  // ==== DOM ====
+  const btn = document.getElementById("searchWidgetBtn");
+  const panel = document.getElementById("searchWidget");
+  const closeBtn = document.getElementById("searchClose");
+  const input = document.getElementById("searchInput");
+  const goBtn = document.getElementById("searchGo");
+  const openNewTab = document.getElementById("searchOpenNewTab");
+
+  const statusEl = document.getElementById("swStatus");
+  const resultEl = document.getElementById("swResult");
+
+  if(!btn || !panel || !closeBtn || !input || !goBtn || !openNewTab || !statusEl || !resultEl) return;
+
+  // ==== state ====
+  const LAST_Q_KEY = "sw:lastQuery";
+  let loaded = false;
+
+  let products = []; // {productCode,colorName,barcode,material,colorCode,productName,rawName}
+  let stockEntriesByColorCode = {}; // colorCode -> [{warehouse,size,qty,productNo}]
+  let sizeByColorCode = {};
+  let productNoByColorCode = {}; // colorCode -> productNo
+  let stockUpdatedAt = "";
+
+  // ==== utils ====
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+  }
+  function normalizeProductNo(v){
+    if(v == null) return "";
+    return String(v).trim().replace(/[^\d]/g,"");
+  }
+  function cleanProductName(name){
+    if(!name) return "";
+    return String(name)
+      .replace(/[\r\n]+/g, "")
+      .replace(/\u00A0/g, " ")
+      .replace(/\[[^\]]*\]/g, "")
+      .replace(/^\s*[0-9]{2}\s*(FW|SS)\s*/i, "")
+      .replace(/\s*\([^)]*\)\s*[^()]*$/, "")
+      .replace(/\([^)]*\)\s*$/, "")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+  }
+
+  async function fetchText(url, timeoutMs=12000){
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), timeoutMs);
+    try{
+      const res = await fetch(url, { signal: ctrl.signal, cache:"no-store" });
+      if(!res.ok) throw new Error(`CSV fetch 실패 (${res.status})`);
+      const text = await res.text();
+      if(/<!doctype html>|<html/i.test(text)) throw new Error("CSV 대신 HTML(권한/게시 설정 확인)");
+      return text;
+    } finally {
+      clearTimeout(t);
+    }
+  }
+
+  // 아주 단순 CSV 파서(네 admin 안에도 이미 parseCsvGeneric이 있지만, 위젯만 독립으로 씀)
+  function parseCsv(text){
+    const rows = [];
+    let row = [];
+    let cur = "";
+    let inQuotes = false;
+
+    if(text && text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+
+    for(let i=0;i<text.length;i++){
+      const ch = text[i];
+      const next = text[i+1];
+
+      if(ch === '"'){
+        if(inQuotes && next === '"'){ cur += '"'; i++; }
+        else inQuotes = !inQuotes;
+        continue;
+      }
+      if(!inQuotes && ch === ","){ row.push(cur); cur=""; continue; }
+      if(!inQuotes && (ch === "\n" || ch === "\r")){
+        if(ch === "\r" && next === "\n") i++;
+        row.push(cur);
+        rows.push(row);
+        row=[]; cur="";
+        continue;
+      }
+      cur += ch;
+    }
+    row.push(cur);
+    rows.push(row);
+
+    // 빈줄 제거
+    return rows.filter(r => r.some(c => String(c??"").trim() !== ""));
+  }
+
+  async function loadProducts(){
+    const text = await fetchText(PRODUCT_CSV_URL);
+    const rows = parseCsv(text);
+    if(rows.length < 2) return;
+
+    // search 페이지 인덱스 그대로 참고
+    const idxProductCode = 5;
+    const idxColorName   = 15;
+    const idxBarcode     = 20;
+    const idxMaterial    = 22;
+    const idxColorCode   = 25;
+    const idxProductName = 26;
+
+    products = rows.slice(1).map(r=>{
+      const rawName = r[idxProductName] || "";
+      const productName = cleanProductName(rawName);
+      return {
+        productCode: r[idxProductCode] || "",
+        colorName: r[idxColorName] || "",
+        barcode: r[idxBarcode] || "",
+        material: r[idxMaterial] || "",
+        colorCode: r[idxColorCode] || "",
+        rawName,
+        productName
+      };
+    }).filter(p=>p.productName && p.colorCode);
+  }
+
+  async function loadStock(){
+    const text = await fetchText(STOCK_CSV_URL);
+    const rows = parseCsv(text);
+    if(!rows.length) return;
+
+    stockUpdatedAt = (rows[0]?.[1] || "").trim();
+    stockEntriesByColorCode = {};
+    sizeByColorCode = {};
+    productNoByColorCode = {};
+
+    for(let i=1;i<rows.length;i++){
+      const r = rows[i] || [];
+      const colorCode = (r[0] || "").trim();
+      if(!colorCode) continue;
+
+      const size = (r[1] || "").trim();
+      const warehouse = (r[2] || "").trim() || "미정";
+
+      const productNo = (r[9] || "").toString().trim(); // J
+      if(productNo && !productNoByColorCode[colorCode]) productNoByColorCode[colorCode] = productNo;
+
+      let qtyRaw = (r[10] || "").toString().trim(); // K
+      if(!qtyRaw) continue;
+      qtyRaw = qtyRaw.replace(/,/g,"");
+      const qty = Number(qtyRaw);
+      if(Number.isNaN(qty)) continue;
+
+      if(!stockEntriesByColorCode[colorCode]) stockEntriesByColorCode[colorCode] = [];
+      stockEntriesByColorCode[colorCode].push({ warehouse, size, qty, productNo });
+
+      if(!sizeByColorCode[colorCode] && size) sizeByColorCode[colorCode] = size;
+    }
+  }
+
+  async function ensureLoaded(){
+    if(loaded) return;
+    statusEl.textContent = "데이터 불러오는 중...";
+    await Promise.all([ loadProducts(), loadStock() ]);
+    loaded = true;
+    statusEl.textContent = `상품 ${products.length}개 · 재고 업데이트: ${stockUpdatedAt || "미기재"}`;
+  }
+
+  function totalStockForColor(colorCode){
+    const entries = stockEntriesByColorCode[colorCode] || [];
+    return entries.reduce((sum,e)=>sum + (typeof e.qty === "number" ? e.qty : 0), 0);
+  }
+
+  function pillClass(qty){
+    if(qty >= 100) return "sw-pill";
+    if(qty >= 10) return "sw-pill mid";
+    return "sw-pill low";
+  }
+
+  // embed 위젯 요구: 4컬럼 + 상세 토글
+  function renderResults(rows, kw){
+    if(!rows.length){
+      resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색 결과 없음</div>`;
+      return;
+    }
+
+    const header = `
+      <table class="sw-table">
+        <thead>
+          <tr>
+            <th style="width:44%;">상품명</th>
+            <th style="width:20%;">칼라</th>
+            <th style="width:22%;">상품칼라코드</th>
+            <th style="width:14%; text-align:right;">재고</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    const body = rows.map((r, idx)=>{
+      const sum = r.totalStock;
+      const pno = normalizeProductNo(r.productNo || "");
+      const detailUrl = pno ? `https://whitesands.co.kr/product/detail.html?product_no=${encodeURIComponent(pno)}` : "";
+
+      // 디테일에 “창고/사이즈”는 stockEntries 요약으로 보여줌
+      const entries = r.entries || [];
+      const entryText = entries
+        .slice(0, 12)
+        .map(e => `${e.warehouse} · ${e.size || "-"} · ${e.qty}`)
+        .join("<br>");
+
+      return `
+        <tr data-sw-row="${idx}">
+          <td>
+            <div class="sw-name">${escapeHtml(r.productName)}</div>
+            <div class="sw-sub">
+              <button class="sw-toggle" type="button" data-sw-toggle="${idx}">상세보기</button>
+            </div>
+          </td>
+          <td><div class="sw-sub">${escapeHtml(r.colorName || "-")}</div></td>
+          <td><div class="sw-sub">${escapeHtml(r.colorCode)}</div></td>
+          <td style="text-align:right;"><span class="${pillClass(sum)}">${escapeHtml(String(sum))}</span></td>
+        </tr>
+        <tr>
+          <td colspan="4" class="sw-detail" data-sw-detail="${idx}">
+            <div class="sw-kv">
+              <div class="sw-k">상품코드</div><div class="sw-v">${escapeHtml(r.productCode || "-")}</div>
+              <div class="sw-k">바코드</div><div class="sw-v">${escapeHtml(r.barcode || "-")}</div>
+              <div class="sw-k">사이즈</div><div class="sw-v">${escapeHtml(r.size || "-")}</div>
+              <div class="sw-k">소재</div><div class="sw-v">${escapeHtml(r.material || "-")}</div>
+              <div class="sw-k">창고/사이즈별</div><div class="sw-v">${entryText || "-"}</div>
+            </div>
+            <div class="sw-actions">
+              ${detailUrl ? `<a class="sw-a" href="${detailUrl}" target="_blank" rel="noopener">상품 상세 ↗</a>` : ""}
+              <a class="sw-a" href="https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(r.colorCode)}" target="_blank" rel="noopener">사이트 검색 ↗</a>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    resultEl.innerHTML = header + body + `</tbody></table>`;
+
+    // 토글: 하나만 펼치기(원하면 다중도 가능)
+    resultEl.querySelectorAll("[data-sw-toggle]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const id = btn.getAttribute("data-sw-toggle");
+        // 다른거 닫기
+        resultEl.querySelectorAll("[data-sw-detail]").forEach(d=>{
+          if(d.getAttribute("data-sw-detail") !== id) d.classList.remove("show");
+        });
+        const detail = resultEl.querySelector(`[data-sw-detail="${id}"]`);
+        if(detail) detail.classList.toggle("show");
+      });
+    });
+  }
+
+  function doSearch(){
+    const kw = input.value.trim();
+    localStorage.setItem(LAST_Q_KEY, kw);
+
+    if(!kw){
+      statusEl.textContent = "검색어를 입력하세요.";
+      resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색어를 입력하세요.</div>`;
+      openNewTab.href = "#";
+      return;
+    }
+
+    const q = kw.toLowerCase();
+    const filtered = products.filter(p=>{
+      return (p.productName||"").toLowerCase().includes(q)
+          || (p.productCode||"").toLowerCase().includes(q)
+          || (p.colorCode||"").toLowerCase().includes(q);
+    });
+
+    // 위젯용 row 만들기 (색상코드 단위로)
+    const rows = filtered.map(p=>{
+      const colorCode = p.colorCode;
+      const entries = stockEntriesByColorCode[colorCode] || [];
+      const productNo = productNoByColorCode[colorCode] || "";
+      const totalStock = totalStockForColor(colorCode);
+
+      return {
+        productName: p.productName,
+        colorName: p.colorName,
+        productCode: p.productCode,
+        barcode: p.barcode,
+        material: p.material,
+        colorCode,
+        size: sizeByColorCode[colorCode] || "",
+        entries,
+        productNo,
+        totalStock
+      };
+    }).sort((a,b)=>(b.totalStock - a.totalStock));
+
+    statusEl.textContent = `"${kw}" 결과 ${rows.length}개 · 재고 업데이트: ${stockUpdatedAt || "미기재"}`;
+
+    // 새창 버튼은 “현재 검색어로 사이트 search”로
+    openNewTab.href = `https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(kw)}`;
+
+    renderResults(rows, kw);
+  }
+
+  function openWidget(){
+    panel.classList.add("visible");
+    ensureLoaded().then(()=>{
+      const lastQ = localStorage.getItem(LAST_Q_KEY) || "";
+      if(lastQ && !input.value.trim()) input.value = lastQ;
+      input.focus();
+      if(input.value.trim()) doSearch();
+    }).catch(err=>{
+      console.error(err);
+      statusEl.textContent = "데이터 로드 실패(시트 권한/게시 확인)";
+    });
+  }
+
+  function closeWidget(){ panel.classList.remove("visible"); }
+
+  btn.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    if(panel.classList.contains("visible")) closeWidget();
+    else openWidget();
+  });
+  closeBtn.addEventListener("click", (e)=>{ e.stopPropagation(); closeWidget(); });
+  panel.addEventListener("click", (e)=> e.stopPropagation());
+
+  goBtn.addEventListener("click", (e)=>{ e.stopPropagation(); doSearch(); });
+  input.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter"){ e.preventDefault(); doSearch(); }
+  });
+
+  document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeWidget(); });
 })();
 
 
