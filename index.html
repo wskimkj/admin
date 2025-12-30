@@ -1119,6 +1119,135 @@
   min-height: 520px;
 }
 #searchFrame{ width:100%; height:100%; border:0; display:block; }
+/* ===== Search Widget (Standalone) Table ===== */
+.sw-result{
+  border-radius:16px;
+  overflow:hidden;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(15,23,42,0.08);
+  max-height: 62vh;
+  overflow:auto;
+}
+
+.sw-table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  font-size:12px;
+}
+.sw-table th, .sw-table td{
+  padding:10px 10px;
+  border-bottom:1px solid rgba(15,23,42,0.06);
+  vertical-align:middle;
+}
+.sw-table th{
+  position:sticky;
+  top:0;
+  background: rgba(255,255,255,0.92);
+  z-index:2;
+  font-size:11px;
+  letter-spacing:-0.02em;
+  color: rgba(15,23,42,0.70);
+}
+.sw-table tbody tr:hover td{
+  background: rgba(124,58,237,0.06);
+}
+
+.sw-name{
+  font-weight:1000;
+  color: rgba(15,23,42,0.92);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.sw-sub{
+  font-size:11px;
+  font-weight:800;
+  color: rgba(15,23,42,0.60);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.sw-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:44px;
+  padding:4px 10px;
+  border-radius:999px;
+  font-weight:1000;
+  font-size:11px;
+  background: rgba(124,58,237,0.10);
+  border: 1px solid rgba(124,58,237,0.18);
+  color: rgba(124,58,237,0.95);
+}
+.sw-pill.low{
+  background: rgba(236,72,153,0.10);
+  border-color: rgba(236,72,153,0.18);
+  color: rgba(236,72,153,0.95);
+}
+.sw-pill.mid{
+  background: rgba(234,179,8,0.12);
+  border-color: rgba(234,179,8,0.20);
+  color: rgba(161,98,7,0.95);
+}
+
+.sw-toggle{
+  border:none;
+  cursor:pointer;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:1000;
+  background: rgba(15,23,42,0.06);
+  color: rgba(15,23,42,0.72);
+}
+.sw-toggle:hover{ transform: translateY(-1px); }
+
+.sw-detail{
+  display:none;
+  padding:10px 10px 12px;
+  background: rgba(255,255,255,0.92);
+}
+.sw-detail.show{ display:block; }
+
+.sw-kv{
+  display:grid;
+  grid-template-columns: 86px 1fr;
+  gap:8px 10px;
+  font-size:11px;
+}
+.sw-k{
+  color: rgba(15,23,42,0.55);
+  font-weight:1000;
+}
+.sw-v{
+  color: rgba(15,23,42,0.90);
+  font-weight:900;
+  word-break:break-word;
+}
+.sw-actions{
+  margin-top:10px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.sw-a{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:1000;
+  text-decoration:none;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(15,23,42,0.10);
+  color: rgba(15,23,42,0.75);
+  box-shadow: 0 10px 18px rgba(15,23,42,0.08);
+}
+.sw-a:hover{ transform: translateY(-1px); }
 
 
 
@@ -1329,8 +1458,13 @@
     <button class="search-mini-btn" id="searchGo" type="button" title="검색">🔍</button>
   </div>
 
-  <div class="search-frame-wrapper">
-    <iframe id="searchFrame"></iframe>
+  <div class="search-frame-wrapper" style="height:auto; min-height:0;">
+  <div id="swStatus" style="margin:8px 2px 10px; font-size:12px; font-weight:900; color:rgba(15,23,42,.65);">
+    검색어를 입력하세요.
+  </div>
+
+  <div id="swResult" class="sw-result">
+    <!-- table will render here -->
   </div>
 </div>
 
@@ -1748,88 +1882,14 @@ function syncNavActiveByFrame(){
     requestAnimationFrame(()=> placeSubSidebarNear(anchorBtn, panel));
   }
 
-    /* ======================
-   ✅ Search widget (Account/Calendar 로직 영향 없음)
-   ====================== */
+
+/* ======================
+   ✅ Search widget ...
+====================== */
 (function(){
-  const SEARCH_BASE_URL = "https://wskimkj.github.io/search/";
-  const SEARCH_QS_KEY = "q"; // search 페이지가 ?q= 로 받게 만든 경우
-
-  const btn = document.getElementById("searchWidgetBtn");
-  const panel = document.getElementById("searchWidget");
-  const closeBtn = document.getElementById("searchClose");
-  const input = document.getElementById("searchInput");
-  const goBtn = document.getElementById("searchGo");
+  ...
   const frame = document.getElementById("searchFrame");
-  const openNewTab = document.getElementById("searchOpenNewTab");
-
-  if(!btn || !panel || !closeBtn || !input || !goBtn || !frame || !openNewTab) return;
-
-  const LAST_Q_KEY = "search:lastQuery";
-  const LAST_URL_KEY = "search:lastUrl";
-
- function buildUrl(q){
-  const kw = (q || "").trim();
-  const u = new URL(SEARCH_BASE_URL);
-  u.searchParams.set("embed", "1"); // ✅ 위젯 모드
-  if (kw) u.searchParams.set(SEARCH_QS_KEY, kw);
-  return u.toString();
-}
-
- 
-
-
-  function openWidget(){
-    panel.classList.add("visible");
-
-    const lastQ = localStorage.getItem(LAST_Q_KEY) || "";
-    const lastUrl = localStorage.getItem(LAST_URL_KEY) || "";
-
-    if(lastQ && !input.value.trim()) input.value = lastQ;
-
-    if(!frame.src || frame.src === "about:blank"){
-      frame.src = lastUrl || buildUrl(input.value.trim());
-    }
-
-    openNewTab.href = frame.src || buildUrl(input.value.trim());
-    input.focus();
-  }
-
-  function closeWidget(){
-    panel.classList.remove("visible");
-  }
-
-  function doSearch(){
-    const q = input.value.trim();
-    const url = buildUrl(q);
-    frame.src = url;
-    openNewTab.href = url;
-    localStorage.setItem(LAST_Q_KEY, q);
-    localStorage.setItem(LAST_URL_KEY, url);
-  }
-
-  btn.addEventListener("click", (e)=>{
-    e.stopPropagation();
-
-    // ✅ 여기서 Account/Calendar 닫는 함수가 네 기존 코드에 있으면 호출만 해줘도 됨.
-    // 예) closeAllWidgets?.();  // 이런 식으로 "있으면" 실행되게
-    if(typeof window.closeAllWidgets === "function") window.closeAllWidgets();
-
-    if(panel.classList.contains("visible")) closeWidget();
-    else openWidget();
-  });
-
-  closeBtn.addEventListener("click", (e)=>{ e.stopPropagation(); closeWidget(); });
-  panel.addEventListener("click", (e)=> e.stopPropagation());
-
-  goBtn.addEventListener("click", (e)=>{ e.stopPropagation(); doSearch(); });
-  input.addEventListener("keydown", (e)=>{
-    if(e.key === "Enter"){ e.preventDefault(); doSearch(); }
-  });
-
-  document.addEventListener("keydown", (e)=>{
-    if(e.key === "Escape") closeWidget();
-  });
+  ...
 })();
 
 
