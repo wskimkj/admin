@@ -1289,6 +1289,11 @@
       <i class='bx bx-phone'></i><span>Phone</span>
     </button>
 
+    <button class="nav-footer-btn" id="sheetNavBtn" type="button" title="키워드로 시트 찾기">
+  <i class='bx bx-search'></i><span>Sheets</span>
+</button>
+
+
     <button class="nav-footer-btn" id="trackingWidgetBtn" type="button" title="배송조회">
       <i class='bx bx-package'></i><span>Track</span>
     </button>
@@ -1511,6 +1516,32 @@
       </div>
     </div>
   </div>
+
+  <!-- ✅ Sheet Navigator widget -->
+<div class="search-widget" id="sheetNavWidget" style="width:480px; max-width:calc(100vw - 120px);">
+  <div class="widget-head">
+    <div class="widget-title">
+      <span class="widget-badge">SHEETS</span>
+      <span style="font-weight:1000; font-size:13px; color:rgba(15,23,42,.86);">키워드로 시트 찾기</span>
+    </div>
+
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button class="widget-close" id="sheetNavClose" type="button" aria-label="닫기">✕</button>
+    </div>
+  </div>
+
+  <div class="search-search-row">
+    <input id="sheetNavInput" class="search-input" placeholder="키워드 입력 후 Enter" />
+    <button class="search-mini-btn" id="sheetNavGo" type="button" title="검색">🔎</button>
+  </div>
+
+  <div id="sheetNavStatus" style="margin: 8px 2px 10px; font-size:12px; font-weight:900; color:rgba(15,23,42,.65);">
+    키워드를 입력하세요.
+  </div>
+
+  <div class="sw-result" id="sheetNavResult"></div>
+</div>
+
 
   <!-- account widget -->
   <div class="account-widget" id="accountWidget">
@@ -2331,6 +2362,215 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   phoneOutput.addEventListener("click",(e)=>{ e.preventDefault(); e.stopPropagation(); copyText(phoneOutput.textContent); });
   phoneCopy.addEventListener("click",(e)=>{ e.preventDefault(); e.stopPropagation(); copyText(phoneOutput.textContent); });
+
+
+  /* ======================
+   ✅ Sheet Navigator (keyword -> sheet)
+   ====================== */
+(function(){
+  const sheetNavBtn    = document.getElementById("sheetNavBtn");
+  const sheetNavWidget = document.getElementById("sheetNavWidget");
+  const sheetNavClose  = document.getElementById("sheetNavClose");
+  const sheetNavInput  = document.getElementById("sheetNavInput");
+  const sheetNavGo     = document.getElementById("sheetNavGo");
+  const sheetNavStatus = document.getElementById("sheetNavStatus");
+  const sheetNavResult = document.getElementById("sheetNavResult");
+
+  if(!sheetNavBtn || !sheetNavWidget || !sheetNavClose || !sheetNavInput || !sheetNavGo || !sheetNavStatus || !sheetNavResult) return;
+
+  // ✅ 네가 부여한 "표시용 시트명" + 실제 URL/GID
+  // searchCols: 특정 열만 검색하고 싶으면 0-based index 배열로 지정 (예: [0,3,5])
+  // null이면 전체 셀 검색
+  const SHEETS = [
+    { name:"회수 시트",       url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=2058557070#gid=2058557070", gid:2058557070, csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=2058557070`, searchCols:null },
+    { name:"온라인 시트",     url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0",             gid:0,          csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=0`,          searchCols:null },
+    { name:"발송 후 취소",    url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=716550224#gid=716550224", gid:716550224, csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=716550224`, searchCols:null },
+    { name:"온라인(완료)",    url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=303584832#gid=303584832", gid:303584832, csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=303584832`, searchCols:null },
+    { name:"미출고",          url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=357162286#gid=357162286", gid:357162286, csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=357162286`, searchCols:null },
+
+    { name:"출고(25년)",      url:"https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0",               gid:0,          csv:`https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/export?format=csv&gid=0`,          searchCols:null },
+    { name:"출고(26년)",      url:"https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=883501265#gid=883501265", gid:883501265, csv:`https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/export?format=csv&gid=883501265`, searchCols:null },
+    { name:"변경",            url:"https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=2031425693#gid=2031425693", gid:2031425693, csv:`https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/export?format=csv&gid=2031425693`, searchCols:null },
+  ];
+
+  // ✅ 캐시 (같은 시트 매번 fetch 방지)
+  const CACHE = new Map(); // gid -> rows
+
+  async function fetchCsvRows(url){
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), 12000);
+    try{
+      const res = await fetch(url, { cache:"no-store", signal: ctrl.signal });
+      if(!res.ok) throw new Error(`CSV fetch 실패 (${res.status})`);
+      const text = await res.text();
+      if(/<!doctype html>|<html/i.test(text)) throw new Error("CSV 대신 HTML(권한/게시 설정 확인)");
+      return parseCsvGeneric(text); // ✅ 네가 이미 위에서 정의해둔 parseCsvGeneric 재사용
+    } finally {
+      clearTimeout(t);
+    }
+  }
+
+  function norm(s){ return String(s ?? "").toLowerCase(); }
+  function includesKeyword(cell, kw){ return norm(cell).includes(kw); }
+
+  function rowsHaveKeyword(rows, kw, searchCols){
+    // rows: [ [c1,c2...], ... ]
+    for(let i=0;i<rows.length;i++){
+      const r = rows[i] || [];
+      if(searchCols && Array.isArray(searchCols)){
+        for(const ci of searchCols){
+          if(ci != null && ci >= 0 && ci < r.length){
+            if(includesKeyword(r[ci], kw)) return true;
+          }
+        }
+      }else{
+        for(let j=0;j<r.length;j++){
+          if(includesKeyword(r[j], kw)) return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function renderSheetMatches(matches, keyword){
+    if(!matches.length){
+      sheetNavResult.innerHTML = `
+        <div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">
+          "${escapeHtml(keyword)}" 포함 시트를 찾지 못했어요.
+        </div>
+      `;
+      return;
+    }
+
+    // 결과 UI: 클릭하면 mainFrame 이동, 우측에 새탭 버튼
+    const html = `
+      <table class="sw-table">
+        <thead>
+          <tr>
+            <th style="width:70%;">시트</th>
+            <th style="width:30%; text-align:right;">이동</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${matches.map(m => `
+            <tr data-sheet-row style="cursor:pointer;">
+              <td>
+                <div class="sw-name">${escapeHtml(m.name)}</div>
+                <div class="sw-sub">gid: ${escapeHtml(String(m.gid))}</div>
+              </td>
+              <td style="text-align:right;">
+                <div class="sw-stock-wrap">
+                  <button class="sw-acc-btn" type="button" data-sheet-open="inframe">IN</button>
+                  <button class="sw-acc-btn" type="button" data-sheet-open="blank">↗</button>
+                </div>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+    sheetNavResult.innerHTML = html;
+
+    // 이벤트 바인딩
+    const trs = sheetNavResult.querySelectorAll("tr[data-sheet-row]");
+    trs.forEach((tr, idx)=>{
+      const target = matches[idx];
+      tr.addEventListener("click", ()=>{
+        // 행 클릭 = iframe 이동
+        mainFrame.src = target.url;
+        rememberFrame(target.url);
+        sheetNavWidget.classList.remove("visible");
+      });
+
+      const btnIn = tr.querySelector(`[data-sheet-open="inframe"]`);
+      const btnNew = tr.querySelector(`[data-sheet-open="blank"]`);
+
+      btnIn.addEventListener("click", (e)=>{
+        e.stopPropagation();
+        mainFrame.src = target.url;
+        rememberFrame(target.url);
+        sheetNavWidget.classList.remove("visible");
+      });
+
+      btnNew.addEventListener("click", (e)=>{
+        e.stopPropagation();
+        window.open(target.url, "_blank");
+      });
+    });
+  }
+
+  async function doSheetNavSearch(){
+    const kwRaw = sheetNavInput.value.trim();
+    if(!kwRaw){
+      sheetNavStatus.textContent = "키워드를 입력하세요.";
+      sheetNavResult.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">키워드를 입력하세요.</div>`;
+      return;
+    }
+
+    const kw = kwRaw.toLowerCase();
+    sheetNavStatus.textContent = "시트 확인 중...";
+    sheetNavResult.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색 중...</div>`;
+
+    const matches = [];
+    let checked = 0;
+
+    // 병렬로 다 던지되, 캐시 활용
+    await Promise.all(SHEETS.map(async (s)=>{
+      try{
+        let rows = CACHE.get(s.gid);
+        if(!rows){
+          rows = await fetchCsvRows(s.csv);
+          CACHE.set(s.gid, rows);
+        }
+        if(rowsHaveKeyword(rows, kw, s.searchCols)){
+          matches.push(s);
+        }
+      }catch(err){
+        // 권한 문제 등은 “실패”로만 표시 (원하면 실패 시트도 따로 표시 가능)
+        console.warn("sheet nav fetch fail:", s.name, err);
+      } finally {
+        checked++;
+        sheetNavStatus.textContent = `"${kwRaw}" 확인중... (${checked}/${SHEETS.length})`;
+      }
+    }));
+
+    matches.sort((a,b)=>a.name.localeCompare(b.name));
+    sheetNavStatus.textContent = `"${kwRaw}" 포함 시트 ${matches.length}개`;
+    renderSheetMatches(matches, kwRaw);
+  }
+
+  function openSheetNav(){
+    sheetNavWidget.classList.add("visible");
+    // 다른 패널 닫기 (네가 이미 만든 closeAllPanels 활용 가능)
+    hideAllSubSidebars(); hideCalendar(); hidePhone(); hideTracking(); hideAccount(); closePopup();
+    sheetNavInput.focus();
+  }
+  function closeSheetNav(){ sheetNavWidget.classList.remove("visible"); }
+
+  sheetNavBtn.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    if(sheetNavWidget.classList.contains("visible")) closeSheetNav();
+    else openSheetNav();
+  });
+  sheetNavClose.addEventListener("click", (e)=>{ e.stopPropagation(); closeSheetNav(); });
+  sheetNavWidget.addEventListener("click", (e)=> e.stopPropagation());
+
+  sheetNavGo.addEventListener("click", (e)=>{ e.stopPropagation(); doSheetNavSearch(); });
+  sheetNavInput.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter"){ e.preventDefault(); doSheetNavSearch(); }
+  });
+
+  // ESC 닫기
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape"){
+      closeSheetNav();
+    }
+  });
+
+  // auto-hide 동일 적용
+  attachAutoHide(sheetNavWidget, closeSheetNav, 650);
+})();
+
 
   /* ======================
      Tracking
