@@ -1,3847 +1,1562 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <link rel="stylesheet" href="./css/common.css">
   <meta charset="UTF-8" />
-  <title>어드민</title>
-  <link rel="icon" type="image/png" href="favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <link rel="stylesheet" as="style" crossorigin
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TEMPLETE</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+   /* ===================== Purple Pastel Unified UI (DESIGN ONLY) ===================== */
+:root{
+  --page-bg: #f7f4ff;
+  --page-bg2:#eef6ff;
 
-    :root{
-      --shell-bg: rgba(255,255,255,0.98);
-      --shell-shadow: 0 24px 60px rgba(15,23,42,.22);
-      --card-shadow:
-        0 18px 40px rgba(148, 163, 184, 0.28),
-        inset 0 1px 0 rgba(255,255,255,0.9);
-      --card-bg: radial-gradient(circle at top left, #fef3ff 0%, #ffffff 50%, #f1f5f9 100%);
+  --card-bg: rgba(255,255,255,.90);
+  --card-stroke: rgba(170,150,230,.22);
 
-      --main-sidebar-bg: #b79cff;
+  --text: #2f2a3a;
+  --sub: #6e6a82;
+  --muted: rgba(110,106,130,.60);
 
-      --nav-text: #f9fafb;
-      --nav-chip-bg: rgba(255,255,255,0.18);
-      --nav-active-chip-bg: #ffffff;
-      --nav-active-color: #6d28d9;
+  --pink: #ff8fbc;
+  --lilac:#b8a7ff;
 
-      --sub-panel-bg: rgba(255, 255, 255, 0.22);
-      --sub-panel-border: rgba(255, 255, 255, 0.45);
-      --sub-panel-shadow: 0 18px 40px rgba(15,23,42,0.18);
+  --shadow-main: 0 18px 50px rgba(30,18,60,.10);
+  --shadow-card: 0 10px 26px rgba(30,18,60,.08);
+  --shadow-soft: 0 6px 18px rgba(30,18,60,.06);
 
-      --sub-ink: rgba(15, 23, 42, 0.92);
-
-      --sub-item-bg: rgba(255,255,255,0.78);
-      --sub-item-hover: rgba(255,255,255,0.92);
-      --sub-item-active-bg: rgba(255,255,255,0.95);
-
-      --glass-bg: rgba(255,255,255,0.62);
-      --glass-border: rgba(255,255,255,0.70);
-      --glass-shadow: 0 18px 50px rgba(15,23,42,0.16);
-      --ink: #0f172a;
-      --accent: #7c3aed;
-      --accent2: #ec4899;
-
-      --widget-w: 340px; /* phone/account/calendar 통일 폭 */
-    }
-
-    body{
-      min-height: 100vh;
-      padding: 0;
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(236,72,153,.35), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(96,165,250,.28), transparent 55%),
-        radial-gradient(circle at top right, rgba(124,58,237,.22), transparent 55%),
-        #fdf2ff;
-      overflow: hidden;
-      font-size: 14px;
-    }
-
-    .app-shell{
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      border-radius: 18px;
-      background: var(--shell-bg);
-      box-shadow: var(--shell-shadow);
-      overflow: hidden;
-    }
-
-    /* ===== main sidebar ===== */
-    .main-sidebar{
-      position:absolute; top:0; left:0;
-      width:90px; height:100%;
-      background: var(--main-sidebar-bg);
-      display:flex; flex-direction:column; align-items:center;
-      padding: 16px 0;
-      z-index: 2000;
-    }
-
-    .nav-list{
-      flex:1;
-      display:flex; flex-direction:column;
-      align-items:center;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .nav-item{
-      width:60px;
-      border:none;
-      background:transparent;
-      color: var(--nav-text);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap: 4px;
-      cursor:pointer;
-      font-size: 11px;
-      font-weight: 600;
-      user-select:none;
-    }
-
-    .nav-icon-wrap{
-      width:40px;height:40px;
-      border-radius:18px;
-      background: var(--nav-chip-bg);
-      display:flex;align-items:center;justify-content:center;
-      box-shadow: 0 6px 14px rgba(15,23,42,0.20);
-      transition: all .2s ease;
-    }
-
-    .nav-item i{ font-size: 20px; }
-    .nav-item span{ opacity:.95; }
-
-    .nav-item.active .nav-icon-wrap{
-      background: var(--nav-active-chip-bg);
-      color: var(--nav-active-color);
-      box-shadow: 0 10px 22px rgba(124,58,237,.16);
-    }
-
-    .nav-item:hover .nav-icon-wrap{
-      transform: translateY(-1px);
-      box-shadow: 0 12px 24px rgba(15,23,42,.18);
-    }
-
-    /* ===== footer buttons ===== */
-    .nav-footer{
-  margin-top: auto;
-  padding-bottom: 6px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap: 10px;
+  --radius-xl: 24px;
 }
 
-.nav-footer-btn{
-  margin-top: 0;
-  margin-bottom: 0;
-      border: none;
-      background: rgba(255,255,255,0.18);
-      color: rgba(255,255,255,0.92);
-      border-radius: 999px;
-      padding: 8px 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 900;
-      box-shadow: 0 10px 22px rgba(15,23,42,0.22);
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      user-select:none;
-    }
-    .nav-footer-btn i{ font-size: 16px; }
-    .nav-footer-btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.26);
-      box-shadow: 0 14px 28px rgba(15,23,42,0.22);
-    }
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
 
-    /* ✅ footer button icon-only (event / account) */
-    .nav-footer-btn.icon-only{
-      width: 44px;
-      justify-content: center;
-      padding: 8px;
-      gap: 0;
-    }
-    .nav-footer-btn.icon-only span{ display:none; }
-
-    /* ✅ screen-reader only */
-    .sr-only{
-      position:absolute;
-      width:1px;height:1px;
-      padding:0;margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
-    }
-
-
-    /* ===== sub sidebars ===== */
-    .sub-sidebar{
-      position:absolute;
-      left: 96px;
-      width: 160px;
-      border-radius: 22px;
-      padding: 12px 12px 10px;
-      background: var(--sub-panel-bg);
-      border: 1px solid var(--sub-panel-border);
-      box-shadow: var(--sub-panel-shadow), inset 0 1px 0 rgba(255,255,255,0.35);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      height: auto;
-      max-height: min(520px, calc(100vh - 40px));
-      overflow: hidden;
-      display:flex;
-      flex-direction:column;
-
-      opacity:0;
-      transform: translateX(-12px);
-      pointer-events:none;
-      transition: all .18s ease;
-      z-index: 1800;
-    }
-    .sub-sidebar.visible{
-      opacity:1;
-      transform: translateX(0);
-      pointer-events:auto;
-    }
-
-    .sub-list{
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-    }
-
-    .sub-item{
-      width:100%;
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: var(--sub-item-bg);
-      color: var(--sub-ink);
-      font-size: 12px;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
-      text-align:left;
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow:
-        0 10px 18px rgba(15,23,42,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.55);
-      user-select:none;
-    }
-    .sub-item i{ font-size:16px; color: rgba(15,23,42,0.55); }
-    .sub-item:hover{
-      background: var(--sub-item-hover);
-      transform: translateY(-1px);
-    }
-    .sub-item.active{
-      background: var(--sub-item-active-bg);
-      color: var(--nav-active-color);
-      border-color: rgba(124,58,237,0.18);
-      box-shadow: 0 12px 20px rgba(124,58,237,.16);
-    }
-
-    /* ✅ 3레벨 아코디언 (기타) */
-    .sub-accordion{
-      border-radius: 18px;
-      overflow: visible;
-      border: 1px solid rgba(15,23,42,0.08);
-      background: rgba(255,255,255,0.18);
-    }
-    .sub-acc-head{
-      width:100%;
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: var(--sub-item-bg);
-      color: var(--sub-ink);
-      font-size: 12px;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 8px;
-      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
-      text-align:left;
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow:
-        0 10px 18px rgba(15,23,42,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.55);
-      user-select:none;
-    }
-    .sub-acc-head:hover{ background: var(--sub-item-hover); transform: translateY(-1px); }
-    .sub-acc-head .left{ display:flex; align-items:center; gap:8px; }
-    .sub-acc-caret{
-      font-size: 18px;
-      color: rgba(15,23,42,0.55);
-      transition: transform .15s ease;
-    }
-    .sub-acc-head[aria-expanded="true"] .sub-acc-caret{ transform: rotate(180deg); }
-
-    .sub-acc-body{
-      padding: 8px 0 2px;
-      display:flex;
-      flex-direction:column;
-      gap: 6px;
-    }
-    .sub-acc-body[hidden]{ display:none; }
-
-    .sub-acc-item{
-      margin: 0 6px;
-      width: calc(100% - 12px);
-      padding: 8px 10px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.70);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 8px 14px rgba(15,23,42,0.06);
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      font-size: 9px;
-      font-weight: 700;
-      color: rgba(15,23,42,0.86);
-      text-align:left;
-      user-select:none;
-    }
-    .sub-acc-item:hover{ background: rgba(255,255,255,0.88); }
-    .sub-acc-item i{ font-size: 14px; color: rgba(15,23,42,0.50); }
-
-    /* ===== main content ===== */
-    .content{
-      position:absolute;
-      top:0; left:82px; right:0; bottom:0;
-      padding: 10px 14px 14px;
-      z-index: 1;
-    }
-    .card{
-      width:100%;
-      height:100%;
-      border-radius: 24px;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-      padding: 10px;
-    }
-    iframe{
-      width:100%;
-      height:100%;
-      border:none;
-      border-radius:16px;
-      background: rgba(255,255,255,0.72);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.55);
-      box-shadow: 0 10px 26px rgba(15,23,42,.12);
-    }
-
-    /* ✅ 위젯 공용 헤더 */
-    .widget-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom: 10px;
-    }
-
-    .widget-title{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      font-size: 14px;
-      font-weight: 1000;
-      letter-spacing: -0.2px;
-      color: rgba(15,23,42,0.92);
-    }
-
-    .widget-badge{
-      font-size: 10px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(124,58,237,0.14);
-      border: 1px solid rgba(124,58,237,0.22);
-      color: var(--accent);
-      font-weight: 1000;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      user-select:none;
-    }
-
-    .pv-btn{
-      height:30px;
-      padding:0 10px;
-      border-radius:999px;
-      border:1px solid rgba(15,23,42,0.10);
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-      font-size:12px;
-      font-weight: 900;
-      cursor:pointer;
-      text-decoration:none;
-      color: rgba(15,23,42,0.78);
-      display:inline-flex;
-      align-items:center;
-    }
-    .pv-btn:hover{ transform: translateY(-1px); }
-
-    .widget-close{
-      border:none;
-      width:30px;height:30px;
-      border-radius:999px;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-      display:flex;align-items:center;justify-content:center;
-      color: rgba(15,23,42,0.70);
-      flex: 0 0 auto;
-    }
-
-    /* ===== widgets base ===== */
-    .calendar-widget,
-    .phone-widget,
-    .account-widget,
-    .tracking-widget,
-    .search-widget{
-      position:absolute;
-      left: 96px;
-      bottom: 20px;
-      border-radius: 24px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: var(--ink);
-      padding: 12px;
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-
-      opacity: 0;
-      transform: translateY(12px) scale(0.98);
-      pointer-events:none;
-      transition: all .22s ease;
-    }
-    .calendar-widget.visible,
-    .phone-widget.visible,
-    .account-widget.visible,
-    .tracking-widget.visible,
-    .search-widget.visible{
-      opacity:1;
-      transform: translateY(0) scale(1);
-      pointer-events:auto;
-    }
-
-    /* ✅ 위젯 폭 통일 (배송조회 제외) */
-    .calendar-widget{ z-index: 1600; width: var(--widget-w); }
-    .phone-widget{ z-index: 1601; width: var(--widget-w); }
-    .account-widget{ z-index: 1603; width: var(--widget-w); }
-
-    /* ✅ 배송조회는 그대로 */
-    .tracking-widget{ z-index: 1602; width: 540px; }
-    .search-widget{ z-index: 1604; }
-
-    /* ===== phone ===== */
-    .phone-input,.tracking-input,.account-input{
-      width:100%;
-      border:none;
-      outline:none;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.85);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      font-weight: 800;
-    }
-    .phone-row{
-      margin-top: 10px;
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .phone-output{
-      flex:1;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(15,23,42,0.08);
-      font-weight: 900;
-      color: rgba(15,23,42,0.86);
-      user-select: none;
-      cursor: copy;
-      min-height: 42px;
-      display:flex;
-      align-items:center;
-    }
-    .phone-hint{
-      margin-top: 8px;
-      font-size: 10px;
-      font-weight: 800;
-      color: rgba(15,23,42,0.55);
-    }
-
-    /* ===== tracking ===== */
-    .tracking-label{
-      display:block;
-      font-size: 11px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.60);
-      margin-bottom: 6px;
-    }
-    .tracking-error{
-      margin-top: 8px;
-      font-size: 11px;
-      font-weight: 900;
-      color: #e11d48;
-    }
-    .tracking-result{ margin-top: 10px; display:flex; flex-direction:column; gap: 8px; }
-    .tracking-result-header{
-      font-size: 11px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.65);
-    }
-    .tracking-result-header .em{ color: rgba(124,58,237,0.95); font-weight: 1000; }
-
-    .tracking-frame-wrapper{
-      border-radius: 16px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.70);
-      border: 1px solid rgba(15,23,42,0.08);
-      min-height: 420px;
-      height: 70vh;
-    }
-
-    #trackingFrame{
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-
-      transform: scale(0.6);
-      transform-origin: top left;
-      width: calc(100% / 0.6);
-      height: calc(100% / 0.6);
-    }
-
-    .tracking-search-row{
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .tracking-search-row .tracking-input{ flex:1; }
-
-    .tracking-search-btn{
-      flex: 0 0 auto;
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      border: none;
-      cursor: pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color: var(--accent);
-    }
-    .tracking-search-btn i{ font-size: 18px; }
-    .tracking-search-btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 14px 24px rgba(15,23,42,0.16);
-    }
-
-    /* ===== account ===== */
-    .account-search-row{ display:flex; gap: 8px; align-items:center; }
-    .account-search-row .account-input{ flex: 1; }
-
-    .account-toggle{
-      margin-top: 8px;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.60);
-      user-select:none;
-    }
-    .account-toggle input{ accent-color: var(--accent); }
-
-    .account-meta{
-      margin-top: 8px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 10px;
-    }
-    .account-count{
-      font-size: 11px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.62);
-    }
-    .account-result{
-      margin-top: 8px;
-      max-height: 360px;
-      overflow:auto;
-      padding-right: 4px;
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-    }
-    .account-card{
-      border-radius: 16px;
-      padding: 10px;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      min-width: 0;
-    }
-    .account-card-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap: 8px;
-    }
-    .account-site{
-      font-size: 12px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.92);
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 0;
-      flex: 1;
-    }
-    .account-group{
-      font-size: 10px;
-      font-weight: 1000;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(236,72,153,0.14);
-      border: 1px solid rgba(236,72,153,0.22);
-      color: rgba(236,72,153,0.95);
-      white-space: nowrap;
-    }
-    .account-fields{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .account-chip{
-      display:flex;
-      align-items:center;
-      gap: 6px;
-      padding: 6px 8px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 6px 12px rgba(15,23,42,0.06);
-      min-width: 0;
-      cursor: pointer;
-      user-select:none;
-    }
-    .account-chip .k{
-      font-size: 9px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.55);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .account-chip .v{
-      font-size: 10px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.88);
-      max-width: 140px;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-    }
-    .account-empty{
-      grid-column: 1 / -1;
-      padding: 10px 4px;
-      font-size: 12px;
-      font-weight: 900;
-      color: rgba(15,23,42,0.55);
-      text-align:center;
-    }
-    .account-toast{
-      position: absolute;
-      left: 50%;
-      bottom: 12px;
-      transform: translateX(-50%);
-      background: rgba(15,23,42,0.92);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 900;
-      padding: 7px 12px;
-      border-radius: 999px;
-      opacity: 0;
-      pointer-events:none;
-      transition: opacity .16s ease, transform .16s ease;
-      box-shadow: 0 14px 28px rgba(15,23,42,0.22);
-    }
-    .account-toast.show{
-      opacity: 1;
-      transform: translateX(-50%) translateY(-2px);
-    }
-
-    /* ===== calendar ===== */
-    .calendar-header{
-      display:flex; align-items:flex-start; justify-content:space-between;
-      margin-bottom: 10px;
-      gap: 10px;
-    }
-    .calendar-title{ font-size: 14px; font-weight: 900; letter-spacing: -0.2px; }
-    .calendar-left{ display:flex; flex-direction:column; }
-    .calendar-right{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap: wrap;
-      justify-content:flex-end;
-    }
-    .cal-view-seg{
-      display:flex;
-      gap:6px;
-      padding: 4px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(15,23,42,0.08);
-      user-select:none;
-    }
-    .cal-view-seg button{
-      border:none;
-      cursor:pointer;
-      font-size: 10px;
-      font-weight: 900;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: transparent;
-      color: rgba(15,23,42,0.72);
-      user-select:none;
-    }
-    .cal-view-seg button.active{
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 8px 18px rgba(15,23,42,0.10);
-      color: var(--accent);
-    }
-    .today-event-icon{
-      position:relative;
-      width:30px;height:30px;border-radius:999px;
-      background: rgba(255,255,255,0.92);
-      display:inline-flex;align-items:center;justify-content:center;
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      cursor: pointer;
-      user-select:none;
-    }
-    .today-event-icon i{ font-size:16px; color: var(--accent2); }
-    .today-event-icon.dim{ opacity: .75; }
-    .today-event-badge{
-      position:absolute; top:-4px; right:-4px;
-      min-width:16px;height:16px;border-radius:999px;
-      background:#ef4444;
-      color:#fff;
-      border:2px solid rgba(255,255,255,0.9);
-      font-size:10px;
-      font-weight:900;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 0 5px;
-    }
-
-    .calendar-weekdays, .calendar-days{
-      display:grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 4px;
-      text-align:center;
-    }
-    .calendar-weekdays{ margin: 6px 0 8px; }
-    .calendar-weekdays span{
-      font-size: 10px;
-      font-weight: 800;
-      color: rgba(15,23,42,0.55);
-    }
-    .calendar-day{
-      position: relative;
-      font-size: 11px;
-      padding: 7px 0;
-      border-radius: 12px;
-      color: rgba(15,23,42,0.82);
-      user-select:none;
-      cursor: pointer;
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-    }
-    .calendar-day.other-month{ opacity:.35; cursor: default; }
-    .calendar-day.today{
-      outline: 2px solid rgba(124,58,237,0.35);
-      background: rgba(255,255,255,0.88);
-      color: var(--accent);
-      font-weight: 900;
-    }
-    .day-badge{
-      position:absolute;
-      top:-6px; right:-6px;
-      min-width:18px; height:18px;
-      padding: 0 6px;
-      border-radius: 999px;
-      background: rgba(124,58,237,0.92);
-      color:#fff;
-      border: 2px solid rgba(255,255,255,0.95);
-      font-size:9px;
-      font-weight:900;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 10px 18px rgba(124,58,237,0.20);
-    }
-    .calendar-day.has-event .day-badge{ display:inline-flex; }
-
-    /* popup */
-    .date-popup{
-      position:absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: calc(100% + 10px);
-      width: 300px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 22px 50px rgba(15,23,42,.22);
-      border: 1px solid rgba(255,255,255,0.80);
-      padding: 10px;
-      display:none;
-      z-index: 2100;
-    }
-    .date-popup.open{ display:block; }
-    .date-popup::after{
-      content:"";
-      position:absolute;
-      bottom:-8px;
-      left:50%;
-      transform: translateX(-50%);
-      border-width: 8px 8px 0 8px;
-      border-style: solid;
-      border-color: rgba(255,255,255,0.88) transparent transparent transparent;
-      filter: drop-shadow(0 6px 10px rgba(15,23,42,0.12));
-    }
-    .date-popup-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 8px;
-      margin-bottom:8px;
-    }
-    .date-popup-head strong{
-      font-size:13px;
-      font-weight:1000;
-      color: rgba(15,23,42,0.92);
-    }
-    .date-popup-close{
-      border:none;
-      width:30px;height:30px;
-      border-radius: 999px;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 18px rgba(15,23,42,0.10);
-      display:flex; align-items:center; justify-content:center;
-      color: rgba(15,23,42,0.70);
-    }
-    .date-popup-list{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      max-height: 320px;
-      overflow:auto;
-      padding-right: 4px;
-    }
-    .mini-event{
-      border-radius: 16px;
-      padding: 10px;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-    }
-    .mini-event .mall{
-      font-size: 11px;
-      font-weight: 1000;
-      color: var(--accent);
-    }
-    .mini-event .event-text{
-      margin-top: 6px;
-      font-size: 10px;
-      font-weight: 800;
-      color: rgba(15,23,42,0.92);
-      line-height: 1.45;
-      max-height: 110px;
-      overflow: auto;
-      padding-right: 6px;
-      word-break: break-word;
-    }
-    .mini-event .meta{
-      margin-top: 8px;
-      font-size: 10px;
-      color: rgba(15,23,42,0.55);
-      font-weight: 900;
-    }
-
-    .item-box{
-      margin-top: 8px;
-      padding: 6px 8px;
-      border-radius: 12px;
-      background: rgba(124,58,237,0.08);
-      border: 1px solid rgba(124,58,237,0.18);
-    }
-    .item-head{
-      width: 100%;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 8px;
-      padding: 0;
-      user-select:none;
-    }
-    .item-label{ font-size: 10px; }
-    .item-caret{
-      font-size: 14px;
-      color: rgba(124,58,237,0.85);
-      transition: transform .15s ease;
-    }
-    .item-head[aria-expanded="true"] .item-caret{ transform: rotate(180deg); }
-    .item-text{
-      margin-top: 6px;
-      font-size: 8px;
-      line-height: 1.4;
-      color: rgba(15,23,42,0.88);
-      max-height: 44px;
-      overflow: auto;
-      word-break: break-word;
-      padding-right: 6px;
-    }
-    .item-text.is-collapsed{ display:none; }
-
-    /* ✅ 기타(아코디언) 펼쳤을 때 하위 목록만 스크롤 */
-    #googleEtcBody{
-      max-height: 280px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-    #googleEtcBody::-webkit-scrollbar{ width: 8px; }
-    #googleEtcBody::-webkit-scrollbar-thumb{
-      background: rgba(15,23,42,0.18);
-      border-radius: 999px;
-    }
-    #googleEtcBody::-webkit-scrollbar-track{ background: transparent; }
-
-    /* ✅ sidebar top date */
-    .sidebar-date{
-      width: fit-content;
-      margin: 8px auto 14px;
-      padding: 6px 12px;
-      font-size: 12px;
-      font-weight: 1000;
-      letter-spacing: -0.01em;
-      color: #6d28d9;
-      background: rgba(255,255,255,0.75);
-      border: 1px solid rgba(124,58,237,0.25);
-      border-radius: 999px;
-      box-shadow:
-        0 6px 14px rgba(15,23,42,0.18),
-        inset 0 1px 0 rgba(255,255,255,0.9);
-      user-select: none;
-    }
-
-    /* ===== Search widget only (narrower) ===== */
-    .search-widget{
-      width: 480px;
-      max-width: calc(100vw - 120px);
-    }
-    #swStatus{
-      margin: 8px 2px 10px;
-      font-size: 12px;
-      font-weight: 900;
-      color: rgba(15,23,42,.65);
-    }
-    .sw-result{
-      border-radius:16px;
-      overflow:hidden;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(15,23,42,0.08);
-      max-height: 62vh;
-      overflow:auto;
-    }
-    .sw-table{
-      width:100%;
-      border-collapse:collapse;
-      table-layout: fixed;
-      font-size:12px;
-    }
-    .sw-table th, .sw-table td{
-      padding: 8px 10px;
-      border-bottom:1px solid rgba(15,23,42,0.06);
-      vertical-align:middle;
-    }
-    .sw-table th{
-      position:sticky;
-      top:0;
-      background: rgba(255,255,255,0.92);
-      z-index:2;
-      font-size:11px;
-      color: rgba(15,23,42,0.65);
-      font-weight: 1000;
-      text-align:left;
-    }
-    .sw-table th:last-child,
-    .sw-table td:last-child{ text-align:right; }
-    .sw-table tbody tr:hover td{ background: rgba(124,58,237,0.06); }
-
-    .sw-td-name{ text-align:left; }
-    .sw-td-color{ text-align:left; }
-    .sw-td-code{
-      text-align:left;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-    }
-    .sw-name{
-      font-weight:1000;
-      color: rgba(15,23,42,0.92);
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-    .sw-sub{
-      font-size:11px;
-      font-weight:800;
-      color: rgba(15,23,42,0.60);
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-    .sw-stock-wrap{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap: 8px;
-    }
-
-    /* ✅ 재고 헤더/셀 정렬 기준 통일 (요청사항) */
-    .sw-th-stock,
-    .sw-td-stock{
-      text-align:right !important;
-      padding-right: 14px; /* 헤더/바디 동일 기준 */
-    }
-    .sw-th-stock > .sw-th-stock-wrap{
-      display:flex;
-      justify-content:flex-end;
-      align-items:center;
-      gap: 8px;
-      width:100%;
-    }
-
-    .sw-pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width: 46px;
-      padding: 4px 10px;
-      border-radius:999px;
-      font-weight:1000;
-      font-size:11px;
-      background: rgba(124,58,237,0.10);
-      border: 1px solid rgba(124,58,237,0.18);
-      color: rgba(124,58,237,0.95);
-    }
-    .sw-pill.low{
-      background: rgba(236,72,153,0.10);
-      border-color: rgba(236,72,153,0.18);
-      color: rgba(236,72,153,0.95);
-    }
-    .sw-pill.mid{
-      background: rgba(234,179,8,0.12);
-      border-color: rgba(234,179,8,0.20);
-      color: rgba(161,98,7,0.95);
-    }
-    .sw-pill-btn{ cursor:pointer; }
-    .sw-pill-btn:disabled{ opacity:.45; cursor:not-allowed; }
-
-    .sw-acc-btn{
-      width: 30px;
-      height: 30px;
-      border-radius: 12px;
-      border: 1px solid rgba(15,23,42,0.10);
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.08);
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      font-size: 14px;
-      color: rgba(15,23,42,0.70);
-      transition: transform .12s ease;
-    }
-    .sw-acc-btn:hover{ transform: translateY(-1px); }
-    .sw-acc-btn[aria-expanded="true"]{ color: rgba(124,58,237,0.95); }
-
-    .sw-detail{
-      margin: 8px 0;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      padding: 10px;
-    }
-
-    /* ✅ 상세 레이아웃: 요약 + 표 (요청사항) */
-    .sw-detail-top{
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .sw-meta{
-      border-radius: 14px;
-      padding: 8px 10px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 8px 14px rgba(15,23,42,0.06);
-      min-width: 0;
-    }
-
-    .sw-meta .k{
-      font-size: 10px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.55);
-      letter-spacing: .04em;
-    }
-
-    .sw-meta .v{
-      margin-top: 4px;
-      font-size: 11px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.90);
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-    }
-
-    .sw-entry-title{
-      font-size: 10px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.60);
-      margin: 4px 0 6px;
-    }
-
-    .sw-entry-table{
-      width:100%;
-      border-collapse: collapse;
-      font-size: 11px;
-      overflow:hidden;
-      border-radius: 14px;
-      border: 1px solid rgba(15,23,42,0.08);
-      background: rgba(255,255,255,0.88);
-    }
-
-    .sw-entry-table th,
-    .sw-entry-table td{
-      padding: 8px 10px;
-      border-bottom: 1px solid rgba(15,23,42,0.06);
-    }
-
-    .sw-entry-table th{
-      font-size: 10px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.55);
-      text-align: left;
-      background: rgba(255,255,255,0.92);
-    }
-
-    .sw-entry-table td:last-child,
-    .sw-entry-table th:last-child{
-      text-align:right;
-    }
-    .sw-entry-table tr:last-child td{ border-bottom: none; }
-
-    /* ✅ 상세페이지 프리뷰 모달 */
-    .sw-preview{
-      position: fixed;
-      inset: 0;
-      background: rgba(15,23,42,0.35);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index: 9999;
-    }
-    .sw-preview.show{ display:flex; }
-
-    .sw-preview-box{
-      width: min(980px, calc(100vw - 40px));
-      height: min(720px, calc(100vh - 60px));
-      border-radius: 18px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(255,255,255,0.75);
-      box-shadow: 0 24px 70px rgba(15,23,42,0.28);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-    }
-    .sw-preview-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding: 10px 12px;
-      border-bottom: 1px solid rgba(15,23,42,0.08);
-      background: rgba(255,255,255,0.92);
-    }
-    .sw-preview-title{
-      font-size: 13px;
-      font-weight: 1000;
-      color: rgba(15,23,42,0.86);
-    }
-    .sw-preview-close{
-      border:none;
-      width:34px;height:34px;
-      border-radius: 12px;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-      font-weight: 1000;
-    }
-    .sw-preview-body{ flex:1; min-height:0; }
-    #swPreviewFrame{ width:100%; height:100%; border:0; background:#fff; }
-
-    .search-search-row{
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .search-input{
-      flex:1;
-      width:100%;
-      border:none;
-      outline:none;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.85);
-      border: 1px solid rgba(15,23,42,0.08);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.06);
-      font-weight: 800;
-    }
-    .search-mini-btn{
-      flex:0 0 auto;
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      border:none;
-      cursor:pointer;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 10px 18px rgba(15,23,42,0.10);
-    }
-    .search-mini-btn:hover{ transform: translateY(-1px); }
-
-    /* ======================
-   ✅ Radial Menu (Right Click)
-   ====================== */
-.radial-wrap{
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  display: none;
-}
-.radial-wrap.show{ display:block; }
-
-.radial-backdrop{
-  position:absolute;
-  inset:0;
-  background: rgba(15,23,42,0.06);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-}
-
-.radial-menu{
-  position:absolute;
-  width: 260px;
-  height: 260px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.62);
-  border: 1px solid rgba(255,255,255,0.70);
-  box-shadow: 0 24px 70px rgba(15,23,42,0.22);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transform: translate(-50%, -50%);
-  pointer-events:auto;
-}
-
-.radial-center{
-  position:absolute;
-  left:50%; top:50%;
-  transform: translate(-50%, -50%);
-  width: 74px; height: 74px;
-  border-radius: 999px;
-  border: 1px solid rgba(15,23,42,0.08);
-  background: rgba(255,255,255,0.88);
-  box-shadow: 0 14px 28px rgba(15,23,42,0.14);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap: 2px;
-  user-select:none;
-}
-.radial-center .t1{
-  font-size: 10px;
-  font-weight: 1000;
-  color: rgba(15,23,42,0.62);
-  letter-spacing: .08em;
-}
-.radial-center .t2{
-  font-size: 10px;
-  font-weight: 900;
-  color: rgba(15,23,42,0.45);
-}
-
-/* item */
-.rm-item{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform: translate(-50%, -50%);
-  border:none;
-  cursor:pointer;
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(15,23,42,0.10);
-  box-shadow: 0 14px 30px rgba(15,23,42,0.16);
-  border-radius: 999px;
-  padding: 10px 12px;
-  display:flex;
-  align-items:center;
-  gap: 8px;
-  font-weight: 1000;
-  color: rgba(15,23,42,0.86);
-  user-select:none;
-  transition: transform .12s ease, box-shadow .12s ease;
-  min-width: 120px;
-}
-.rm-item:hover{
-  box-shadow: 0 18px 36px rgba(15,23,42,0.20);
-}
-
-/* icon pill */
-.rm-ico{
-  width: 34px;
-  height: 34px;
-  border-radius: 14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background: rgba(124,58,237,0.10);
-  border: 1px solid rgba(124,58,237,0.18);
-  color: rgba(124,58,237,0.95);
-  font-size: 18px;
-  flex: 0 0 auto;
-}
-.rm-label{
-  font-size: 12px;
-  font-weight: 1000;
-  letter-spacing: -0.2px;
-}
-
-/* ✅ icon-only (ID/PW, event) */
-.rm-item.icon-only{
-  min-width: auto;
-  padding: 10px;
-  width: 56px;
-  height: 56px;
-  justify-content:center;
-}
-.rm-item.icon-only .rm-label{ display:none; }
-
-/* small note */
-.rm-hint{
-  position:absolute;
-  left:50%;
-  top: calc(50% + 92px);
-  transform: translateX(-50%);
-  font-size: 10px;
-  font-weight: 900;
-  color: rgba(15,23,42,0.45);
-  user-select:none;
-}
-
-
-    @media (max-width: 900px) {
-      body{ padding:10px; overflow:auto; }
-      .app-shell{ height:auto; min-height: calc(100vh - 20px); }
-      .main-sidebar{ position:fixed; height: calc(100vh - 20px); }
-      .content{
-        position:relative;
-        left:82px;
-        width: calc(100% - 82px);
-        height:auto;
-        min-height:70vh;
-      }
-    }
-  
-/* === Radial Menu additions === */
-.radial-wrap{position:fixed;inset:0;z-index:9998;display:none;}
-.radial-wrap.show{display:block;user-select:none;}
-.radial-backdrop{position:absolute;inset:0;background:transparent;}
-.radial-menu{position:absolute;width:260px;height:260px;border-radius:999px;
-background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.7);
-box-shadow:0 24px 70px rgba(15,23,42,.22);backdrop-filter:blur(16px);
-transform:translate(-50%,-50%);}
-.radial-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-width:74px;height:74px;border-radius:999px;background:rgba(255,255,255,.9);
-display:flex;flex-direction:column;align-items:center;justify-content:center;
-font-size:10px;font-weight:900;}
-.rm-item{position:absolute;left:50%;top:50%;border:none;border-radius:999px;
-background:#fff;box-shadow:0 14px 30px rgba(0,0,0,.16);
-display:flex;align-items:center;gap:8px;padding:10px 12px;
-font-weight:900;cursor:pointer;}
-.rm-item.icon-only{width:56px;height:56px;justify-content:center;}
-
-
-/* === Sidebar footer row (Account + Event) === */
-.nav-footer-row{
-  display:flex;
-  gap:8px;
-  margin-bottom:6px;
-}
-.nav-footer-row .nav-footer-btn{
+body{
   margin:0;
-  padding:8px;
+  padding:24px;
+  font-family:"Pretendard",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 520px at 20% 18%, rgba(255,143,188,.22), transparent 60%),
+    radial-gradient(900px 520px at 82% 24%, rgba(184,167,255,.20), transparent 58%),
+    linear-gradient(180deg, var(--page-bg), var(--page-bg2));
+  display:flex;
+  justify-content:center;
 }
 
+/* app shell */
+.app{
+  width:100%;
+  max-width:1280px;
+  background:var(--card-bg);
+  border:1px solid var(--card-stroke);
+  border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-main);
+  padding:18px 18px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  height: calc(100vh - 48px);
+}
+
+.app-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  margin-bottom:6px;
+  flex-shrink:0;
+}
+
+.app-title-wrap{ display:flex; flex-direction:column; gap:6px; }
+.app-title-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+
+.app-title{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:-.2px;
+  color:var(--text);
+}
+
+/* badge 버튼 (구글시트) */
+.app-tag{
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:999px;
+  background: rgba(255,143,188,.18);
+  border:1px solid rgba(255,143,188,.30);
+  color: rgba(47,42,58,.82);
+  box-shadow: var(--shadow-soft);
+  cursor:pointer;
+}
+.app-tag:hover{
+  background: rgba(255,143,188,.24);
+  border-color: rgba(255,143,188,.38);
+}
+
+.app-body{
+  display:flex;
+  gap:14px;
+  flex:1;
+  min-height:0;
+}
+
+/* left panel */
+.left-panel{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  min-width:0;
+  gap:10px;
+}
+
+/* ===== Search bar (slim + icon + enter hint) ===== */
+.search-box{
+  display:flex;
+  gap:10px;
+  flex-shrink:0;
+}
+
+.search-input{
+  flex:1;
+  height:42px;                /* 얄쌍 */
+  padding: 0 78px 0 42px;     /* 좌 아이콘 / 우 Enter */
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.22);
+  background: rgba(245,243,251,.75);
+  font-size:13px;             /* ✅ (오타 제거) */
+  box-shadow: var(--shadow-card);
+}
+
+.search-input::placeholder{ color: var(--muted); }
+
+.search-input:focus{
+  border-color: rgba(255,143,188,.55);
+  box-shadow: 0 0 0 4px rgba(255,143,188,.16), var(--shadow-card);
+  background:#fff;
+}
+
+/* 입력창 왼쪽 돋보기 / 오른쪽 Enter ↵ 를 pseudo로 처리 */
+.search-box{ position:relative; }
+.search-box::before{
+  content:"";
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform: translateY(-50%);
+  width:18px;height:18px;
+  opacity:.95;
+  background-repeat:no-repeat;
+  background-size:18px 18px;
+  /* inline svg */
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z' stroke='rgba(110,106,130,0.55)' stroke-width='2'/%3E%3Cpath d='M20 20l-3.5-3.5' stroke='rgba(255,143,188,0.8)' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+
+/* top row */
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  flex-wrap:wrap;
+  flex-shrink:0;
+}
+
+.result-count{ font-size:12px; color: var(--sub); }
+.result-count strong{ color: rgba(47,42,58,.92); }
+
+.type-filter{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  color: var(--sub);
+  margin-top:6px;
+}
+
+.type-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.22);
+  background:#fff;
+  cursor:pointer;
+  font-size:12px;
+}
+.type-pill input{ display:none; }
+.type-pill.active{
+  background: rgba(255,143,188,.18);
+  border-color: rgba(255,143,188,.35);
+}
+
+/* list panel */
+.list-panel{
+  border-radius:22px;
+  background: rgba(255,255,255,.78);
+  border:1px solid rgba(170,150,230,.18);
+  box-shadow: var(--shadow-card);
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  flex:1;
+  position:relative;
+}
+
+.list-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+  flex-shrink:0;
+}
+
+.list-title{
+  font-size:13px;
+  font-weight:700;
+  color: rgba(47,42,58,.85);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.results{
+  flex:1;
+  overflow:auto;
+  padding-right:4px;
+  border-top:1px solid rgba(170,150,230,.14);
+  margin-top:6px;
+}
+
+/* list item */
+.macro-item{
+  padding:10px 10px;
+  border-bottom:1px dashed rgba(170,150,230,.22);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  cursor:pointer;
+  border-radius:14px;
+  transition: background-color .12s, box-shadow .12s, transform .06s;
+}
+
+.macro-item:hover{
+  background: rgba(255,143,188,.10);
+  box-shadow: 0 6px 16px rgba(30,18,60,.06);
+  transform: translateY(-1px);
+}
+
+.macro-item.active{
+  background: rgba(255,143,188,.16);
+  box-shadow: 0 0 0 1px rgba(255,143,188,.25);
+}
+
+.macro-title{
+  font-size:13px;
+  font-weight:700;
+  color: rgba(47,42,58,.92);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.macro-category{
+  font-size:10px;
+  border-radius:999px;
+  padding:2px 8px;
+  background: rgba(184,167,255,.16);
+  color: rgba(47,42,58,.82);
+  border:1px solid rgba(170,150,230,.22);
+}
+
+.macro-subtext{
+  font-size:11px;
+  color: rgba(110,106,130,.75);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.empty-state{
+  padding:24px 6px;
+  text-align:center;
+  color: rgba(110,106,130,.70);
+  font-size:12px;
+}
+
+/* editor panel */
+.editor-panel{
+  border-radius:22px;
+  border:1px solid rgba(170,150,230,.18);
+  background: rgba(255,255,255,.82);
+  padding:12px 14px 14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  box-shadow: var(--shadow-main);
+  min-height:0;
+  flex:1;
+}
+
+.editor-label{
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color: rgba(110,106,130,.65);
+}
+
+.tone-pill{
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.22);
+  background:#fff;
+  font-size:12px;
+  cursor:pointer;
+  color: rgba(47,42,58,.80);
+}
+.tone-pill.active{
+  background: rgba(255,143,188,.18);
+  border-color: rgba(255,143,188,.35);
+}
+
+.editor-title-text{
+  font-size:14px;
+  font-weight:800;
+  color: rgba(47,42,58,.92);
+}
+.editor-category-pill{
+  font-size:11px;
+  border-radius:999px;
+  padding:2px 9px;
+  background: rgba(184,167,255,.16);
+  color: rgba(47,42,58,.82);
+  border:1px solid rgba(170,150,230,.22);
+}
+
+/* snippet radios */
+.snippet-radio-group{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  font-size:12px;
+  color: rgba(110,106,130,.80);
+}
+.snippet-label{ font-weight:700; color: rgba(110,106,130,.65); }
+
+.snippet-radio{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  user-select:none;
+  font-weight:700;
+}
+.snippet-radio input{
+  appearance:none;
+  width:10px;height:10px;
+  border-radius:50%;
+  border:2px solid rgba(170,150,230,.30);
+  position:relative;
+}
+.snippet-radio.active input{
+  border-color: rgba(255,143,188,.55);
+}
+.snippet-radio.active input::after{
+  content:"";
+  position:absolute;
+  top:50%;left:50%;
+  width:4px;height:4px;
+  background: rgba(255,143,188,.85);
+  border-radius:50%;
+  transform: translate(-50%,-50%);
+}
+
+/* question row */
+.answer-row{
+  display:grid;
+  grid-template-columns: minmax(0, 1.5fr) auto;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:16px;
+  background: rgba(245,243,251,.60);
+  border:1px solid rgba(170,150,230,.18);
+}
+
+.question-textarea{
+  width:100%;
+  border:none;
+  outline:none;
+  resize:vertical;
+  min-height:70px;
+  max-height:120px;
+  font-family:inherit;
+  font-size:12px;
+  line-height:1.5;
+  background:transparent;
+  color: rgba(47,42,58,.92);
+}
+
+.answer-btn{
+  height:34px;
+  padding:0 14px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.22);
+  background:#fff;
+  color: rgba(47,42,58,.86);
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow: var(--shadow-soft);
+}
+.answer-btn:hover{
+  background: rgba(255,143,188,.10);
+  border-color: rgba(255,143,188,.30);
+}
+
+/* main editor textarea */
+.editor-textarea{
+  width:100%;
+  flex:1;
+  resize:none;
+  border-radius:16px;
+  border:1px solid rgba(170,150,230,.22);
+  padding:12px 12px;
+  font-family:inherit;
+  font-size:13px;
+  line-height:1.5;
+  outline:none;
+  background:#fff;
+  box-shadow: inset 0 1px 2px rgba(30,18,60,.06);
+  overflow-y:auto;
+  min-height:0;
+}
+
+.editor-textarea:focus{
+  border-color: rgba(255,143,188,.55);
+  box-shadow: 0 0 0 4px rgba(255,143,188,.16);
+}
+
+/* footer */
+.editor-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:11px;
+  color: rgba(110,106,130,.70);
+  flex-shrink:0;
+  margin-top:4px;
+}
+
+/* bottom action */
+.bottom-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  flex-shrink:0;
+}
+
+.polish-bottom-btn{
+  height:38px;
+  padding:0 16px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.22);
+  background: rgba(255,255,255,.72);
+  color: rgba(47,42,58,.88);
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow: var(--shadow-card);
+}
+.polish-bottom-btn:hover{
+  background: rgba(255,143,188,.10);
+  border-color: rgba(255,143,188,.30);
+}
+
+/* toast */
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,.92);
+  color: rgba(47,42,58,.92);
+  font-size:12px;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,143,188,.30);
+  box-shadow: var(--shadow-main);
+  opacity:0;
+  pointer-events:none;
+  transition: .18s ease;
+  z-index:9999;
+}
+.toast.show{
+  opacity:1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* preview bubble */
+.preview-bubble {
+  position: absolute;
+  top: 60px;
+  left: calc(100% + 14px);
+  width: 260px;
+  max-height: 200px;
+  background: radial-gradient(
+    circle at top left,
+    rgba(248, 245, 255, 0.98),
+    rgba(252, 250, 255, 0.96)
+  );
+  color: #111827;
+  border-radius: 18px;
+  padding: 10px 12px;
+  box-shadow:
+    0 20px 45px rgba(168, 85, 247, 0.35),
+    0 0 0 1px rgba(184, 167, 255, 0.85);
+  font-size: 12px;
+  backdrop-filter: blur(18px);
+  z-index: 20;
+  display: none;
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+}
+.preview-bubble.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.preview-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #6b5fa7;
+}
+.preview-title span.icon { font-size: 14px; }
+.preview-body {
+  font-size: 12px;
+  line-height: 1.5;
+  max-height: 150px;
+  overflow: auto;
+  white-space: pre-wrap;
+  color: #3f3a55;
+}
+
+.editor-top-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.tone-controls{
+  margin-left:auto;
+  display:flex;
+  gap:6px;
+}
+
+/* ✅ 검색 버튼: 기능 유지를 위해 DOM은 남기고 "숨김" */
+#searchButton{
+  display:none !important;
+}
+
+/* ✅ 검색바: Enter ↵ 힌트 */
+.search-box{ position:relative; }
+.search-input{ padding-right: 72px; }
+.search-box::after{
+  content:"Enter ↵";
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:11px;
+  color: rgba(110,106,130,.55);
+  pointer-events:none;
+}
+
+/* ✅ category filter */
+.category-filter{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  color: rgba(110,106,130,.85);
+}
+
+.category-select{
+  height:34px;
+  padding:0 34px 0 12px;
+  border-radius:999px;
+  border:1px solid rgba(170,150,230,.22);
+  background:#fff;
+  box-shadow: 0 6px 18px rgba(30,18,60,.06);
+  font-size:12px;
+  color: rgba(47,42,58,.88);
+  outline:none;
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  background-repeat:no-repeat;
+  background-position: right 12px center;
+  background-size: 14px 14px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 10l5 5 5-5' stroke='rgba(110,106,130,0.65)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.category-select:focus{
+  border-color: rgba(255,143,188,.55);
+  box-shadow: 0 0 0 4px rgba(255,143,188,.16), 0 6px 18px rgba(30,18,60,.06);
+}
 </style>
 </head>
 
 <body>
-<div class="app-shell">
-
-  <!-- main sidebar -->
-  <nav class="main-sidebar">
-    <div class="sidebar-date" id="sidebarDate"></div>
-
-    <div class="nav-list">
-      <button class="nav-item active" data-id="search" data-href="https://wskimkj.github.io/search/">
-        <div class="nav-icon-wrap"><i class='bx bx-search'></i></div>
-        <span> 상품</span>
-      </button>
-
-      <button class="nav-item" data-id="template" data-href="https://wskimkj.github.io/trim2/">
-        <div class="nav-icon-wrap"><i class="bx bx-chat"></i></div>
-        <span> 멘트</span>
-      </button>
-
-      <button class="nav-item" data-id="shipment" data-href="https://wskimkj.github.io/Shipment/">
-        <div class="nav-icon-wrap"><i class='bx bx-send'></i></div>
-        <span> 출고</span>
-      </button>
-
-      <button class="nav-item" data-id="memo" data-href="https://wskimkj.github.io/memo/">
-        <div class="nav-icon-wrap"><i class="bx bx-edit-alt"></i></div>
-        <span> 메모</span>
-      </button>
-
-      <!-- util (sub) -->
-      <button class="nav-item" id="utilBtn" data-id="util">
-        <div class="nav-icon-wrap"><i class='bx bx-category'></i></div>
-        <span> 유틸 </span>
-      </button>
-
-      <!-- google (sub) -->
-      <button class="nav-item" id="googleBtn" data-id="google">
-        <div class="nav-icon-wrap"><i class='bx  bxs-cabinet'></i> </div>
-        <span> 시트 </span>
-      </button>
-    </div>
-<div class="nav-footer">
-  <button class="nav-footer-btn" id="searchWidgetBtn" type="button" title="상품 검색 위젯">
-    <i class='bx bx-search-alt-2'></i><span>Items</span>
-  </button>
-
-  <button class="nav-footer-btn" id="phoneFormatBtn" type="button" title="전화번호 포맷">
-    <i class='bx bx-phone'></i><span>Phone</span>
-  </button>
-
-  <button class="nav-footer-btn" id="sheetNavBtn" type="button" title="키워드로 시트 찾기">
-    <i class='bx bx-search'></i><span>Sheets</span>
-  </button>
-
-  <button class="nav-footer-btn" id="trackingWidgetBtn" type="button" title="배송조회">
-    <i class='bx bx-package'></i><span>Track</span>
-  </button>
-
-  <div class="nav-footer-row" aria-label="Quick widgets">
-    <button class="nav-footer-btn icon-only" id="accountWidgetBtn" type="button" title="계정 조회">
-      <i class='bx bx-key'></i><span class="sr-only">ID/PW</span>
-    </button>
-
-    <button class="nav-footer-btn icon-only" id="adminEventBtn" type="button" title="이벤트 보기">
-      <i class='bx bx-calendar-event'></i><span class="sr-only">Event</span>
-    </button>
-  </div>
-</div>
-</nav>
-
-  <!-- sheet sub sidebar -->
-  <aside class="sub-sidebar" id="subSidebar">
-    <div class="sub-list">
-
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=366983013#gid=366983013">
-        <i class='bx bx-chevron-right'></i><span>개인시트</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1_Bxfag-90U6u-6JbhxNqeoD9vRns-CpPeXPIJYO1Z5o/edit?gid=1265906605#gid=1265906605">
-        <i class='bx bx-chevron-right'></i><span>반품</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0">
-        <i class='bx bx-chevron-right'></i><span>Team.반품</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0">
-        <i class='bx bx-chevron-right'></i><span>Team.물류</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY/edit?gid=925106579#gid=925106579">
-        <i class='bx bx-chevron-right'></i><span>Team.업무</span>
-      </button>
-      <button class="sub-item google-child" data-href="https://docs.google.com/spreadsheets/d/1dvTCc9JlORbvc29rQ_ai-z8RQSPibQUPHvjrH4iuhFk/edit?gid=1184149787#gid=1184149787">
-        <i class='bx bx-chevron-right'></i><span>Team.주간</span>
-      </button>
-
-      <!-- ✅ 추가: "기타" (3레벨 아래 아코디언) -->
-      <div class="sub-accordion" id="googleEtcAccordion">
-        <button type="button" class="sub-acc-head" id="googleEtcHead" aria-expanded="false">
-          <span class="left">
-            <i class='bx bx-chevron-right'></i><span>기타</span>
-          </span>
-          <i class='bx bx-chevron-down sub-acc-caret'></i>
-        </button>
-
-        <div class="sub-acc-body" id="googleEtcBody" hidden>
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1rnp4nddpDtfewbH0GUMAvRYykGiITVaqDKIIKGJSWyc/edit?gid=1054398719#gid=1054398719">
-            <i class='bx bxs-spreadsheet'></i><span>결제 내역</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0/edit?gid=0#gid=0">
-            <i class='bx bxs-spreadsheet'></i><span>계정 </span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1jbQoWqwIEOZhe2hhQwgdOdvIUPXvMAOubmED0xylOY4/edit?gid=1761427069#gid=1761427069">
-            <i class='bx bxs-spreadsheet'></i><span>면세점</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1zzqZGk8C30LZo3BXxhzFSNpe_GzgBVeDw4X5eIVystc/edit?gid=100436764#gid=100436764">
-            <i class='bx bxs-spreadsheet'></i><span>생산팀</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1F4EC5w1VPmFpwSbw0LuIv5QkwSSs8YkCBPZKY3h-z64/edit?gid=0#gid=0">
-            <i class='bx bxs-spreadsheet'></i><span>SCM</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1fcAxrvEENtakHa8rdtebbOuX5aVga37kMjGqqkpnW_o/edit?gid=960948614#gid=960948614">
-            <i class='bx bxs-spreadsheet'></i><span>입고 예정</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1bMkC-aPMY8Ot2Ye7At9RkijD3ve3grlWC1tM3eZbGng/edit?gid=1325056976#gid=1325056976">
-            <i class='bx bxs-spreadsheet'></i><span>25년 재고</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1H2hiIfmhHf7NmSDINNGZ5jOD-mx3Uw_JvukmU51IwRA/edit?pli=1&gid=1629484064#gid=1629484064">
-            <i class='bx bxs-spreadsheet'></i><span>공구일정</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1NIrkvMGHIs6Ho0KwWUD7N1q6yxFuvk6aHa2LCiftXQA/edit?gid=1834028852#gid=1834028852">
-            <i class='bx bxs-spreadsheet'></i><span>[콘텐츠]기획안</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1na2Q2HN4h2h-ko9Ua4zx_XWMkEpT6mbazt1eeMKt-bA/edit?gid=2111576866#gid=2111576866">
-            <i class='bx bxs-spreadsheet'></i><span>[콘텐츠]스케줄</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1fEjw9YrnDmMLwGMHST4_UCi2OuuBypdH775V6BnVRfQ/edit?gid=469621993#gid=469621993">
-            <i class='bx bxs-spreadsheet'></i><span>[기획]WS 상품정보</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1_nmC5LgfcjJgUK0eL1oVaf0mPRAevY5oVUr47dyb6Ow/edit?gid=214355881#gid=214355881">
-            <i class='bx bxs-spreadsheet'></i><span>[기획]BS 상품정보</span>
-          </button>
-
-          <button class="sub-acc-item google-etc-child" data-href="https://docs.google.com/spreadsheets/d/1Po6I7Q3gBl8OU85IDjpjTvtDlZhOovjxBvGdNH6wyFw/edit?gid=139252057#gid=139252057">
-            <i class='bx bxs-spreadsheet'></i><span>회사문화</span>
+  <div class="app">
+    <div class="app-header">
+      <div class="app-title-wrap">
+        <div class="app-title-row">
+          <div class="app-title">
+            TEMPLETE
+          </div>
+          <button id="sheetOpenBtn" class="app-tag" type="button" title="Google Sheets 열기">
+            <span>Edit</span>
           </button>
         </div>
-      </div>
-
-    </div>
-  </aside>
-
-  <!-- util sub sidebar -->
-  <aside class="sub-sidebar" id="utilSidebar">
-    <div class="sub-list">
-       <button class="sub-item util-child" data-href="https://wskimkj.github.io/return-inf/">
-        <i class='bx bx-chevron-right'></i><span>계정</span>
-      </button>
-      <button class="sub-item util-child" data-href="https://wskimkj.github.io/account/">
-        <i class='bx bx-chevron-right'></i><span>계정</span>
-      </button>
-      <button class="sub-item util-child" data-href="https://wskimkj.github.io/tracking/">
-        <i class='bx bx-chevron-right'></i><span>배송조회</span>
-      </button>
-      <button class="sub-item util-child" data-href="https://wskimkj.github.io/refund24/">
-        <i class='bx bx-chevron-right'></i><span>환불</span>
-      </button>
-      <button class="sub-item util-child" data-action="event">
-        <i class='bx bx-chevron-right'></i><span>이벤트</span>
-      </button>
-    </div>
-  </aside>
-
-  <!-- main content -->
-  <div class="content">
-    <div class="card">
-      <iframe src="https://wskimkj.github.io/search/" id="mainFrame"></iframe>
-    </div>
-  </div>
-
-  <!-- ✅ Search widget -->
-  <div class="search-widget" id="searchWidget">
-    <div class="widget-head">
-      <div class="widget-title">
-        <span class="widget-badge">SEARCH</span>
-      </div>
-
-      <div style="display:flex; gap:8px; align-items:center;">
-        <a id="searchOpenNewTab" class="pv-btn" href="#" target="_blank" rel="noopener">↗️</a>
-        <button class="widget-close" id="searchClose" type="button" aria-label="닫기">✕</button>
+        <div class="app-subtitle"></div>
       </div>
     </div>
 
-    <div class="search-search-row">
-      <input id="searchInput" class="search-input" placeholder="검색어 입력 후 Enter" />
-      <button class="search-mini-btn" id="searchGo" type="button" title="검색">🔍</button>
-    </div>
-
-    <div class="search-frame-wrapper" style="height:auto; min-height:0;">
-      <div id="swStatus">검색어를 입력하세요.</div>
-      <div id="swResult" class="sw-result"></div>
-    </div>
-
-    <!-- ✅ 상품 상세 미리보기(프리뷰) -->
-    <div class="sw-preview" id="swPreview" aria-hidden="true">
-      <div class="sw-preview-box" role="dialog" aria-modal="true">
-        <div class="sw-preview-head">
-          <div class="sw-preview-title">상품 상세</div>
-          <button type="button" class="sw-preview-close" id="swPreviewClose" aria-label="닫기">✕</button>
-        </div>
-        <div class="sw-preview-body">
-          <iframe id="swPreviewFrame" title="상품 상세 미리보기"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- phone widget -->
-  <div class="phone-widget" id="phoneWidget">
-    <div class="widget-head">
-      <div class="widget-title">
-        <span class="widget-badge">PHONE</span>
-      </div>
-      <button class="widget-close" id="phoneClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
-    </div>
-
-    <div class="phone-body">
-      <input id="phoneInput" class="phone-input" placeholder="" />
-      <div class="phone-row">
-        <div id="phoneOutput" class="phone-output"></div>
-        <button id="phoneCopy" class="tracking-search-btn" type="button" title="복사">
-          <i class='bx bx-copy'></i>
-        </button>
-      </div>
-      <div id="phoneHint" class="phone-hint">.</div>
-    </div>
-  </div>
-
-  <!-- tracking widget -->
-  <div class="tracking-widget" id="trackingWidget">
-    <div class="widget-head">
-      <div class="widget-title">
-        <span class="widget-badge">TRACK</span>
-      </div>
-      <button class="widget-close" id="trackingClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
-    </div>
-
-    <div class="tracking-body">
-      <label class="tracking-label" for="trackingInput">운송장 번호</label>
-
-      <div class="tracking-search-row">
-        <input id="trackingInput" class="tracking-input" placeholder="숫자만 입력 (8~15자리)" />
-        <button class="tracking-search-btn" id="trackingGo" type="button" title="조회">
-          <i class='bx bx-search'></i>
-        </button>
-      </div>
-
-      <p id="trackingError" class="tracking-error" style="display:none;"></p>
-
-      <div class="tracking-result">
-        <div id="trackingResultHeader" class="tracking-result-header"></div>
-        <div class="tracking-frame-wrapper">
-          <iframe id="trackingFrame"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ✅ Sheet Navigator widget -->
-<div class="search-widget" id="sheetNavWidget" style="width:480px; max-width:calc(100vw - 120px);">
-  <div class="widget-head">
-    <div class="widget-title">
-      <span class="widget-badge">SHEETS</span>
-      <span style="font-weight:1000; font-size:13px; color:rgba(15,23,42,.86);">키워드로 시트 찾기</span>
-    </div>
-
-    <div style="display:flex; gap:8px; align-items:center;">
-      <button class="widget-close" id="sheetNavClose" type="button" aria-label="닫기">✕</button>
-    </div>
-  </div>
-
-  <div class="search-search-row">
-    <input id="sheetNavInput" class="search-input" placeholder="키워드 입력 후 Enter" />
-    <button class="search-mini-btn" id="sheetNavGo" type="button" title="검색">🔎</button>
-  </div>
-
-  <div id="sheetNavStatus" style="margin: 8px 2px 10px; font-size:12px; font-weight:900; color:rgba(15,23,42,.65);">
-    키워드를 입력하세요.
-  </div>
-
-  <div class="sw-result" id="sheetNavResult"></div>
-</div>
-
-
-  <!-- account widget -->
-  <div class="account-widget" id="accountWidget">
-    <div class="widget-head">
-      <div class="widget-title">
-        <button type="button" class="widget-badge" id="accountSheetBtn">ACCOUNT</button>
-      </div>
-
-      <button class="widget-close" id="accountClose" type="button" aria-label="닫기">
-        <i class='bx bx-x' style="font-size:18px;"></i>
-      </button>
-    </div>
-
-    <div class="account-body">
-      <div class="account-search-row">
-        <input id="accountQuery" class="account-input" placeholder="검색어 입력 후 Enter" />
-        <button class="tracking-search-btn" id="accountGo" type="button" title="검색">
-          <i class='bx bx-search'></i>
-        </button>
-      </div>
-
-      <label class="account-toggle" title="기본은 OR, 체크하면 AND">
-        <input id="accountMatchAll" type="checkbox" />
-        ALL
-      </label>
-
-      <div class="account-meta">
-        <span></span>
-        <span id="accountCount" class="account-count">0건</span>
-      </div>
-
-      <div id="accountResult" class="account-result">
-        <div class="account-empty">데이터 불러오는 중...</div>
-      </div>
-
-      <div id="accountToast" class="account-toast">복사</div>
-    </div>
-  </div>
-
-  <!-- calendar widget -->
-  <div class="calendar-widget" id="calendarWidget">
-    <div class="calendar-header">
-      <div class="calendar-left">
-        <div class="calendar-title" id="calendarMonthLabel">December 2025</div>
-      </div>
-
-      <div class="calendar-right">
-        <div class="cal-view-seg" id="calViewSeg">
-          <button type="button" data-view="week">주</button>
-          <button type="button" data-view="month">월</button>
+    <div class="app-body">
+      <div class="left-panel">
+        <div class="search-box">
+          <input id="searchInput" class="search-input" type="text" placeholder=" (예: 배송, 교환 등)" />
+          <button id="searchButton" class="search-button" type="button">
+            <span class="icon"></span>
+            <span>검색</span>
+          </button>
         </div>
 
-        <div class="today-event-icon dim" id="todayEventIcon" title="이벤트 시트 열기">
-          <i class='bx bx-bell'></i>
-          <div class="today-event-badge" id="todayBadge"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="date-popup" id="datePopup">
-      <div class="date-popup-head">
-        <strong id="popupDateLabel">12/15(월)</strong>
-        <button class="date-popup-close" id="popupClose" type="button" aria-label="닫기">
-          <i class='bx bx-x' style="font-size:18px;"></i>
-        </button>
-      </div>
-      <div class="date-popup-list" id="popupEventList"></div>
-    </div>
-
-    <div class="calendar-weekdays">
-      <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
-    </div>
-    <div class="calendar-days" id="calendarDays"></div>
-  </div>
-
-  <!-- ✅ Right-click Radial Menu -->
-<div class="radial-wrap" id="radialWrap" aria-hidden="true">
-  <div class="radial-backdrop" id="radialBackdrop"></div>
-
-  <div class="radial-menu" id="radialMenu" role="menu" aria-label="Quick Tools">
-    <div class="radial-center" id="radialCenter" title="닫기">
-      <div class="t1">TOOLS</div>
-      <div class="t2">Right click</div>
-    </div>
-    <div class="rm-hint">ESC 또는 바깥 클릭으로 닫기</div>
-  </div>
-</div>
-
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  /* ======================
-     ✅ 상수/URL
-     ====================== */
-  const LAST_FRAME_KEY = "lastFrameURL";
-
-  // ✅ ACCOUNT
-  const ACCOUNT_SHEET_ID = "1bdGBLki_3CVaq7BDL3u-pQDSZVBD7roeEdsyP-74Lz0";
-  const ACCOUNT_SHEET_URL = `https://docs.google.com/spreadsheets/d/${ACCOUNT_SHEET_ID}/edit?gid=0#gid=0`;
-  const ACCOUNT_SHEET_BASE = `https://docs.google.com/spreadsheets/d/${ACCOUNT_SHEET_ID}/edit`;
-
-  function openAccountSheetAt(gid, a1){
-    const url = `${ACCOUNT_SHEET_BASE}?gid=${gid}#gid=${gid}&range=${encodeURIComponent(a1)}`;
-    window.open(url, "_blank");
-  }
-
-  // ✅ EXTRA ACCOUNT DB
-  const EXTRA_SHEET_ID = "1cAXTlsGoK8FNEZ-7PaR7dfLjykPfCqLOIcyBqqdu3wY";
-  const EXTRA_GID = 1617573679;
-  const EXTRA_SHEET_BASE = `https://docs.google.com/spreadsheets/d/${EXTRA_SHEET_ID}/edit`;
-  function openExtraSheetAt(gid, a1){
-    const url = `${EXTRA_SHEET_BASE}?gid=${gid}#gid=${gid}&range=${encodeURIComponent(a1)}`;
-    window.open(url, "_blank");
-  }
-
-  // ✅ EVENT
-  const EVENT_SHEET_ID = "1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI";
-  const EVENT_SHEET_GID = "1830278768";
-  const EVENT_SHEET_URL = `https://docs.google.com/spreadsheets/d/${EVENT_SHEET_ID}/edit?gid=${EVENT_SHEET_GID}#gid=${EVENT_SHEET_GID}`;
-  const EVENT_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${EVENT_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${EVENT_SHEET_GID}`;
-
-  /* ======================
-     Helpers (공용)
-     ====================== */
-  function pad2(n){ return String(n).padStart(2, "0"); }
-
-  function escapeHtml(str){
-    return String(str ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
-
-  function dateKeyLocal(d){
-    return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
-  }
-
-  function keyToDateLocal(key){
-    const [y,m,d] = String(key).split("-").map(Number);
-    return new Date(y, (m||1)-1, d||1);
-  }
-
-  function normalizeToKey(value){
-    if(!value) return null;
-    let s = String(value).trim();
-    s = s.replace(/\([^)]+\)/g, "");
-    s = s.replace(/\s+/g, "");
-
-    const ymd = s.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})$/);
-    if(ymd){
-      return `${ymd[1]}-${String(ymd[2]).padStart(2,"0")}-${String(ymd[3]).padStart(2,"0")}`;
-    }
-    const md = s.match(/^(\d{1,2})[\/\-.](\d{1,2})$/);
-    if(md){
-      const year = new Date().getFullYear();
-      return `${year}-${pad2(Number(md[1]))}-${pad2(Number(md[2]))}`;
-    }
-    const d = new Date(s);
-    if(!isNaN(d)) return dateKeyLocal(d);
-    return null;
-  }
-
-  function formatBulletLines(text){
-    const s = String(text ?? "");
-    return s.replace(/\s*■\s*/g, "\n■ ").replace(/\n{3,}/g, "\n\n").trim();
-  }
-
-  function textToHtmlWithBreaks(text){
-    const safe = escapeHtml(String(text ?? ""));
-    return safe.replace(/\r\n|\r|\n/g, "<br>");
-  }
-
-  function cleanTarget(raw){
-    let t = String(raw ?? "").trim();
-    t = t.replace(/^"+|"+$/g, "").trim();
-    if(t === '""') t = "";
-    return t;
-  }
-
-  function attachAutoHide(panelEl, hideFn, delay = 650){
-    let t = null;
-    const schedule = () => { clearTimeout(t); t = setTimeout(() => hideFn(), delay); };
-    const cancel = () => { clearTimeout(t); t = null; };
-
-    panelEl.addEventListener("mouseleave", schedule);
-    panelEl.addEventListener("mouseenter", cancel);
-    panelEl.addEventListener("focusin", cancel);
-  }
-
-  function parseCsvGeneric(text){
-    const rows = [];
-    let row = [];
-    let cur = "";
-    let inQuotes = false;
-
-    if(text && text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i];
-      const next = text[i + 1];
-
-      if (ch === '"') {
-        if (inQuotes && next === '"') { cur += '"'; i++; }
-        else inQuotes = !inQuotes;
-        continue;
-      }
-      if (!inQuotes && ch === ",") { row.push(cur); cur = ""; continue; }
-      if (!inQuotes && (ch === "\n" || ch === "\r")) {
-        if (ch === "\r" && next === "\n") i++;
-        row.push(cur);
-        if (row.some(c => (c || "").toString().trim() !== "")) rows.push(row);
-        row = [];
-        cur = "";
-        continue;
-      }
-      cur += ch;
-    }
-
-    row.push(cur);
-    if (row.some(c => (c || "").toString().trim() !== "")) rows.push(row);
-    return rows;
-  }
-
-  /* ======================
-     DOM
-     ====================== */
-  const phoneWidget = document.getElementById("phoneWidget");
-  const phoneFormatBtn = document.getElementById("phoneFormatBtn");
-  const phoneClose = document.getElementById("phoneClose");
-  const phoneInput = document.getElementById("phoneInput");
-  const phoneOutput = document.getElementById("phoneOutput");
-  const phoneCopy = document.getElementById("phoneCopy");
-  const phoneHint = document.getElementById("phoneHint");
-
-  const trackingWidgetBtn = document.getElementById("trackingWidgetBtn");
-  const trackingWidget = document.getElementById("trackingWidget");
-  const trackingClose = document.getElementById("trackingClose");
-  const trackingInput = document.getElementById("trackingInput");
-  const trackingGo = document.getElementById("trackingGo");
-  const trackingError = document.getElementById("trackingError");
-  const trackingResultHeader = document.getElementById("trackingResultHeader");
-  const trackingFrame = document.getElementById("trackingFrame");
-
-  const accountWidget = document.getElementById("accountWidget");
-  const accountWidgetBtn = document.getElementById("accountWidgetBtn");
-  const accountClose = document.getElementById("accountClose");
-  const accountQuery = document.getElementById("accountQuery");
-  const accountMatchAll = document.getElementById("accountMatchAll");
-  const accountResult = document.getElementById("accountResult");
-  const accountCount = document.getElementById("accountCount");
-  const accountToast = document.getElementById("accountToast");
-  const accountSheetBtn = document.getElementById("accountSheetBtn");
-  const accountGo = document.getElementById("accountGo");
-
-  const mainFrame = document.getElementById("mainFrame");
-  const navItems = document.querySelectorAll(".nav-item");
-
-  const subSidebar = document.getElementById("subSidebar");
-  const googleBtn = document.getElementById("googleBtn");
-  const googleChildren = document.querySelectorAll(".google-child");
-
-  const utilSidebar = document.getElementById("utilSidebar");
-  const utilBtn = document.getElementById("utilBtn");
-  const utilChildren = document.querySelectorAll(".util-child");
-
-  const calendarWidget = document.getElementById("calendarWidget");
-  const adminEventBtn = document.getElementById("adminEventBtn");
-  const calViewSeg = document.getElementById("calViewSeg");
-  const todayIcon = document.getElementById("todayEventIcon");
-  const todayBadge = document.getElementById("todayBadge");
-  const popup = document.getElementById("datePopup");
-  const popupClose = document.getElementById("popupClose");
-
-  // sidebar date (DD(요일))
-  const sidebarDateEl = document.getElementById("sidebarDate");
-  function setSidebarToday(){
-    if(!sidebarDateEl) return;
-    const now = new Date();
-    const dd = String(now.getDate()).padStart(2, "0");
-    const dow = ["일","월","화","수","목","금","토"][now.getDay()];
-    sidebarDateEl.textContent = `${dd}(${dow})`;
-  }
-  setSidebarToday();
-
-  /* ======================
-     iframe restore
-     ====================== */
-  function restoreLastFrame(){
-    const last = localStorage.getItem(LAST_FRAME_KEY);
-    mainFrame.src = last ? last : "https://wskimkj.github.io/search/";
-  }
-  function rememberFrame(url){ localStorage.setItem(LAST_FRAME_KEY, url); }
-
-  function normalizeUrl(u){
-    try{
-      const url = new URL(u, location.href);
-      url.hash = "";
-      return url.toString();
-    }catch{
-      return (u || "").split("#")[0];
-    }
-  }
-
-  function syncNavActiveByFrame(){
-    const cur = normalizeUrl(mainFrame.src);
-    let matched = null;
-
-    navItems.forEach(b=>{
-      const href = b.dataset.href ? normalizeUrl(b.dataset.href) : "";
-      if(href && cur.startsWith(href)) matched = b;
-    });
-
-    if(matched){
-      navItems.forEach(b=>b.classList.remove("active"));
-      matched.classList.add("active");
-    }
-  }
-
-  restoreLastFrame();
-  syncNavActiveByFrame();
-
-  mainFrame.addEventListener("load", () => {
-    rememberFrame(mainFrame.src);
-    try{
-      const real = mainFrame.contentWindow.location.href;
-      if(real) rememberFrame(real);
-    }catch{}
-    syncNavActiveByFrame();
-  });
-
-  /* ======================
-     UI helpers
-     ====================== */
-  function closePopup(){ popup.classList.remove("open"); }
-  function hideCalendar(){ calendarWidget.classList.remove("visible"); }
-  function hidePhone(){ phoneWidget.classList.remove("visible"); }
-  function hideTracking(){ trackingWidget.classList.remove("visible"); }
-  function hideAccount(){ accountWidget.classList.remove("visible"); }
-
-  const searchWidgetBtn = document.getElementById("searchWidgetBtn");
-  const searchWidget = document.getElementById("searchWidget");
-  function hideSearch(){ searchWidget.classList.remove("visible"); }
-
-  function hideAllSubSidebars(){
-    subSidebar.classList.remove("visible");
-    utilSidebar.classList.remove("visible");
-  }
-
-  function closeAllPanels(){
-    hideAllSubSidebars();
-    hideCalendar();
-    hidePhone();
-    hideTracking();
-    hideAccount();
-    hideSearch();
-    closePopup();
-  }
-
-  function placeSubSidebarNear(btn, panel){
-    const r = btn.getBoundingClientRect();
-    const left = 96;
-    const h = panel.offsetHeight || 220;
-    let top = r.top + window.scrollY + (r.height/2) - (h/2);
-
-    const minTop = 12 + window.scrollY;
-    const maxTop = window.scrollY + window.innerHeight - h - 12;
-    top = Math.max(minTop, Math.min(top, maxTop));
-
-    panel.style.left = left + "px";
-    panel.style.top  = top  + "px";
-  }
-  function showSubSidebar(panel, anchorBtn){
-    panel.classList.add("visible");
-    requestAnimationFrame(()=> placeSubSidebarNear(anchorBtn, panel));
-  }
-
-  /* ======================
-     ✅ Search widget (Standalone)
-     ====================== */
-  (function(){
-    const PRODUCT_SHEET_ID = "1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc";
-    const PRODUCT_GID = "885700988";
-    const STOCK_SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
-    const STOCK_GID = "366983013";
-
-    const PRODUCT_CSV_URL = `https://docs.google.com/spreadsheets/d/${PRODUCT_SHEET_ID}/export?format=csv&gid=${PRODUCT_GID}`;
-    const STOCK_CSV_URL   = `https://docs.google.com/spreadsheets/d/${STOCK_SHEET_ID}/export?format=csv&gid=${STOCK_GID}`;
-
-    const btn = document.getElementById("searchWidgetBtn");
-    const panel = document.getElementById("searchWidget");
-    const closeBtn = document.getElementById("searchClose");
-    const input = document.getElementById("searchInput");
-    const goBtn = document.getElementById("searchGo");
-    const openNewTab = document.getElementById("searchOpenNewTab");
-    const statusEl = document.getElementById("swStatus");
-    const resultEl = document.getElementById("swResult");
-
-    if(!btn || !panel || !closeBtn || !input || !goBtn || !openNewTab || !statusEl || !resultEl) return;
-
-    const previewEl = document.getElementById("swPreview");
-    const previewFrame = document.getElementById("swPreviewFrame");
-    const previewClose = document.getElementById("swPreviewClose");
-
-    function openPreview(url){
-      if(!url) return;
-      previewFrame.src = url;
-      previewEl.classList.add("show");
-      previewEl.setAttribute("aria-hidden", "false");
-    }
-    function closePreview(){
-      previewEl.classList.remove("show");
-      previewEl.setAttribute("aria-hidden", "true");
-      previewFrame.src = "about:blank";
-    }
-
-    previewClose.addEventListener("click", (e)=>{ e.stopPropagation(); closePreview(); });
-    previewEl.addEventListener("click", (e)=>{ if(e.target === previewEl) closePreview(); });
-
-    const LAST_Q_KEY = "sw:lastQuery";
-    let loaded = false;
-
-    let products = []; // {productCode,colorName,barcode,material,colorCode,productName,rawName}
-    let stockEntriesByColorCode = {}; // colorCode -> [{warehouse,size,qty,productNo}]
-    let sizeByColorCode = {};
-    let productNoByColorCode = {};
-
-    function normalizeProductNo(v){
-      if(v == null) return "";
-      return String(v).trim().replace(/[^\d]/g,"");
-    }
-    function cleanProductName(name){
-      if(!name) return "";
-      return String(name)
-        .replace(/[\r\n]+/g, "")
-        .replace(/\u00A0/g, " ")
-        .replace(/\[[^\]]*\]/g, "")
-        .replace(/^\s*[0-9]{2}\s*(FW|SS)\s*/i, "")
-        .replace(/\s*\([^)]*\)\s*[^()]*$/, "")
-        .replace(/\([^)]*\)\s*$/, "")
-        .replace(/\s{2,}/g, " ")
-        .trim();
-    }
-
-    async function fetchText(url, timeoutMs=12000){
-      const ctrl = new AbortController();
-      const t = setTimeout(()=>ctrl.abort(), timeoutMs);
-      try{
-        const res = await fetch(url, { signal: ctrl.signal, cache:"no-store" });
-        if(!res.ok) throw new Error(`CSV fetch 실패 (${res.status})`);
-        const text = await res.text();
-        if(/<!doctype html>|<html/i.test(text)) throw new Error("CSV 대신 HTML(권한/게시 설정 확인)");
-        return text;
-      } finally {
-        clearTimeout(t);
-      }
-    }
-
-    async function loadProducts(){
-      const text = await fetchText(PRODUCT_CSV_URL);
-      const rows = parseCsvGeneric(text);
-      if(rows.length < 2) return;
-
-      const idxProductCode = 5;
-      const idxColorName   = 15;
-      const idxBarcode     = 20;
-      const idxMaterial    = 22;
-      const idxColorCode   = 25;
-      const idxProductName = 26;
-
-      products = rows.slice(1).map(r=>{
-        const rawName = r[idxProductName] || "";
-        const productName = cleanProductName(rawName);
-        return {
-          productCode: r[idxProductCode] || "",
-          colorName: r[idxColorName] || "",
-          barcode: r[idxBarcode] || "",
-          material: r[idxMaterial] || "",
-          colorCode: r[idxColorCode] || "",
-          rawName,
-          productName
-        };
-      }).filter(p=>p.productName && p.colorCode);
-    }
-
-    async function loadStock(){
-      const text = await fetchText(STOCK_CSV_URL);
-      const rows = parseCsvGeneric(text);
-      if(!rows.length) return;
-
-      stockEntriesByColorCode = {};
-      sizeByColorCode = {};
-      productNoByColorCode = {};
-
-      for(let i=1;i<rows.length;i++){
-        const r = rows[i] || [];
-        const colorCode = (r[0] || "").trim();
-        if(!colorCode) continue;
-
-        const size = (r[1] || "").trim();
-        const warehouse = (r[2] || "").trim() || "미정";
-
-        const productNo = (r[9] || "").toString().trim(); // J
-        if(productNo && !productNoByColorCode[colorCode]) productNoByColorCode[colorCode] = productNo;
-
-        let qtyRaw = (r[10] || "").toString().trim(); // K
-        if(!qtyRaw) continue;
-        qtyRaw = qtyRaw.replace(/,/g,"");
-        const qty = Number(qtyRaw);
-        if(Number.isNaN(qty)) continue;
-
-        if(!stockEntriesByColorCode[colorCode]) stockEntriesByColorCode[colorCode] = [];
-        stockEntriesByColorCode[colorCode].push({ warehouse, size, qty, productNo });
-
-        if(!sizeByColorCode[colorCode] && size) sizeByColorCode[colorCode] = size;
-      }
-    }
-
-    async function ensureLoaded(){
-      if(loaded) return;
-      statusEl.textContent = "데이터 불러오는 중...";
-      await Promise.all([ loadProducts(), loadStock() ]);
-      loaded = true;
-      statusEl.textContent = `상품 ${products.length}개`;
-    }
-
-    function totalStockForColor(colorCode){
-      const entries = stockEntriesByColorCode[colorCode] || [];
-      return entries.reduce((sum,e)=>sum + (typeof e.qty === "number" ? e.qty : 0), 0);
-    }
-    function pillClass(qty){
-      if(qty >= 100) return "sw-pill";
-      if(qty >= 10) return "sw-pill mid";
-      return "sw-pill low";
-    }
-
-    function renderResults(rows){
-      if(!rows.length){
-        resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색 결과 없음</div>`;
-        return;
-      }
-
-      const header = `
-        <table class="sw-table">
-          <thead>
-            <tr>
-              <th style="width:44%;">상품명</th>
-              <th style="width:20%;">칼라</th>
-              <th style="width:22%;">상품칼라코드</th>
-
-              <!-- ✅ 재고 헤더: 우측 끝 정렬 wrap -->
-              <th class="sw-th-stock" style="width:14%;">
-                <div class="sw-th-stock-wrap">재고</div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-
-      const body = rows.map((r, idx)=>{
-        const sum = r.totalStock;
-        const pno = normalizeProductNo(r.productNo || "");
-        const detailUrl = pno ? `https://whitesands.co.kr/product/detail.html?product_no=${encodeURIComponent(pno)}` : "";
-
-        const entries = r.entries || [];
-
-        /* ✅ 상세: 표 생성 (요약 + 표) */
-        const entryRows = entries.slice(0, 50).map(e => `
-          <tr>
-            <td>${escapeHtml(e.warehouse)}</td>
-            <td>${escapeHtml(e.size || "-")}</td>
-            <td>${escapeHtml(String(e.qty))}</td>
-          </tr>
-        `).join("");
-
-        const entryTable = entries.length ? `
-          <div class="sw-entry-title">창고/사이즈별 재고</div>
-          <table class="sw-entry-table">
-            <thead>
-              <tr>
-                <th>창고</th>
-                <th>사이즈</th>
-                <th>수량</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${entryRows}
-            </tbody>
-          </table>
-        ` : `
-          <div class="sw-entry-title">창고/사이즈별 재고</div>
-          <div style="font-size:11px;font-weight:900;color:rgba(15,23,42,.55);padding:6px 2px;">-</div>
-        `;
-
-        return `
-          <tr>
-            <td class="sw-td-name">
-              <div class="sw-name">${escapeHtml(r.productName)}</div>
-              <div class="sw-sub">${escapeHtml(r.productCode || "")}</div>
-            </td>
-
-            <td class="sw-td-color">
-              <div class="sw-sub">${escapeHtml(r.colorName || "-")}</div>
-            </td>
-
-            <td class="sw-td-code">
-              <div class="sw-sub">${escapeHtml(r.colorCode)}</div>
-            </td>
-
-            <!-- ✅ 재고 td: 클래스 추가로 헤더 기준과 완전 통일 -->
-            <td class="sw-td-stock">
-              <div class="sw-stock-wrap">
-                <button
-                  type="button"
-                  class="${pillClass(sum)} sw-pill-btn"
-                  data-sw-preview="${detailUrl}"
-                  ${detailUrl ? "" : "disabled"}
-                  title="${detailUrl ? "상세페이지 미리보기" : "상품번호 없음"}"
-                >${escapeHtml(String(sum))}</button>
-
-                <button class="sw-acc-btn" type="button" data-sw-acc="${idx}" aria-expanded="false" title="상세">▾</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- ✅ 상세 row: 요약 + 표 -->
-          <tr data-sw-detail-row="${idx}" style="display:none;">
-            <td colspan="4">
-              <div class="sw-detail">
-
-                <div class="sw-detail-top">
-                  <div class="sw-meta">
-                    <div class="k">상품코드</div>
-                    <div class="v">${escapeHtml(r.productCode || "-")}</div>
-                  </div>
-                  <div class="sw-meta">
-                    <div class="k">바코드</div>
-                    <div class="v">${escapeHtml(r.barcode || "-")}</div>
-                  </div>
-                  <div class="sw-meta">
-                    <div class="k">사이즈</div>
-                    <div class="v">${escapeHtml(r.size || "-")}</div>
-                  </div>
-                  <div class="sw-meta">
-                    <div class="k">소재</div>
-                    <div class="v">${escapeHtml(r.material || "-")}</div>
-                  </div>
-                </div>
-
-                ${entryTable}
-
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join("");
-
-      resultEl.innerHTML = header + body + `</tbody></table>`;
-
-      resultEl.querySelectorAll("[data-sw-preview]").forEach(btn=>{
-        btn.addEventListener("click", (e)=>{
-          e.stopPropagation();
-          const url = btn.getAttribute("data-sw-preview");
-          if(url) openPreview(url);
-        });
-      });
-
-      // 한 번에 하나만 펼치기
-      resultEl.querySelectorAll("[data-sw-acc]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-sw-acc");
-
-          resultEl.querySelectorAll("[data-sw-detail-row]").forEach(tr=>{
-            if(tr.getAttribute("data-sw-detail-row") !== id){
-              tr.style.display = "none";
-            }
-          });
-          resultEl.querySelectorAll("[data-sw-acc]").forEach(b=>{
-            if(b.getAttribute("data-sw-acc") !== id){
-              b.setAttribute("aria-expanded", "false");
-            }
-          });
-
-          const tr = resultEl.querySelector(`[data-sw-detail-row="${id}"]`);
-          const expanded = btn.getAttribute("aria-expanded") === "true";
-
-          btn.setAttribute("aria-expanded", String(!expanded));
-          if(tr) tr.style.display = expanded ? "none" : "table-row";
-        });
-      });
-    }
-
-    function doSearch(){
-      const kw = input.value.trim();
-      localStorage.setItem(LAST_Q_KEY, kw);
-
-      if(!kw){
-        statusEl.textContent = "검색어를 입력하세요.";
-        resultEl.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색어를 입력하세요.</div>`;
-        openNewTab.href = "#";
-        return;
-      }
-
-      const q = kw.toLowerCase();
-      const filtered = products.filter(p=>{
-        return (p.productName||"").toLowerCase().includes(q)
-          || (p.productCode||"").toLowerCase().includes(q)
-          || (p.colorCode||"").toLowerCase().includes(q);
-      });
-
-      const rows = filtered.map(p=>{
-        const colorCode = p.colorCode;
-        const entries = stockEntriesByColorCode[colorCode] || [];
-        const productNo = productNoByColorCode[colorCode] || "";
-        const totalStock = totalStockForColor(colorCode);
-
-        return {
-          productName: p.productName,
-          colorName: p.colorName,
-          productCode: p.productCode,
-          barcode: p.barcode,
-          material: p.material,
-          colorCode,
-          size: sizeByColorCode[colorCode] || "",
-          entries,
-          productNo,
-          totalStock
-        };
-      }).sort((a,b)=>(b.totalStock - a.totalStock));
-
-      statusEl.textContent = `"${kw}" 결과 ${rows.length}개`;
-      openNewTab.href = `https://whitesands.co.kr/product/search.html?keyword=${encodeURIComponent(kw)}`;
-      renderResults(rows);
-    }
-
-    function openWidget(){
-      panel.classList.add("visible");
-      ensureLoaded().then(()=>{
-        const lastQ = localStorage.getItem(LAST_Q_KEY) || "";
-        if(lastQ && !input.value.trim()) input.value = lastQ;
-        input.focus();
-        if(input.value.trim()) doSearch();
-      }).catch(err=>{
-        console.error(err);
-        statusEl.textContent = "데이터 로드 실패(시트 권한/게시 확인)";
-      });
-    }
-    function closeWidget(){ panel.classList.remove("visible"); }
-
-    btn.addEventListener("click", (e)=>{
-      e.stopPropagation();
-      if(panel.classList.contains("visible")) closeWidget();
-      else openWidget();
-    });
-    closeBtn.addEventListener("click", (e)=>{ e.stopPropagation(); closeWidget(); });
-    panel.addEventListener("click", (e)=> e.stopPropagation());
-
-    goBtn.addEventListener("click", (e)=>{ e.stopPropagation(); doSearch(); });
-    input.addEventListener("keydown", (e)=>{
-      if(e.key === "Enter"){ e.preventDefault(); doSearch(); }
-    });
-
-    document.addEventListener("keydown", (e)=>{
-      if(e.key === "Escape"){
-        if(previewEl.classList.contains("show")) return; // 프리뷰 열려있으면 위젯 닫기 금지
-        closeWidget();
-      }
-    });
-  })();
-
-  /* ======================
-     Phone
-     ====================== */
-  function formatKoreanPhone(input){
-    let num = String(input ?? "").replace(/\D/g, "");
-    if(num.startsWith("82")) num = "0" + num.slice(2);
-
-    const SAFE_PREFIX = ["0502","0504","0505","0506","0507"];
-    for(const p of SAFE_PREFIX){
-      if(num.startsWith(p)){
-        if(num.length === 11){
-          return { type:"safe", value: num.replace(/(\d{4})(\d{3})(\d{4})/, "$1-$2-$3") };
-        }
-        if(num.length === 12){
-          return { type:"safe", value: num.replace(/(\d{4})(\d{4})(\d{4})/, "$1-$2-$3") };
-        }
-      }
-    }
-
-    if(num.length === 10 && num.startsWith("10")) num = "0" + num;
-    if(num.length === 11 && num.startsWith("010")){
-      return { type:"mobile", value: num.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3") };
-    }
-    return { type:"unknown", value:"" };
-  }
-
-  function togglePhone(){
-    const v = phoneWidget.classList.contains("visible");
-    if(v) hidePhone();
-    else{
-      phoneWidget.classList.add("visible");
-      hideCalendar(); hideAllSubSidebars(); hideAccount(); hideTracking(); closePopup();
-      phoneInput.focus();
-    }
-  }
-  phoneFormatBtn.addEventListener("click",(e)=>{ togglePhone(); e.stopPropagation(); });
-  phoneClose.addEventListener("click",(e)=>{ hidePhone(); e.stopPropagation(); });
-  phoneWidget.addEventListener("click",(e)=> e.stopPropagation());
-
-  phoneInput.addEventListener("input", ()=>{
-    const result = formatKoreanPhone(phoneInput.value);
-    if(result.value){
-      phoneOutput.textContent = result.value;
-      phoneHint.textContent = (result.type === "safe") ? "안전번호 (가상번호)" : "휴대폰 번호";
-    }else{
-      phoneOutput.textContent = "";
-      phoneHint.textContent = "번호를 입력하세요";
-    }
-  });
-
-  async function copyText(v){
-    if(!v) return;
-    try{
-      await navigator.clipboard.writeText(v);
-      phoneHint.textContent = "복사됨 ✅";
-    }catch{
-      phoneHint.textContent = "복사 실패(브라우저 권한 확인)";
-    }
-  }
-  phoneOutput.addEventListener("click",(e)=>{ e.preventDefault(); e.stopPropagation(); copyText(phoneOutput.textContent); });
-  phoneCopy.addEventListener("click",(e)=>{ e.preventDefault(); e.stopPropagation(); copyText(phoneOutput.textContent); });
-
-
-  /* ======================
-   ✅ Sheet Navigator (keyword -> sheet)
-   ====================== */
-(function(){
-  const sheetNavBtn    = document.getElementById("sheetNavBtn");
-  const sheetNavWidget = document.getElementById("sheetNavWidget");
-  const sheetNavClose  = document.getElementById("sheetNavClose");
-  const sheetNavInput  = document.getElementById("sheetNavInput");
-  const sheetNavGo     = document.getElementById("sheetNavGo");
-  const sheetNavStatus = document.getElementById("sheetNavStatus");
-  const sheetNavResult = document.getElementById("sheetNavResult");
-
-  if(!sheetNavBtn || !sheetNavWidget || !sheetNavClose || !sheetNavInput || !sheetNavGo || !sheetNavStatus || !sheetNavResult) return;
-
-  // ✅ 네가 부여한 "표시용 시트명" + 실제 URL/GID
-  // searchCols: 특정 열만 검색하고 싶으면 0-based index 배열로 지정 (예: [0,3,5])
-  // null이면 전체 셀 검색
-  const SHEETS = [
-    { name:"회수 시트",       url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=2058557070#gid=2058557070", gid:2058557070, csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=2058557070`, searchCols:null },
-    { name:"온라인 시트",     url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=0#gid=0",             gid:0,          csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=0`,          searchCols:null },
-    { name:"발송 후 취소",    url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=716550224#gid=716550224", gid:716550224, csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=716550224`, searchCols:null },
-    { name:"온라인(완료)",    url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=303584832#gid=303584832", gid:303584832, csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=303584832`, searchCols:null },
-    { name:"미출고",          url:"https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/edit?gid=357162286#gid=357162286", gid:357162286, csv:`https://docs.google.com/spreadsheets/d/1Cjoo-x9lBA5pFtGoxftdAxdoKrzt770XcPGeXOidPiI/export?format=csv&gid=357162286`, searchCols:null },
-
-    { name:"출고(25년)",      url:"https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=0#gid=0",               gid:0,          csv:`https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/export?format=csv&gid=0`,          searchCols:null },
-    { name:"출고(26년)",      url:"https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=883501265#gid=883501265", gid:883501265, csv:`https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/export?format=csv&gid=883501265`, searchCols:null },
-    { name:"변경",            url:"https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/edit?gid=2031425693#gid=2031425693", gid:2031425693, csv:`https://docs.google.com/spreadsheets/d/1LPy69E2yPTaSwxFAYrX6qV0BZx1tW0YdonLRNqeo5Vc/export?format=csv&gid=2031425693`, searchCols:null },
-  ];
-
-  // ✅ 캐시 (같은 시트 매번 fetch 방지)
-  const CACHE = new Map(); // gid -> rows
-
-  async function fetchCsvRows(url){
-    const ctrl = new AbortController();
-    const t = setTimeout(()=>ctrl.abort(), 12000);
-    try{
-      const res = await fetch(url, { cache:"no-store", signal: ctrl.signal });
-      if(!res.ok) throw new Error(`CSV fetch 실패 (${res.status})`);
-      const text = await res.text();
-      if(/<!doctype html>|<html/i.test(text)) throw new Error("CSV 대신 HTML(권한/게시 설정 확인)");
-      return parseCsvGeneric(text); // ✅ 네가 이미 위에서 정의해둔 parseCsvGeneric 재사용
-    } finally {
-      clearTimeout(t);
-    }
-  }
-
-  function norm(s){ return String(s ?? "").toLowerCase(); }
-  function includesKeyword(cell, kw){ return norm(cell).includes(kw); }
-
-  function rowsHaveKeyword(rows, kw, searchCols){
-    // rows: [ [c1,c2...], ... ]
-    for(let i=0;i<rows.length;i++){
-      const r = rows[i] || [];
-      if(searchCols && Array.isArray(searchCols)){
-        for(const ci of searchCols){
-          if(ci != null && ci >= 0 && ci < r.length){
-            if(includesKeyword(r[ci], kw)) return true;
-          }
-        }
-      }else{
-        for(let j=0;j<r.length;j++){
-          if(includesKeyword(r[j], kw)) return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  function renderSheetMatches(matches, keyword){
-    if(!matches.length){
-      sheetNavResult.innerHTML = `
-        <div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">
-          "${escapeHtml(keyword)}" 포함 시트를 찾지 못했어요.
-        </div>
-      `;
-      return;
-    }
-
-    // 결과 UI: 클릭하면 mainFrame 이동, 우측에 새탭 버튼
-    const html = `
-      <table class="sw-table">
-        <thead>
-          <tr>
-            <th style="width:70%;">시트</th>
-            <th style="width:30%; text-align:right;">이동</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${matches.map(m => `
-            <tr data-sheet-row style="cursor:pointer;">
-              <td>
-                <div class="sw-name">${escapeHtml(m.name)}</div>
-                <div class="sw-sub">gid: ${escapeHtml(String(m.gid))}</div>
-              </td>
-              <td style="text-align:right;">
-                <div class="sw-stock-wrap">
-                  <button class="sw-acc-btn" type="button" data-sheet-open="inframe">IN</button>
-                  <button class="sw-acc-btn" type="button" data-sheet-open="blank">↗</button>
-                </div>
-              </td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    `;
-    sheetNavResult.innerHTML = html;
-
-    // 이벤트 바인딩
-    const trs = sheetNavResult.querySelectorAll("tr[data-sheet-row]");
-    trs.forEach((tr, idx)=>{
-      const target = matches[idx];
-      tr.addEventListener("click", ()=>{
-        // 행 클릭 = iframe 이동
-        mainFrame.src = target.url;
-        rememberFrame(target.url);
-        sheetNavWidget.classList.remove("visible");
-      });
-
-      const btnIn = tr.querySelector(`[data-sheet-open="inframe"]`);
-      const btnNew = tr.querySelector(`[data-sheet-open="blank"]`);
-
-      btnIn.addEventListener("click", (e)=>{
-        e.stopPropagation();
-        mainFrame.src = target.url;
-        rememberFrame(target.url);
-        sheetNavWidget.classList.remove("visible");
-      });
-
-      btnNew.addEventListener("click", (e)=>{
-        e.stopPropagation();
-        window.open(target.url, "_blank");
-      });
-    });
-  }
-
-  async function doSheetNavSearch(){
-    const kwRaw = sheetNavInput.value.trim();
-    if(!kwRaw){
-      sheetNavStatus.textContent = "키워드를 입력하세요.";
-      sheetNavResult.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">키워드를 입력하세요.</div>`;
-      return;
-    }
-
-    const kw = kwRaw.toLowerCase();
-    sheetNavStatus.textContent = "시트 확인 중...";
-    sheetNavResult.innerHTML = `<div style="padding:12px; font-size:12px; font-weight:900; color:rgba(15,23,42,.55); text-align:center;">검색 중...</div>`;
-
-    const matches = [];
-    let checked = 0;
-
-    // 병렬로 다 던지되, 캐시 활용
-    await Promise.all(SHEETS.map(async (s)=>{
-      try{
-        let rows = CACHE.get(s.gid);
-        if(!rows){
-          rows = await fetchCsvRows(s.csv);
-          CACHE.set(s.gid, rows);
-        }
-        if(rowsHaveKeyword(rows, kw, s.searchCols)){
-          matches.push(s);
-        }
-      }catch(err){
-        // 권한 문제 등은 “실패”로만 표시 (원하면 실패 시트도 따로 표시 가능)
-        console.warn("sheet nav fetch fail:", s.name, err);
-      } finally {
-        checked++;
-        sheetNavStatus.textContent = `"${kwRaw}" 확인중... (${checked}/${SHEETS.length})`;
-      }
-    }));
-
-    matches.sort((a,b)=>a.name.localeCompare(b.name));
-    sheetNavStatus.textContent = `"${kwRaw}" 포함 시트 ${matches.length}개`;
-    renderSheetMatches(matches, kwRaw);
-  }
-
-  function openSheetNav(){
-    sheetNavWidget.classList.add("visible");
-    // 다른 패널 닫기 (네가 이미 만든 closeAllPanels 활용 가능)
-    hideAllSubSidebars(); hideCalendar(); hidePhone(); hideTracking(); hideAccount(); closePopup();
-    sheetNavInput.focus();
-  }
-  function closeSheetNav(){ sheetNavWidget.classList.remove("visible"); }
-
-  sheetNavBtn.addEventListener("click", (e)=>{
-    e.stopPropagation();
-    if(sheetNavWidget.classList.contains("visible")) closeSheetNav();
-    else openSheetNav();
-  });
-  sheetNavClose.addEventListener("click", (e)=>{ e.stopPropagation(); closeSheetNav(); });
-  sheetNavWidget.addEventListener("click", (e)=> e.stopPropagation());
-
-  sheetNavGo.addEventListener("click", (e)=>{ e.stopPropagation(); doSheetNavSearch(); });
-  sheetNavInput.addEventListener("keydown", (e)=>{
-    if(e.key === "Enter"){ e.preventDefault(); doSheetNavSearch(); }
-  });
-
-  // ESC 닫기
-  document.addEventListener("keydown", (e)=>{
-    if(e.key === "Escape"){
-      closeSheetNav();
-    }
-  });
-
-  // auto-hide 동일 적용
-  attachAutoHide(sheetNavWidget, closeSheetNav, 650);
-})();
-
-
-  /* ======================
-     Tracking
-     ====================== */
-  function normalizeWaybill(raw){ return String(raw || "").replace(/\D/g, ""); }
-  function validateTracking(raw){
-    const digits = normalizeWaybill(raw);
-    if(!digits) return "운송장을 입력해주세요.";
-    if(digits.length < 8 || digits.length > 15) return "8~15자리 운송장 번호";
-    return "";
-  }
-
-  const CJ_FULL_NAME = "CJ";
-  const CJ_TRACK_URL = "https://trace.cjlogistics.com/next/tracking.html?wblNo=";
-
-  function track(){
-    trackingError.style.display = "none";
-    const raw = trackingInput.value;
-    const digits = normalizeWaybill(raw);
-    const msg = validateTracking(raw);
-
-    if(msg){
-      trackingError.textContent = msg;
-      trackingError.style.display = "block";
-      trackingResultHeader.textContent = "입력값을 확인해주세요.";
-      trackingFrame.src = "";
-      return;
-    }
-
-    trackingInput.value = digits;
-    trackingResultHeader.innerHTML = `<span class="em">${CJ_FULL_NAME}</span>`;
-    trackingFrame.src = CJ_TRACK_URL + encodeURIComponent(digits);
-  }
-
-  function toggleTracking(){
-    const v = trackingWidget.classList.contains("visible");
-    if(v) hideTracking();
-    else{
-      trackingWidget.classList.add("visible");
-      hideCalendar(); hideAllSubSidebars(); hidePhone(); hideAccount(); closePopup();
-      trackingInput.focus();
-    }
-  }
-  trackingWidgetBtn.addEventListener("click",(e)=>{ toggleTracking(); e.stopPropagation(); });
-  trackingClose.addEventListener("click",(e)=>{ hideTracking(); e.stopPropagation(); });
-  trackingWidget.addEventListener("click",(e)=> e.stopPropagation());
-  trackingGo.addEventListener("click",(e)=>{ track(); e.stopPropagation(); });
-  trackingInput.addEventListener("keydown",(e)=>{ if(e.key === "Enter") track(); });
-
-  /* ======================
-     Account (CSV 로딩 + 검색 + 복사 + 더블클릭 점프)
-     ====================== */
-  const SHOP_GIDS = [0, 618725932, 1481873109];
-  const OTHER_GID = 267581891;
-
-  let SHOP_SITES = [];
-  let OTHER_SITES = [];
-  let EXTRA_SITES = [];
-  let accountLoaded = false;
-
-  function accountCsvUrl(gid){
-    return `https://docs.google.com/spreadsheets/d/${ACCOUNT_SHEET_ID}/export?format=csv&gid=${gid}`;
-  }
-  function extraCsvUrl(gid){
-    return `https://docs.google.com/spreadsheets/d/${EXTRA_SHEET_ID}/export?format=csv&gid=${gid}`;
-  }
-
-  async function fetchAccountCsv(gid){
-    const res = await fetch(accountCsvUrl(gid), { cache:"no-store" });
-    if(!res.ok) throw new Error("account csv fetch failed");
-    const text = await res.text();
-    return parseCsvGeneric(text);
-  }
-
-  async function fetchExtraCsv(gid){
-    const res = await fetch(extraCsvUrl(gid), { cache:"no-store" });
-    if(!res.ok) throw new Error("extra csv fetch failed");
-    const text = await res.text();
-    return parseCsvGeneric(text);
-  }
-
-  function splitAgKeywords(v){
-    return (v || "").toString().split(",").map(s=>s.trim()).filter(Boolean);
-  }
-  function splitQueryKeywords(q){
-    return (q || "").toString().split(/[,\s]+/g).map(s=>s.trim()).filter(Boolean);
-  }
-  function normalize(s){ return (s || "").toString().toLowerCase().trim(); }
-
-  function tokenMatchAny(agTokens, queryTokens){
-    const a = (agTokens || []).map(normalize).filter(Boolean);
-    const q = (queryTokens || []).map(normalize).filter(Boolean);
-    if(!a.length || !q.length) return false;
-    return q.some(qt => a.some(at => at.includes(qt)));
-  }
-  function tokenMatchAll(agTokens, queryTokens){
-    const a = (agTokens || []).map(normalize).filter(Boolean);
-    const q = (queryTokens || []).map(normalize).filter(Boolean);
-    if(!a.length || !q.length) return false;
-    return q.every(qt => a.some(at => at.includes(qt)));
-  }
-
-  function textMatchAny(text, queryTokens){
-    const t = normalize(text);
-    const q = (queryTokens || []).map(normalize).filter(Boolean);
-    if(!t || !q.length) return false;
-    return q.some(qt => t.includes(qt));
-  }
-  function textMatchAll(text, queryTokens){
-    const t = normalize(text);
-    const q = (queryTokens || []).map(normalize).filter(Boolean);
-    if(!t || !q.length) return false;
-    return q.every(qt => t.includes(qt));
-  }
-
-  async function loadAccountData(){
-    accountResult.innerHTML = '<div class="account-empty">데이터 불러오는 중...</div>';
-    accountCount.textContent = "";
-
-    try{
-      // 1) 기존 3개 시트
-      const shopSheetsRows = await Promise.all(SHOP_GIDS.map(gid => fetchAccountCsv(gid)));
-      SHOP_SITES = [];
-
-      shopSheetsRows.forEach((rows, idx)=>{
-        const gid = SHOP_GIDS[idx];
-        if(!rows || rows.length <= 1) return;
-
-        const groupLabel =
-          (gid === 0) ? "JH" :
-          (gid === 618725932) ? "NH" :
-          (gid === 1481873109) ? "HTY" : "기타";
-
-        rows.slice(1).forEach((cols, rIdx)=>{
-          const rowNumber = rIdx + 2;
-          const colA = (cols[0] || "").toString().trim();
-          if(colA === "매장") return;
-
-          const ag = cols[32] || "";
-          const agKeywords = splitAgKeywords(ag);
-          if(!agKeywords.length) return;
-
-          let storeId = "", loginId = "", pw = "";
-          if(gid === 0 || gid === 618725932){
-            storeId = cols[13];
-            loginId = cols[14];
-            pw      = cols[15];
-          }else if(gid === 1481873109){
-            storeId = cols[12];
-            loginId = cols[13];
-            pw      = cols[14];
-          }
-
-          SHOP_SITES.push({
-            source: "main",
-            gid,
-            rowNumber,
-            group: groupLabel,
-            siteName: ag || "",
-            agKeywords,
-            storeId: storeId || "",
-            loginId: loginId || "",
-            pw: pw || ""
-          });
-        });
-      });
-
-      // 2) 기타 시트
-      OTHER_SITES = [];
-      if(OTHER_GID != null){
-        const otherRows = await fetchAccountCsv(OTHER_GID);
-        if(otherRows && otherRows.length > 1){
-          otherRows.slice(1).forEach((cols, rIdx)=>{
-            const rowNumber = rIdx + 2;
-            const colA = (cols[0] || "").toString().trim();
-            if(colA === "매장") return;
-
-            const siteName = cols[0];
-            const loginId  = cols[3];
-            const pw       = cols[4];
-            if(!siteName) return;
-
-            OTHER_SITES.push({
-              source: "main",
-              gid: OTHER_GID,
-              rowNumber,
-              group: "기타",
-              siteName: siteName || "",
-              agKeywords: splitAgKeywords(siteName),
-              storeId: "",
-              loginId: loginId || "",
-              pw: pw || ""
-            });
-          });
-        }
-      }
-
-      // 3) 추가 DB (전체 셀 검색 / H=ID / I=PW)
-      EXTRA_SITES = [];
-      const extraRows = await fetchExtraCsv(EXTRA_GID);
-      if(extraRows && extraRows.length > 1){
-        extraRows.slice(1).forEach((cols, rIdx)=>{
-          const rowNumber = rIdx + 2;
-          const searchText = (cols || []).map(c => (c || "").toString()).join(" ");
-          if(!searchText.trim()) return;
-
-          const siteName = (cols?.[0] || "").toString().trim() || "(추가DB)";
-          const loginId  = cols?.[7] || ""; // H
-          const pw       = cols?.[8] || ""; // I
-
-          EXTRA_SITES.push({
-            source: "extra",
-            gid: EXTRA_GID,
-            rowNumber,
-            group: "추가DB",
-            siteName,
-            searchText,
-            storeId: "",
-            loginId: loginId || "",
-            pw: pw || ""
-          });
-        });
-      }
-
-      accountLoaded = true;
-      accountResult.innerHTML = '<div class="account-empty">검색어를 입력하세요. (Enter)</div>';
-      accountCount.textContent = "0건";
-    }catch(err){
-      console.error(err);
-      accountLoaded = false;
-      accountResult.innerHTML = '<div class="account-empty">데이터를 불러오지 못했습니다. (시트 공개 권한 확인 필요)</div>';
-      accountCount.textContent = "";
-    }
-  }
-
-  function searchAccountSites(query, matchAll){
-    const queryTokens = splitQueryKeywords(query);
-    if(!queryTokens.length) return [];
-
-    const results = [];
-    const tokenMatcher = matchAll ? tokenMatchAll : tokenMatchAny;
-
-    SHOP_SITES.forEach(item=>{
-      if(tokenMatcher(item.agKeywords, queryTokens)){
-        results.push({
-          source: item.source,
-          gid: item.gid,
-          rowNumber: item.rowNumber,
-          group: item.group || "기타",
-          siteName: item.siteName || "",
-          storeId: item.storeId || "",
-          loginId: item.loginId || "",
-          pw: item.pw || ""
-        });
-      }
-    });
-
-    OTHER_SITES.forEach(item=>{
-      if(tokenMatcher(item.agKeywords, queryTokens)){
-        results.push({
-          source: item.source,
-          gid: item.gid,
-          rowNumber: item.rowNumber,
-          group: item.group || "기타",
-          siteName: item.siteName || "",
-          storeId: "",
-          loginId: item.loginId || "",
-          pw: item.pw || ""
-        });
-      }
-    });
-
-    const textMatcher = matchAll ? textMatchAll : textMatchAny;
-    EXTRA_SITES.forEach(item=>{
-      if(textMatcher(item.searchText, queryTokens)){
-        results.push({
-          source: item.source,
-          gid: item.gid,
-          rowNumber: item.rowNumber,
-          group: item.group || "기타",
-          siteName: item.siteName || "",
-          storeId: "",
-          loginId: item.loginId || "",
-          pw: item.pw || ""
-        });
-      }
-    });
-
-    results.sort((a,b)=>(a.siteName||"").localeCompare(b.siteName||""));
-    return results;
-  }
-
-  let accountToastTimer = null;
-  function showAccountToast(){
-    accountToast.classList.add("show");
-    if(accountToastTimer) clearTimeout(accountToastTimer);
-    accountToastTimer = setTimeout(()=> accountToast.classList.remove("show"), 1100);
-  }
-
-  function copyToClipboard(text){
-    if(!text) return;
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(showAccountToast).catch(()=>{});
-    }else{
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      try{ document.execCommand("copy"); showAccountToast(); }catch{}
-      document.body.removeChild(ta);
-    }
-  }
-
-  function makeAccountChip(label, value){
-    const chip = document.createElement("div");
-    chip.className = "account-chip";
-
-    const k = document.createElement("div");
-    k.className = "k";
-    k.textContent = label;
-
-    const v = document.createElement("div");
-    v.className = "v";
-    v.textContent = value;
-
-    chip.appendChild(k);
-    chip.appendChild(v);
-
-    chip.addEventListener("click", (e)=>{
-      e.stopPropagation();
-      copyToClipboard(value);
-    });
-
-    return chip;
-  }
-
-  function renderAccountResults(list){
-    if(!list || list.length === 0){
-      accountResult.innerHTML = '<div class="account-empty">검색 결과가 없습니다.</div>';
-      accountCount.textContent = "0건";
-      return;
-    }
-
-    accountCount.textContent = list.length + "건";
-    accountResult.innerHTML = "";
-    const frag = document.createDocumentFragment();
-
-    list.forEach(item=>{
-      const card = document.createElement("div");
-      card.className = "account-card";
-
-      const head = document.createElement("div");
-      head.className = "account-card-head";
-
-      const site = document.createElement("div");
-      site.className = "account-site";
-      site.textContent = item.siteName || "(사이트명 없음)";
-
-      const grp = document.createElement("div");
-      grp.className = "account-group";
-      grp.textContent = (item.group || "기타").toUpperCase();
-
-      head.appendChild(site);
-      head.appendChild(grp);
-
-      const fields = document.createElement("div");
-      fields.className = "account-fields";
-
-      const store = (item.storeId || "").toString().trim();
-      const hasStore = store !== "" && store !== "-" && store !== "없음";
-      if(hasStore) fields.appendChild(makeAccountChip("상점", item.storeId));
-      if(item.loginId) fields.appendChild(makeAccountChip("ID", item.loginId));
-      if(item.pw) fields.appendChild(makeAccountChip("PW", item.pw));
-
-      card.appendChild(head);
-      card.appendChild(fields);
-      frag.appendChild(card);
-
-      card.addEventListener("dblclick", (e)=>{
-        e.stopPropagation();
-        const a1 = `A${item.rowNumber}`;
-        if(item.source === "extra") openExtraSheetAt(item.gid, a1);
-        else openAccountSheetAt(item.gid, a1);
-      });
-    });
-
-    accountResult.appendChild(frag);
-  }
-
-  function doAccountSearch(){
-    if(!accountLoaded){
-      accountResult.innerHTML = '<div class="account-empty">아직 데이터 로딩 중입니다.</div>';
-      accountCount.textContent = "";
-      return;
-    }
-    const q = accountQuery.value.trim();
-    if(!q){
-      accountResult.innerHTML = '<div class="account-empty">검색어를 입력하세요.</div>';
-      accountCount.textContent = "0건";
-      return;
-    }
-    const results = searchAccountSites(q, !!accountMatchAll.checked);
-    renderAccountResults(results);
-  }
-
-  function toggleAccount(){
-    const v = accountWidget.classList.contains("visible");
-    if(v) hideAccount();
-    else{
-      accountWidget.classList.add("visible");
-      hideCalendar(); hideAllSubSidebars(); hidePhone(); hideTracking(); closePopup();
-      if(!accountLoaded) loadAccountData();
-      accountQuery.focus();
-    }
-  }
-
-  accountWidgetBtn.addEventListener("click",(e)=>{ toggleAccount(); e.stopPropagation(); });
-  accountClose.addEventListener("click",(e)=>{ hideAccount(); e.stopPropagation(); });
-  accountWidget.addEventListener("click",(e)=> e.stopPropagation());
-  accountQuery.addEventListener("keydown",(e)=>{ if(e.key === "Enter") doAccountSearch(); });
-  accountMatchAll.addEventListener("change", ()=>{ if(accountQuery.value.trim()) doAccountSearch(); });
-
-  accountSheetBtn.addEventListener("click", (e) => {
-    window.open(ACCOUNT_SHEET_URL, "_blank");
-    e.stopPropagation();
-  });
-
-  accountGo.addEventListener("click", (e)=>{
-    doAccountSearch();
-    e.stopPropagation();
-  });
-
-  /* ======================
-     Calendar (주/월 + 이벤트 CSV + 팝업 + 오늘뱃지)
-     ✅ 성능개선: dateKey -> count/items 맵 선계산
-     ====================== */
-
-  function formatMDKorean(key){
-    const d = keyToDateLocal(key);
-    const mm = String(d.getMonth()+1);
-    const dd = String(d.getDate());
-    const dow = ["일","월","화","수","목","금","토"][d.getDay()];
-    return `${mm}/${dd}(${dow})`;
-  }
-
-  function toggleCalendar(){
-    const v = calendarWidget.classList.contains("visible");
-    if(v) { calendarWidget.classList.remove("visible"); closePopup(); }
-    else{
-      calendarWidget.classList.add("visible");
-      hideAllSubSidebars(); hidePhone(); hideTracking(); hideAccount();
-      buildCalendar();
-    }
-  }
-  adminEventBtn.addEventListener("click",(e)=>{ toggleCalendar(); e.stopPropagation(); });
-
-  const CAL_VIEW_KEY = "calendarViewMode";
-  let calendarViewMode = localStorage.getItem(CAL_VIEW_KEY) || "week";
-
-  function applyViewSeg(){
-    [...calViewSeg.querySelectorAll("button")].forEach(b=>{
-      b.classList.toggle("active", b.dataset.view === calendarViewMode);
-    });
-  }
-  applyViewSeg();
-
-  calViewSeg.addEventListener("click",(e)=>{
-    const btn = e.target.closest("button");
-    if(!btn) return;
-    calendarViewMode = btn.dataset.view;
-    localStorage.setItem(CAL_VIEW_KEY, calendarViewMode);
-    applyViewSeg();
-    closePopup();
-    buildCalendar();
-    e.stopPropagation();
-  });
-
-  todayIcon.addEventListener("click",(e)=>{
-    window.open(EVENT_SHEET_URL, "_blank");
-    e.stopPropagation();
-  });
-
-  popupClose.addEventListener("click",(e)=>{ closePopup(); e.stopPropagation(); });
-
-  let events = [];
-
-  // ✅ 성능용 인덱스
-  let eventCountByDayKey = new Map();
-  let eventItemsByDayKey = new Map();
-
-  function addToMapList(map, key, value){
-    const arr = map.get(key);
-    if(arr) arr.push(value);
-    else map.set(key, [value]);
-  }
-
-  function buildEventIndex(){
-    eventCountByDayKey = new Map();
-    eventItemsByDayKey = new Map();
-
-    for(const ev of events){
-      const [sy, sm, sd] = ev.start.split("-").map(Number);
-      const [ey, em, ed] = ev.end.split("-").map(Number);
-      let cur = new Date(sy, sm - 1, sd);
-      const end = new Date(ey, em - 1, ed);
-      if(cur > end) continue;
-
-      while(cur <= end){
-        const k = dateKeyLocal(cur);
-        eventCountByDayKey.set(k, (eventCountByDayKey.get(k) || 0) + 1);
-        addToMapList(eventItemsByDayKey, k, ev);
-        cur.setDate(cur.getDate() + 1);
-      }
-    }
-  }
-
-  async function loadEventsFromSheet(){
-    try{
-      const res = await fetch(EVENT_SHEET_CSV_URL, { cache:"no-store" });
-      if(!res.ok) throw new Error(`sheet fetch failed (${res.status})`);
-      const csv = await res.text();
-      const rows = parseCsvGeneric(csv);
-
-      const parsed = [];
-      for(const r of rows){
-        const mall    = (r[2] || "").trim(); // C
-        const startV  = (r[3] || "").trim(); // D
-        const endV    = (r[4] || "").trim(); // E
-        const content = (r[5] || "").trim(); // F
-        const target  = cleanTarget(r[6] || ""); // G
-
-        if(!mall && !startV && !endV && !content && !target) continue;
-
-        const startKey = normalizeToKey(startV);
-        const endKey   = normalizeToKey(endV);
-        if(!mall || !startKey || !endKey) continue;
-        if(startKey > endKey) continue;
-
-        parsed.push({ mall, start: startKey, end: endKey, content, target });
-      }
-
-      events = parsed;
-      buildEventIndex();
-      buildCalendar();
-      updateTodayBadge();
-    }catch(err){
-      console.error(err);
-      events = [];
-      buildEventIndex();
-      buildCalendar();
-      updateTodayBadge();
-    }
-  }
-
-  function updateTodayBadge(){
-    const todayKey = dateKeyLocal(new Date());
-    const count = eventCountByDayKey.get(todayKey) || 0;
-
-    if(count > 0){
-      todayIcon.classList.remove("dim");
-      todayBadge.style.display = "inline-flex";
-      todayBadge.textContent = String(count);
-    }else{
-      todayIcon.classList.add("dim");
-      todayBadge.style.display = "none";
-      todayBadge.textContent = "";
-    }
-  }
-
-  function openPopupForDate(dateKey){
-    const items = eventItemsByDayKey.get(dateKey) || [];
-    document.getElementById("popupDateLabel").textContent = formatMDKorean(dateKey);
-
-    document.getElementById("popupEventList").innerHTML = items.length
-      ? items.map(ev=>{
-          const pretty = formatBulletLines(ev.content || "(내용없음)");
-          const hasItem = !!(ev.target && ev.target.trim());
-          return `
-            <div class="mini-event">
-              <div class="mall">${escapeHtml(ev.mall)}</div>
-              <div class="event-text">${textToHtmlWithBreaks(pretty)}</div>
-
-              ${hasItem ? `
-                <div class="item-box" data-itembox>
-                  <button type="button" class="item-head" data-itemtoggle aria-expanded="false">
-                    <span class="item-label">ITEM</span>
-                    <i class='bx bx-chevron-down item-caret'></i>
-                  </button>
-                  <div class="item-text is-collapsed" data-itemcontent>
-                    ${textToHtmlWithBreaks(ev.target)}
-                  </div>
-                </div>
-              ` : ``}
-
-              <div class="meta">${escapeHtml(ev.start)} ~ ${escapeHtml(ev.end)}</div>
+        <div class="top-row">
+          <div>
+            <div id="resultCount" class="result-count">총 <strong>0</strong>개</div>
+            <div class="type-filter">
+              구분:
+              <label class="type-pill active">
+                <input type="radio" name="typeFilter" value="" checked />
+                전체
+              </label>
+              <label class="type-pill">
+                <input type="radio" name="typeFilter" value="통합" />
+                통합
+              </label>
+              <label class="type-pill">
+                <input type="radio" name="typeFilter" value="알림톡" />
+                톡
+              </label>
+              <label class="type-pill">
+                <input type="radio" name="typeFilter" value="채팅" />
+                채팅
+              </label>
+              <label class="type-pill">
+                <input type="radio" name="typeFilter" value="FAQ" />
+                FAQ
+              </label>
             </div>
-          `;
-        }).join("")
-      : `<div style="font-size:11px;color:rgba(15,23,42,0.62);font-weight:800;padding:6px 2px;">이날 이벤트 없음</div>`;
+          </div>
+          <div class="category-filter">
+            분류:
+            <select id="categorySelect" class="category-select">
+              <option value="">전체</option>
+            </select>
+          </div>
+        </div>
 
-    popup.classList.add("open");
-  }
+        <div class="list-panel">
+          <div class="list-header">
+            <div class="list-title">
+              <span class="icon"></span>
+              LIST
+            </div>
+          </div>
 
-  function buildCalendar(){
-    if(calendarViewMode === "month") buildCalendarMonth();
-    else buildCalendarWeek();
-  }
+          <div id="previewBubble" class="preview-bubble">
+            <div class="preview-title">
+              <span class="icon">👀</span>
+              <span id="previewTitleText">미리보기</span>
+            </div>
+            <div id="previewBodyText" class="preview-body"></div>
+          </div>
 
-  function buildCalendarWeek(){
-    const today = new Date();
-    const todayKey = dateKeyLocal(today);
+          <div id="results" class="results"></div>
+        </div>
+      </div>
 
-    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    document.getElementById("calendarMonthLabel").textContent = `${monthNames[today.getMonth()]} ${today.getFullYear()}`;
+      <div class="editor-panel">
+        <div class="editor-header">
+          <div class="editor-title-wrap">
+            <div class="editor-top-row">
+              <div class="editor-label">ACTIVE MACRO</div>
+              <div class="tone-controls">
+                <button type="button" class="tone-pill active" data-value="발랄">발랄</button>
+                <button type="button" class="tone-pill" data-value="차분">차분</button>
+              </div>
+            </div>
 
-    const dow = (today.getDay()+6)%7; // Mon=0
-    const mon = new Date(today);
-    mon.setDate(today.getDate() - dow);
+            <!-- ✅ (추가) 모드(채팅/리뷰) + 리뷰채널(네이버/자사몰) -->
+            <div class="tone-controls" style="margin-left:0; margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="tone-pill active" id="modeChatBtn" data-mode="chat">(채팅)답변</button>
+              <button type="button" class="tone-pill" id="modeReviewBtn" data-mode="review">(상품)리뷰</button>
 
-    const days = [];
-    for(let i=0;i<5;i++){
-      const d = new Date(mon);
-      d.setDate(mon.getDate()+i);
-      days.push(d);
+              <span style="width:8px;"></span>
+
+              <div id="reviewChannelRow" style="display:none; gap:6px;">
+                <button type="button" class="tone-pill active" id="reviewNaverBtn" data-channel="naver">네이버</button>
+                <button type="button" class="tone-pill" id="reviewStoreBtn" data-channel="store">자사몰</button>
+              </div>
+            </div>
+
+            <div class="editor-title-line">
+              <div id="editorTitle" class="editor-title-text"></div>
+              <div id="editorCategory" class="editor-category-pill" style="display:none;"></div>
+            </div>
+
+            <!-- ✅ 머리말/사과/꼬리말 : 라디오 UI + 클릭 즉시 삽입 -->
+            <div class="snippet-radio-group" id="snippetRadioGroup">
+              <span class="snippet-label"> ➕ </span>
+
+              <label class="snippet-radio active">
+                <input type="radio" name="snippet" value="header" checked />
+                머리말
+              </label>
+
+              <label class="snippet-radio">
+                <input type="radio" name="snippet" value="apology" />
+                사과
+              </label>
+
+              <label class="snippet-radio">
+                <input type="radio" name="snippet" value="footer" />
+                꼬리말
+              </label>
+            </div>
+          </div>
+
+          <div class="editor-actions">
+            <!-- 상단 복사/원본/다듬기 UI 숨김 처리 -->
+          </div>
+        </div>
+
+        <div class="answer-row">
+          <textarea id="questionTextarea" class="question-textarea" placeholder="고객 문의 내용을 붙여넣어 주세요."></textarea>
+          <div class="answer-side">
+            <button id="editorAnswerBtn" class="answer-btn" type="button">
+              <span class="icon"></span>
+              <span>Enter</span>
+            </button>
+          </div>
+        </div>
+
+        <textarea id="editorTextarea" class="editor-textarea" placeholder=""></textarea>
+
+        <div class="editor-footer">
+          <span id="editorMeta">선택된 메크로 없음</span>
+          <span id="charCount">0자</span>
+        </div>
+
+        <div class="bottom-actions">
+          <button id="editorPolishBtnBottom" class="polish-bottom-btn" type="button">
+            <span>Enter</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">복사</div>
+
+  <script>
+    // === 공통: 토스트 ===
+    const toastEl = document.getElementById("toast");
+    let toastTimer = null;
+    function showToast(message) {
+      toastEl.textContent = message || "완료";
+      toastEl.classList.add("show");
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove("show"), 1500);
     }
 
-    const daysContainer = document.getElementById("calendarDays");
-    daysContainer.innerHTML = "";
+    // ===================== ✅ OpenAI API Key: localStorage 90일 TTL =====================
+    const OPENAI_KEY_STORAGE = "WHITESANDS_OPENAI_KEY_V1";
+    const OPENAI_KEY_TTL_DAYS = 90;
+    const OPENAI_KEY_TTL_MS = OPENAI_KEY_TTL_DAYS * 24 * 60 * 60 * 1000;
 
-    days.forEach(d=>{
-      const key = dateKeyLocal(d);
-      const count = eventCountByDayKey.get(key) || 0;
+    function saveOpenAIKey(key) {
+      const payload = { key, savedAt: Date.now() };
+      localStorage.setItem(OPENAI_KEY_STORAGE, JSON.stringify(payload));
+    }
 
-      const cell = document.createElement("div");
-      cell.className = "calendar-day";
-      cell.textContent = d.getDate();
-
-      if(key === todayKey) cell.classList.add("today");
-      if(count > 0){
-        cell.classList.add("has-event");
-        const badge = document.createElement("div");
-        badge.className = "day-badge";
-        badge.textContent = String(count);
-        cell.appendChild(badge);
+    function loadOpenAIKey() {
+      try {
+        const raw = localStorage.getItem(OPENAI_KEY_STORAGE);
+        if (!raw) return "";
+        const payload = JSON.parse(raw);
+        if (!payload?.key || !payload?.savedAt) {
+          localStorage.removeItem(OPENAI_KEY_STORAGE);
+          return "";
+        }
+        if (Date.now() - payload.savedAt > OPENAI_KEY_TTL_MS) {
+          localStorage.removeItem(OPENAI_KEY_STORAGE);
+          return "";
+        }
+        return payload.key;
+      } catch {
+        localStorage.removeItem(OPENAI_KEY_STORAGE);
+        return "";
       }
+    }
 
-      cell.addEventListener("click", (e)=>{
-        openPopupForDate(key);
-        e.stopPropagation();
-      });
+    // === 1) 구글 시트 설정값 ===
+    const SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
+    const SHEET_GID = "1260123292";
+    const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+    const SHEET_LINK = "https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=1260123292#gid=1260123292";
 
-      daysContainer.appendChild(cell);
+    const DEFAULT_HEADER = "안녕하세요 화이트샌즈입니다.";
+    const DEFAULT_FOOTER = "화이트샌즈를 찾아주셔서 감사드립니다.";
+    const DEFAULT_APOLOGY = "더 좋은 상품과 서비스로 찾아뵙겠습니다.\n\n감사합니다.";
+
+    let macros = [];
+    let filteredMacros = [];
+    let activeMacro = null;
+
+    // ✅ 90일 저장 키 로드
+    let OPENAI_API_KEY = loadOpenAIKey();
+
+    function ensureOpenAIKey() {
+      if (OPENAI_API_KEY) return true;
+
+      const key = prompt(
+        "OpenAI API 키를 입력해주세요.\n\n" +
+        "✔ 이 키는 이 브라우저에 90일 저장됩니다.\n" +
+        "✔ 90일 후 자동 삭제됩니다."
+      );
+      if (!key) {
+        alert("API 키를 입력하지 않으면 사용할 수 없습니다.");
+        return false;
+      }
+      OPENAI_API_KEY = key.trim();
+      saveOpenAIKey(OPENAI_API_KEY);
+      return true;
+    }
+
+    // ===================== ✅ 모드/리뷰채널 =====================
+    let ANSWER_MODE = "chat";      // "chat" | "review"
+    let REVIEW_CHANNEL = "naver";  // "naver" | "store"
+
+    function updateQuestionPlaceholder() {
+      const questionTextarea = document.getElementById("questionTextarea");
+      if (!questionTextarea) return;
+
+      if (ANSWER_MODE === "review") {
+        const label = (REVIEW_CHANNEL === "naver") ? "네이버 리뷰" : "자사몰 리뷰";
+        questionTextarea.placeholder = `${label} 원문을 붙여넣어 주세요.`;
+      } else {
+        questionTextarea.placeholder = "고객 문의 내용을 붙여넣어 주세요.";
+      }
+    }
+
+    // === 2) CSV 파서 ===
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let cur = "";
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && insideQuotes && next === '"') {
+          cur += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+          row.push(cur);
+          cur = "";
+        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
+          if (cur.length > 0 || row.length > 0) {
+            row.push(cur);
+            rows.push(row);
+            row = [];
+            cur = "";
+          }
+        } else {
+          cur += char;
+        }
+      }
+      if (cur.length > 0 || row.length > 0) {
+        row.push(cur);
+        rows.push(row);
+      }
+      return rows;
+    }
+
+    // === 3) 구글 시트에서 데이터 로드 ===
+    async function loadMacrosFromSheet() {
+      try {
+        const res = await fetch(CSV_URL);
+        const text = await res.text();
+        const rows = parseCSV(text);
+        const dataRows = rows.slice(1);
+
+        macros = dataRows
+          .map((cols, idx) => {
+            const major = (cols[0] || "").trim();
+            const minor = (cols[1] || "").trim();
+            const content = (cols[2] || "").trim();
+            const typeTag = (cols[3] || "").trim();
+
+            if (!major && !minor && !content) return null;
+
+            return {
+              id: `macro-${idx}`,
+              title: major,
+              category: minor,
+              content,
+              typeTag,
+            };
+          })
+          .filter(Boolean);
+
+        filteredMacros = macros.slice();
+        initCategoryOptions();
+        renderResults(filteredMacros);
+      } catch (e) {
+        console.error(e);
+        alert("구글 시트 데이터를 불러오지 못했습니다. 공유 설정과 URL을 다시 확인해주세요.");
+      }
+    }
+
+    // === 4) DOM 요소 ===
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.getElementById("searchButton");
+    const resultsEl = document.getElementById("results");
+    const resultCountEl = document.getElementById("resultCount");
+    const categorySelect = document.getElementById("categorySelect");
+
+    const editorTitleEl = document.getElementById("editorTitle");
+    const editorCategoryEl = document.getElementById("editorCategory");
+    const editorTextarea = document.getElementById("editorTextarea");
+    const editorMetaEl = document.getElementById("editorMeta");
+    const charCountEl = document.getElementById("charCount");
+
+    const editorPolishBtnBottom = document.getElementById("editorPolishBtnBottom");
+
+    const previewBubbleEl = document.getElementById("previewBubble");
+    const previewTitleTextEl = document.getElementById("previewTitleText");
+    const previewBodyTextEl = document.getElementById("previewBodyText");
+
+    const questionTextarea = document.getElementById("questionTextarea");
+    const editorAnswerBtn = document.getElementById("editorAnswerBtn");
+
+    const sheetOpenBtn = document.getElementById("sheetOpenBtn");
+
+    const listPanelElRef = document.querySelector(".list-panel");
+    const typeFilterRadios = document.querySelectorAll('input[name="typeFilter"]');
+    const typeFilterLabels = document.querySelectorAll(".type-pill");
+
+    const toneButtons = document.querySelectorAll(".tone-pill[data-value]");
+
+    // ✅ 모드/채널 버튼 DOM
+    const modeChatBtn = document.getElementById("modeChatBtn");
+    const modeReviewBtn = document.getElementById("modeReviewBtn");
+    const reviewChannelRow = document.getElementById("reviewChannelRow");
+    const reviewNaverBtn = document.getElementById("reviewNaverBtn");
+    const reviewStoreBtn = document.getElementById("reviewStoreBtn");
+
+    // === 5) 시트 열기 버튼 ===
+    sheetOpenBtn.addEventListener("click", () => {
+      window.open(SHEET_LINK, "_blank", "noopener");
     });
-  }
 
-  function buildCalendarMonth(){
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const todayKey = dateKeyLocal(today);
-
-    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    document.getElementById("calendarMonthLabel").textContent = `${monthNames[month]} ${year}`;
-
-    const firstOfMonth = new Date(year, month, 1);
-    const lastOfMonth  = new Date(year, month + 1, 0);
-
-    const daysContainer = document.getElementById("calendarDays");
-    daysContainer.innerHTML = "";
-
-    let start = new Date(firstOfMonth);
-    const startDow = (start.getDay()+6)%7;
-    start.setDate(start.getDate()-startDow);
-
-    let end = new Date(lastOfMonth);
-    const endDow = (end.getDay()+6)%7;
-    end.setDate(end.getDate() + (4 - endDow)); // Fri
-
-    let d = new Date(start);
-    while(d <= end){
-      const wd = d.getDay();
-      if(wd >= 1 && wd <= 5){
-        const key = dateKeyLocal(d);
-        const count = eventCountByDayKey.get(key) || 0;
-
-        const cell = document.createElement("div");
-        cell.className = "calendar-day";
-        if(d.getMonth() !== month) cell.classList.add("other-month");
-        cell.textContent = d.getDate();
-
-        if(key === todayKey) cell.classList.add("today");
-        if(count > 0){
-          cell.classList.add("has-event");
-          const badge = document.createElement("div");
-          badge.className = "day-badge";
-          badge.textContent = String(count);
-          cell.appendChild(badge);
-        }
-
-        if(d.getMonth() === month){
-          cell.addEventListener("click", (e)=>{ openPopupForDate(key); e.stopPropagation(); });
-        }else{
-          cell.style.pointerEvents = "none";
-        }
-
-        daysContainer.appendChild(cell);
+    // === 6) 카테고리 옵션 생성 ===
+    function initCategoryOptions() {
+      while (categorySelect.options.length > 1) {
+        categorySelect.remove(1);
       }
-      d.setDate(d.getDate()+1);
+
+      const categories = Array.from(
+        new Set(
+          macros
+            .map((m) => (m.category || "").trim())
+            .filter((c) => c.length > 0)
+        )
+      ).sort();
+
+      categories.forEach((cat) => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        categorySelect.appendChild(opt);
+      });
     }
-  }
 
-  calendarWidget.addEventListener("click", (e)=> e.stopPropagation());
+    // === 7) 검색 & 필터 ===
+    function searchMacros() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedCategory = categorySelect.value;
+      const selectedTypeRadio = document.querySelector('input[name="typeFilter"]:checked');
+      const selectedType = selectedTypeRadio ? selectedTypeRadio.value : "";
 
-  /* ITEM 토글 */
-  document.addEventListener("click", (e)=>{
-    const btn = e.target.closest("[data-itemtoggle]");
-    if(!btn) return;
+      filteredMacros = macros;
 
-    e.stopPropagation();
-    const box = btn.closest("[data-itembox]");
-    const content = box?.querySelector("[data-itemcontent]");
-    if(!content) return;
+      if (selectedCategory) {
+        filteredMacros = filteredMacros.filter(
+          (m) => (m.category || "").trim() === selectedCategory
+        );
+      }
 
-    const expanded = btn.getAttribute("aria-expanded") === "true";
-    btn.setAttribute("aria-expanded", String(!expanded));
-    content.classList.toggle("is-collapsed", expanded);
-  });
+      if (selectedType) {
+        filteredMacros = filteredMacros.filter(
+          (m) => (m.typeTag || "").trim() === selectedType
+        );
+      }
 
-  /* ======================
-     Nav + sub sidebars
-     ====================== */
-  googleBtn.addEventListener("click",(e)=>{
-    const isOpen = subSidebar.classList.contains("visible");
-    closeAllPanels();
-    if(!isOpen) showSubSidebar(subSidebar, googleBtn);
-    e.stopPropagation();
-  });
+      if (query) {
+        filteredMacros = filteredMacros.filter((m) => {
+          const title = (m.title || "").toLowerCase();
+          const category = (m.category || "").toLowerCase();
+          const content = (m.content || "").toLowerCase();
+          return (
+            title.includes(query) ||
+            category.includes(query) ||
+            content.includes(query)
+          );
+        });
+      }
 
-  utilBtn.addEventListener("click",(e)=>{
-    const isOpen = utilSidebar.classList.contains("visible");
-    closeAllPanels();
-    if(!isOpen) showSubSidebar(utilSidebar, utilBtn);
-    e.stopPropagation();
-  });
+      renderResults(filteredMacros);
+      hidePreview();
+    }
 
-  navItems.forEach(btn=>{
-    btn.addEventListener("click",(e)=>{
-      const id = btn.dataset.id;
-      const href = btn.dataset.href;
+    // === 8) 리스트 렌더링 ===
+    function renderResults(list) {
+      resultsEl.innerHTML = "";
+      resultCountEl.innerHTML = `총 <strong>${list.length}</strong>개`;
 
-      if(id === "google" || id === "util"){
-        e.stopPropagation();
+      if (list.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent = "검색 결과가 없습니다. 키워드를 바꿔서 다시 시도해 주세요.";
+        resultsEl.appendChild(empty);
         return;
       }
 
-      navItems.forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
+      list.forEach((macro) => {
+        const item = document.createElement("div");
+        item.className = "macro-item";
+        item.dataset.id = macro.id;
 
-      closeAllPanels();
+        if (activeMacro && activeMacro.id === macro.id) {
+          item.classList.add("active");
+        }
 
-      if(href){
-        mainFrame.src = href;
-        rememberFrame(href);
-      }
-      e.stopPropagation();
-    });
-  });
+        const header = document.createElement("div");
+        header.className = "macro-header";
 
-  googleChildren.forEach(btn=>{
-    btn.addEventListener("click",(e)=>{
-      googleChildren.forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
+        const titleWrap = document.createElement("div");
+        titleWrap.className = "macro-title";
+        titleWrap.textContent = macro.title || "(대분류 없음)";
 
-      const url = btn.dataset.href;
-      if(url){
-        mainFrame.src = url;
-        rememberFrame(url);
-      }
-      closeAllPanels();
-      e.stopPropagation();
-    });
-  });
+        if (macro.category) {
+          const cat = document.createElement("span");
+          cat.className = "macro-category";
+          cat.textContent = macro.category;
+          titleWrap.appendChild(cat);
+        }
 
-  utilChildren.forEach(btn=>{
-    btn.addEventListener("click",(e)=>{
-      utilChildren.forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
+        header.appendChild(titleWrap);
 
-      const action = btn.dataset.action;
-      const url = btn.dataset.href;
+        const sub = document.createElement("div");
+        sub.className = "macro-subtext";
+        const stripped = (macro.content || "").replace(/\s+/g, " ");
+        sub.textContent = stripped.slice(0, 60) + (stripped.length > 60 ? "…" : "");
 
-      if(action === "event"){
-        toggleCalendar();
-      }else if(url){
-        mainFrame.src = url;
-        rememberFrame(url);
-        closeAllPanels();
-      }
-      e.stopPropagation();
-    });
-  });
+        item.appendChild(header);
+        item.appendChild(sub);
 
-  document.addEventListener("keydown",(e)=>{
-    if(e.key === "Escape"){
-      closeAllPanels();
-      hideAllSubSidebars();
-    }
-  });
-
-  /* ✅ 바깥 클릭하면 전부 닫기 */
-  document.addEventListener("click", (e)=>{
-    const t = e.target;
-    const clickedGoogle = googleBtn.contains(t) || subSidebar.contains(t);
-    const clickedUtil   = utilBtn.contains(t) || utilSidebar.contains(t);
-
-    const clickedInsideCalendar = calendarWidget.contains(t) || adminEventBtn.contains(t);
-    const clickedInsidePhone = phoneWidget.contains(t) || phoneFormatBtn.contains(t);
-    const clickedInsideTracking = trackingWidget.contains(t) || trackingWidgetBtn.contains(t);
-    const clickedInsideAccount = accountWidget.contains(t) || accountWidgetBtn.contains(t);
-    const clickedInsideSearch = searchWidget.contains(t) || searchWidgetBtn.contains(t);
-
-    if(!clickedGoogle && !clickedUtil && !clickedInsideCalendar && !clickedInsidePhone && !clickedInsideTracking && !clickedInsideAccount && !clickedInsideSearch){
-      closeAllPanels();
-    }
-  });
-
-  /* ======================
-     ✅ Google > 기타(아코디언) 토글 + 하위 링크 처리
-     ====================== */
-  const googleEtcHead = document.getElementById("googleEtcHead");
-  const googleEtcBody = document.getElementById("googleEtcBody");
-  const googleEtcChildren = document.querySelectorAll(".google-etc-child");
-
-  function toggleGoogleEtcAccordion() {
-    const expanded = googleEtcHead.getAttribute("aria-expanded") === "true";
-    googleEtcHead.setAttribute("aria-expanded", String(!expanded));
-    googleEtcBody.hidden = expanded;
-  }
-
-  if (googleEtcHead && googleEtcBody) {
-    googleEtcHead.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleGoogleEtcAccordion();
-    });
-  }
-
-  googleEtcChildren.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-
-      googleChildren.forEach((b) => b.classList.remove("active"));
-      googleEtcChildren.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const url = btn.dataset.href;
-      if (url) {
-        mainFrame.src = url;
-        rememberFrame(url);
-      }
-      closeAllPanels();
-    });
-  });
-
-  // auto-hide
-  attachAutoHide(phoneWidget, hidePhone, 650);
-  attachAutoHide(trackingWidget, hideTracking, 650);
-  attachAutoHide(accountWidget, hideAccount, 650);
-  attachAutoHide(calendarWidget, () => { closePopup(); hideCalendar(); }, 650);
-  attachAutoHide(searchWidget, hideSearch, 650);
-
-  accountGo.addEventListener("click", (e)=>{
-    doAccountSearch();
-    e.stopPropagation();
-  });
-
-    /* ======================
-     ✅ Radial Menu (Right click)
-     - 오른손 A안 고정 각도
-     - 위 4개: 아이콘 + 텍스트
-     - 아래 2개: 아이콘 only (ID/PW, event)
-     ====================== */
-  (function(){
-    const wrap = document.getElementById("radialWrap");
-    const menu = document.getElementById("radialMenu");
-    const backdrop = document.getElementById("radialBackdrop");
-    const center = document.getElementById("radialCenter");
-
-    if(!wrap || !menu || !backdrop || !center) return;
-
-    // ✅ 너가 이미 가진 버튼 ID를 그대로 "대신 클릭"
-    const actions = [
-      { id:"items",  label:"Items",  icon:"<i class='bx bx-search-alt-2'></i>", btnId:"searchWidgetBtn",   angleDeg:-90,  mode:"text" },
-      { id:"phone",  label:"Phone",  icon:"<i class='bx bx-phone'></i>",       btnId:"phoneFormatBtn",    angleDeg:-30,  mode:"text" },
-      { id:"sheets", label:"Sheets", icon:"<i class='bx bx-search'></i>",      btnId:"sheetNavBtn",        angleDeg: 30,  mode:"text" },
-      { id:"track",  label:"Track",  icon:"<i class='bx bx-package'></i>",     btnId:"trackingWidgetBtn",  angleDeg: 90,  mode:"text" },
-
-      // ✅ 아래 2개는 icon-only
-      { id:"idpw",   label:"ID/PW",  icon:"<i class='bx bx-key'></i>",         btnId:"accountWidgetBtn",   angleDeg:150,  mode:"icon" },
-      { id:"event",  label:"event",  icon:"<i class='bx bx-bell'></i>",        btnId:"adminEventBtn",      angleDeg:-150, mode:"icon" },
-    ];
-
-    const radius = 118; // 아이콘+텍스트 기준 (겹치면 128~138로 올려도 됨)
-
-    // 메뉴 아이템 생성(1회)
-    function build(){
-      // 기존 아이템 제거(재빌드 대비)
-      menu.querySelectorAll(".rm-item").forEach(el=>el.remove());
-
-      actions.forEach(a=>{
-        const rad = (a.angleDeg * Math.PI) / 180;
-        const dx = Math.cos(rad) * radius;
-        const dy = Math.sin(rad) * radius;
-
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "rm-item" + (a.mode === "icon" ? " icon-only" : "");
-        btn.setAttribute("role","menuitem");
-
-        btn.innerHTML = `
-          <span class="rm-ico">${a.icon}</span>
-          <span class="rm-label">${a.label}</span>
-        `;
-
-        btn.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
-
-        btn.addEventListener("click", (e)=>{
-          e.stopPropagation();
-          const target = document.getElementById(a.btnId);
-          if(target) target.click();
-          hide();
+        item.addEventListener("click", () => {
+          selectMacro(macro);
+          document.querySelectorAll(".macro-item").forEach((el) => {
+            el.classList.remove("active");
+          });
+          item.classList.add("active");
         });
 
-        menu.appendChild(btn);
+        item.addEventListener("mouseenter", () => showPreview(macro, item));
+        item.addEventListener("mouseleave", hidePreview);
+
+        resultsEl.appendChild(item);
       });
     }
-    build();
 
-    let isOpen = false;
+    resultsEl.addEventListener("mouseleave", hidePreview);
 
-    function clamp(n, min, max){ return Math.max(min, Math.min(n, max)); }
+    // === 9) 메크로 선택 → 편집창으로 로드 ===
+    function selectMacro(macro) {
+      activeMacro = { ...macro };
 
-    function showAt(x, y){
-      // 메뉴 크기 기준으로 화면 밖으로 안 나가게 clamp
-      const size = 260; // .radial-menu width/height
-      const half = size / 2;
-      const cx = clamp(x, half + 10, window.innerWidth  - half - 10);
-      const cy = clamp(y, half + 10, window.innerHeight - half - 10);
+      editorTitleEl.textContent = activeMacro.title || "(대분류 없음)";
+      if (activeMacro.category) {
+        editorCategoryEl.textContent = activeMacro.category;
+        editorCategoryEl.style.display = "inline-block";
+      } else {
+        editorCategoryEl.style.display = "none";
+      }
 
-      menu.style.left = cx + "px";
-      menu.style.top  = cy + "px";
+      editorTextarea.disabled = false;
+      editorTextarea.value = activeMacro.content || "";
+      updateCharCount();
 
-      wrap.classList.add("show");
-      wrap.setAttribute("aria-hidden","false");
-      isOpen = true;
+      if (activeMacro.typeTag) {
+        editorMetaEl.textContent = `구분: ${activeMacro.typeTag}`;
+      } else {
+        editorMetaEl.textContent = "선택된 메크로 편집 중";
+      }
     }
 
-    function hide(){
-      wrap.classList.remove("show");
-      wrap.setAttribute("aria-hidden","true");
-      isOpen = false;
+    // === 10) 글자수 표시 ===
+    function updateCharCount() {
+      const len = editorTextarea.value.length;
+      charCountEl.textContent = `${len}자`;
+    }
+    editorTextarea.addEventListener("input", updateCharCount);
+
+    // === 11) 미리보기 버블 ===
+    function showPreview(macro, anchorEl) {
+      if (!macro || !macro.content || !anchorEl) {
+        hidePreview();
+        return;
+      }
+      previewTitleTextEl.textContent = macro.title || "미리보기";
+      previewBodyTextEl.textContent = macro.content;
+
+      previewBubbleEl.style.display = "block";
+      previewBubbleEl.style.opacity = "0";
+
+      const anchorRect = anchorEl.getBoundingClientRect();
+      const panelRect = listPanelElRef.getBoundingClientRect();
+      const bubbleHeight = previewBubbleEl.offsetHeight || 160;
+
+      let top =
+        anchorRect.top -
+        panelRect.top +
+        anchorRect.height / 2 -
+        bubbleHeight / 2;
+
+      const minTop = 40;
+      const maxTop = listPanelElRef.clientHeight - bubbleHeight - 16;
+      top = Math.max(minTop, Math.min(top, maxTop));
+
+      previewBubbleEl.style.top = `${top}px`;
+      previewBubbleEl.style.opacity = "1";
+      previewBubbleEl.classList.add("visible");
     }
 
-    // ✅ 우클릭(컨텍스트 메뉴)로 열기
-    document.addEventListener("contextmenu", (e)=>{
-      // 입력창/텍스트 선택은 기본 우클릭 유지하고 싶으면 여기서 return
-      const t = e.target;
-      const allowNative =
-        t && (
-          t.closest("input, textarea, [contenteditable='true']") ||
-          t.closest(".sw-result") // 결과표에서 우클릭은 그냥 두고 싶으면 유지(원하면 삭제)
-        );
+    function hidePreview() {
+      previewBubbleEl.classList.remove("visible");
+      previewBubbleEl.style.display = "none";
+    }
 
-      if(allowNative) return;
+    // === 12) 스니펫 삽입 함수 ===
+    function applySnippet(type) {
+      if (editorTextarea.disabled) return;
 
-      e.preventDefault();
-      e.stopPropagation();
+      let text = editorTextarea.value || "";
+      const trimmed = text.trim();
 
-      if(isOpen) hide();
-      showAt(e.clientX, e.clientY);
-    }, { capture:true });
+      if (type === "header") {
+        if (trimmed.startsWith(DEFAULT_HEADER)) {
+          showToast("이미 머리말이 들어가 있어요");
+          return;
+        }
+        const body = text.replace(/^\s+/, "");
+        editorTextarea.value = DEFAULT_HEADER + (body ? "\n\n" + body : "");
+      } else if (type === "footer") {
+        if (trimmed.endsWith(DEFAULT_FOOTER)) {
+          showToast("이미 꼬리말이 들어가 있어요");
+          return;
+        }
+        const withoutTrailing = text.replace(/\s+$/, "");
+        editorTextarea.value = (withoutTrailing ? withoutTrailing + "\n\n" : "") + DEFAULT_FOOTER;
+      } else if (type === "apology") {
+        if (trimmed.includes("더 좋은 상품과 서비스로 찾아뵙겠습니다")) {
+          showToast("이미 사과 문구가 들어가 있어요");
+          return;
+        }
+        const withoutTrailing = text.replace(/\s+$/, "");
+        editorTextarea.value = (withoutTrailing ? withoutTrailing + "\n\n" : "") + DEFAULT_APOLOGY;
+      }
 
-    // 닫기 UX
-    backdrop.addEventListener("click", hide);
-    center.addEventListener("click", hide);
+      updateCharCount();
+    }
 
-    document.addEventListener("keydown", (e)=>{
-      if(e.key === "Escape" && isOpen) hide();
+    // 라디오 클릭 = 즉시 삽입 + active 표시
+    const snippetRadios = document.querySelectorAll(".snippet-radio");
+    snippetRadios.forEach((label) => {
+      label.addEventListener("click", () => {
+        snippetRadios.forEach((l) => l.classList.remove("active"));
+        label.classList.add("active");
+
+        const input = label.querySelector("input");
+        if (input) input.checked = true;
+
+        const type = input ? input.value : "";
+        if (type) applySnippet(type);
+      });
     });
 
-    // 다른 곳 클릭 시 닫기(이미 backdrop이 있지만 안전망)
-    document.addEventListener("click", (e)=>{
-      if(!isOpen) return;
-      const inside = menu.contains(e.target);
-      if(!inside) hide();
-    }, true);
-  })();
+    // === 13) 타입 필터 ===
+    searchButton.addEventListener("click", searchMacros);
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") searchMacros();
+    });
+    categorySelect.addEventListener("change", searchMacros);
 
+    typeFilterRadios.forEach((radio) => {
+      radio.addEventListener("change", () => {
+        typeFilterLabels.forEach((label) => label.classList.remove("active"));
+        const selected = document.querySelector('input[name="typeFilter"]:checked');
+        if (selected) {
+          const label = selected.closest(".type-pill");
+          if (label) label.classList.add("active");
+        }
+        searchMacros();
+      });
+    });
 
-  /* ======================
-     init
-     ====================== */
-  loadEventsFromSheet();
-  buildCalendar();
-  updateTodayBadge();
-});
-</script>
+    // === 14) 톤 모드 토글 ===
+    function setupToneToggle() {
+      toneButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          toneButtons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+        });
+      });
+    }
 
-<div class="radial-wrap" id="radialWrap" aria-hidden="true">
-  <div class="radial-backdrop" id="radialBackdrop"></div>
-  <div class="radial-menu" id="radialMenu">
-    <div class="radial-center" id="radialCenter">
-      <div>TOOLS</div><div>Right click</div>
-    </div>
-  </div>
-</div>
+    function getActiveTone() {
+      const active = Array.from(toneButtons).find(b => b.classList.contains("active"));
+      return active ? active.getAttribute("data-value") : "발랄";
+    }
 
-<script>
-(function(){
- const wrap=document.getElementById("radialWrap");
- const menu=document.getElementById("radialMenu");
- const back=document.getElementById("radialBackdrop");
- if(!wrap||!menu)return;
+    setupToneToggle();
 
- const actions=[
- {btnId:"searchWidgetBtn",label:"Items",icon:"🔎",deg:-90},
- {btnId:"phoneFormatBtn",label:"Phone",icon:"📞",deg:-30},
- {btnId:"sheetNavBtn",label:"Sheets",icon:"📄",deg:30},
- {btnId:"trackingWidgetBtn",label:"Track",icon:"📦",deg:90},
- {btnId:"accountWidgetBtn",label:"",icon:"🔑",deg:150,iconOnly:true},
- {btnId:"adminEventBtn",label:"",icon:"🔔",deg:-150,iconOnly:true},
- ];
- const R=118;
+    // ===================== ✅ 모드/채널 토글 =====================
+    function setAnswerMode(mode) {
+      ANSWER_MODE = mode;
 
- actions.forEach(a=>{
-   const b=document.createElement("button");
-   b.className="rm-item"+(a.iconOnly?" icon-only":"");
-   b.innerHTML=a.icon+(a.label?`<span>${a.label}</span>`:"");
-   const rad=a.deg*Math.PI/180;
-   b.style.transform=`translate(calc(-50% + ${Math.cos(rad)*R}px),
-                                calc(-50% + ${Math.sin(rad)*R}px))`;
-   b.onclick=e=>{e.stopPropagation();
-     const t=document.getElementById(a.btnId);
-     if(t)t.click();
-     hide();
-   };
-   menu.appendChild(b);
- });
+      modeChatBtn.classList.toggle("active", mode === "chat");
+      modeReviewBtn.classList.toggle("active", mode === "review");
+      reviewChannelRow.style.display = (mode === "review") ? "flex" : "none";
 
- let open=false;
- function show(x,y){
-   menu.style.left=x+"px";menu.style.top=y+"px";
-   wrap.classList.add("show");open=true;
- }
- function hide(){wrap.classList.remove("show");open=false;}
+      updateQuestionPlaceholder();
+    }
 
- document.addEventListener("contextmenu",e=>{
-   const t=e.target;
-   if(t.closest("input,textarea,[contenteditable]"))return;
-   e.preventDefault();
-   open?hide():show(e.clientX,e.clientY);
- },true);
+    function setReviewChannel(ch) {
+      REVIEW_CHANNEL = ch;
 
- back.onclick=hide;
- document.addEventListener("keydown",e=>{if(e.key==="Escape")hide();});
-})();
-</script>
+      reviewNaverBtn.classList.toggle("active", ch === "naver");
+      reviewStoreBtn.classList.toggle("active", ch === "store");
+
+      updateQuestionPlaceholder();
+    }
+
+    modeChatBtn.addEventListener("click", () => setAnswerMode("chat"));
+    modeReviewBtn.addEventListener("click", () => setAnswerMode("review"));
+    reviewNaverBtn.addEventListener("click", () => setReviewChannel("naver"));
+    reviewStoreBtn.addEventListener("click", () => setReviewChannel("store"));
+
+    // 초기 상태
+    setAnswerMode("chat");
+    setReviewChannel("naver");
+
+    // === 15) AI로 다듬기(하단 버튼) ===
+    editorPolishBtnBottom.addEventListener("click", async () => {
+      if (editorTextarea.disabled) return;
+
+      const text = editorTextarea.value.trim();
+      if (!text) {
+        alert("다듬을 문장이 없습니다.");
+        return;
+      }
+
+      const tone = getActiveTone();
+
+      if (!ensureOpenAIKey()) return;
+
+      editorPolishBtnBottom.disabled = true;
+      editorPolishBtnBottom.innerText = "다듬는 중...";
+
+      const toneInstruction =
+        tone === "발랄"
+          ? `
+- 톤: 발랄
+- 토스 고객센터처럼 단정하지만 친근한 말투.
+- '고객님', '도와드리다', '확인해보고 안내드리다' 같은 표현 중심.
+- 이모지는 😊🙂✨💬💡✅ 정도를 자연스럽게 사용할 수 있지만, 말보다 많아지지 않게.
+- 'ㅋㅋ', 'ㅎㅎ', 과한 반말·장난스러운 어투는 사용하지 않는다.
+          `
+          : `
+- 톤: 차분
+- 예민하거나 불편함을 느끼는 고객님을 상대한다고 가정한다.
+- 공감·유감 표현을 1문장 이상 자연스럽게 포함한다.
+- 말투는 또렷하고 단정하게 유지한다.
+- 이모지는 사용하지 않거나 1개 이내로 제한한다.
+          `;
+
+      const systemMessage = `
+너는 고객 상담 답변을 작성하는 AI 상담사야.
+
+답변을 작성하기 전에, 반드시 아래 순서로 상황을 '판단'한 뒤에 멘트를 작성해라.
+이 판단 과정은 출력하지 말고, 내부적으로만 사용한다.
+
+[상황 판단 기준]
+1. 고객의 감정 상태는 어떤지 (불만 / 당황 / 문의 / 공격적 중 어디에 가까운지)
+2. 고객이 지금 가장 알고 싶은 핵심은 무엇인지
+3. 이 상황에서 바로 해줄 수 있는 것과, 해줄 수 없는 것은 무엇인지
+4. 해줄 수 없는 것이 있다면, 대신 제안할 수 있는 가장 무난한 대안은 무엇인지
+5. 이 답변을 읽고 고객이 다음에 해야 할 행동은 무엇인지
+
+[답변 작성 원칙]
+- 위 판단을 바탕으로 한 번에 보낼 답변 1개만 작성한다.
+- 공감 → 결론 → 이유 → 대안 → 다음 행동 순서로 자연스럽게 쓴다.
+- 고객의 표현을 그대로 따라 쓰지 않는다.
+- 불필요한 변명, 책임 회피, 정책 나열은 하지 않는다.
+- 과한 사과나 보상 약속은 하지 않는다.
+- 사람 상담사가 실제로 쓰는 말투로, 너무 교과서적이지 않게 쓴다.
+- 존댓말(요/입니다)만 사용한다.
+- 문장마다 줄바꿈하여 모바일 채팅에 맞게 작성한다.
+
+[톤 모드 규칙]
+${toneInstruction}
+
+[출력 형식]
+- 완성된 상담 "한 번"에 보낼 멘트만 출력한다.
+- 불필요한 설명, 따옴표, 머리말(예: "수정된 멘트:" 등)은 붙이지 않는다.
+      `.trim();
+
+      const userMessage = `
+[상담원이 보낼 초안]
+${text}
+      `.trim();
+
+      try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + OPENAI_API_KEY
+          },
+          body: JSON.stringify({
+            model: "gpt-4.1-mini",
+            messages: [
+              { role: "system", content: systemMessage },
+              { role: "user", content: userMessage }
+            ]
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          console.error("API 오류:", data.error);
+          alert("오류가 발생했습니다: " + data.error.message);
+        } else {
+          const polished = data.choices?.[0]?.message?.content?.trim();
+          if (polished) {
+            editorTextarea.value = polished;
+            updateCharCount();
+            showToast("AI로 다듬었어요");
+          }
+        }
+      } catch (err) {
+        console.error("네트워크/요청 에러:", err);
+        alert("요청 중 오류가 발생했습니다: " + (err?.message || err));
+      } finally {
+        editorPolishBtnBottom.disabled = false;
+        editorPolishBtnBottom.innerHTML = `<span class="icon">✨</span><span>AI로 다듬기</span>`;
+      }
+    });
+
+    // === 16) 고객 문의/리뷰 → 답변 생성 ===
+    editorAnswerBtn.addEventListener("click", async () => {
+      const inputText = (questionTextarea.value || "").trim();
+      if (!inputText) {
+        alert(ANSWER_MODE === "review" ? "리뷰 원문을 먼저 입력해 주세요." : "고객님 문의 내용을 먼저 입력해 주세요.");
+        return;
+      }
+
+      const tone = getActiveTone();
+
+      if (!ensureOpenAIKey()) return;
+
+      editorAnswerBtn.disabled = true;
+      editorAnswerBtn.innerText = "생성 중...";
+
+      const toneInstructionForAnswer =
+        tone === "발랄"
+          ? `
+- 톤: 발랄(친근하지만 단정)
+- '고객님' 호칭 고정(채팅 답변일 때).
+- 이모지는 0~2개, 문장보다 많아지지 않게.
+- 가벼운 농담/반말/ㅋㅋ/ㅎㅎ/이모지 남발 금지.
+- 문장 끝은 '~요/입니다'로 또렷하게.
+`
+          : `
+- 톤: 차분(불편/예민 상황 가정)
+- 공감/유감/안심 표현을 1문장 이상 포함하되 과한 사과는 하지 않는다.
+- 책임 인정(“저희 잘못”, “죄송합니다만…”)처럼 보이는 표현은 피한다.
+- 이모지는 사용하지 않는다.
+`;
+
+      // ✅ 모드별 시스템 프롬프트
+      const systemMessageForChatAnswer = `
+너는 '화이트샌즈' 고객센터 상담사야.
+
+[목표]
+- 고객 문의에 대해 실제 채팅에서 바로 보낼 답변 1개를 작성한다.
+- 브랜드 신뢰를 해치지 않으면서도 고객이 "다음 행동"을 할 수 있게 안내한다.
+
+[출력 형식]
+- 한 번에 보낼 '한 덩어리' 답변만 출력한다.
+- 문장/의미 단위마다 줄바꿈(엔터)으로 채팅처럼 보이게 한다.
+- 존댓말(요/입니다)만 사용한다.
+- 목록이 필요하면 2~4개 불릿(•)까지만 사용한다.
+
+[작성 원칙: 케어 기준]
+- 1) 공감/케어 1~2문장 → 2) 결론(가능/불가/확인이 필요) → 3) 이유(짧게) → 4) 대안/다음 단계 → 5) 마무리 순서로 쓴다.
+- 고객 감정 표현을 그대로 따라 쓰지 않는다.
+- "규정상 불가", "어쩔 수 없습니다" 같은 방어적 문장은 피하고, 사실 중심으로 부드럽게 설명한다.
+- 가능한 경우: 즉시 처리 방법과 필요한 정보(주문번호/사진 등)를 구체적으로 요청한다.
+- 불가능한 경우: 대체 가능한 옵션(반품/교환/재입고알림 등)을 최소 1개 제시한다.
+- 원문에 없는 정보는 지어내지 말고, 필요한 정보가 없으면 질문 1~2개로 확인한다.
+
+[톤 규칙]
+${toneInstructionForAnswer}
+`.trim();
+
+      const systemMessageForReviewReply = (() => {
+        const base = `
+너는 '화이트샌즈' 상품 리뷰/후기 댓글을 작성하는 브랜드 상담사야.
+
+[공통 목표]
+- 공개 댓글에서 감정 케어가 느껴지게 짧고 정돈된 답변을 작성한다.
+- 변명/논쟁/책임 단정(“저희 잘못/책임”)은 피한다.
+- 보상 확정 약속(“무조건 환불/교환”)은 금지한다.
+- 필요 시 해결 흐름 1개 + 추가 도움(문의/채팅) 안내로 마무리한다.
+
+[형식]
+- 3~6문장
+- 줄바꿈 2~4번
+- 존댓말만 사용
+        `.trim();
+
+        const toneRule =
+          tone === "발랄"
+            ? `- 말투: 친근하지만 단정\n- 이모지 0~1개만 사용`
+            : `- 말투: 차분하고 진정시키는 톤\n- 이모지 사용하지 않음`;
+
+        if (REVIEW_CHANNEL === "naver") {
+          return `
+${base}
+
+[네이버 리뷰 톤]
+- 더 짧고 더 공손하게.
+- 개인정보/주문정보는 댓글에서 직접 요구하지 않는다.
+- 불량/오배송/파손/누락/심각 불만은 "문의/채팅으로 남겨주시면 확인"으로 부드럽게 유도한다.
+${toneRule}
+
+[출력]
+- 리뷰 댓글 1개만 출력
+          `.trim();
+        }
+
+        // store
+        return `
+${base}
+
+[자사몰 리뷰 톤]
+- 네이버보다 1~2문장 정도 더 케어 있게 써도 된다.
+- 가능하면 해결 팁 1개(관리/사용/착용/보관 등) 또는 "확인 후 안내"를 포함한다.
+- 불량/오배송/누락은 주문번호/사진은 "1:1 문의"로 요청하는 수준에서만 안내한다.
+${toneRule}
+
+[출력]
+- 리뷰 댓글 1개만 출력
+        `.trim();
+      })();
+
+      const systemMessageFinal =
+        ANSWER_MODE === "review" ? systemMessageForReviewReply : systemMessageForChatAnswer;
+
+      const userMessageFinal = `
+${ANSWER_MODE === "review" ? "[리뷰 원문]" : "[고객 문의 내용]"}
+${inputText}
+      `.trim();
+
+      try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + OPENAI_API_KEY
+          },
+          body: JSON.stringify({
+            model: "gpt-4.1-mini",
+            messages: [
+              { role: "system", content: systemMessageFinal },
+              { role: "user", content: userMessageFinal }
+            ]
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          console.error("API 오류:", data.error);
+          alert("오류가 발생했습니다: " + data.error.message);
+        } else {
+          const answer = data.choices?.[0]?.message?.content?.trim();
+          if (answer) {
+            if (editorTextarea.value.trim()) {
+              const replace = confirm("편집창 내용을 새로 생성된 답변으로 교체할까요?");
+              if (replace) editorTextarea.value = answer;
+              else editorTextarea.value = editorTextarea.value.replace(/\s*$/, "") + "\n\n" + answer;
+            } else {
+              editorTextarea.value = answer;
+            }
+            updateCharCount();
+            showToast(ANSWER_MODE === "review" ? "리뷰 답변을 생성했어요" : "문의 답변을 생성했어요");
+          }
+        }
+      } catch (err) {
+        console.error("네트워크/요청 에러:", err);
+        alert("요청 중 오류가 발생했습니다: " + (err?.message || err));
+      } finally {
+        editorAnswerBtn.disabled = false;
+        editorAnswerBtn.innerText = "답변 생성";
+      }
+    });
+
+    // 페이지 열리면 시트에서 데이터 불러오기
+    loadMacrosFromSheet();
+  </script>
 </body>
 </html>
