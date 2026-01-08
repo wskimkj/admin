@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -130,11 +131,11 @@
     /* ===== footer buttons ===== */
     .nav-footer{
   margin-top: auto;
-  padding-bottom: 6px;
+  padding-bottom: 10px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .nav-footer-btn{
@@ -1428,6 +1429,310 @@ font-weight:900;cursor:pointer;}
   padding:8px;
 }
 
+
+/* === Sidebar Widget Card === */
+
+/* === Widget button spacing (v3) === */
+.widget-card .nav-footer-btn{
+  margin: 6px 0;              /* spacing between buttons */
+  padding: 9px 10px;          /* slightly smaller but comfy */
+  border-radius: 14px;
+}
+.widget-card .nav-footer-btn.icon-only{
+  margin: 0;                  /* handled by row gap */
+  width: 48px;
+  height: 38px;
+  padding: 0;
+}
+.widget-card .nav-footer-row{
+  display:flex;
+  gap: 10px;                  /* spacing between account/event buttons */
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.widget-section{
+  margin-top: 8px;
+  width: 100%;
+  padding: 6px 6px 0;
+}
+
+.widget-card{
+  background: rgba(255,255,255,0.22);
+  border: 1px solid rgba(255,255,255,0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 18px;
+  padding: 10px 8px 8px;
+  box-shadow: 0 16px 36px rgba(15,23,42,0.18);
+}
+
+.widget-title-label{
+  text-align:center;
+  font-size:11px;
+  font-weight:1000;
+  letter-spacing:.12em;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 8px;
+}
+
+.widget-divider{
+  height:1px;
+  background: rgba(255,255,255,0.35);
+  margin: 8px 6px 10px;
+}
+
+.widget-card .nav-footer-btn{
+  width: 100%;
+  justify-content: center;
+}
+
+.widget-card .nav-footer-btn{
+  padding: 7px 10px;
+  font-size: 10.5px;
+  box-shadow: 0 10px 20px rgba(15,23,42,0.18);
+}
+.widget-card .nav-footer-btn.icon-only{
+  width: 40px;
+  padding: 7px;
+}
+
+
+/* === Sidebar fit fix (v4): keep footer widgets visible === */
+.main-sidebar{
+  position: fixed !important;
+  height: 100vh !important;
+  overflow: hidden;           /* prevent footer clipping due to overflow */
+}
+
+.nav-list{
+  min-height: 0;              /* allow flex child to shrink */
+  overflow-y: auto;           /* scroll menu if height is tight */
+  padding-bottom: 10px;
+  scrollbar-width: none;      /* Firefox */
+}
+.nav-list::-webkit-scrollbar{ width:0; height:0; }
+
+.nav-footer{
+  flex-shrink: 0;
+}
+
+
+/* === v5: main sidebar scroll fix (keep util/sheet visible) === */
+.main-sidebar{
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 100vh !important;
+}
+
+.main-sidebar .nav-list{
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 12px; /* avoid last item feeling clipped */
+}
+
+/* keep footer from shrinking and ensure it doesn't overlay list */
+.main-sidebar .nav-footer{
+  flex: 0 0 auto !important;
+}
+
+/* optional: hide scrollbar but keep scroll */
+.main-sidebar .nav-list::-webkit-scrollbar{ width:0; height:0; }
+
+
+/* === v6: compact widget area to fit util/sheet === */
+.widget-section{
+  padding: 6px 6px 4px !important;
+}
+.widget-card{
+  padding: 8px 6px 6px !important;
+}
+.widget-title-label{
+  margin-bottom: 4px !important;
+  font-size: 10px !important;
+}
+.widget-divider{
+  margin: 6px 4px !important;
+}
+.widget-card .nav-footer-btn{
+  margin: 4px 0 !important;
+  padding: 7px 8px !important;
+  font-size: 12px !important;
+}
+.widget-card .nav-footer-row{
+  margin-top: 6px !important;
+  gap: 8px !important;
+}
+.widget-card .nav-footer-btn.icon-only{
+  width: 42px !important;
+  height: 34px !important;
+}
+
+
+/* === v7: pin widget area to bottom + slimmer buttons === */
+
+/* make sure sidebar is a flex column so footer can stick */
+.main-sidebar{
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+/* nav list takes remaining space; footer sits at bottom */
+.main-sidebar .nav-list{
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+/* pin footer to bottom visually */
+.main-sidebar .nav-footer{
+  margin-top: auto !important;
+  padding: 6px 6px calc(10px + env(safe-area-inset-bottom)) !important;
+  flex: 0 0 auto !important;
+}
+
+/* compact widget card to reduce height */
+.widget-section{
+  padding: 0 !important;
+  margin-top: 0 !important;
+}
+.widget-card{
+  padding: 6px 6px 6px !important;
+  border-radius: 16px !important;
+}
+.widget-title-label{
+  font-size: 9.5px !important;
+  margin-bottom: 3px !important;
+}
+.widget-divider{
+  margin: 5px 4px !important;
+}
+
+/* slimmer buttons but keep spacing */
+.widget-card .nav-footer-btn{
+  margin: 6px 0 !important;     /* keep gaps */
+  padding: 6px 8px !important;  /* reduce height */
+  font-size: 11px !important;
+  line-height: 1.1 !important;
+}
+.widget-card .nav-footer-btn i{
+  font-size: 15px !important;
+}
+
+/* icon-only row */
+.widget-card .nav-footer-row{
+  margin-top: 6px !important;
+  gap: 10px !important;
+}
+.widget-card .nav-footer-btn.icon-only{
+  width: 40px !important;
+  height: 32px !important;
+}
+
+
+/* === v8: footer closer to bottom + smaller account/event buttons === */
+.main-sidebar .nav-footer{
+  padding: 4px 6px calc(6px + env(safe-area-inset-bottom)) !important; /* tighter bottom padding */
+}
+
+.widget-card{
+  padding: 6px 6px 4px !important; /* slightly tighter */
+}
+
+.widget-card .nav-footer-row{
+  margin-top: 5px !important;
+  gap: 8px !important;
+}
+
+.widget-card .nav-footer-btn.icon-only{
+  width: 34px !important;
+  height: 30px !important;
+  border-radius: 12px !important;
+}
+.widget-card .nav-footer-btn.icon-only i{
+  font-size: 15px !important;
+}
+
+
+/* === v9: fit all sidebar buttons (no scroll) === */
+
+/* overall sidebar vertical padding tighter -> everything shifts up a bit */
+.main-sidebar{
+  padding-top: 10px !important;   /* was larger */
+  padding-bottom: 4px !important;
+}
+
+/* main nav list: tighter gap so '시트/유틸' fits */
+.main-sidebar .nav-list{
+  gap: 8px !important;            /* reduce spacing between main buttons */
+  padding-top: 2px !important;
+  padding-bottom: 6px !important;
+}
+
+/* main nav buttons: slightly smaller */
+.main-sidebar .nav-item .nav-btn,
+.main-sidebar .nav-item button,
+.main-sidebar .nav-btn{
+  min-height: 46px !important;
+  height: 46px !important;
+  padding: 8px 10px !important;
+  border-radius: 16px !important;
+}
+
+/* icon size + label size down a bit for main buttons */
+.main-sidebar .nav-btn i,
+.main-sidebar .nav-item i{
+  font-size: 20px !important;
+}
+.main-sidebar .nav-btn span,
+.main-sidebar .nav-item span{
+  font-size: 12px !important;
+}
+
+/* date pill (top) a touch smaller */
+.main-sidebar .nav-date,
+.main-sidebar .date-pill,
+.main-sidebar .nav-top-date{
+  transform: translateY(-2px);
+}
+
+/* footer pinned closer to bottom */
+.main-sidebar .nav-footer{
+  padding: 2px 6px calc(2px + env(safe-area-inset-bottom)) !important;
+  margin-top: auto !important;
+}
+
+/* widget card: compact but keep title */
+.widget-card{
+  padding: 6px 6px 4px !important;
+}
+.widget-title-label{
+  font-size: 9.5px !important;
+  margin-bottom: 2px !important;
+}
+.widget-divider{
+  margin: 4px 4px !important;
+}
+
+/* widget buttons: keep gaps but smaller height */
+.widget-card .nav-footer-btn{
+  margin: 5px 0 !important;
+  padding: 6px 8px !important;
+  font-size: 11px !important;
+}
+.widget-card .nav-footer-btn i{ font-size: 14px !important; }
+
+/* account/event smaller still */
+.widget-card .nav-footer-row{ gap: 8px !important; margin-top: 4px !important; }
+.widget-card .nav-footer-btn.icon-only{
+  width: 32px !important;
+  height: 28px !important;
+  border-radius: 12px !important;
+}
+
 </style>
 </head>
 
@@ -1471,31 +1776,40 @@ font-weight:900;cursor:pointer;}
         <span> 시트 </span>
       </button>
     </div>
+
 <div class="nav-footer">
-  <button class="nav-footer-btn" id="searchWidgetBtn" type="button" title="상품 검색 위젯">
-    <i class='bx bx-search-alt-2'></i><span>Items</span>
-  </button>
+  <div class="widget-section">
+    <div class="widget-card">
+      <div class="widget-title-label">WIDGETS</div>
+      <div class="widget-divider"></div>
 
-  <button class="nav-footer-btn" id="phoneFormatBtn" type="button" title="전화번호 포맷">
-    <i class='bx bx-phone'></i><span>Phone</span>
-  </button>
+      <button class="nav-footer-btn" id="searchWidgetBtn" type="button">
+        <i class='bx bx-search-alt-2'></i><span>Items</span>
+      </button>
 
-  <button class="nav-footer-btn" id="sheetNavBtn" type="button" title="키워드로 시트 찾기">
-    <i class='bx bx-search'></i><span>Sheets</span>
-  </button>
+      <button class="nav-footer-btn" id="phoneFormatBtn" type="button">
+        <i class='bx bx-phone'></i><span>Phone</span>
+      </button>
 
-  <button class="nav-footer-btn" id="trackingWidgetBtn" type="button" title="배송조회">
-    <i class='bx bx-package'></i><span>Track</span>
-  </button>
+      <button class="nav-footer-btn" id="sheetNavBtn" type="button">
+        <i class='bx bx-search'></i><span>Sheets</span>
+      </button>
 
-  <div class="nav-footer-row" aria-label="Quick widgets">
-    <button class="nav-footer-btn icon-only" id="accountWidgetBtn" type="button" title="계정 조회">
-      <i class='bx bx-key'></i><span class="sr-only">ID/PW</span>
-    </button>
+      <button class="nav-footer-btn" id="trackingWidgetBtn" type="button">
+        <i class='bx bx-package'></i><span>Track</span>
+      </button>
 
-    <button class="nav-footer-btn icon-only" id="adminEventBtn" type="button" title="이벤트 보기">
-      <i class='bx bx-calendar-event'></i><span class="sr-only">Event</span>
-    </button>
+      <div class="widget-divider"></div>
+
+      <div class="nav-footer-row">
+        <button class="nav-footer-btn icon-only" id="adminEventBtn" type="button">
+          <i class='bx bx-calendar-event'></i>
+        </button>
+        <button class="nav-footer-btn icon-only" id="accountWidgetBtn" type="button">
+          <i class='bx bx-key'></i>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 </nav>
@@ -1600,7 +1914,7 @@ font-weight:900;cursor:pointer;}
         <i class='bx bx-chevron-right'></i><span>계정</span>
       </button>
       <button class="sub-item util-child" data-href="https://wskimkj.github.io/tracking/">
-        <i class='bx bx-chevron-right'></i><span>배송</span>
+        <i class='bx bx-chevron-right'></i><span>배송조회</span>
       </button>
       <button class="sub-item util-child" data-action="event">
         <i class='bx bx-chevron-right'></i><span>이벤트</span>
@@ -3842,3 +4156,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
